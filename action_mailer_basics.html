@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Action 郵件程式基礎知識 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Action 郵件程式基礎知識 — Ruby on Rails Guides" />
+  <meta name="description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Action 郵件程式基礎知識本指南為您提供開始傳送所需的一切 來自您的應用程式的電子郵件，以及 Action 的許多內部資訊 梅勒。它還涵蓋了如何測試您的郵件程式。閱讀本指南後，您將瞭解： 如何在 Rails 應用程式中傳送電子郵件。 如何生成和編輯Action 郵件程式類和郵件程式檢視。 如何為您的環境配置Action Mailer。 如何測試您的Action Mailer 類。" />
+  <meta property="og:description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Action 郵件程式基礎知識本指南為您提供開始傳送所需的一切 來自您的應用程式的電子郵件，以及 Action 的許多內部資訊 梅勒。它還涵蓋了如何測試您的郵件程式。閱讀本指南後，您將瞭解： 如何在 Rails 應用程式中傳送電子郵件。 如何生成和編輯Action 郵件程式類和郵件程式檢視。 如何為您的環境配置Action Mailer。 如何測試您的Action Mailer 類。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>不要在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>Action 郵件程式基礎知識</h2><p>本指南為您提供開始傳送所需的一切
+來自您的應用程式的電子郵件，以及 Action 的許多內部資訊
+梅勒。它還涵蓋了如何測試您的郵件程式。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何在 Rails 應用程式中傳送電子郵件。</li>
+<li>如何生成和編輯Action 郵件程式類和郵件程式檢視。</li>
+<li>如何為您的環境配置Action Mailer。</li>
+<li>如何測試您的Action Mailer 類。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#action">什麼是Action 郵件程式？</a>
+
+<ul>
+<li><a href="#">郵件程式類似於控制器</a></li>
+</ul>
+</li>
+<li>
+<a href="#">傳送電子郵件</a>
+
+<ul>
+<li><a href="#">生成郵件程式的演練</a></li>
+<li><a href="#">自動編碼標頭值</a></li>
+<li><a href="#action">Action 郵件程式方法的完整列表</a></li>
+<li><a href="#views">郵件Views</a></li>
+<li><a href="#action">Action 郵件佈局</a></li>
+<li><a href="#">預覽電子郵件</a></li>
+<li><a href="#action-mailer-views-url">在Action Mailer Views 中生成 URL</a></li>
+<li><a href="#action-mailer-views">在Action Mailer Views 中新增影象</a></li>
+<li><a href="#">傳送多部分電子郵件</a></li>
+<li><a href="#">使用動態傳遞選項傳送電子郵件</a></li>
+<li><a href="#">傳送沒有模板渲染的電子郵件</a></li>
+</ul>
+</li>
+<li><a href="#action">Action 郵件回撥</a></li>
+<li><a href="#action-mailer-helpers">使用Action Mailer Helpers</a></li>
+<li>
+<a href="#action">Action 郵件程式配置</a>
+
+<ul>
+<li><a href="#action">示例Action 郵件程式配置</a></li>
+<li><a href="#action-gmail">Action Gmail 的郵件程式配置</a></li>
+</ul>
+</li>
+<li><a href="#">郵件測試</a></li>
+<li>
+<a href="#">攔截和觀察電子郵件</a>
+
+<ul>
+<li><a href="#">攔截電子郵件</a></li>
+<li><a href="#">觀察電子郵件</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="action"><a class="anchorlink" href="#action">1 什麼是Action 郵件程式？</a></h3><p>Action Mailer 允許您使用郵件程式類從您的應用程式傳送電子郵件
+和意見。</p><h4 id=""><a class="anchorlink" href="#">1.1 郵件程式類似於控制器</a></h4><p>它們繼承自 [<code>ActionMailer::Base</code>][] 並存在於 <code>app/mailers</code> 中。郵遞員也工作
+與控制器非常相似。下面列舉了一些相似之處的例子。
+郵遞員有：</p>
+<ul>
+<li>Action 以及出現在“app/views”中的關聯檢視。</li>
+<li>可在檢視中訪問的例項變數。
+*利用佈局和部分的能力。</li>
+<li>訪問引數雜湊的能力。</li>
+</ul>
+<p>[<code>ActionMailer::Base</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/Base.html">https://api.rubyonrails.org/classes/ActionMailer/Base.html</a></p><h3 id=""><a class="anchorlink" href="#">2 傳送電子郵件</a></h3><p>本節將提供建立郵件程式及其應用程式的分步指南
+意見。</p><h4 id=""><a class="anchorlink" href="#">2.1 生成郵件程式的演練</a></h4><h5 id=""><a class="anchorlink" href="#">2.1.1 建立郵件程式</a></h5><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate mailer User
+<span class="go">create  app/mailers/user_mailer.rb
+create  app/mailers/application_mailer.rb
+invoke  erb
+create    app/views/user_mailer
+create    app/views/layouts/mailer.text.erb
+create    app/views/layouts/mailer.html.erb
+invoke  test_unit
+create    test/mailers/user_mailer_test.rb
+create    test/mailers/previews/user_mailer_preview.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate mailer User
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/mailers/application_mailer.rb</span>
+<span class="k">class</span> <span class="nc">ApplicationMailer</span> <span class="o">&lt;</span> <span class="no">ActionMailer</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">default</span> <span class="ss">from: </span><span class="s2">"from@example.com"</span>
+  <span class="n">layout</span> <span class="s1">'mailer'</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/mailers/application_mailer.rb
+class ApplicationMailer &lt; ActionMailer::Base
+  default from: &quot;from@example.com&quot;
+  layout 'mailer'
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/mailers/user_mailer.rb</span>
+<span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/mailers/user_mailer.rb
+class UserMailer &lt; ApplicationMailer
+end
+">Copy</button>
+</div>
+<p>如您所見，您可以像使用其他生成器一樣生成郵件程式
+導軌。</p><p>如果你不想使用生成器，你可以在裡面建立你自己的檔案
+<code>app/mailers</code>，只需確保它繼承自 <code>ActionMailer::Base</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">MyMailer</span> <span class="o">&lt;</span> <span class="no">ActionMailer</span><span class="o">::</span><span class="no">Base</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class MyMailer &lt; ActionMailer::Base
+end
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">2.1.2 編輯郵件程式</a></h5><p>郵件程式具有稱為“操作”的方法，它們使用檢視來構建其內容。
+在控制器生成 HTML 之類的內容傳送回客戶端的地方，郵件程式
+建立要透過電子郵件傳遞的訊息。</p><p><code>app/mailers/user_mailer.rb</code> 包含一個空的郵件程式：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UserMailer &lt; ApplicationMailer
+end
+">Copy</button>
+</div>
+<p>讓我們新增一個名為“welcome_email”的方法，它將向用戶傳送一封電子郵件
+註冊電子郵件地址：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="n">default</span> <span class="ss">from: </span><span class="s1">'notifications@example.com'</span>
+
+  <span class="k">def</span> <span class="nf">welcome_email</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:user</span><span class="p">]</span>
+    <span class="vi">@url</span>  <span class="o">=</span> <span class="s1">'http://example.com/login'</span>
+    <span class="n">mail</span><span class="p">(</span><span class="ss">to: </span><span class="vi">@user</span><span class="p">.</span><span class="nf">email</span><span class="p">,</span> <span class="ss">subject: </span><span class="s1">'Welcome to My Awesome Site'</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UserMailer &lt; ApplicationMailer
+  default from: 'notifications@example.com'
+
+  def welcome_email
+    @user = params[:user]
+    @url  = 'http://example.com/login'
+    mail(to: @user.email, subject: 'Welcome to My Awesome Site')
+  end
+end
+">Copy</button>
+</div>
+<p>以下是對上述方法中出現的專案的快速說明。為了
+所有可用選項的完整列表，請進一步檢視
+Action Mailer 使用者可設定屬性部分的完整列表。</p>
+<ul>
+<li>[<code>default</code>][] 方法為從
+這個郵遞員。在這種情況下，我們使用它來設定所有的 <code>:from</code> 頭值
+這個類中的訊息。這可以在每個電子郵件的基礎上被覆蓋。</li>
+<li>[<code>mail</code>][] 方法建立實際的電子郵件訊息。我們用它來指定
+每封電子郵件的標題值，如 <code>:to</code> 和 <code>:subject</code>。</li>
+</ul>
+<p>[<code>default</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-c-default">https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-c-default</a>
+[<code>mail</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-i-mail">https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-i-mail</a></p><h5 id="view"><a class="anchorlink" href="#view">2.1.3 建立郵件程式View</a></h5><p>在“app/views/user_mailer/”中建立一個名為“welcome_email.html.erb”的檔案。這個
+將是用於電子郵件的模板，格式為 HTML：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">'text/html; charset=UTF-8'</span> <span class="na">http-equiv=</span><span class="s">'Content-Type'</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Welcome to example.com, <span class="cp">&lt;%=</span> <span class="vi">@user</span><span class="p">.</span><span class="nf">name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      You have successfully signed up to example.com,
+      your username is: <span class="cp">&lt;%=</span> <span class="vi">@user</span><span class="p">.</span><span class="nf">login</span> <span class="cp">%&gt;</span>.<span class="nt">&lt;br&gt;</span>
+    <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      To login to the site, just follow this link: <span class="cp">&lt;%=</span> <span class="vi">@url</span> <span class="cp">%&gt;</span>.
+    <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Thanks for joining and have a great day!<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta content='text/html; charset=UTF-8' http-equiv='Content-Type' /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Welcome to example.com, &lt;%= @user.name %&gt;&lt;/h1&gt;
+    &lt;p&gt;
+      You have successfully signed up to example.com,
+      your username is: &lt;%= @user.login %&gt;.&lt;br&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      To login to the site, just follow this link: &lt;%= @url %&gt;.
+    &lt;/p&gt;
+    &lt;p&gt;Thanks for joining and have a great day!&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+">Copy</button>
+</div>
+<p>讓我們也為這封電子郵件製作一個文字部分。並非所有客戶都喜歡 HTML 電子郵件，
+因此傳送兩者是最佳實踐。為此，請建立一個名為
+<code>app/views/user_mailer/</code> 中的 <code>welcome_email.text.erb</code>：</p><div class="code_container">
+<pre><code class="highlight erb">Welcome to example.com, <span class="cp">&lt;%=</span> <span class="vi">@user</span><span class="p">.</span><span class="nf">name</span> <span class="cp">%&gt;</span>
+===============================================
+
+You have successfully signed up to example.com,
+your username is: <span class="cp">&lt;%=</span> <span class="vi">@user</span><span class="p">.</span><span class="nf">login</span> <span class="cp">%&gt;</span>.
+
+To login to the site, just follow this link: <span class="cp">&lt;%=</span> <span class="vi">@url</span> <span class="cp">%&gt;</span>.
+
+Thanks for joining and have a great day!
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Welcome to example.com, &lt;%= @user.name %&gt;
+===============================================
+
+You have successfully signed up to example.com,
+your username is: &lt;%= @user.login %&gt;.
+
+To login to the site, just follow this link: &lt;%= @url %&gt;.
+
+Thanks for joining and have a great day!
+">Copy</button>
+</div>
+<p>當您現在呼叫 <code>mail</code> 方法時，Action Mailer 將檢測這兩個模板
+（文字和 HTML）並自動生成“multipart/alternative”電子郵件。</p><h5 id=""><a class="anchorlink" href="#">2.1.4 呼叫郵件程式</a></h5><p>郵件程式實際上只是呈現檢視的另一種方式。而不是渲染一個
+檢視並透過 HTTP 協議傳送，他們透過
+電子郵件協議。因此，讓您的
+控制器告訴郵件程式在成功建立使用者時傳送電子郵件。</p><p>設定它很簡單。</p><p>首先，讓我們建立一個 <code>User</code> 腳手架：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate scaffold user name email login
+<span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:migrate
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate scaffold user name email login
+bin/rails db:migrate
+">Copy</button>
+</div>
+<p>現在我們有一個使用者模型可以玩，我們將編輯
+<code>app/controllers/users_controller.rb</code> 檔案，使其指示 <code>UserMailer</code> 傳送
+透過編輯建立操作並插入一個給新建立的使用者的電子郵件
+在使用者成功儲存後立即呼叫<code>UserMailer.with(user: @user).welcome_email</code>。</p><p>我們將使用 [<code>deliver_later</code>][] 對要傳送的電子郵件進行排隊，即
+由 Active Job 提供支援。這樣，控制器動作就可以繼續而無需
+等待發送完成。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># ...</span>
+
+  <span class="c1"># POST /users or /users.json</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">user_params</span><span class="p">)</span>
+
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="k">if</span> <span class="vi">@user</span><span class="p">.</span><span class="nf">save</span>
+        <span class="c1"># Tell the UserMailer to send a welcome email after save</span>
+        <span class="no">UserMailer</span><span class="p">.</span><span class="nf">with</span><span class="p">(</span><span class="ss">user: </span><span class="vi">@user</span><span class="p">).</span><span class="nf">welcome_email</span><span class="p">.</span><span class="nf">deliver_later</span>
+
+        <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">redirect_to</span><span class="p">(</span><span class="vi">@user</span><span class="p">,</span> <span class="ss">notice: </span><span class="s1">'User was successfully created.'</span><span class="p">)</span> <span class="p">}</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="vi">@user</span><span class="p">,</span> <span class="ss">status: :created</span><span class="p">,</span> <span class="ss">location: </span><span class="vi">@user</span> <span class="p">}</span>
+      <span class="k">else</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">action: </span><span class="s1">'new'</span> <span class="p">}</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="vi">@user</span><span class="p">.</span><span class="nf">errors</span><span class="p">,</span> <span class="ss">status: :unprocessable_entity</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UsersController &lt; ApplicationController
+  # ...
+
+  # POST /users or /users.json
+  def create
+    @user = User.new(user_params)
+
+    respond_to do |format|
+      if @user.save
+        # Tell the UserMailer to send a welcome email after save
+        UserMailer.with(user: @user).welcome_email.deliver_later
+
+        format.html { redirect_to(@user, notice: 'User was successfully created.') }
+        format.json { render json: @user, status: :created, location: @user }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # ...
+end
+">Copy</button>
+</div>
+<p>注意：Active Job 的預設行為是透過 <code>:async</code> 介面卡執行作業。
+因此，您可以使用 <code>deliver_later</code> 非同步傳送電子郵件。
+Active Job 的預設介面卡使用程序內執行緒池執行作業。
+它非常適合開發/測試環境，因為它不需要
+任何外部基礎設施，但它不適合生產，因為它下降
+重新啟動時掛起的作業。
+如果您需要持久的後端，則需要使用 Active Job 介面卡
+具有持久後端（Sidekiq、Resque 等）。</p><p>如果您想立即傳送電子郵件（例如從 cronjob），只需致電
+[<code>deliver_now</code>][]：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">SendWeeklySummary</span>
+  <span class="k">def</span> <span class="nf">run</span>
+    <span class="no">User</span><span class="p">.</span><span class="nf">find_each</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
+      <span class="no">UserMailer</span><span class="p">.</span><span class="nf">with</span><span class="p">(</span><span class="ss">user: </span><span class="n">user</span><span class="p">).</span><span class="nf">weekly_summary</span><span class="p">.</span><span class="nf">deliver_now</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class SendWeeklySummary
+  def run
+    User.find_each do |user|
+      UserMailer.with(user: user).weekly_summary.deliver_now
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>任何傳遞給 [<code>with</code>][] 的鍵值對都會成為郵件程式的 <code>params</code>
+行動。所以<code>with(user: @user, account: @user.account)</code> 使得<code>params[:user]</code> 和
+<code>params[:account]</code> 在郵件程式中可用。就像控制器一樣
+引數。</p><p><code>welcome_email</code> 方法返回一個 [<code>ActionMailer::MessageDelivery</code>][] 物件，該物件
+然後可以告訴<code>deliver_now</code>或<code>deliver_later</code>將自己傳送出去。這
+<code>ActionMailer::MessageDelivery</code> 物件是 <a href="https://api.rubyonrails.org/v6.1.4/classes/Mail/Message.html"><code>Mail::Message</code></a> 的包裝器。如果
+你想檢查、修改或使用 <code>Mail::Message</code> 物件做任何其他事情，你可以
+使用 <code>ActionMailer::MessageDelivery</code> 物件上的 [<code>message</code>][] 方法訪問它。</p><p>[<code>ActionMailer::MessageDelivery</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/MessageDelivery.html">https://api.rubyonrails.org/classes/ActionMailer/MessageDelivery.html</a>
+[<code>deliver_later</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/MessageDelivery.html#method-i-deliver_later">https://api.rubyonrails.org/classes/ActionMailer/MessageDelivery.html#method-i-deliver_later</a>
+[<code>deliver_now</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/MessageDelivery.html#method-i-deliver_now">https://api.rubyonrails.org/classes/ActionMailer/MessageDelivery.html#method-i-deliver_now</a></p><p>[<code>message</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/MessageDelivery.html#method-i-message">https://api.rubyonrails.org/classes/ActionMailer/MessageDelivery.html#method-i-message</a>
+[<code>with</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/Parameterized/ClassMethods.html#method-i-with">https://api.rubyonrails.org/classes/ActionMailer/Parameterized/ClassMethods.html#method-i-with</a></p><h4 id=""><a class="anchorlink" href="#">2.2 自動編碼標頭值</a></h4><p>Action 郵件程式處理內部多位元組字元的自動編碼
+標題和正文。</p><p>對於更復雜的示例，例如定義替代字符集或
+先自編碼文字，請參考
+<a href="https://github.com/mikel/mail">郵件</a> 庫。</p><h4 id="action"><a class="anchorlink" href="#action">2.3 Action 郵件程式方法的完整列表</a></h4><p>您只需三種方法即可傳送幾乎任何電子郵件
+資訊：</p>
+<ul>
+<li>[<code>headers</code>][] - 指定您想要的電子郵件的任何標題。你可以傳遞一個雜湊
+標頭欄位名稱和值對，或者您可以呼叫 <code>headers[:field_name] =
+'價值'</code>。</li>
+<li>[<code>attachments</code>][] - 允許您向電子郵件新增附件。例如，
+<code>附件['檔名.jpg'] = File.read('檔名.jpg')</code>。</li>
+<li>[<code>mail</code>][] - 建立實際的電子郵件本身。您可以將標頭作為雜湊傳遞給
+<code>mail</code> 方法作為引數。 <code>mail</code> 將建立一封電子郵件——要麼是普通的
+text 或 multipart — 取決於您定義的電子郵件模板。</li>
+</ul>
+<p>[<code>附件</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-i-attachments">https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-i-attachments</a>
+[<code>headers</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-i-headers">https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-i-headers</a></p><h5 id=""><a class="anchorlink" href="#">2.3.1 新增附件</a></h5><p>Action Mailer 使新增附件變得非常容易。</p>
+<ul>
+<li>
+<p>傳遞檔名和內容以及Action Mailer 和
+<a href="https://github.com/mikel/mail">Mail gem</a> 會自動猜測
+<code>mime_type</code>，設定<code>encoding</code>，並建立附件。</p>
+<div class="code_container">
+<pre><code class="highlight plaintext">附件['檔名.jpg'] = File.read('/path/to/filename.jpg')
+``
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="附件['檔名.jpg'] = File.read('/path/to/filename.jpg')
+``
+">Copy</button>
+</div>
+</li>
+</ul>
+<p>  當 <code>mail</code> 方法被觸發時，它會發送一個多部分的電子郵件
+  一個附件，正確巢狀在頂層是<code>multipart/mixed</code>和
+  第一部分是包含純文字的“multipart/alternative”和
+  HTML 電子郵件。</p><p>注意：Mail 將自動對附件進行 Base64 編碼。如果你想要什麼
+不同，編碼您的內容並傳入編碼的內容和編碼
+<code>Hash</code> 到 <code>attachments</code> 方法。</p>
+<ul>
+<li>
+<p>傳遞檔名並指定標題和內容以及Action Mailer 和Mail
+將使用您傳入的設定。</p>
+<div class="code_container">
+<pre><code class="highlight plaintext">encoding_content = SpecialEncode(File.read('/path/to/filename.jpg'))
+附件['檔名.jpg'] = {
+  mime_type: '應用程式/gzip',
+  編碼：'特殊編碼'，
+  內容：編碼內容
+}
+``
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="encoding_content = SpecialEncode(File.read('/path/to/filename.jpg'))
+附件['檔名.jpg'] = {
+  mime_type: '應用程式/gzip',
+  編碼：'特殊編碼'，
+  內容：編碼內容
+}
+``
+">Copy</button>
+</div>
+</li>
+</ul>
+<p>注意：如果您指定編碼，Mail 將假定您的內容已經
+編碼而不是嘗試對它進行 Base64 編碼。</p><h5 id=""><a class="anchorlink" href="#">2.3.2 製作內聯附件</a></h5><p>Action Mailer 3.0 製作了內聯附件，這在 3.0 之前的版本中涉及很多駭客攻擊，應該更簡單和瑣碎。</p>
+<ul>
+<li>
+<p>首先，要告訴 Mail 將附件轉換為內嵌附件，您只需在 Mailer 中的附件方法上呼叫 <code>#inline</code>：</p>
+<div class="code_container">
+<pre><code class="highlight plaintext">歡迎光臨
+  attachments.inline['image.jpg'] = File.read('/path/to/image.jpg')
+結尾
+``
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="歡迎光臨
+  attachments.inline['image.jpg'] = File.read('/path/to/image.jpg')
+結尾
+``
+">Copy</button>
+</div>
+</li>
+</ul>
+
+<ul>
+<li>
+<p>然後在您看來，您可以將 <code>attachments</code> 作為雜湊引用並指定
+你想顯示哪個附件，在它上面呼叫<code>url</code>然後傳遞
+結果進入<code>image_tag</code>方法：</p>
+<div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;p&gt;</span>你好，這是我們的頭像<span class="nt">&lt;/p&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="err">附件</span><span class="p">[</span><span class="s1">'image.jpg'</span><span class="p">].</span><span class="nf">url</span> <span class="cp">%&gt;</span>
+``
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;p&gt;你好，這是我們的頭像&lt;/p&gt;
+
+&lt;%= image_tag 附件['image.jpg'].url %&gt;
+``
+">Copy</button>
+</div>
+</li>
+</ul>
+
+<ul>
+<li>
+<p>因為這是對<code>image_tag</code>的標準呼叫，你可以傳入一個選項雜湊
+在附件 URL 之後，就像對任何其他影象一樣：</p>
+<div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;p&gt;</span>你好，這是我們的頭像<span class="nt">&lt;/p&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="n">attachments</span><span class="p">[</span><span class="s1">'image.jpg'</span><span class="p">].</span><span class="nf">url</span><span class="p">,</span> <span class="ss">alt: </span><span class="s1">'My Photo'</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'photos'</span> <span class="cp">%&gt;</span>
+``
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;p&gt;你好，這是我們的頭像&lt;/p&gt;
+
+&lt;%= image_tag attachments['image.jpg'].url, alt: 'My Photo', class: 'photos' %&gt;
+``
+">Copy</button>
+</div>
+</li>
+</ul>
+<h5 id=""><a class="anchorlink" href="#">2.3.3 向多個收件人傳送電子郵件</a></h5><p>可以在一封電子郵件中向一個或多個收件人傳送電子郵件（例如，
+通知所有管理員新註冊）透過將電子郵件列表設定為<code>:to</code>
+鑰匙。電子郵件列表可以是一組電子郵件地址或單個字串
+地址用逗號分隔。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">AdminMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="n">default</span> <span class="ss">to: </span><span class="o">-&gt;</span> <span class="p">{</span> <span class="no">Admin</span><span class="p">.</span><span class="nf">pluck</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span> <span class="p">},</span>
+          <span class="ss">from: </span><span class="s1">'notification@example.com'</span>
+
+  <span class="k">def</span> <span class="nf">new_registration</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="n">user</span>
+    <span class="n">mail</span><span class="p">(</span><span class="ss">subject: </span><span class="s2">"New User Signup: </span><span class="si">#{</span><span class="vi">@user</span><span class="p">.</span><span class="nf">email</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class AdminMailer &lt; ApplicationMailer
+  default to: -&gt; { Admin.pluck(:email) },
+          from: 'notification@example.com'
+
+  def new_registration(user)
+    @user = user
+    mail(subject: &quot;New User Signup: #{@user.email}&quot;)
+  end
+end
+">Copy</button>
+</div>
+<p>相同的格式可用於設定抄送（Cc:）和密送
+(Bcc:) 收件人，分別使用<code>:cc</code> 和<code>:bcc</code> 鍵。</p><h5 id=""><a class="anchorlink" href="#">2.3.4 傳送帶有姓名的電子郵件</a></h5><p>有時您希望顯示此人的姓名而不僅僅是他們的電子郵件
+他們收到電子郵件時的地址。您可以將 [<code>email_address_with_name</code>][] 用於
+那：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">welcome_email</span>
+  <span class="vi">@user</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:user</span><span class="p">]</span>
+  <span class="n">mail</span><span class="p">(</span>
+    <span class="ss">to: </span><span class="n">email_address_with_name</span><span class="p">(</span><span class="vi">@user</span><span class="p">.</span><span class="nf">email</span><span class="p">,</span> <span class="vi">@user</span><span class="p">.</span><span class="nf">name</span><span class="p">),</span>
+    <span class="ss">subject: </span><span class="s1">'Welcome to My Awesome Site'</span>
+  <span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def welcome_email
+  @user = params[:user]
+  mail(
+    to: email_address_with_name(@user.email, @user.name),
+    subject: 'Welcome to My Awesome Site'
+  )
+end
+">Copy</button>
+</div>
+<p>[<code>email_address_with_name</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-i-email_address_with_name">https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-i-email_address_with_name</a></p><h4 id="views"><a class="anchorlink" href="#views">2.4 郵件Views</a></h4><p>郵件程式檢視位於<code>app/views/name_of_mailer_class</code> 目錄中。這
+類知道特定的郵件程式檢視，因為它的名稱與
+郵寄方式。在我們上面的例子中，我們的郵件程式檢視
+<code>welcome_email</code> 方法將在 <code>app/views/user_mailer/welcome_email.html.erb</code>
+對於 HTML 版本和 <code>welcome_email.text.erb</code> 對於純文字版本。</p><p>要更改您操作的預設郵件程式檢視，您可以執行以下操作：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="n">default</span> <span class="ss">from: </span><span class="s1">'notifications@example.com'</span>
+
+  <span class="k">def</span> <span class="nf">welcome_email</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:user</span><span class="p">]</span>
+    <span class="vi">@url</span>  <span class="o">=</span> <span class="s1">'http://example.com/login'</span>
+    <span class="n">mail</span><span class="p">(</span><span class="ss">to: </span><span class="vi">@user</span><span class="p">.</span><span class="nf">email</span><span class="p">,</span>
+         <span class="ss">subject: </span><span class="s1">'Welcome to My Awesome Site'</span><span class="p">,</span>
+         <span class="ss">template_path: </span><span class="s1">'notifications'</span><span class="p">,</span>
+         <span class="ss">template_name: </span><span class="s1">'another'</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UserMailer &lt; ApplicationMailer
+  default from: 'notifications@example.com'
+
+  def welcome_email
+    @user = params[:user]
+    @url  = 'http://example.com/login'
+    mail(to: @user.email,
+         subject: 'Welcome to My Awesome Site',
+         template_path: 'notifications',
+         template_name: 'another')
+  end
+end
+">Copy</button>
+</div>
+<p>在這種情況下，它將在<code>app/views/notifications</code> 中尋找具有名稱的模板
+<code>另一個</code>。你也可以為<code>template_path</code>指定一個路徑陣列，它們
+將按順序搜尋。</p><p>如果您想要更大的靈活性，您還可以傳遞一個塊並呈現特定的
+模板，甚至在不使用模板檔案的情況下呈現內聯或文字：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="n">default</span> <span class="ss">from: </span><span class="s1">'notifications@example.com'</span>
+
+  <span class="k">def</span> <span class="nf">welcome_email</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:user</span><span class="p">]</span>
+    <span class="vi">@url</span>  <span class="o">=</span> <span class="s1">'http://example.com/login'</span>
+    <span class="n">mail</span><span class="p">(</span><span class="ss">to: </span><span class="vi">@user</span><span class="p">.</span><span class="nf">email</span><span class="p">,</span>
+         <span class="ss">subject: </span><span class="s1">'Welcome to My Awesome Site'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="s1">'another_template'</span> <span class="p">}</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">text</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">plain: </span><span class="s1">'Render text'</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UserMailer &lt; ApplicationMailer
+  default from: 'notifications@example.com'
+
+  def welcome_email
+    @user = params[:user]
+    @url  = 'http://example.com/login'
+    mail(to: @user.email,
+         subject: 'Welcome to My Awesome Site') do |format|
+      format.html { render 'another_template' }
+      format.text { render plain: 'Render text' }
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>這將為 HTML 部分呈現模板“another_template.html.erb”，並且
+將渲染的文字用於文字部分。渲染命令與使用的相同
+Action Controller 內部，因此您可以使用所有相同的選項，例如
+<code>:text</code>、<code>:inline</code> 等。</p><p>如果你想渲染位於預設 <code>app/views/mailer_name/</code> 目錄之外的模板，你可以應用 [<code>prepend_view_path</code>][]，如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="n">prepend_view_path</span> <span class="s2">"custom/path/to/mailer/view"</span>
+
+  <span class="c1"># This will try to load "custom/path/to/mailer/view/welcome_email" template</span>
+  <span class="k">def</span> <span class="nf">welcome_email</span>
+    <span class="c1"># ...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class UserMailer &lt; ApplicationMailer
+  prepend_view_path "custom/path/to/mailer/view"
+
+  # This will try to load "custom/path/to/mailer/view/welcome_email" template
+  def welcome_email
+    # ...
+  end
+end
+'>Copy</button>
+</div>
+<p>您也可以考慮使用 [<code>append_view_path</code>][] 方法。</p><p>[<code>append_view_path</code>]：<a href="https://api.rubyonrails.org/classes/ActionView/ViewPaths/ClassMethods.html#method-i-append_view_path">https://api.rubyonrails.org/classes/ActionView/ViewPaths/ClassMethods.html#method-i-append_view_path</a>
+[<code>prepend_view_path</code>]：<a href="https://api.rubyonrails.org/classes/ActionView/ViewPaths/ClassMethods.html#method-i-prepend_view_path">https://api.rubyonrails.org/classes/ActionView/ViewPaths/ClassMethods.html#method-i-prepend_view_path</a></p><h5 id=""><a class="anchorlink" href="#">2.4.1 快取郵件程式檢視</a></h5><p>您可以使用 [<code>cache</code>][] 方法在郵件程式檢視中執行片段快取，就像在應用程式檢視中一樣。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%</span> <span class="n">cache</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="vi">@company</span><span class="p">.</span><span class="nf">name</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;% cache do %&gt;
+  &lt;%= @company.name %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>要使用此功能，您需要使用以下內容配置您的應用程式：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_mailer.perform_caching = true
+">Copy</button>
+</div>
+<p>多部分電子郵件也支援片段快取。
+在 <a href="caching_with_rails.html">Rails 快取指南</a> 中閱讀有關快取的更多資訊。</p><p>[<code>快取</code>]：<a href="https://api.rubyonrails.org/classes/ActionView/Helpers/CacheHelper.html#method-i-cache">https://api.rubyonrails.org/classes/ActionView/Helpers/CacheHelper.html#method-i-cache</a></p><h4 id="action"><a class="anchorlink" href="#action">2.5 Action 郵件佈局</a></h4><p>就像控制器檢視一樣，您也可以擁有郵件程式佈局。佈局名稱
+需要與您的郵件程式相同，例如<code>user_mailer.html.erb</code> 和
+<code>user_mailer.text.erb</code> 將被您的郵件程式自動識別為
+佈局。</p><p>要使用不同的檔案，請在郵件程式中呼叫 [<code>layout</code>][]：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="n">layout</span> <span class="s1">'awesome'</span> <span class="c1"># use awesome.(html|text).erb as the layout</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UserMailer &lt; ApplicationMailer
+  layout 'awesome' # use awesome.(html|text).erb as the layout
+end
+">Copy</button>
+</div>
+<p>就像控制器檢視一樣，使用 <code>yield</code> 來渲染檢視內部
+佈局。</p><p>您還可以將 <code>layout: 'layout_name'</code> 選項傳遞給內部的渲染呼叫
+用於為不同格式指定不同佈局的格式塊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="k">def</span> <span class="nf">welcome_email</span>
+    <span class="n">mail</span><span class="p">(</span><span class="ss">to: </span><span class="n">params</span><span class="p">[</span><span class="ss">:user</span><span class="p">].</span><span class="nf">email</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">layout: </span><span class="s1">'my_layout'</span> <span class="p">}</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">text</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UserMailer &lt; ApplicationMailer
+  def welcome_email
+    mail(to: params[:user].email) do |format|
+      format.html { render layout: 'my_layout' }
+      format.text
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>將使用 <code>my_layout.html.erb</code> 檔案和文字部分呈現 HTML 部分
+使用通常的 <code>user_mailer.text.erb</code> 檔案（如果存在）。</p><p>[<code>layout</code>]：<a href="https://api.rubyonrails.org/classes/ActionView/Layouts/ClassMethods.html#method-i-layout">https://api.rubyonrails.org/classes/ActionView/Layouts/ClassMethods.html#method-i-layout</a></p><h4 id=""><a class="anchorlink" href="#">2.6 預覽電子郵件</a></h4><p>Action 郵件程式預覽提供了一種透過訪問
+呈現它們的特殊 URL。在上面的例子中，預覽類為
+<code>UserMailer</code> 應命名為 <code>UserMailerPreview</code> 並位於
+<code>test/mailers/previews/user_mailer_preview.rb</code>。要檢視預覽
+<code>welcome_email</code>，實現一個同名的方法並呼叫
+<code>UserMailer.welcome_email</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailerPreview</span> <span class="o">&lt;</span> <span class="no">ActionMailer</span><span class="o">::</span><span class="no">Preview</span>
+  <span class="k">def</span> <span class="nf">welcome_email</span>
+    <span class="no">UserMailer</span><span class="p">.</span><span class="nf">with</span><span class="p">(</span><span class="ss">user: </span><span class="no">User</span><span class="p">.</span><span class="nf">first</span><span class="p">).</span><span class="nf">welcome_email</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UserMailerPreview &lt; ActionMailer::Preview
+  def welcome_email
+    UserMailer.with(user: User.first).welcome_email
+  end
+end
+">Copy</button>
+</div>
+<p>然後預覽將在 <a href="http://localhost:3000/rails/mailers/user_mailer/welcome_email">http://localhost:3000/rails/mailers/user_mailer/welcome_email</a> 中可用。</p><p>如果你改變了<code>app/views/user_mailer/welcome_email.html.erb</code>
+或郵件程式本身，它會自動重新載入並呈現它，以便您可以
+視覺上立即看到新的風格。還提供預覽列表
+在 <a href="http://localhost:3000/rails/mailers">http://localhost:3000/rails/mailers</a> 中。</p><p>預設情況下，這些預覽類位於 <code>test/mailers/previews</code> 中。
+這可以使用<code>preview_path</code> 選項進行配置。例如，如果你
+想改成<code>lib/mailer_previews</code>，可以在裡面配置
+<code>配置/應用程式.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">preview_path</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="s2">/lib/mailer_previews"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.action_mailer.preview_path = "#{Rails.root}/lib/mailer_previews"
+'>Copy</button>
+</div>
+<h4 id="action-mailer-views-url"><a class="anchorlink" href="#action-mailer-views-url">2.7 在Action Mailer Views 中生成 URL</a></h4><p>與控制器不同，郵件程式例項沒有關於
+傳入請求，因此您需要自己提供 <code>:host</code> 引數。</p><p>由於 <code>:host</code> 通常在整個應用程式中是一致的，您可以對其進行配置
+全域性在<code>config/application.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">default_url_options</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">host: </span><span class="s1">'example.com'</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_mailer.default_url_options = { host: 'example.com' }
+">Copy</button>
+</div>
+<p>由於這種行為，您不能在內部使用任何 <code>*_path</code> 助手
+一封電郵。相反，您需要使用關聯的 <code>*_url</code> 助手。例如
+而不是使用</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'welcome'</span><span class="p">,</span> <span class="n">welcome_path</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= link_to 'welcome', welcome_path %&gt;
+">Copy</button>
+</div>
+<p>您將需要使用：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'welcome'</span><span class="p">,</span> <span class="n">welcome_url</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= link_to 'welcome', welcome_url %&gt;
+">Copy</button>
+</div>
+<p>透過使用完整的 URL，您的連結現在可以在您的電子郵件中使用。</p><h5 id="url-for-url"><a class="anchorlink" href="#url-for-url">2.7.1 使用 <code>url_for</code> 生成 URL</a></h5><p>[<code>url_for</code>][] 預設在模板中生成一個完整的 URL。</p><p>如果您沒有全域性配置 <code>:host</code> 選項，請確保將其傳遞給
+<code>url_for</code>。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">url_for</span><span class="p">(</span><span class="ss">host: </span><span class="s1">'example.com'</span><span class="p">,</span>
+            <span class="ss">controller: </span><span class="s1">'welcome'</span><span class="p">,</span>
+            <span class="ss">action: </span><span class="s1">'greeting'</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= url_for(host: 'example.com',
+            controller: 'welcome',
+            action: 'greeting') %&gt;
+">Copy</button>
+</div>
+<p>[<code>url_for</code>]：<a href="https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for">https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for</a></p><h5 id="url"><a class="anchorlink" href="#url">2.7.2 使用命名路由生成 URL</a></h5><p>電子郵件客戶端沒有 Web 上下文，因此路徑沒有基本 URL 來形成完整
+網址。因此，您應該始終使用命名路由的 <code>*_url</code> 變體
+幫手。</p><p>如果您沒有全域性配置 <code>:host</code> 選項，請確保將其傳遞給
+網址助手。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">user_url</span><span class="p">(</span><span class="vi">@user</span><span class="p">,</span> <span class="ss">host: </span><span class="s1">'example.com'</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= user_url(@user, host: 'example.com') %&gt;
+">Copy</button>
+</div>
+<p>注意：非<code>GET</code> 連結需要 <a href="https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts">rails-ujs</a> 或
+<a href="https://github.com/rails/jquery-ujs">jQuery UJS</a>，並且在郵件模板中不起作用。
+它們將導致正常的“GET”請求。</p><h4 id="action-mailer-views"><a class="anchorlink" href="#action-mailer-views">2.8 在Action Mailer Views 中新增影象</a></h4><p>與控制器不同，郵件程式例項沒有關於
+傳入請求，因此您需要自己提供 <code>:asset_host</code> 引數。</p><p>由於 <code>:asset_host</code> 通常在整個應用程式中是一致的，你可以
+在 <code>config/application.rb</code> 中全域性配置它：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">asset_host</span> <span class="o">=</span> <span class="s1">'http://example.com'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.asset_host = 'http://example.com'
+">Copy</button>
+</div>
+<p>現在您可以在電子郵件中顯示影象。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="s1">'image.jpg'</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= image_tag 'image.jpg' %&gt;
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.9 傳送多部分電子郵件</a></h4><p>Action 如果您有不同的郵件，Mailer 會自動傳送多部分郵件
+相同動作的模板。因此，對於我們的“UserMailer”示例，如果您有
+<code>welcome_email.text.erb</code> 和 <code>welcome_email.html.erb</code> 在
+<code>app/views/user_mailer</code>，Action 郵件程式將自動傳送多部分電子郵件
+將 HTML 和文字版本設定為不同的部分。</p><p>插入部分的順序由<code>:parts_order</code>決定
+<code>ActionMailer::Base.default</code> 方法內部。</p><h4 id=""><a class="anchorlink" href="#">2.10 使用動態傳遞選項傳送電子郵件</a></h4><p>如果您希望覆蓋預設傳送選項（例如 SMTP 憑據）
+在傳送電子郵件時，您可以使用“delivery_method_options”中的
+郵件操作。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="k">def</span> <span class="nf">welcome_email</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:user</span><span class="p">]</span>
+    <span class="vi">@url</span>  <span class="o">=</span> <span class="n">user_url</span><span class="p">(</span><span class="vi">@user</span><span class="p">)</span>
+    <span class="n">delivery_options</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">user_name: </span><span class="n">params</span><span class="p">[</span><span class="ss">:company</span><span class="p">].</span><span class="nf">smtp_user</span><span class="p">,</span>
+                         <span class="ss">password: </span><span class="n">params</span><span class="p">[</span><span class="ss">:company</span><span class="p">].</span><span class="nf">smtp_password</span><span class="p">,</span>
+                         <span class="ss">address: </span><span class="n">params</span><span class="p">[</span><span class="ss">:company</span><span class="p">].</span><span class="nf">smtp_host</span> <span class="p">}</span>
+    <span class="n">mail</span><span class="p">(</span><span class="ss">to: </span><span class="vi">@user</span><span class="p">.</span><span class="nf">email</span><span class="p">,</span>
+         <span class="ss">subject: </span><span class="s2">"Please see the Terms and Conditions attached"</span><span class="p">,</span>
+         <span class="ss">delivery_method_options: </span><span class="n">delivery_options</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class UserMailer &lt; ApplicationMailer
+  def welcome_email
+    @user = params[:user]
+    @url  = user_url(@user)
+    delivery_options = { user_name: params[:company].smtp_user,
+                         password: params[:company].smtp_password,
+                         address: params[:company].smtp_host }
+    mail(to: @user.email,
+         subject: "Please see the Terms and Conditions attached",
+         delivery_method_options: delivery_options)
+  end
+end
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.11 傳送沒有模板渲染的電子郵件</a></h4><p>在某些情況下，您可能希望跳過模板渲染步驟並
+以字串形式提供電子郵件正文。你可以使用 <code>:body</code> 來實現
+選項。在這種情況下，不要忘記新增 <code>:content_type</code> 選項。導軌
+否則將預設為<code>text/plain</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="k">def</span> <span class="nf">welcome_email</span>
+    <span class="n">mail</span><span class="p">(</span><span class="ss">to: </span><span class="n">params</span><span class="p">[</span><span class="ss">:user</span><span class="p">].</span><span class="nf">email</span><span class="p">,</span>
+         <span class="ss">body: </span><span class="n">params</span><span class="p">[</span><span class="ss">:email_body</span><span class="p">],</span>
+         <span class="ss">content_type: </span><span class="s2">"text/html"</span><span class="p">,</span>
+         <span class="ss">subject: </span><span class="s2">"Already rendered!"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class UserMailer &lt; ApplicationMailer
+  def welcome_email
+    mail(to: params[:user].email,
+         body: params[:email_body],
+         content_type: "text/html",
+         subject: "Already rendered!")
+  end
+end
+'>Copy</button>
+</div>
+<h3 id="action"><a class="anchorlink" href="#action">3 Action 郵件回撥</a></h3><p>Action Mailer 允許您指定 [<code>before_action</code>][]、[<code>after_action</code>][] 和
+[<code>around_action</code>][]。</p>
+<ul>
+<li><p>過濾器可以用塊或符號指定給郵件程式中的方法
+類類似於控制器。</p></li>
+<li><p>您可以使用 <code>before_action</code> 來設定例項變數，填充郵件
+帶有預設值的物件，或插入預設標題和附件。</p></li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">InvitationsMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="n">before_action</span> <span class="ss">:set_inviter_and_invitee</span>
+  <span class="n">before_action</span> <span class="p">{</span> <span class="vi">@account</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:inviter</span><span class="p">].</span><span class="nf">account</span> <span class="p">}</span>
+
+  <span class="n">default</span> <span class="ss">to:       </span><span class="o">-&gt;</span> <span class="p">{</span> <span class="vi">@invitee</span><span class="p">.</span><span class="nf">email_address</span> <span class="p">},</span>
+          <span class="ss">from:     </span><span class="o">-&gt;</span> <span class="p">{</span> <span class="n">common_address</span><span class="p">(</span><span class="vi">@inviter</span><span class="p">)</span> <span class="p">},</span>
+          <span class="ss">reply_to: </span><span class="o">-&gt;</span> <span class="p">{</span> <span class="vi">@inviter</span><span class="p">.</span><span class="nf">email_address_with_name</span> <span class="p">}</span>
+
+  <span class="k">def</span> <span class="nf">account_invitation</span>
+    <span class="n">mail</span> <span class="ss">subject: </span><span class="s2">"</span><span class="si">#{</span><span class="vi">@inviter</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2"> invited you to their Basecamp (</span><span class="si">#{</span><span class="vi">@account</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">)"</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">project_invitation</span>
+    <span class="vi">@project</span>    <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:project</span><span class="p">]</span>
+    <span class="vi">@summarizer</span> <span class="o">=</span> <span class="no">ProjectInvitationSummarizer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="vi">@project</span><span class="p">.</span><span class="nf">bucket</span><span class="p">)</span>
+
+    <span class="n">mail</span> <span class="ss">subject: </span><span class="s2">"</span><span class="si">#{</span><span class="vi">@inviter</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">familiar</span><span class="si">}</span><span class="s2"> added you to a project in Basecamp (</span><span class="si">#{</span><span class="vi">@account</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">)"</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">set_inviter_and_invitee</span>
+    <span class="vi">@inviter</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:inviter</span><span class="p">]</span>
+    <span class="vi">@invitee</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:invitee</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class InvitationsMailer &lt; ApplicationMailer
+  before_action :set_inviter_and_invitee
+  before_action { @account = params[:inviter].account }
+
+  default to:       -&gt; { @invitee.email_address },
+          from:     -&gt; { common_address(@inviter) },
+          reply_to: -&gt; { @inviter.email_address_with_name }
+
+  def account_invitation
+    mail subject: "#{@inviter.name} invited you to their Basecamp (#{@account.name})"
+  end
+
+  def project_invitation
+    @project    = params[:project]
+    @summarizer = ProjectInvitationSummarizer.new(@project.bucket)
+
+    mail subject: "#{@inviter.name.familiar} added you to a project in Basecamp (#{@account.name})"
+  end
+
+  private
+
+  def set_inviter_and_invitee
+    @inviter = params[:inviter]
+    @invitee = params[:invitee]
+  end
+end
+'>Copy</button>
+</div>
+
+<ul>
+<li><p>你可以使用 <code>after_action</code> 來做與 <code>before_action</code> 類似的設定，但是
+使用在您的郵件程式操作中設定的例項變數。</p></li>
+<li><p>使用 <code>after_action</code> 回撥還可以讓您覆蓋交付方法
+透過更新 <code>mail.delivery_method.settings</code> 設定。</p></li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ApplicationMailer</span>
+  <span class="n">before_action</span> <span class="p">{</span> <span class="vi">@business</span><span class="p">,</span> <span class="vi">@user</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:business</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="ss">:user</span><span class="p">]</span> <span class="p">}</span>
+
+  <span class="n">after_action</span> <span class="ss">:set_delivery_options</span><span class="p">,</span>
+               <span class="ss">:prevent_delivery_to_guests</span><span class="p">,</span>
+               <span class="ss">:set_business_headers</span>
+
+  <span class="k">def</span> <span class="nf">feedback_message</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">campaign_message</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+
+    <span class="k">def</span> <span class="nf">set_delivery_options</span>
+      <span class="c1"># You have access to the mail instance,</span>
+      <span class="c1"># @business and @user instance variables here</span>
+      <span class="k">if</span> <span class="vi">@business</span> <span class="o">&amp;&amp;</span> <span class="vi">@business</span><span class="p">.</span><span class="nf">has_smtp_settings?</span>
+        <span class="n">mail</span><span class="p">.</span><span class="nf">delivery_method</span><span class="p">.</span><span class="nf">settings</span><span class="p">.</span><span class="nf">merge!</span><span class="p">(</span><span class="vi">@business</span><span class="p">.</span><span class="nf">smtp_settings</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">prevent_delivery_to_guests</span>
+      <span class="k">if</span> <span class="vi">@user</span> <span class="o">&amp;&amp;</span> <span class="vi">@user</span><span class="p">.</span><span class="nf">guest?</span>
+        <span class="n">mail</span><span class="p">.</span><span class="nf">perform_deliveries</span> <span class="o">=</span> <span class="kp">false</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">set_business_headers</span>
+      <span class="k">if</span> <span class="vi">@business</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">"X-SMTPAPI-CATEGORY"</span><span class="p">]</span> <span class="o">=</span> <span class="vi">@business</span><span class="p">.</span><span class="nf">code</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class UserMailer &lt; ApplicationMailer
+  before_action { @business, @user = params[:business], params[:user] }
+
+  after_action :set_delivery_options,
+               :prevent_delivery_to_guests,
+               :set_business_headers
+
+  def feedback_message
+  end
+
+  def campaign_message
+  end
+
+  private
+
+    def set_delivery_options
+      # You have access to the mail instance,
+      # @business and @user instance variables here
+      if @business &amp;&amp; @business.has_smtp_settings?
+        mail.delivery_method.settings.merge!(@business.smtp_settings)
+      end
+    end
+
+    def prevent_delivery_to_guests
+      if @user &amp;&amp; @user.guest?
+        mail.perform_deliveries = false
+      end
+    end
+
+    def set_business_headers
+      if @business
+        headers["X-SMTPAPI-CATEGORY"] = @business.code
+      end
+    end
+end
+'>Copy</button>
+</div>
+
+<ul>
+<li>如果 body 設定為非 nil 值，郵件過濾器會中止進一步的處理。</li>
+</ul>
+<p>[<code>after_action</code>]：<a href="https://api.rubyonrails.org/classes/AbstractController/Callbacks/ClassMethods.html#method-i-after_action">https://api.rubyonrails.org/classes/AbstractController/Callbacks/ClassMethods.html#method-i-after_action</a>
+[<code>around_action</code>]：<a href="https://api.rubyonrails.org/classes/AbstractController/Callbacks/ClassMethods.html#method-i-around_action">https://api.rubyonrails.org/classes/AbstractController/Callbacks/ClassMethods.html#method-i-around_action</a>
+[<code>before_action</code>]：<a href="https://api.rubyonrails.org/classes/AbstractController/Callbacks/ClassMethods.html#method-i-before_action">https://api.rubyonrails.org/classes/AbstractController/Callbacks/ClassMethods.html#method-i-before_action</a></p><h3 id="action-mailer-helpers"><a class="anchorlink" href="#action-mailer-helpers">4 使用Action Mailer Helpers</a></h3><p>Action Mailer 繼承自 <code>AbstractController</code>，因此您可以訪問大多數
+與您在ActionController 中所做的相同的助手。</p><p>還有一些Action Mailer 特定的輔助方法可用
+[<code>ActionMailer::MailHelper</code>][]。例如，這些允許訪問郵件程式
+使用 [<code>mailer</code>][MailHelper#mailer] 從您的檢視中獲取例項，並以 [<code>message</code>][MailHelper#message] 訪問郵件：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="n">mailer</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">underscore</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="n">message</span><span class="p">.</span><span class="nf">subject</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= stylesheet_link_tag mailer.name.underscore %&gt;
+&lt;h1&gt;&lt;%= message.subject %&gt;&lt;/h1&gt;
+">Copy</button>
+</div>
+<p>[<code>ActionMailer::MailHelper</code>]：<a href="https://api.rubyonrails.org/classes/ActionMailer/MailHelper.html">https://api.rubyonrails.org/classes/ActionMailer/MailHelper.html</a>
+[MailHelper#mailer]：<a href="https://api.rubyonrails.org/classes/ActionMailer/MailHelper.html#method-i-mailer">https://api.rubyonrails.org/classes/ActionMailer/MailHelper.html#method-i-mailer</a>
+[MailHelper#message]：<a href="https://api.rubyonrails.org/classes/ActionMailer/MailHelper.html#method-i-message">https://api.rubyonrails.org/classes/ActionMailer/MailHelper.html#method-i-message</a></p><h3 id="action"><a class="anchorlink" href="#action">5 Action 郵件程式配置</a></h3><p>以下配置選項最好在其中一種環境中進行
+檔案（environment.rb、production.rb 等...）</p>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>logger</code></td>
+<td>如果可用，生成有關郵件執行的資訊。可以設定為 <code>nil</code> 不記錄。與 Ruby 自己的 <code>Logger</code> 和 <code>Log4r</code> 記錄器相容。</td>
+</tr>
+<tr>
+<td><code>smtp_settings</code></td>
+<td>允許詳細配置<code>:smtp</code> 傳送方式：<ul>
+<li>
+<code>:address</code> - 允許您使用遠端郵件伺服器。只需將其從預設的 <code>"localhost"</code> 設定更改即可。</li>
+<li>
+<code>:port</code> - 如果您的郵件伺服器不在埠 25 上執行，您可以更改它。</li> <li>
+<code>:domain</code> - 如果您需要指定 HELO 域，可以在此處進行。</li>
+<li>
+<code>:user_name</code> - 如果您的郵件伺服器需要身份驗證，請在此設定中設定使用者名稱。&lt; /li&gt;</li>
+<li>
+<code>:password</code> - 如果您的郵件伺服器需要身份驗證，請在此設定中設定密碼。</li>
+<li>
+<code>:authentication</code> - 如果您的郵件伺服器需要身份驗證，則需要指定身份驗證在此輸入。這是一個符號，也是<code>:plain</code>（將以明文形式傳送密碼）、<code>:login</code>（將傳送Base64 編碼的密碼）或<code>:cram_md5</code>（結合挑戰/響應機制來交換資訊和密碼）之一用於雜湊重要資訊的訊息摘要 5 演算法）</li>
+<li>
+<code>:enable_starttls_auto</code> - 檢測您的 SMTP 伺服器中是否啟用了 STARTTLS 並開始使用它。預設為 <code>true</code>。</li>
+<li>
+<code>:openssl_verify_mode</code> - 使用 TLS 時，您可以設定 OpenSSL 檢查證書的方式。如果您需要驗證自簽名和/或萬用字元證書，這非常有用。您可以使用 OpenSSL 驗證常量的名稱（“none”或“peer”）或直接使用常量（<code>OpenSSL::SSL::VERIFY_NONE</code> 或 <code>OpenSSL::SSL::VERIFY_PEER</code>）。</li>&lt; li&gt;<code>:ssl/:tls</code> - 啟用 SMTP 連線以使用 SMTP/TLS（SMTPS：透過直接 TLS 連線的 SMTP）<li>
+<code>:open_timeout</code> - 嘗試開啟檔案時等待的秒數</li>
+<li>
+<code>:read_timeout</code> - 等待 read(2) 呼叫超時的秒數。</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><code>sendmail_settings</code></td>
+<td>允許您覆蓋<code>:sendmail</code> 傳送方法的選項。<ul>
+<li>
+<code>:location</code> - sendmail 可執行檔案的位置。預設為 <code>/usr/sbin/sendmail</code>。</li>
+<li>
+<code>:arguments</code> - 要傳遞給 sendmail 的命令列引數。預設為<code>-i</code>。</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><code>raise_delivery_errors</code></td>
+<td>如果郵件傳送失敗，是否應該引發錯誤。這僅在外部電子郵件伺服器配置為立即交付時才有效。</td>
+</tr>
+<tr>
+<td><code>delivery_method</code></td>
+<td>定義一種交付方式。可能的值有：<ul>
+<li>
+<code>:smtp</code>（預設），可以使用<code>config.action_mailer.smtp_settings</code>進行配置。</li>
+<li>
+<code>:sendmail</code>，可以使用<code>config進行配置.action_mailer.sendmail_settings</code>。</li>
+<li>
+<code>:file</code>：將電子郵件儲存到檔案；可以使用 <code>config.action_mailer.file_settings</code> 進行配置。</li>
+<li>
+<code>:test</code>：將電子郵件儲存到 <code>ActionMailer::Base.deliveries</code> 陣列。</li>
+</ul>有關詳細資訊，請參閱 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionMailer/Base.html">API 文件</a>。</td>
+</tr>
+<tr>
+<td><code>perform_deliveries</code></td>
+<td>確定當對Mail 訊息呼叫<code>deliver</code> 方法時是否實際執行了傳遞。預設情況下它們是，但可以將其關閉以幫助功能測試。如果此值為 <code>false</code>，即使 <code>delivery_method</code> 為 <code>:test</code>，也不會填充 <code>deliveries</code> 陣列。</td>
+</tr>
+<tr>
+<td><code>deliveries</code></td>
+<td>使用delivery_method :test 儲存透過Action Mailer 傳送的所有電子郵件的陣列。對單元和功能測試最有用。</td>
+</tr>
+<tr>
+<td><code>default_options</code></td>
+<td>允許您為<code>mail</code> 方法選項（<code>:from</code>、<code>:reply_to</code> 等）設定預設值。</td>
+</tr>
+</tbody>
+</table>
+<p>有關可能配置的完整記錄，請參閱
+<a href="configuring.html#configuring-action-mailer">配置ActionMailer</a> 在
+我們的配置 Rails 應用程式指南。</p><h4 id="action"><a class="anchorlink" href="#action">5.1 示例Action 郵件程式配置</a></h4><p>一個例子是將以下內容新增到您適當的
+<code>config/environments/$RAILS_ENV.rb</code> 檔案：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">delivery_method</span> <span class="o">=</span> <span class="ss">:sendmail</span>
+<span class="c1"># Defaults to:</span>
+<span class="c1"># config.action_mailer.sendmail_settings = {</span>
+<span class="c1">#   location: '/usr/sbin/sendmail',</span>
+<span class="c1">#   arguments: '-i'</span>
+<span class="c1"># }</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">perform_deliveries</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">raise_delivery_errors</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">default_options</span> <span class="o">=</span> <span class="p">{</span><span class="ss">from: </span><span class="s1">'no-reply@example.com'</span><span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_mailer.delivery_method = :sendmail
+# Defaults to:
+# config.action_mailer.sendmail_settings = {
+#   location: '/usr/sbin/sendmail',
+#   arguments: '-i'
+# }
+config.action_mailer.perform_deliveries = true
+config.action_mailer.raise_delivery_errors = true
+config.action_mailer.default_options = {from: 'no-reply@example.com'}
+">Copy</button>
+</div>
+<h4 id="action-gmail"><a class="anchorlink" href="#action-gmail">5.2 Action Gmail 的郵件程式配置</a></h4><p>Action Mailer 使用 <a href="https://github.com/mikel/mail">Mail gem</a> 並接受類似的配置。
+將此新增到您的 <code>config/environments/$RAILS_ENV.rb</code> 檔案以透過 Gmail 傳送：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">delivery_method</span> <span class="o">=</span> <span class="ss">:smtp</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">smtp_settings</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">address:              </span><span class="s1">'smtp.gmail.com'</span><span class="p">,</span>
+  <span class="ss">port:                 </span><span class="mi">587</span><span class="p">,</span>
+  <span class="ss">domain:               </span><span class="s1">'example.com'</span><span class="p">,</span>
+  <span class="ss">user_name:            </span><span class="s1">'&lt;username&gt;'</span><span class="p">,</span>
+  <span class="ss">password:             </span><span class="s1">'&lt;password&gt;'</span><span class="p">,</span>
+  <span class="ss">authentication:       </span><span class="s1">'plain'</span><span class="p">,</span>
+  <span class="ss">enable_starttls_auto: </span><span class="kp">true</span><span class="p">,</span>
+  <span class="ss">open_timeout:         </span><span class="mi">5</span><span class="p">,</span>
+  <span class="ss">read_timeout:         </span><span class="mi">5</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = {
+  address:              'smtp.gmail.com',
+  port:                 587,
+  domain:               'example.com',
+  user_name:            '&lt;username&gt;',
+  password:             '&lt;password&gt;',
+  authentication:       'plain',
+  enable_starttls_auto: true,
+  open_timeout:         5,
+  read_timeout:         5 }
+">Copy</button>
+</div>
+<p>注意：2014 年 7 月 15 日，Google 增加了<a href="https://support.google.com/accounts/answer/6010255">其安全措施</a> 以阻止來自它認為不太安全的應用程式的嘗試。
+您可以 <a href="https://www.google.com/settings/security/lesssecureapps">此處</a> 更改您的 Gmail 設定以允許嘗試。如果您的 Gmail 帳戶啟用了兩步驗證，
+那麼您需要設定一個<a href="https://myaccount.google.com/apppasswords">應用密碼</a> 並使用它而不是您的常規密碼。</p><h3 id=""><a class="anchorlink" href="#">6 郵件測試</a></h3><p>您可以在
+<a href="testing.html#testing-your-mailers">測試指南</a>。</p><h3 id=""><a class="anchorlink" href="#">7 攔截和觀察電子郵件</a></h3><p>Action Mailer 提供了到郵件觀察器和攔截器方法的鉤子。這些允許您註冊在傳送的每封電子郵件的郵件傳遞生命週期中呼叫的類。</p><h4 id=""><a class="anchorlink" href="#">7.1 攔截電子郵件</a></h4><p>攔截器允許您在將電子郵件交給遞送代理之前對其進行修改。攔截器類必須實現 <code>::delivering_email(message)</code> 方法，該方法將在傳送電子郵件之前呼叫。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">SandboxEmailInterceptor</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">delivering_email</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="n">message</span><span class="p">.</span><span class="nf">to</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'sandbox@example.com'</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class SandboxEmailInterceptor
+  def self.delivering_email(message)
+    message.to = ['sandbox@example.com']
+  end
+end
+">Copy</button>
+</div>
+<p>在攔截器開始工作之前，您需要使用<code>interceptors</code> 配置選項註冊它。
+你可以在一個像<code>config/initializers/mail_interceptors.rb</code>這樣的初始化檔案中做到這一點：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span>
+  <span class="k">if</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">env</span><span class="p">.</span><span class="nf">staging?</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">interceptors</span> <span class="o">=</span> <span class="sx">%w[SandboxEmailInterceptor]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.configure do
+  if Rails.env.staging?
+    config.action_mailer.interceptors = %w[SandboxEmailInterceptor]
+  end
+end
+">Copy</button>
+</div>
+<p>注意：上面的示例使用名為“staging”的自定義環境
+類似生產的伺服器，但用於測試目的。你可以閱讀
+<a href="configuring.html#creating-rails-environments">建立 Rails 環境</a>
+有關自定義 Rails 環境的更多資訊。</p><h4 id=""><a class="anchorlink" href="#">7.2 觀察電子郵件</a></h4><p>觀察者允許您在傳送電子郵件後訪問該電子郵件。觀察者類必須實現 <code>:delivered_email(message)</code> 方法，該方法將在電子郵件傳送後呼叫。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">EmailDeliveryObserver</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">delivered_email</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="no">EmailDelivery</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class EmailDeliveryObserver
+  def self.delivered_email(message)
+    EmailDelivery.log(message)
+  end
+end
+">Copy</button>
+</div>
+<p>與攔截器類似，您必須使用 <code>observers</code> 配置選項註冊觀察者。
+你可以在像<code>config/initializers/mail_observers.rb</code>這樣的初始化檔案中做到這一點：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">observers</span> <span class="o">=</span> <span class="sx">%w[EmailDeliveryObserver]</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.configure do
+  config.action_mailer.observers = %w[EmailDeliveryObserver]
+end
+">Copy</button>
+</div>
+
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

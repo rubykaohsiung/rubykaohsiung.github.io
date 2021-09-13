@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>在 Rails 中使用 JavaScript — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="在 Rails 中使用 JavaScript — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.在 Rails 中使用 JavaScript本指南涵蓋了 Rails 的內建 Ajax/JavaScript 功能（和 更多的）;它將使您能夠建立豐富的動態 Ajax 應用程式 舒適！閱讀本指南後，您將瞭解： Ajax 的基礎知識。 不引人注目的 JavaScript。 Rails 的內建helpers 如何幫助您。 如何在伺服器端處理 Ajax。 Turbolinks 寶石。 如何在請求頭中包含你的跨站請求偽造token" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.在 Rails 中使用 JavaScript本指南涵蓋了 Rails 的內建 Ajax/JavaScript 功能（和 更多的）;它將使您能夠建立豐富的動態 Ajax 應用程式 舒適！閱讀本指南後，您將瞭解： Ajax 的基礎知識。 不引人注目的 JavaScript。 Rails 的內建helpers 如何幫助您。 如何在伺服器端處理 Ajax。 Turbolinks 寶石。 如何在請求頭中包含你的跨站請求偽造token" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>在 Rails 中使用 JavaScript</h2><p>本指南涵蓋了 Rails 的內建 Ajax/JavaScript 功能（和
+更多的）;它將使您能夠建立豐富的動態 Ajax 應用程式
+舒適！</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>Ajax 的基礎知識。</li>
+<li>不引人注目的 JavaScript。</li>
+<li>Rails 的內建helpers 如何幫助您。</li>
+<li>如何在伺服器端處理 Ajax。</li>
+<li>Turbolinks 寶石。</li>
+<li>如何在請求頭中包含你的跨站請求偽造token</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#ajax">Ajax 簡介</a></li>
+<li><a href="#javascript">不顯眼的 JavaScript</a></li>
+<li>
+<a href="#helpers">內建Helpers</a>
+
+<ul>
+<li><a href="#">遠端元素</a></li>
+<li><a href="#">自定義遠端元素</a></li>
+<li><a href="#">確認</a></li>
+<li><a href="#">自動禁用</a></li>
+<li><a href="#rails-ujs">Rails-ujs 事件處理程式</a></li>
+<li><a href="#">可停止的事件</a></li>
+</ul>
+</li>
+<li>
+<a href="#">伺服器端問題</a>
+
+<ul>
+<li><a href="#">一個簡單的例子</a></li>
+</ul>
+</li>
+<li>
+<a href="#">渦輪連結</a>
+
+<ul>
+<li><a href="#turbolinks">Turbolinks 的工作原理</a></li>
+<li><a href="#">頁面更改事件</a></li>
+</ul>
+</li>
+<li><a href="#ajax-csrf-token">Ajax 中的跨站請求偽造 (CSRF) token</a></li>
+<li><a href="#">其他資源</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="ajax"><a class="anchorlink" href="#ajax">1 Ajax 簡介</a></h3><p>為了瞭解 Ajax，您必須首先了解 Web 瀏覽器的作用
+一般。</p><p>當您在瀏覽器的位址列中輸入 <code>http://localhost:3000</code> 並點選
+“Go”，瀏覽器（您的“客戶端”）向伺服器發出請求。它解析
+響應，然後獲取所有關聯的資產，例如 JavaScript 檔案，
+樣式表和影象。然後它組裝頁面。如果你點選一個連結，它
+執行相同的過程：獲取頁面，獲取資產，將它們放在一起，
+向你展示結果。這稱為“請求響應週期”。</p><p>JavaScript 還可以向伺服器發出請求，並解析響應。它
+還可以更新頁面上的資訊。結合這兩個
+權力，JavaScript 編寫者可以製作一個網頁，可以只更新部分內容
+本身，而無需從伺服器獲取整頁資料。這是一個
+我們稱之為 Ajax 的強大技術。</p><p>例如，下面是一些發出 Ajax 請求的 JavaScript 程式碼：</p><div class="code_container">
+<pre><code class="highlight js"><span class="nx">fetch</span><span class="p">(</span><span class="dl">"</span><span class="s2">/test</span><span class="dl">"</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">text</span><span class="p">())</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">html</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#results</span><span class="dl">"</span><span class="p">);</span>
+    <span class="nx">results</span><span class="p">.</span><span class="nx">insertAdjacentHTML</span><span class="p">(</span><span class="dl">"</span><span class="s2">beforeend</span><span class="dl">"</span><span class="p">,</span> <span class="nx">html</span><span class="p">);</span>
+  <span class="p">});</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='fetch("/test")
+  .then((data) =&gt; data.text())
+  .then((html) =&gt; {
+    const results = document.querySelector("#results");
+    results.insertAdjacentHTML("beforeend", html);
+  });
+'>Copy</button>
+</div>
+<p>此程式碼從“/test”獲取資料，然後將結果附加到元素
+id 為<code>results</code>。</p><p>Rails 提供了相當多的內建支援來構建網頁
+技術。您很少需要自己編寫此程式碼。本指南的其餘部分
+將向您展示 Rails 如何幫助您以這種方式編寫網站，但它是
+所有這些都建立在這個相當簡單的技術之上。</p><h3 id="javascript"><a class="anchorlink" href="#javascript">2 不顯眼的 JavaScript</a></h3><p>Rails 使用一種稱為“Unobtrusive JavaScript”的技術來處理附加
+JavaScript 到 DOM。這通常被認為是最佳實踐
+在前端社群內，但您可能偶爾會閱讀教程
+演示其他方式。</p><p>這是編寫 JavaScript 的最簡單方法。你可能會看到它被稱為
+'內聯 JavaScript'：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">onclick=</span><span class="s">"this.style.backgroundColor='#990000';event.preventDefault();"</span><span class="nt">&gt;</span>Paint it red<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;a href=&quot;#&quot; onclick=&quot;this.style.backgroundColor='#990000';event.preventDefault();&quot;&gt;Paint it red&lt;/a&gt;
+">Copy</button>
+</div>
+<p>單擊時，連結背景將變為紅色。問題來了：什麼
+當我們有很多想要在點選時執行的 JavaScript 時會發生什麼？</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">onclick=</span><span class="s">"this.style.backgroundColor='#009900';this.style.color='#FFFFFF';event.preventDefault();"</span><span class="nt">&gt;</span>Paint it green<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;a href=&quot;#&quot; onclick=&quot;this.style.backgroundColor='#009900';this.style.color='#FFFFFF';event.preventDefault();&quot;&gt;Paint it green&lt;/a&gt;
+">Copy</button>
+</div>
+<p>很彆扭吧？我們可以從點選處理程式中提取函式定義，
+並將其變成一個函式：</p><div class="code_container">
+<pre><code class="highlight js"><span class="nb">window</span><span class="p">.</span><span class="nx">paintIt</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">backgroundColor</span><span class="p">,</span> <span class="nx">textColor</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="nx">backgroundColor</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">textColor</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">textColor</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="window.paintIt = function(event, backgroundColor, textColor) {
+  event.preventDefault();
+  event.target.style.backgroundColor = backgroundColor;
+  if (textColor) {
+    event.target.style.color = textColor;
+  }
+}
+">Copy</button>
+</div>
+<p>然後在我們的頁面上：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">onclick=</span><span class="s">"paintIt(event, '#990000')"</span><span class="nt">&gt;</span>Paint it red<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;a href=&quot;#&quot; onclick=&quot;paintIt(event, '#990000')&quot;&gt;Paint it red&lt;/a&gt;
+">Copy</button>
+</div>
+<p>那個好一點，但是具有相同的多個連結呢？
+影響？</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">onclick=</span><span class="s">"paintIt(event, '#990000')"</span><span class="nt">&gt;</span>Paint it red<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">onclick=</span><span class="s">"paintIt(event, '#009900', '#FFFFFF')"</span><span class="nt">&gt;</span>Paint it green<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">onclick=</span><span class="s">"paintIt(event, '#000099', '#FFFFFF')"</span><span class="nt">&gt;</span>Paint it blue<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;a href=&quot;#&quot; onclick=&quot;paintIt(event, '#990000')&quot;&gt;Paint it red&lt;/a&gt;
+&lt;a href=&quot;#&quot; onclick=&quot;paintIt(event, '#009900', '#FFFFFF')&quot;&gt;Paint it green&lt;/a&gt;
+&lt;a href=&quot;#&quot; onclick=&quot;paintIt(event, '#000099', '#FFFFFF')&quot;&gt;Paint it blue&lt;/a&gt;
+">Copy</button>
+</div>
+<p>不是很乾，嗯？我們可以透過使用事件來解決這個問題。我們將新增一個<code>data-*</code>
+屬性給我們的連結，然後繫結一個處理程式到每個連結的點選事件
+具有該屬性：</p><div class="code_container">
+<pre><code class="highlight js"><span class="kd">function</span> <span class="nx">paintIt</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">backgroundColor</span><span class="p">,</span> <span class="nx">textColor</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="nx">backgroundColor</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">textColor</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">textColor</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">load</span><span class="dl">"</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">links</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span>
+    <span class="dl">"</span><span class="s2">a[data-background-color]</span><span class="dl">"</span>
+  <span class="p">);</span>
+  <span class="nx">links</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">element</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">click</span><span class="dl">"</span><span class="p">,</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+
+      <span class="kd">const</span> <span class="p">{</span><span class="nx">backgroundColor</span><span class="p">,</span> <span class="nx">textColor</span><span class="p">}</span> <span class="o">=</span> <span class="nx">element</span><span class="p">.</span><span class="nx">dataset</span><span class="p">;</span>
+      <span class="nx">paintIt</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">backgroundColor</span><span class="p">,</span> <span class="nx">textColor</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='function paintIt(element, backgroundColor, textColor) {
+  element.style.backgroundColor = backgroundColor;
+  if (textColor) {
+    element.style.color = textColor;
+  }
+}
+
+window.addEventListener("load", () =&gt; {
+  const links = document.querySelectorAll(
+    "a[data-background-color]"
+  );
+  links.forEach((element) =&gt; {
+    element.addEventListener("click", (event) =&gt; {
+      event.preventDefault();
+
+      const {backgroundColor, textColor} = element.dataset;
+      paintIt(element, backgroundColor, textColor);
+    });
+  });
+});
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">data-background-color=</span><span class="s">"#990000"</span><span class="nt">&gt;</span>Paint it red<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">data-background-color=</span><span class="s">"#009900"</span> <span class="na">data-text-color=</span><span class="s">"#FFFFFF"</span><span class="nt">&gt;</span>Paint it green<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">data-background-color=</span><span class="s">"#000099"</span> <span class="na">data-text-color=</span><span class="s">"#FFFFFF"</span><span class="nt">&gt;</span>Paint it blue<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;a href="#" data-background-color="#990000"&gt;Paint it red&lt;/a&gt;
+&lt;a href="#" data-background-color="#009900" data-text-color="#FFFFFF"&gt;Paint it green&lt;/a&gt;
+&lt;a href="#" data-background-color="#000099" data-text-color="#FFFFFF"&gt;Paint it blue&lt;/a&gt;
+'>Copy</button>
+</div>
+<p>我們稱其為“不引人注目”的 JavaScript，因為我們不再混合我們的
+JavaScript 到我們的 HTML 中。我們已經正確地分離我們的關注點，讓未來
+改變容易。我們可以透過新增資料輕鬆地向任何連結新增行為
+屬性。我們可以透過最小化程式執行我們所有的 JavaScript 並且
+聯結器。我們可以在每個頁面上提供整個 JavaScript 包，這
+意味著它將在第一個頁面載入時下載，然後快取在
+之後的每一頁。很多小好處真的加起來了。</p><h3 id="helpers"><a class="anchorlink" href="#helpers">3 內建Helpers</a></h3><h4 id=""><a class="anchorlink" href="#">3.1 遠端元素</a></h4><p>Rails 提供了一堆用Ruby 編寫的view helper 方法來幫助您
+在生成 HTML 時。有時，您想為這些元素新增一點 Ajax，
+在這些情況下，Rails 得到了你的支援。</p><p>由於 Unobtrusive JavaScript，Rails "Ajax helpers" 實際上分為兩個
+部分：JavaScript 部分和Ruby 部分。</p><p>除非您禁用了Asset Pipeline，
+<a href="https://github.com/rails/rails/tree/main/actionview/app/assets/javascripts">rails-ujs</a>
+提供 JavaScript 的一半，常規的 Ruby view helpers 新增適當的
+標籤到你的 DOM。</p><p>您可以在下面閱讀有關觸發處理的不同事件的資訊
+應用程式中的遠端元素。</p><h5 id="form-with"><a class="anchorlink" href="#form-with">3.1.1 form_with</a></h5><p><a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/FormHelper.html#method-i-form_with"><code>form_with</code></a>
+是一個helper 幫助編寫表單。要在表單中使用 Ajax，您可以
+將<code>:local</code> 選項傳遞給<code>form_with</code>。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span><span class="p">(</span><span class="ss">model: </span><span class="vi">@article</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">"new-article"</span><span class="p">,</span> <span class="ss">local: </span><span class="kp">false</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  ...
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form_with(model: @article, id: "new-article", local: false) do |form| %&gt;
+  ...
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>這將生成以下 HTML：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">"new-article"</span> <span class="na">action=</span><span class="s">"/articles"</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">data-remote=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+  ...
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form id="new-article" action="/articles" accept-charset="UTF-8" method="post" data-remote="true"&gt;
+  ...
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>注意<code>data-remote="true"</code>。現在，表單將由 Ajax 提交而不是
+而不是透過瀏覽器的正常提交機制。</p><p>不過，您可能不想只是坐在那裡填寫<code>&lt;form&gt;</code>。
+您可能想在成功提交後做一些事情。要做到這一點，
+繫結到<code>ajax:success</code> 事件。失敗時，使用<code>ajax:error</code>。一探究竟：</p><div class="code_container">
+<pre><code class="highlight js"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">load</span><span class="dl">"</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#new-article</span><span class="dl">"</span><span class="p">);</span>
+  <span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">ajax:success</span><span class="dl">"</span><span class="p">,</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">[</span><span class="nx">_data</span><span class="p">,</span> <span class="nx">_status</span><span class="p">,</span> <span class="nx">xhr</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">detail</span><span class="p">;</span>
+    <span class="nx">element</span><span class="p">.</span><span class="nx">insertAdjacentHTML</span><span class="p">(</span><span class="dl">"</span><span class="s2">beforeend</span><span class="dl">"</span><span class="p">,</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">responseText</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">ajax:error</span><span class="dl">"</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">element</span><span class="p">.</span><span class="nx">insertAdjacentHTML</span><span class="p">(</span><span class="dl">"</span><span class="s2">beforeend</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">&lt;p&gt;ERROR&lt;/p&gt;</span><span class="dl">"</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='window.addEventListener("load", () =&gt; {
+  const element = document.querySelector("#new-article");
+  element.addEventListener("ajax:success", (event) =&gt; {
+    const [_data, _status, xhr] = event.detail;
+    element.insertAdjacentHTML("beforeend", xhr.responseText);
+  });
+  element.addEventListener("ajax:error", () =&gt; {
+    element.insertAdjacentHTML("beforeend", "&lt;p&gt;ERROR&lt;/p&gt;");
+  });
+});
+'>Copy</button>
+</div>
+<p>顯然，你會想要比這更復雜一點，但這是一個
+開始。</p><h5 id=""><a class="anchorlink" href="#">3.1.2 連結到</a></h5><p><a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to"><code>link_to</code></a>
+是一個helper，有助於生成連結。它有一個<code>:remote</code> 選項，你
+可以這樣使用：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"an article"</span><span class="p">,</span> <span class="vi">@article</span><span class="p">,</span> <span class="ss">remote: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= link_to "an article", @article, remote: true %&gt;
+'>Copy</button>
+</div>
+<p>這產生</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/articles/1"</span> <span class="na">data-remote=</span><span class="s">"true"</span><span class="nt">&gt;</span>an article<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;a href="/articles/1" data-remote="true"&gt;an article&lt;/a&gt;
+'>Copy</button>
+</div>
+<p>您可以繫結到與<code>form_with</code> 相同的 Ajax 事件。這是一個例子。讓我們
+假設我們有一個可以刪除的文章列表
+點選。我們會像這樣生成一些 HTML：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Delete article"</span><span class="p">,</span> <span class="vi">@article</span><span class="p">,</span> <span class="ss">remote: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">method: :delete</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= link_to "Delete article", @article, remote: true, method: :delete %&gt;
+'>Copy</button>
+</div>
+<p>並像這樣編寫一些 JavaScript：</p><div class="code_container">
+<pre><code class="highlight js"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">load</span><span class="dl">"</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">links</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="dl">"</span><span class="s2">a[data-remote]</span><span class="dl">"</span><span class="p">);</span>
+  <span class="nx">links</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">element</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">ajax:success</span><span class="dl">"</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">The article was deleted.</span><span class="dl">"</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='window.addEventListener("load", () =&gt; {
+  const links = document.querySelectorAll("a[data-remote]");
+  links.forEach((element) =&gt; {
+    element.addEventListener("ajax:success", () =&gt; {
+      alert("The article was deleted.");
+    });
+  });
+});
+'>Copy</button>
+</div>
+<h5 id="button-to"><a class="anchorlink" href="#button-to">3.1.3 button_to</a></h5><p><a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to"><code>button_to</code></a> 是一個幫助您建立按鈕的助手。它有一個 <code>:remote</code> 選項，你可以這樣呼叫：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">button_to</span> <span class="s2">"An article"</span><span class="p">,</span> <span class="vi">@article</span><span class="p">,</span> <span class="ss">remote: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= button_to "An article", @article, remote: true %&gt;
+'>Copy</button>
+</div>
+<p>這會產生</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/articles/1"</span> <span class="na">class=</span><span class="s">"button_to"</span> <span class="na">data-remote=</span><span class="s">"true"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"An article"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form action="/articles/1" class="button_to" data-remote="true" method="post"&gt;
+  &lt;input type="submit" value="An article" /&gt;
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>因為它只是一個<code>&lt;form&gt;</code>，所以<code>form_with</code> 上的所有資訊也適用。</p><h4 id=""><a class="anchorlink" href="#">3.2 自定義遠端元素</a></h4><p>可以使用<code>data-remote</code> 自定義元素的行為
+屬性而無需編寫一行 JavaScript。您可以指定額外的<code>data-</code>
+屬性來實現這一點。</p><h5 id="data-method"><a class="anchorlink" href="#data-method">3.2.1 <code>data-method</code></a></h5><p>啟用超連結總是會導致 HTTP GET 請求。但是，如果您的
+應用程式是 <a href="https://en.wikipedia.org/wiki/Representational_State_Transfer">RESTful</a>，
+某些連結實際上是actions 更改伺服器上的資料，並且必須是
+使用非 GET 請求執行。此屬性允許標記此類連結
+使用顯式方法，例如“釋出”、“放置”或“刪除”。</p><p>它的工作方式是，當連結被啟用時，它會構造一個隱藏的表單
+在具有與“href”value 對應的“action”屬性的文件中
+連結，以及對應於<code>data-method</code> value 的方法，並提交該表單。</p><p>注意：因為使用 GET 和 POST 以外的 HTTP 方法提交表單不是
+跨瀏覽器廣泛支援，所有其他 HTTP 方法實際上都是透過
+使用<code>_method</code> 引數中指示的預期方法進行 POST。導軌
+自動檢測並對此進行補償。</p><h5 id="data-url-data-params"><a class="anchorlink" href="#data-url-data-params">3.2.2 <code>data-url</code> 和 <code>data-params</code></a></h5><p>您頁面的某些元素實際上並未引用任何 URL，但您可能希望
+它們觸發 Ajax 呼叫。指定<code>data-url</code> 屬性以及
+<code>data-remote</code> 將觸發對給定 URL 的 Ajax 呼叫。你也可以
+透過<code>data-params</code> 屬性指定額外的引數。</p><p>這對於在複選框上觸發 action 很有用，例如：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">data-remote=</span><span class="s">"true"</span>
+    <span class="na">data-url=</span><span class="s">"/update"</span> <span class="na">data-params=</span><span class="s">"id=10"</span> <span class="na">data-method=</span><span class="s">"put"</span><span class="nt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input type="checkbox" data-remote="true"
+    data-url="/update" data-params="id=10" data-method="put"&gt;
+'>Copy</button>
+</div>
+<h5 id="data-type"><a class="anchorlink" href="#data-type">3.2.3 <code>data-type</code></a></h5><p>也可以在執行時顯式定義 Ajax <code>dataType</code>
+透過<code>data-type</code> 屬性請求<code>data-remote</code> 元素。</p><h4 id=""><a class="anchorlink" href="#">3.3 確認</a></h4><p>您可以透過新增<code>data-confirm</code> 來要求對使用者進行額外確認
+連結和表單上的屬性。使用者將看到一個 JavaScript <code>confirm()</code>
+包含屬性文字的對話方塊。如果使用者選擇取消，action
+不會發生。</p><p>在連結上新增此屬性將在單擊時觸發對話方塊，並新增它
+在表單上將在提交時觸發它。例如：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Dangerous zone"</span><span class="p">,</span> <span class="n">dangerous_zone_path</span><span class="p">,</span>
+  <span class="ss">data: </span><span class="p">{</span> <span class="ss">confirm: </span><span class="s1">'Are you sure?'</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= link_to &quot;Dangerous zone&quot;, dangerous_zone_path,
+  data: { confirm: 'Are you sure?' } %&gt;
+">Copy</button>
+</div>
+<p>這會產生：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"..."</span> <span class="na">data-confirm=</span><span class="s">"Are you sure?"</span><span class="nt">&gt;</span>Dangerous zone<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;a href="..." data-confirm="Are you sure?"&gt;Dangerous zone&lt;/a&gt;
+'>Copy</button>
+</div>
+<p>表單提交按鈕上也允許使用該屬性。這允許您自定義
+警告訊息取決於被啟用的按鈕。在這種情況下，
+你應該<strong>不</strong>在表單上有<code>data-confirm</code>。</p><h4 id=""><a class="anchorlink" href="#">3.4 自動禁用</a></h4><p>還可以在提交表單時自動禁用輸入
+透過使用<code>data-disable-with</code> 屬性。這是為了防止意外
+來自使用者的雙擊，這可能會導致重複的 HTTP 請求
+後端可能不會檢測到這樣。屬性的value 是將
+成為處於禁用狀態的按鈕的新value。</p><p>這也適用於具有 <code>data-method</code> 屬性的連結。</p><p>例如：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span><span class="p">(</span><span class="ss">model: </span><span class="no">Article</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="ss">data: </span><span class="p">{</span> <span class="ss">disable_with: </span><span class="s2">"Saving..."</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form_with(model: Article.new) do |form| %&gt;
+  &lt;%= form.submit data: { disable_with: "Saving..." } %&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>這將生成一個表單：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">data-disable-with=</span><span class="s">"Saving..."</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input data-disable-with="Saving..." type="submit"&gt;
+'>Copy</button>
+</div>
+<h4 id="rails-ujs"><a class="anchorlink" href="#rails-ujs">3.5 Rails-ujs 事件處理程式</a></h4><p>Rails 5.1 引入了 rails-ujs 並刪除了 jQuery 作為依賴項。
+因此，Unobtrusive JavaScript (UJS) 驅動程式已被重寫以在沒有 jQuery 的情況下執行。
+這些介紹會導致在請求期間觸發的 <code>custom events</code> 發生小的變化：</p><p>注意：對 UJS 事件處理程式的呼叫簽名已更改。
+與使用 jQuery 的版本不同，所有自定義事件僅返回一個引數：<code>event</code>。
+在這個引數中，有一個額外的屬性<code>detail</code>，它包含一個額外引數的陣列。
+有關之前在 Rails 5 及更早版本中使用的 @{_0} 的資訊，請閱讀 <a href="https://github.com/rails/jquery-ujs/wiki/ajax">@{_0} wiki</a>。</p><p>|活動名稱 |額外引數 (event.detail) |解僱 |
+|---------------------|--------------------------- ------|------------------------------------------- ------------------|
+| <code>ajax:before</code> | |在整個ajax業務之前。 |
+| <code>ajax:beforeSend</code> | [xhr，選項] |在傳送請求之前。 |
+| <code>ajax:send</code> | [xhr] |傳送請求時。 |
+| <code>ajax:stopped</code> | |當請求停止時。 |
+| <code>ajax:success</code> | [響應，狀態，xhr] |完成後，如果響應成功。 |
+| <code>ajax:error</code> | [響應，狀態，xhr] |完成後，如果響應是錯誤的。 |
+| <code>ajax:complete</code> | [xhr，狀態] |請求完成後，無論結果如何。|</p><p>用法示例：</p><div class="code_container">
+<pre><code class="highlight js"><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">ajax:success</span><span class="dl">"</span><span class="p">,</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">[</span><span class="nx">data</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">xhr</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">detail</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='document.body.addEventListener("ajax:success", (event) =&gt; {
+  const [data, status, xhr] = event.detail;
+});
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">3.6 可停止的事件</a></h4><p>您可以透過執行<code>event.preventDefault()</code> 來停止執行 Ajax 請求
+來自處理程式方法<code>ajax:before</code> 或<code>ajax:beforeSend</code>。
+<code>ajax:before</code> 事件可以在序列化和序列化之前操作表單資料
+<code>ajax:beforeSend</code> 事件對於新增自定義請求標頭很有用。</p><p>如果您停止<code>ajax:aborted:file</code> 事件，則允許
+瀏覽器透過正常方式提交表單（即非 Ajax 提交）將是
+取消，並且根本不會提交表格。這對
+實現您自己的 Ajax 檔案上傳解決方法。</p><p>請注意，您應該使用<code>return false</code> 來防止<code>jquery-ujs</code> 和
+<code>event.preventDefault()</code> 代表 <code>rails-ujs</code>。</p><h3 id=""><a class="anchorlink" href="#">4 伺服器端問題</a></h3><p>Ajax 不僅僅是客戶端，您還需要在伺服器上做一些工作
+一邊支援它。通常，人們喜歡他們的 Ajax 請求返回 JSON
+而不是 HTML。讓我們討論如何實現這一目標。</p><h4 id=""><a class="anchorlink" href="#">4.1 一個簡單的例子</a></h4><p>假設您有一系列使用者想要顯示並提供一個
+在同一頁面上建立一個新使用者。你的索引action
+controller 看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@users</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">all</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+  <span class="c1"># ...</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UsersController &lt; ApplicationController
+  def index
+    @users = User.all
+    @user = User.new
+  end
+  # ...
+">Copy</button>
+</div>
+<p>索引view (<code>app/views/users/index.html.erb</code>) 包含：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;b&gt;</span>Users<span class="nt">&lt;/b&gt;</span>
+
+<span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">"users"</span><span class="nt">&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">render</span> <span class="vi">@users</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+
+<span class="nt">&lt;br&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@user</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;b&gt;Users&lt;/b&gt;
+
+&lt;ul id="users"&gt;
+&lt;%= render @users %&gt;
+&lt;/ul&gt;
+
+&lt;br&gt;
+
+&lt;%= form_with model: @user do |form| %&gt;
+  &lt;%= form.label :name %&gt;&lt;br&gt;
+  &lt;%= form.text_field :name %&gt;
+  &lt;%= form.submit %&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p><code>app/views/users/_user.html.erb</code> 部分包含以下內容：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">user</span><span class="p">.</span><span class="nf">name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;li&gt;&lt;%= user.name %&gt;&lt;/li&gt;
+">Copy</button>
+</div>
+<p>索引頁的頂部顯示使用者。底部
+提供一個表單來建立一個新使用者。</p><p>底部表單將在<code>UsersController</code> 上呼叫<code>create</code> action。因為
+表單的遠端選項設定為 true，請求將被髮布到
+<code>UsersController</code> 作為 Ajax 請求，尋找 JavaScript。為了
+為該請求提供服務，您的 controller 的 <code>create</code> action 看起來像
+這個：</p><div class="code_container">
+<pre><code class="highlight ruby">  <span class="c1"># app/controllers/users_controller.rb</span>
+  <span class="c1"># ......</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:user</span><span class="p">])</span>
+
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="k">if</span> <span class="vi">@user</span><span class="p">.</span><span class="nf">save</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">redirect_to</span> <span class="vi">@user</span><span class="p">,</span> <span class="ss">notice: </span><span class="s1">'User was successfully created.'</span> <span class="p">}</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">js</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="vi">@user</span><span class="p">,</span> <span class="ss">status: :created</span><span class="p">,</span> <span class="ss">location: </span><span class="vi">@user</span> <span class="p">}</span>
+      <span class="k">else</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">action: </span><span class="s2">"new"</span> <span class="p">}</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="vi">@user</span><span class="p">.</span><span class="nf">errors</span><span class="p">,</span> <span class="ss">status: :unprocessable_entity</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="  # app/controllers/users_controller.rb
+  # ......
+  def create
+    @user = User.new(params[:user])
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.js
+        format.json { render json: @user, status: :created, location: @user }
+      else
+        format.html { render action: &quot;new&quot; }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+">Copy</button>
+</div>
+<p>注意<code>respond_to</code> 塊中的<code>format.js</code>：它允許controller
+響應您的 Ajax 請求。然後你就有了對應的
+<code>app/views/users/create.js.erb</code> view 生成實際 JavaScript 的檔案
+將在客戶端傳送和執行的程式碼。</p><div class="code_container">
+<pre><code class="highlight js"><span class="kd">var</span> <span class="nx">users</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#users</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">users</span><span class="p">.</span><span class="nx">insertAdjacentHTML</span><span class="p">(</span><span class="dl">"</span><span class="s2">beforeend</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">&lt;%= j render(@user) %&gt;</span><span class="dl">"</span><span class="p">);</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='var users = document.querySelector("#users");
+users.insertAdjacentHTML("beforeend", "&lt;%= j render(@user) %&gt;");
+'>Copy</button>
+</div>
+<p>注意：JavaScript view 渲染不做任何預處理，所以你不應該在這裡使用 ES6 語法。</p><h3 id=""><a class="anchorlink" href="#">5 渦輪連結</a></h3><p>Rails 附帶了 <a href="https://github.com/turbolinks/turbolinks">Turbolinks 庫</a>，
+它使用 Ajax 來加速大多數應用程式中的頁面渲染。</p><h4 id="turbolinks"><a class="anchorlink" href="#turbolinks">5.1 Turbolinks 的工作原理</a></h4><p>Turbolinks 將點選處理程式附加到頁面上的所有 <code>&lt;a&gt;</code> 標籤。如果您的瀏覽器
+支援
+<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history#The_pushState%28%29_method">PushState</a>,
+Turbolinks 會向頁面發出 Ajax 請求，解析響應，然後
+用響應的@{_0} 替換頁面的整個@{_0}。它
+然後將使用 PushState 將 URL 更改為正確的 URL，保留
+重新整理語義併為您提供漂亮的 URL。</p><p>如果您想為某些連結禁用 Turbolinks，請新增 <code>data-turbolinks="false"</code>
+標籤屬性：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"..."</span> <span class="na">data-turbolinks=</span><span class="s">"false"</span><span class="nt">&gt;</span>No turbolinks here<span class="nt">&lt;/a&gt;</span>.
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;a href="..." data-turbolinks="false"&gt;No turbolinks here&lt;/a&gt;.
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">5.2 頁面更改事件</a></h4><p>你經常想對它進行某種處理
+頁面載入。使用 DOM，您可以編寫如下內容：</p><div class="code_container">
+<pre><code class="highlight js"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">load</span><span class="dl">"</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">page has loaded!</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='window.addEventListener("load", () =&gt; {
+  alert("page has loaded!");
+});
+'>Copy</button>
+</div>
+<p>但是，由於 Turbolinks 覆蓋了正常的頁面載入過程，
+這個依賴的事件不會被觸發。如果你的程式碼看起來像
+為此，您必須更改程式碼才能執行此操作：</p><div class="code_container">
+<pre><code class="highlight js"><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">turbolinks:load</span><span class="dl">"</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">page has loaded!</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='document.addEventListener("turbolinks:load", () =&gt; {
+  alert("page has loaded!");
+});
+'>Copy</button>
+</div>
+<p>有關更多詳細資訊，包括您可以繫結的其他事件，請檢視 [the
+渦輪連結
+自述檔案]（<a href="https://github.com/turbolinks/turbolinks/blob/master/README.md%EF%BC%89%E3%80%82">https://github.com/turbolinks/turbolinks/blob/master/README.md）。</a></p><h3 id="ajax-csrf-token"><a class="anchorlink" href="#ajax-csrf-token">6 Ajax 中的跨站請求偽造 (CSRF) token</a></h3><p>使用其他庫進行ajax呼叫時，需要新增
+安全性token 作為庫中 Ajax 呼叫的預設標頭。要得到
+token：</p><div class="code_container">
+<pre><code class="highlight js"><span class="kd">const</span> <span class="nx">token</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByName</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">csrf-token</span><span class="dl">"</span>
+<span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">content</span><span class="p">;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='const token = document.getElementsByName(
+  "csrf-token"
+)[0].content;
+'>Copy</button>
+</div>
+<p>然後，您可以將此 token 作為 <code>X-CSRF-Token</code> 標題提交給您的
+Ajax 請求。您不需要為 GET 請求新增 CSRF token，
+只有非 GET 的。</p><p>您可以在 <a href="https://guides.rubyonrails.org/security.html#cross-site-request-forgery-csrf">安全指南</a> 中閱讀有關跨站點請求偽造的更多資訊。</p><h3 id=""><a class="anchorlink" href="#">7 其他資源</a></h3><p>以下是一些有用的連結，可幫助您瞭解更多資訊：</p>
+<ul>
+<li><a href="https://github.com/rails/rails/tree/main/actionview/app/assets/javascripts">rails-ujs wiki</a></li>
+<li><a href="http://railscasts.com/episodes/205-unobtrusive-javascript">Railscasts: Unobtrusive JavaScript</a></li>
+<li><a href="http://railscasts.com/episodes/390-turbolinks">Railscasts: Turbolinks</a></li>
+</ul>
+
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

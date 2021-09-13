@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Active Model 基礎知識 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Active Model 基礎知識 — Ruby on Rails Guides" />
+  <meta name="description" content="Active Model 基礎知識本指南應為您提供開始使用 Model 類。 Active Model 允許 Action Pack Helper 與 普通Ruby 物件。 Active Model 還有助於構建自定義 ORMs 以供使用 在 Rails 框架之外。閱讀本指南後，您將瞭解： Active Record Model 的行為方式。 回撥和驗證如何工作。 序列化程式如何工作。 Active Model 如何與 rails 國際化 (i18n) 框架整合。" />
+  <meta property="og:description" content="Active Model 基礎知識本指南應為您提供開始使用 Model 類。 Active Model 允許 Action Pack Helper 與 普通Ruby 物件。 Active Model 還有助於構建自定義 ORMs 以供使用 在 Rails 框架之外。閱讀本指南後，您將瞭解： Active Record Model 的行為方式。 回撥和驗證如何工作。 序列化程式如何工作。 Active Model 如何與 rails 國際化 (i18n) 框架整合。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Active Model 基礎知識</h2><p>本指南應為您提供開始使用 Model 類。 
+Active Model 允許 Action Pack Helper 與
+普通Ruby 物件。 Active Model 還有助於構建自定義 ORMs 以供使用
+在 Rails 框架之外。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>Active Record Model 的行為方式。</li>
+<li>回撥和驗證如何工作。</li>
+<li>序列化程式如何工作。</li>
+<li>Active Model 如何與 rails 國際化 (i18n) 框架整合。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#active-model">Active Model 是什麼？</a>
+
+<ul>
+<li><a href="#">屬性方法</a></li>
+<li><a href="#">回撥</a></li>
+<li><a href="#">轉換</a></li>
+<li><a href="#">骯髒的</a></li>
+<li><a href="#">驗證</a></li>
+<li><a href="#">命名</a></li>
+<li><a href="#model">Model</a></li>
+<li><a href="#">序列化</a></li>
+<li><a href="#">翻譯</a></li>
+<li><a href="#">棉絨測試</a></li>
+<li><a href="#">安全密碼</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="active-model"><a class="anchorlink" href="#active-model">1 Active Model 是什麼？</a></h3><p>Active Model 是一個包含開發中使用的各種模組的庫
+需要在Active Record 上提供某些功能的類。
+下面解釋了其中一些模組。</p><h4 id=""><a class="anchorlink" href="#">1.1 屬性方法</a></h4><p><code>activeModel::attributemethods</code> 模組可以新增自定義字首和字尾
+在類的方法上。它通過定義字首和字尾來使用
+物件上的哪些方法將使用它們。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  include activeModel::attributemethods
+
+  attribute_method_prefix 'reset_'
+  attribute_method_suffix '_highest?'
+  define_attribute_methods 'age'
+
+  attr_accessor :age
+
+  private
+    def reset_attribute(attribute)
+      send("#{attribute}=", 0)
+    end
+
+    def attribute_highest?(attribute)
+      send(attribute) &gt; 100
+    end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  include activeModel::attributemethods
+
+  attribute_method_prefix 'reset_'
+  attribute_method_suffix '_highest?'
+  define_attribute_methods 'age'
+
+  attr_accessor :age
+
+  private
+    def reset_attribute(attribute)
+      send(&quot;#{attribute}=&quot;, 0)
+    end
+
+    def attribute_highest?(attribute)
+      send(attribute) &gt; 100
+    end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">age</span> <span class="o">=</span> <span class="mi">110</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">age_highest?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">reset_age</span>
+<span class="p">=&gt;</span> <span class="mi">0</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">age_highest?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person = Person.new
+person.age = 110
+person.age_highest?
+person.reset_age
+person.age_highest?
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">1.2 回撥</a></h4><p><code>activeModel::callbacks</code> 提供 active record 樣式的回撥。這提供了一個
+能夠定義在適當時間執行的回撥。
+定義回撥後，你可以用 before、after 和 around 包裹它們
+自定義方法。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  extend activeModel::callbacks
+
+  define_Model_callbacks :update
+
+  before_update :reset_me
+
+  def update
+    run_callbacks(:update) do
+      # This method is called when update is called on an object.
+    end
+  end
+
+  def reset_me
+    # This method is called when update is called on an object as a before_update callback is defined.
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  extend activeModel::callbacks
+
+  define_Model_callbacks :update
+
+  before_update :reset_me
+
+  def update
+    run_callbacks(:update) do
+      # This method is called when update is called on an object.
+    end
+  end
+
+  def reset_me
+    # This method is called when update is called on an object as a before_update callback is defined.
+  end
+end
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">1.3 轉換</a></h4><p>如果一個類定義了 <code>persisted?</code> 和 <code>id</code> 方法，那麼你可以包含
+<code>activeModel::conversion</code> 模組，並呼叫 rails 轉換
+該類的物件上的方法。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  include activeModel::conversion
+
+  def persisted?
+    false
+  end
+
+  def id
+    nil
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  include activeModel::conversion
+
+  def persisted?
+    false
+  end
+
+  def id
+    nil
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">to_Model</span> <span class="o">==</span> <span class="n">person</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">to_key</span>
+<span class="p">=&gt;</span> <span class="kp">nil</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">to_param</span>
+<span class="p">=&gt;</span> <span class="kp">nil</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person = Person.new
+person.to_Model == person
+person.to_key
+person.to_param
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">1.4 骯髒的</a></h4><p>一個物件在經歷了一次或多次更改後變髒了
+屬性，尚未儲存。 <code>activeModel::dirty</code> 能夠
+檢查物件是否已更改。它還具有基於屬性的
+訪問器方法。讓我們考慮一個具有屬性“first_name”的 Person 類
+和<code>last_name</code>：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  include activeModel::dirty
+  define_attribute_methods :first_name, :last_name
+
+  def first_name
+    @first_name
+  end
+
+  def first_name=(value)
+    first_name_will_change!
+    @first_name = value
+  end
+
+  def last_name
+    @last_name
+  end
+
+  def last_name=(value)
+    last_name_will_change!
+    @last_name = value
+  end
+
+  def save
+    # do save work...
+    changes_applied
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  include activeModel::dirty
+  define_attribute_methods :first_name, :last_name
+
+  def first_name
+    @first_name
+  end
+
+  def first_name=(value)
+    first_name_will_change!
+    @first_name = value
+  end
+
+  def last_name
+    @last_name
+  end
+
+  def last_name=(value)
+    last_name_will_change!
+    @last_name = value
+  end
+
+  def save
+    # do save work...
+    changes_applied
+  end
+end
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">1.4.1 直接查詢物件以獲取其所有更改屬性的列表。</a></h5><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">changed?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">first_name</span> <span class="o">=</span> <span class="s2">"First Name"</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">first_name</span>
+<span class="p">=&gt;</span> <span class="s2">"First Name"</span>
+
+<span class="c"># Returns true if any of the attributes have unsaved changes.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">changed?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+
+<span class="c"># Returns a list of attributes that have changed before saving.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">changed</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="s2">"first_name"</span><span class="p">]</span>
+
+<span class="c"># Returns a Hash of the attributes that have changed with their original values.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">changed_attributes</span>
+<span class="p">=&gt;</span> <span class="p">{</span><span class="s2">"first_name"</span><span class="o">=&gt;</span><span class="kp">nil</span><span class="p">}</span>
+
+<span class="c"># Returns a Hash of changes, with the attribute names as the keys, and the values as an array of the old and new values for that field.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">changes</span>
+<span class="p">=&gt;</span> <span class="p">{</span><span class="s2">"first_name"</span><span class="o">=&gt;</span><span class="p">[</span><span class="kp">nil</span><span class="p">,</span> <span class="s2">"First Name"</span><span class="p">]}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='person = Person.new
+person.changed?
+person.first_name = "First Name"
+person.first_name
+person.changed?
+person.changed
+person.changed_attributes
+person.changes
+'>Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">1.4.2 基於屬性的訪問器方法</a></h5><p>跟蹤特定屬性是否已更改。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">first_name</span>
+<span class="p">=&gt;</span> <span class="s2">"First Name"</span>
+
+<span class="c"># attr_name_changed?
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">first_name_changed?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person.first_name
+person.first_name_changed?
+">Copy</button>
+</div>
+<p>跟蹤屬性的先前值。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="c"># attr_name_was accessor
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">first_name_was</span>
+<span class="p">=&gt;</span> <span class="kp">nil</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person.first_name_was
+">Copy</button>
+</div>
+<p>跟蹤已更改屬性的先前值和當前值。返回一個數組
+如果更改，否則返回 nil。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="c"># attr_name_change
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">first_name_change</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="kp">nil</span><span class="p">,</span> <span class="s2">"First Name"</span><span class="p">]</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">last_name_change</span>
+<span class="p">=&gt;</span> <span class="kp">nil</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person.first_name_change
+person.last_name_change
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">1.5 驗證</a></h4><p><code>activeModel::validations</code> 模組添加了驗證物件的能力
+就像Active Record。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  include activeModel::validations
+
+  attr_accessor :name, :email, :Token
+
+  validates :name, presence: true
+  validates_format_of :email, with: /\A([^\s]+)((?:[-a-z0-9]\.)[a-z]{2,})\z/i
+  validates! :Token, presence: true
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  include activeModel::validations
+
+  attr_accessor :name, :email, :Token
+
+  validates :name, presence: true
+  validates_format_of :email, with: /\A([^\s]+)((?:[-a-z0-9]\.)[a-z]{2,})\z/i
+  validates! :Token, presence: true
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="o">.</span><span class="no">Token</span> <span class="o">=</span> <span class="s2">"2b1f325"</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s1">'vishnu'</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">email</span> <span class="o">=</span> <span class="s1">'me'</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">email</span> <span class="o">=</span> <span class="s1">'me@vishnuatrai.com'</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="o">.</span><span class="no">Token</span> <span class="o">=</span> <span class="kp">nil</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="go">activeModel::strictvalidationfailed
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="person = Person.new
+person.Token = &quot;2b1f325&quot;
+person.valid?
+person.name = 'vishnu'
+person.email = 'me'
+person.valid?
+person.email = 'me@vishnuatrai.com'
+person.valid?
+person.Token = nil
+person.valid?
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">1.6 命名</a></h4><p><code>activeModel::naming</code> 添加了幾個類方法，使命名和路由
+更容易管理。該模組定義了 <code>Model_name</code> 類方法，它
+將使用一些 <code>ActiveSupport::Inflector</code> 方法定義幾個訪問器。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  extend activeModel::naming
+end
+
+person.Model_name.name                # =&gt; "person"
+person.Model_name.singular            # =&gt; "person"
+person.Model_name.plural              # =&gt; "people"
+person.Model_name.element             # =&gt; "person"
+person.Model_name.human               # =&gt; "person"
+person.Model_name.collection          # =&gt; "people"
+person.Model_name.param_key           # =&gt; "person"
+person.Model_name.i18n_key            # =&gt; :person
+person.Model_name.route_key           # =&gt; "people"
+person.Model_name.singular_route_key  # =&gt; "person"
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Person
+  extend activeModel::naming
+end
+
+person.Model_name.name                # =&gt; "person"
+person.Model_name.singular            # =&gt; "person"
+person.Model_name.plural              # =&gt; "people"
+person.Model_name.element             # =&gt; "person"
+person.Model_name.human               # =&gt; "person"
+person.Model_name.collection          # =&gt; "people"
+person.Model_name.param_key           # =&gt; "person"
+person.Model_name.i18n_key            # =&gt; :person
+person.Model_name.route_key           # =&gt; "people"
+person.Model_name.singular_route_key  # =&gt; "person"
+'>Copy</button>
+</div>
+<h4 id="model"><a class="anchorlink" href="#model">1.7 Model</a></h4><p><code>activeModel::Model</code> 為類添加了使用 action 包和
+action View 開箱即用。</p><div class="code_container">
+<pre><code class="highlight plaintext">class EmailContact
+  include activeModel::Model
+
+  attr_accessor :name, :email, :message
+  validates :name, :email, :message, presence: true
+
+  def deliver
+    if valid?
+      # deliver email
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class EmailContact
+  include activeModel::Model
+
+  attr_accessor :name, :email, :message
+  validates :name, :email, :message, presence: true
+
+  def deliver
+    if valid?
+      # deliver email
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>當包含 <code>activeModel::Model</code> 時，你會得到一些特性，例如：</p>
+<ul>
+<li>Model 名字自省</li>
+<li>轉換</li>
+<li>翻譯</li>
+<li>驗證</li>
+</ul>
+<p>它還使您能夠使用屬性雜湊初始化物件，
+很像任何Active Record 物件。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">email_contact</span> <span class="o">=</span> <span class="no">EmailContact</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'David'</span><span class="p">,</span> <span class="ss">email: </span><span class="s1">'david@example.com'</span><span class="p">,</span> <span class="ss">message: </span><span class="s1">'Hello World'</span><span class="p">)</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">email_contact</span><span class="p">.</span><span class="nf">name</span>
+<span class="p">=&gt;</span> <span class="s2">"David"</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">email_contact</span><span class="p">.</span><span class="nf">email</span>
+<span class="p">=&gt;</span> <span class="s2">"david@example.com"</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">email_contact</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">email_contact</span><span class="p">.</span><span class="nf">persisted?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="email_contact = EmailContact.new(name: 'David', email: 'david@example.com', message: 'Hello World')
+email_contact.name
+email_contact.email
+email_contact.valid?
+email_contact.persisted?
+">Copy</button>
+</div>
+<p>任何包含 <code>activeModel::Model</code> 的類都可以與 <code>form_with</code> 一起使用，
+<code>render</code> 和任何其他 action View helper 方法，就像 active record
+物件。</p><h4 id=""><a class="anchorlink" href="#">1.8 序列化</a></h4><p><code>activeModel::serialization</code> 為您的物件提供基本的序列化。
+您需要宣告一個屬性雜湊，其中包含您想要的屬性
+連載。屬性必須是字串，而不是Symbols。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  include activeModel::serialization
+
+  attr_accessor :name
+
+  def attributes
+    {'name' =&gt; nil}
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  include activeModel::serialization
+
+  attr_accessor :name
+
+  def attributes
+    {'name' =&gt; nil}
+  end
+end
+">Copy</button>
+</div>
+<p>現在，您可以使用“serializable_hash”方法訪問物件的序列化雜湊。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">serializable_hash</span>
+<span class="p">=&gt;</span> <span class="p">{</span><span class="s2">"name"</span><span class="o">=&gt;</span><span class="kp">nil</span><span class="p">}</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s2">"Bob"</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">serializable_hash</span>
+<span class="p">=&gt;</span> <span class="p">{</span><span class="s2">"name"</span><span class="o">=&gt;</span><span class="s2">"Bob"</span><span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='person = Person.new
+person.serializable_hash
+person.name = "Bob"
+person.serializable_hash
+'>Copy</button>
+</div>
+<h5 id="activemodel-serializers"><a class="anchorlink" href="#activemodel-serializers">1.8.1 activeModel::serializers</a></h5><p>active model 還提供了 <code>activeModel::serializers::json</code> 模組
+用於 JSON 序列化/反序列化。該模組自動包含
+之前討論過 <code>activeModel::serialization</code> 模組。</p><h6 id="activemodel-serializers-json"><a class="anchorlink" href="#activemodel-serializers-json">1.8.1.1 activeModel::serializers::json</a></h6><p>要使用 <code>activeModel::serializers::json</code> 你只需要改變
+您包含的模組從 <code>activeModel::serialization</code> 到 <code>activeModel::serializers::json</code>。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  include activeModel::serializers::json
+
+  attr_accessor :name
+
+  def attributes
+    {'name' =&gt; nil}
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  include activeModel::serializers::json
+
+  attr_accessor :name
+
+  def attributes
+    {'name' =&gt; nil}
+  end
+end
+">Copy</button>
+</div>
+<p><code>as_json</code> 方法，類似於 <code>serializable_hash</code>，提供一個表示
+Model。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">as_json</span>
+<span class="p">=&gt;</span> <span class="p">{</span><span class="s2">"name"</span><span class="o">=&gt;</span><span class="kp">nil</span><span class="p">}</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s2">"Bob"</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">as_json</span>
+<span class="p">=&gt;</span> <span class="p">{</span><span class="s2">"name"</span><span class="o">=&gt;</span><span class="s2">"Bob"</span><span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='person = Person.new
+person.as_json
+person.name = "Bob"
+person.as_json
+'>Copy</button>
+</div>
+<p>您還可以從 json 字串定義 Model 的屬性。
+但是，您需要在類上定義 <code>attributes=</code> 方法：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  include activeModel::serializers::json
+
+  attr_accessor :name
+
+  def attributes=(hash)
+    hash.each do |key, value|
+      send("#{key}=", value)
+    end
+  end
+
+  def attributes
+    {'name' =&gt; nil}
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  include activeModel::serializers::json
+
+  attr_accessor :name
+
+  def attributes=(hash)
+    hash.each do |key, value|
+      send(&quot;#{key}=&quot;, value)
+    end
+  end
+
+  def attributes
+    {'name' =&gt; nil}
+  end
+end
+">Copy</button>
+</div>
+<p>現在可以建立一個 <code>Person</code> 的例項並使用 <code>from_json</code> 設定屬性。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">json</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">name: </span><span class="s1">'Bob'</span> <span class="p">}.</span><span class="nf">to_json</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">from_json</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Person</span><span class="p">:</span><span class="mh">0x00000100c773f0</span> <span class="vi">@name</span><span class="o">=</span><span class="s2">"Bob"</span><span class="kt">&gt;</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">name</span>
+<span class="p">=&gt;</span> <span class="s2">"Bob"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="json = { name: 'Bob' }.to_json
+person = Person.new
+person.from_json(json)
+person.name
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">1.9 翻譯</a></h4><p><code>activeModel::translation</code> 提供物件和導軌之間的整合
+國際化 (i18n) 框架。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  extend activeModel::translation
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  extend activeModel::translation
+end
+">Copy</button>
+</div>
+<p>使用 <code>human_attribute_name</code> 方法，您可以將屬性名稱轉換為
+更易讀的格式。人類可讀的格式在您的語言環境檔案中定義。</p>
+<ul>
+<li>config/locales/app.pt-BR.yml</li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="na">pt-BR</span><span class="pi">:</span>
+  <span class="na">activeModel</span><span class="pi">:</span>
+    <span class="na">attributes</span><span class="pi">:</span>
+      <span class="na">person</span><span class="pi">:</span>
+        <span class="na">name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Nome'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="pt-BR:
+  activeModel:
+    attributes:
+      person:
+        name: 'Nome'
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight plaintext">Person.human_attribute_name('name') # =&gt; "Nome"
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Person.human_attribute_name('name') # =&gt; &quot;Nome&quot;
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">1.10 棉絨測試</a></h4><p><code>activeModel::lint::tests</code> 允許你測試一個物件是否符合
+Active Model api。</p>
+<ul>
+<li>
+<p><code>app/Models/person.rb</code></p>
+<div class="code_container">
+<pre><code class="highlight plaintext">班級人物
+  包括 activeModel::Model
+結尾
+``
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="班級人物
+  包括 activeModel::Model
+結尾
+``
+">Copy</button>
+</div>
+</li>
+</ul>
+
+<ul>
+<li>
+<p><code>test/Models/person_test.rb</code></p>
+<div class="code_container">
+<pre><code class="highlight plaintext">需要“test_Helper”
+
+class PersonTest &lt; ActiveSupport::TestCase
+  包括 activeModel::lint::tests
+
+  設定做
+    @Model = person.new
+  結尾
+結尾
+``
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="需要“test_Helper”
+
+class PersonTest &lt; ActiveSupport::TestCase
+  包括 activeModel::lint::tests
+
+  設定做
+    @Model = person.new
+  結尾
+結尾
+``
+">Copy</button>
+</div>
+</li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test</span>
+<span class="go">
+Run options: --seed 14596
+
+</span><span class="gp">#</span><span class="w"> </span>Running:
+<span class="go">
+</span><span class="c">......
+</span><span class="go">
+Finished in 0.024899s, 240.9735 runs/s, 1204.8677 assertions/s.
+
+6 runs, 30 assertions, 0 failures, 0 errors, 0 skips
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test
+">Copy</button>
+</div>
+<p>物件不需要實現所有 API 才能使用
+Action 包。此模組僅用於指導您是否需要全部
+開箱即用的功能。</p><h4 id=""><a class="anchorlink" href="#">1.11 安全密碼</a></h4><p><code>activeModel::securepassword</code> 提供了一種安全儲存任何
+加密形式的密碼。當你包含這個模組時，一個
+提供了 <code>has_secure_password</code> 類方法，它定義了
+預設情況下帶有某些驗證的 <code>password</code> 訪問器。</p><h5 id=""><a class="anchorlink" href="#">1.11.1 要求</a></h5><p><code>activemodel::securepassword</code> 依賴於 <a href="https://github.com/codahale/bcrypt-Ruby" title="bcrypt"><code>bcrypt</code></a>，
+所以在你的 <code>gemfile</code> 中包含這個 gem 以正確使用 <code>activeModel::securepassword</code>。
+為了使這個工作，Model 必須有一個名為 <code>xxx_digest</code> 的訪問器。
+其中“XXX”是您想要的密碼的屬性名稱。
+自動新增以下驗證：</p>
+<ol>
+<li>密碼必須存在。</li>
+<li>密碼應等於其確認（前提是傳遞了<code>XXX_confirmation</code>）。
+3.密碼的最大長度為72（activeModel::securepassword所依賴的<code>bcrypt</code>要求）</li>
+</ol>
+<h5 id=""><a class="anchorlink" href="#">1.11.2 例子</a></h5><div class="code_container">
+<pre><code class="highlight plaintext">class Person
+  include activeModel::securepassword
+  has_secure_password
+  has_secure_password :recovery_password, validations: false
+
+  attr_accessor :password_digest, :recovery_password_digest
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  include activeModel::securepassword
+  has_secure_password
+  has_secure_password :recovery_password, validations: false
+
+  attr_accessor :password_digest, :recovery_password_digest
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="err">
+</span><span class="c"># When password is blank.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="c"># When the confirmation doesn't match the password.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">password</span> <span class="o">=</span> <span class="s1">'aditya'</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">password_confirmation</span> <span class="o">=</span> <span class="s1">'nomatch'</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="c"># When the length of password exceeds 72.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">password</span> <span class="o">=</span> <span class="n">person</span><span class="p">.</span><span class="nf">password_confirmation</span> <span class="o">=</span> <span class="s1">'a'</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="c"># When only password is supplied with no password_confirmation.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">password</span> <span class="o">=</span> <span class="s1">'aditya'</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+
+<span class="c"># When all validations are passed.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">password</span> <span class="o">=</span> <span class="n">person</span><span class="p">.</span><span class="nf">password_confirmation</span> <span class="o">=</span> <span class="s1">'aditya'</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">recovery_password</span> <span class="o">=</span> <span class="s2">"42password"</span>
+<span class="err">
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'aditya'</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Person</span><span class="kt">&gt;</span> <span class="c1"># == person</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'notright'</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">authenticate_password</span><span class="p">(</span><span class="s1">'aditya'</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Person</span><span class="kt">&gt;</span> <span class="c1"># == person</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">authenticate_password</span><span class="p">(</span><span class="s1">'notright'</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">authenticate_recovery_password</span><span class="p">(</span><span class="s1">'42password'</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Person</span><span class="kt">&gt;</span> <span class="c1"># == person</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">authenticate_recovery_password</span><span class="p">(</span><span class="s1">'notright'</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">password_digest</span>
+<span class="p">=&gt;</span> <span class="s2">"$2a$04$gF8RfZdoXHvyTjHhiU4ZsO.kQqV9oonYZu31PRE4hLQn3xM2qkpIy"</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">recovery_password_digest</span>
+<span class="p">=&gt;</span> <span class="s2">"$2a$04$iOfhwahFymCs5weB3BNH/uXkTG65HR.qpW.bNhEjFP3ftli3o5DQC"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person = Person.new
+person.valid?
+person.password = 'aditya'
+person.password_confirmation = 'nomatch'
+person.valid?
+person.password = person.password_confirmation = 'a' * 100
+person.valid?
+person.password = 'aditya'
+person.valid?
+person.password = person.password_confirmation = 'aditya'
+person.valid?
+person.recovery_password = &quot;42password&quot;
+person.authenticate('aditya')
+person.authenticate('notright')
+person.authenticate_password('aditya')
+person.authenticate_password('notright')
+person.authenticate_recovery_password('42password')
+person.authenticate_recovery_password('notright')
+person.password_digest
+person.recovery_password_digest
+">Copy</button>
+</div>
+
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

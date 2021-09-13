@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>除錯 Rails 應用程式 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="除錯 Rails 應用程式 — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.除錯 Rails 應用程式本指南介紹了在 Rails 應用程式上除錯 Ruby 的技術。閱讀本指南後，您將瞭解： 除錯目的。 如何追蹤測試未識別的應用程式中的問題和問題。 不同的除錯方式。 如何分析堆疊跟蹤。" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.除錯 Rails 應用程式本指南介紹了在 Rails 應用程式上除錯 Ruby 的技術。閱讀本指南後，您將瞭解： 除錯目的。 如何追蹤測試未識別的應用程式中的問題和問題。 不同的除錯方式。 如何分析堆疊跟蹤。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>除錯 Rails 應用程式</h2><p>本指南介紹了在 Rails 應用程式上除錯 Ruby 的技術。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>除錯目的。</li>
+<li>如何追蹤測試未識別的應用程式中的問題和問題。</li>
+<li>不同的除錯方式。</li>
+<li>如何分析堆疊跟蹤。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#view-helpers">View Helpers 用於除錯</a>
+
+<ul>
+<li><a href="#debug"><code>debug</code></a></li>
+<li><a href="#to-yaml"><code>to_yaml</code></a></li>
+<li><a href="#inspect"><code>inspect</code></a></li>
+</ul>
+</li>
+<li>
+<a href="#">記錄器</a>
+
+<ul>
+<li><a href="#">什麼是記錄器？</a></li>
+<li><a href="#">日誌級別</a></li>
+<li><a href="#">傳送訊息</a></li>
+<li><a href="#">詳細查詢日誌</a></li>
+<li><a href="#">標記日誌</a></li>
+<li><a href="#">日誌對效能的影響</a></li>
+</ul>
+</li>
+<li><a href="#debug-gem">使用 <code>debug</code> gem 進行除錯</a></li>
+<li>
+<a href="#web-console-gem">使用 <code>web-console</code> gem 進行除錯</a>
+
+<ul>
+<li><a href="#">控制檯</a></li>
+<li><a href="#">檢查變數</a></li>
+<li><a href="#">設定</a></li>
+</ul>
+</li>
+<li>
+<a href="#">除錯記憶體洩漏</a>
+
+<ul>
+<li><a href="#">瓦爾格林</a></li>
+<li><a href="#">查詢記憶體洩漏</a></li>
+</ul>
+</li>
+<li><a href="#">除錯外掛</a></li>
+<li><a href="#">參考</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="view-helpers"><a class="anchorlink" href="#view-helpers">1 View Helpers 用於除錯</a></h3><p>一項常見任務是檢查變數的內容。 Rails 提供了三種不同的方法來做到這一點：</p>
+<ul>
+<li><code>debug</code></li>
+<li><code>to_yaml</code></li>
+<li><code>inspect</code></li>
+</ul>
+<h4 id="debug"><a class="anchorlink" href="#debug">1.1 <code>debug</code></a></h4><p><code>debug</code> helper 將返回一個 &lt;pre&gt; 標記，該標記使用 YAML 格式呈現物件。這將從任何物件生成人類可讀的資料。例如，如果您在 view 中有此程式碼：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">debug</span> <span class="vi">@article</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+  <span class="nt">&lt;b&gt;</span>Title:<span class="nt">&lt;/b&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= debug @article %&gt;
+&lt;p&gt;
+  &lt;b&gt;Title:&lt;/b&gt;
+  &lt;%= @article.title %&gt;
+&lt;/p&gt;
+">Copy</button>
+</div>
+<p>你會看到這樣的東西：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="nn">---</span> <span class="kt">!ruby/object</span> <span class="s">Article</span>
+<span class="na">attributes</span><span class="pi">:</span>
+  <span class="na">updated_at</span><span class="pi">:</span> <span class="s">2008-09-05 22:55:47</span>
+  <span class="na">body</span><span class="pi">:</span> <span class="s">It's a very helpful guide for debugging your Rails app.</span>
+  <span class="na">title</span><span class="pi">:</span> <span class="s">Rails debugging guide</span>
+  <span class="na">published</span><span class="pi">:</span> <span class="s">t</span>
+  <span class="na">id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1"</span>
+  <span class="na">created_at</span><span class="pi">:</span> <span class="s">2008-09-05 22:55:47</span>
+<span class="na">attributes_cache</span><span class="pi">:</span> <span class="pi">{}</span>
+
+
+<span class="na">Title</span><span class="pi">:</span> <span class="s">Rails debugging guide</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="--- !ruby/object Article
+attributes:
+  updated_at: 2008-09-05 22:55:47
+  body: It's a very helpful guide for debugging your Rails app.
+  title: Rails debugging guide
+  published: t
+  id: &quot;1&quot;
+  created_at: 2008-09-05 22:55:47
+attributes_cache: {}
+
+
+Title: Rails debugging guide
+">Copy</button>
+</div>
+<h4 id="to-yaml"><a class="anchorlink" href="#to-yaml">1.2 <code>to_yaml</code></a></h4><p>或者，對任何物件呼叫 <code>to_yaml</code> 會將其轉換為 YAML。您可以將此轉換後的物件傳遞給 <code>simple_format</code> helper 方法來格式化輸出。這就是<code>debug</code> 的神奇之處。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">simple_format</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">to_yaml</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+  <span class="nt">&lt;b&gt;</span>Title:<span class="nt">&lt;/b&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= simple_format @article.to_yaml %&gt;
+&lt;p&gt;
+  &lt;b&gt;Title:&lt;/b&gt;
+  &lt;%= @article.title %&gt;
+&lt;/p&gt;
+">Copy</button>
+</div>
+<p>上面的程式碼將呈現如下內容：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="nn">---</span> <span class="kt">!ruby/object</span> <span class="s">Article</span>
+<span class="na">attributes</span><span class="pi">:</span>
+<span class="na">updated_at</span><span class="pi">:</span> <span class="s">2008-09-05 22:55:47</span>
+<span class="na">body</span><span class="pi">:</span> <span class="s">It's a very helpful guide for debugging your Rails app.</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s">Rails debugging guide</span>
+<span class="na">published</span><span class="pi">:</span> <span class="s">t</span>
+<span class="na">id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1"</span>
+<span class="na">created_at</span><span class="pi">:</span> <span class="s">2008-09-05 22:55:47</span>
+<span class="na">attributes_cache</span><span class="pi">:</span> <span class="pi">{}</span>
+
+<span class="na">Title</span><span class="pi">:</span> <span class="s">Rails debugging guide</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="--- !ruby/object Article
+attributes:
+updated_at: 2008-09-05 22:55:47
+body: It's a very helpful guide for debugging your Rails app.
+title: Rails debugging guide
+published: t
+id: &quot;1&quot;
+created_at: 2008-09-05 22:55:47
+attributes_cache: {}
+
+Title: Rails debugging guide
+">Copy</button>
+</div>
+<h4 id="inspect"><a class="anchorlink" href="#inspect">1.3 <code>inspect</code></a></h4><p>另一個顯示物件values 的有用方法是<code>inspect</code>，尤其是在處理陣列或雜湊時。這會將物件值列印為字串。例如：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">].</span><span class="nf">inspect</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+  <span class="nt">&lt;b&gt;</span>Title:<span class="nt">&lt;/b&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= [1, 2, 3, 4, 5].inspect %&gt;
+&lt;p&gt;
+  &lt;b&gt;Title:&lt;/b&gt;
+  &lt;%= @article.title %&gt;
+&lt;/p&gt;
+">Copy</button>
+</div>
+<p>將呈現：</p><div class="code_container">
+<pre><code class="highlight plaintext">[1, 2, 3, 4, 5]
+
+Title: Rails debugging guide
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="[1, 2, 3, 4, 5]
+
+Title: Rails debugging guide
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">2 記錄器</a></h3><p>在執行時將資訊儲存到日誌檔案也很有用。 Rails 為每個執行時環境維護一個單獨的日誌檔案。</p><h4 id=""><a class="anchorlink" href="#">2.1 什麼是記錄器？</a></h4><p>Rails 使用<code>ActiveSupport::Logger</code> 類來寫入日誌資訊。也可以替換其他記錄器，例如<code>Log4r</code>。</p><p>您可以在 <code>config/application.rb</code> 或任何其他環境檔案中指定替代記錄器，例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">logger</span> <span class="o">=</span> <span class="no">Log4r</span><span class="o">::</span><span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Application Log"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.logger = Logger.new(STDOUT)
+config.logger = Log4r::Logger.new("Application Log")
+'>Copy</button>
+</div>
+<p>或者在<code>Initializer</code> 部分，新增以下<em>any</em></p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span> <span class="o">=</span> <span class="no">Log4r</span><span class="o">::</span><span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Application Log"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Rails.logger = Logger.new(STDOUT)
+Rails.logger = Log4r::Logger.new("Application Log")
+'>Copy</button>
+</div>
+<p>提示：預設情況下，每個日誌都在<code>Rails.root/log/</code> 下建立，日誌檔案以應用程式執行的環境命名。</p><h4 id=""><a class="anchorlink" href="#">2.2 日誌級別</a></h4><p>當某事被記錄時，如果日誌被列印到相應的日誌中
+訊息級別等於或高於配置的日誌級別。如果你
+想知道當前的日誌級別，可以呼叫<code>Rails.logger.level</code>
+方法。</p><p>可用的日誌級別有：<code>:debug</code>、<code>:info</code>、<code>:warn</code>、<code>:error</code>、<code>:fatal</code>、
+和<code>:unknown</code>，對應從0到5的日誌級別編號，
+分別。要更改預設日誌級別，請使用</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">log_level</span> <span class="o">=</span> <span class="ss">:warn</span> <span class="c1"># In any environment initializer, or</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">level</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># at any time</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.log_level = :warn # In any environment initializer, or
+Rails.logger.level = 0 # at any time
+">Copy</button>
+</div>
+<p>當您希望在開發或暫存時登入而不用不必要的資訊淹沒您的生產日誌時，這很有用。</p><p>提示：預設的 Rails 日誌級別在所有環境中都是 <code>debug</code>。</p><h4 id=""><a class="anchorlink" href="#">2.3 傳送訊息</a></h4><p>要寫入當前日誌，請使用 controller、model 或郵件程式中的 <code>logger.(debug|info|warn|error|fatal|unknown)</code> 方法：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">logger</span><span class="p">.</span><span class="nf">debug</span> <span class="s2">"Person attributes hash: </span><span class="si">#{</span><span class="vi">@person</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">logger</span><span class="p">.</span><span class="nf">info</span> <span class="s2">"Processing the request..."</span>
+<span class="n">logger</span><span class="p">.</span><span class="nf">fatal</span> <span class="s2">"Terminating application, raised unrecoverable error!!!"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='logger.debug "Person attributes hash: #{@person.attributes.inspect}"
+logger.info "Processing the request..."
+logger.fatal "Terminating application, raised unrecoverable error!!!"
+'>Copy</button>
+</div>
+<p>下面是一個使用額外日誌記錄的方法示例：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># ...</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+    <span class="n">logger</span><span class="p">.</span><span class="nf">debug</span> <span class="s2">"New article: </span><span class="si">#{</span><span class="vi">@article</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span>
+    <span class="n">logger</span><span class="p">.</span><span class="nf">debug</span> <span class="s2">"Article should be valid: </span><span class="si">#{</span><span class="vi">@article</span><span class="p">.</span><span class="nf">valid?</span><span class="si">}</span><span class="s2">"</span>
+
+    <span class="k">if</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">logger</span><span class="p">.</span><span class="nf">debug</span> <span class="s2">"The article was saved and now the user is going to be redirected..."</span>
+      <span class="n">redirect_to</span> <span class="vi">@article</span><span class="p">,</span> <span class="ss">notice: </span><span class="s1">'Article was successfully created.'</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">status: :unprocessable_entity</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="c1"># ...</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">article_params</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:article</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:published</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ArticlesController &lt; ApplicationController
+  # ...
+
+  def create
+    @article = Article.new(article_params)
+    logger.debug &quot;New article: #{@article.attributes.inspect}&quot;
+    logger.debug &quot;Article should be valid: #{@article.valid?}&quot;
+
+    if @article.save
+      logger.debug &quot;The article was saved and now the user is going to be redirected...&quot;
+      redirect_to @article, notice: 'Article was successfully created.'
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  # ...
+
+  private
+    def article_params
+      params.require(:article).permit(:title, :body, :published)
+    end
+end
+">Copy</button>
+</div>
+<p>以下是執行此controller action 時生成的日誌示例：</p><div class="code_container">
+<pre><code class="highlight plaintext">Started POST "/articles" for 127.0.0.1 at 2018-10-18 20:09:23 -0400
+Processing by ArticlesController#create as HTML
+  Parameters: {"utf8"=&gt;"✓", "authenticity_token"=&gt;"XLveDrKzF1SwaiNRPTaMtkrsTzedtebPPkmxEFIU0ordLjICSnXsSNfrdMa4ccyBjuGwnnEiQhEoMN6H1Gtz3A==", "article"=&gt;{"title"=&gt;"Debugging Rails", "body"=&gt;"I'm learning how to print in logs.", "published"=&gt;"0"}, "commit"=&gt;"Create Article"}
+New article: {"id"=&gt;nil, "title"=&gt;"Debugging Rails", "body"=&gt;"I'm learning how to print in logs.", "published"=&gt;false, "created_at"=&gt;nil, "updated_at"=&gt;nil}
+Article should be valid: true
+   (0.0ms)  begin transaction
+  ↳ app/controllers/articles_controller.rb:31
+  Article Create (0.5ms)  INSERT INTO "articles" ("title", "body", "published", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["title", "Debugging Rails"], ["body", "I'm learning how to print in logs."], ["published", 0], ["created_at", "2018-10-19 00:09:23.216549"], ["updated_at", "2018-10-19 00:09:23.216549"]]
+  ↳ app/controllers/articles_controller.rb:31
+   (2.3ms)  commit transaction
+  ↳ app/controllers/articles_controller.rb:31
+The article was saved and now the user is going to be redirected...
+Redirected to http://localhost:3000/articles/1
+Completed 302 Found in 4ms (ActiveRecord: 0.8ms)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Started POST &quot;/articles&quot; for 127.0.0.1 at 2018-10-18 20:09:23 -0400
+Processing by ArticlesController#create as HTML
+  Parameters: {&quot;utf8&quot;=&gt;&quot;✓&quot;, &quot;authenticity_token&quot;=&gt;&quot;XLveDrKzF1SwaiNRPTaMtkrsTzedtebPPkmxEFIU0ordLjICSnXsSNfrdMa4ccyBjuGwnnEiQhEoMN6H1Gtz3A==&quot;, &quot;article&quot;=&gt;{&quot;title&quot;=&gt;&quot;Debugging Rails&quot;, &quot;body&quot;=&gt;&quot;I'm learning how to print in logs.&quot;, &quot;published&quot;=&gt;&quot;0&quot;}, &quot;commit&quot;=&gt;&quot;Create Article&quot;}
+New article: {&quot;id&quot;=&gt;nil, &quot;title&quot;=&gt;&quot;Debugging Rails&quot;, &quot;body&quot;=&gt;&quot;I'm learning how to print in logs.&quot;, &quot;published&quot;=&gt;false, &quot;created_at&quot;=&gt;nil, &quot;updated_at&quot;=&gt;nil}
+Article should be valid: true
+   (0.0ms)  begin transaction
+  ↳ app/controllers/articles_controller.rb:31
+  Article Create (0.5ms)  INSERT INTO &quot;articles&quot; (&quot;title&quot;, &quot;body&quot;, &quot;published&quot;, &quot;created_at&quot;, &quot;updated_at&quot;) VALUES (?, ?, ?, ?, ?)  [[&quot;title&quot;, &quot;Debugging Rails&quot;], [&quot;body&quot;, &quot;I'm learning how to print in logs.&quot;], [&quot;published&quot;, 0], [&quot;created_at&quot;, &quot;2018-10-19 00:09:23.216549&quot;], [&quot;updated_at&quot;, &quot;2018-10-19 00:09:23.216549&quot;]]
+  ↳ app/controllers/articles_controller.rb:31
+   (2.3ms)  commit transaction
+  ↳ app/controllers/articles_controller.rb:31
+The article was saved and now the user is going to be redirected...
+Redirected to http://localhost:3000/articles/1
+Completed 302 Found in 4ms (ActiveRecord: 0.8ms)
+">Copy</button>
+</div>
+<p>像這樣新增額外的日誌記錄可以很容易地在日誌中搜索意外或異常的行為。如果您新增額外的日誌記錄，請務必合理使用日誌級別，以避免用無用的瑣事填充您的生產日誌。</p><h4 id=""><a class="anchorlink" href="#">2.4 詳細查詢日誌</a></h4><p>檢視日誌中的資料庫查詢輸出時，可能無法立即清楚為什麼在呼叫單個方法時會觸發多個數據庫查詢：</p><div class="code_container">
+<pre><code class="highlight plaintext">irb(main):001:0&gt; Article.pamplemousse
+  Article Load (0.4ms)  SELECT "articles".* FROM "articles"
+  Comment Load (0.2ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 1]]
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 2]]
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 3]]
+=&gt; #&lt;Comment id: 2, author: "1", body: "Well, actually...", article_id: 1, created_at: "2018-10-19 00:56:10", updated_at: "2018-10-19 00:56:10"&gt;
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='irb(main):001:0&gt; Article.pamplemousse
+  Article Load (0.4ms)  SELECT "articles".* FROM "articles"
+  Comment Load (0.2ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 1]]
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 2]]
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 3]]
+=&gt; #&lt;Comment id: 2, author: "1", body: "Well, actually...", article_id: 1, created_at: "2018-10-19 00:56:10", updated_at: "2018-10-19 00:56:10"&gt;
+'>Copy</button>
+</div>
+<p>在<code>bin/rails console</code> session 中執行<code>ActiveRecord::Base.verbose_query_logs = true</code> 以啟用詳細查詢日誌並再次執行該方法後，很明顯是哪一行程式碼生成了所有這些離散資料庫呼叫：</p><div class="code_container">
+<pre><code class="highlight plaintext">irb(main):003:0&gt; Article.pamplemousse
+  Article Load (0.2ms)  SELECT "articles".* FROM "articles"
+  ↳ app/models/article.rb:5
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 1]]
+  ↳ app/models/article.rb:6
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 2]]
+  ↳ app/models/article.rb:6
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 3]]
+  ↳ app/models/article.rb:6
+=&gt; #&lt;Comment id: 2, author: "1", body: "Well, actually...", article_id: 1, created_at: "2018-10-19 00:56:10", updated_at: "2018-10-19 00:56:10"&gt;
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='irb(main):003:0&gt; Article.pamplemousse
+  Article Load (0.2ms)  SELECT "articles".* FROM "articles"
+  ↳ app/models/article.rb:5
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 1]]
+  ↳ app/models/article.rb:6
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 2]]
+  ↳ app/models/article.rb:6
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 3]]
+  ↳ app/models/article.rb:6
+=&gt; #&lt;Comment id: 2, author: "1", body: "Well, actually...", article_id: 1, created_at: "2018-10-19 00:56:10", updated_at: "2018-10-19 00:56:10"&gt;
+'>Copy</button>
+</div>
+<p>在每個資料庫語句下方，您可以看到指向導致資料庫呼叫的方法的特定原始檔名（和行號）的箭頭。這可以幫助您識別和解決由 N+1 查詢引起的效能問題：生成多個附加查詢的單個數據庫查詢。</p><p>Rails 5.2 之後的開發環境日誌中預設啟用詳細查詢日誌。</p><p>警告：我們建議不要在生產環境中使用此設定。它依賴於Ruby 的<code>Kernel#caller</code> 方法，該方法傾向於分配大量記憶體以生成方法呼叫的堆疊跟蹤。</p><h4 id=""><a class="anchorlink" href="#">2.5 標記日誌</a></h4><p>在執行多使用者、多帳戶應用程式時，它通常很有用
+能夠使用一些自定義規則過濾日誌。 <code>TaggedLogging</code>
+在Active Support 中透過使用子域、請求ID 和任何其他有助於除錯此類應用程式的內容標記日誌行來幫助您做到這一點。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">logger</span> <span class="o">=</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TaggedLogging</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">))</span>
+<span class="n">logger</span><span class="p">.</span><span class="nf">tagged</span><span class="p">(</span><span class="s2">"BCX"</span><span class="p">)</span> <span class="p">{</span> <span class="n">logger</span><span class="p">.</span><span class="nf">info</span> <span class="s2">"Stuff"</span> <span class="p">}</span>                            <span class="c1"># Logs "[BCX] Stuff"</span>
+<span class="n">logger</span><span class="p">.</span><span class="nf">tagged</span><span class="p">(</span><span class="s2">"BCX"</span><span class="p">,</span> <span class="s2">"Jason"</span><span class="p">)</span> <span class="p">{</span> <span class="n">logger</span><span class="p">.</span><span class="nf">info</span> <span class="s2">"Stuff"</span> <span class="p">}</span>                   <span class="c1"># Logs "[BCX] [Jason] Stuff"</span>
+<span class="n">logger</span><span class="p">.</span><span class="nf">tagged</span><span class="p">(</span><span class="s2">"BCX"</span><span class="p">)</span> <span class="p">{</span> <span class="n">logger</span><span class="p">.</span><span class="nf">tagged</span><span class="p">(</span><span class="s2">"Jason"</span><span class="p">)</span> <span class="p">{</span> <span class="n">logger</span><span class="p">.</span><span class="nf">info</span> <span class="s2">"Stuff"</span> <span class="p">}</span> <span class="p">}</span> <span class="c1"># Logs "[BCX] [Jason] Stuff"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+logger.tagged("BCX") { logger.info "Stuff" }                            # Logs "[BCX] Stuff"
+logger.tagged("BCX", "Jason") { logger.info "Stuff" }                   # Logs "[BCX] [Jason] Stuff"
+logger.tagged("BCX") { logger.tagged("Jason") { logger.info "Stuff" } } # Logs "[BCX] [Jason] Stuff"
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.6 日誌對效能的影響</a></h4><p>日誌記錄總是對 Rails 應用程式的效能產生很小的影響，
+特別是在登入到磁碟時。此外，還有一些微妙之處：</p><p>使用<code>:debug</code> 級別會比<code>:fatal</code> 有更大的效能損失，
+因為有更多的字串被評估並寫入
+日誌輸出（例如磁碟）。</p><p>另一個潛在的陷阱是在您的程式碼中對 <code>Logger</code> 的呼叫過多：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">logger</span><span class="p">.</span><span class="nf">debug</span> <span class="s2">"Person attributes hash: </span><span class="si">#{</span><span class="vi">@person</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='logger.debug "Person attributes hash: #{@person.attributes.inspect}"
+'>Copy</button>
+</div>
+<p>在上面的例子中，即使允許，也會有效能影響
+輸出級別不包括除錯。原因是Ruby 必須評估
+這些字串，包括例項化有點重的 <code>String</code> 物件
+並插入變數。</p><p>因此，建議將塊傳遞給記錄器方法，因為它們是
+僅在輸出級別與允許級別相同或包含在允許級別時進行評估
+（即延遲載入）。重寫的相同程式碼將是：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">logger</span><span class="p">.</span><span class="nf">debug</span> <span class="p">{</span><span class="s2">"Person attributes hash: </span><span class="si">#{</span><span class="vi">@person</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='logger.debug {"Person attributes hash: #{@person.attributes.inspect}"}
+'>Copy</button>
+</div>
+<p>塊的內容，因此字串插值，只是
+評估是否啟用除錯。這種效能節省只是真的
+在大量日誌記錄中很明顯，但這是一個很好的實踐。</p><p>資訊：本節由 <a href="https://stackoverflow.com/questions/16546730/logging-in-rails-is-there-any-performance-hit/16546935#16546935">Jon Cairns 在 StackOverflow 的回答中編寫</a>
+它根據 <a href="https://creativecommons.org/licenses/by-sa/4.0/">cc by-sa 4.0</a> 獲得許可。</p><h3 id="debug-gem"><a class="anchorlink" href="#debug-gem">3 使用 <code>debug</code> gem 進行除錯</a></h3><p>當您的程式碼以意想不到的方式執行時，您可以嘗試列印到日誌或
+控制檯來診斷問題。不幸的是，有時這
+某種錯誤跟蹤不能有效地找到問題的根本原因。
+當您真正需要進入正在執行的原始碼時，偵錯程式
+是你最好的伴侶。</p><p>如果您想了解 Rails 原始碼，偵錯程式也可以幫助您
+但不知道從哪裡開始。只需除錯對您的應用程式的任何請求，然後
+使用本指南瞭解如何從您編寫的程式碼中移到
+底層 Rails 程式碼。</p><p>Rails 7 在生成的新應用程式的 <code>Gemfile</code> 中包含了 <code>debug</code> gem
+來自 CRuby。預設情況下，它已在<code>development</code> 和<code>test</code> 環境中就緒。
+請檢視其 <a href="https://github.com/ruby/debug">文件</a> 以瞭解用法。</p><h3 id="web-console-gem"><a class="anchorlink" href="#web-console-gem">4 使用 <code>web-console</code> gem 進行除錯</a></h3><p>Web Console 有點像<code>debug</code>，但它在瀏覽器中執行。在任何頁面你
+正在開發中，您可以在view 或
+controller。控制檯將呈現在您的 HTML 內容旁邊。</p><h4 id=""><a class="anchorlink" href="#">4.1 控制檯</a></h4><p>在任何controller action 或view 中，您可以透過以下方式呼叫控制檯
+呼叫<code>console</code> 方法。</p><p>例如，在controller 中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">PostsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">new</span>
+    <span class="n">console</span>
+    <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class PostsController &lt; ApplicationController
+  def new
+    console
+    @post = Post.new
+  end
+end
+">Copy</button>
+</div>
+<p>或者在view 中：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%</span> <span class="n">console</span> <span class="cp">%&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>New Post<span class="nt">&lt;/h2&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;% console %&gt;
+
+&lt;h2&gt;New Post&lt;/h2&gt;
+">Copy</button>
+</div>
+<p>這將在您的view 中呈現一個控制檯。你不需要關心
+<code>console</code> 呼叫的位置；它不會被當場渲染
+呼叫但在您的 HTML 內容旁邊。</p><p>控制檯執行純Ruby程式碼：可以定義和例項化
+自定義類，建立新的models，並檢查變數。</p><p>注意：每個請求只能呈現一個控制檯。否則<code>web-console</code>
+將在第二次 <code>console</code> 呼叫時引發錯誤。</p><h4 id=""><a class="anchorlink" href="#">4.2 檢查變數</a></h4><p>您可以呼叫<code>instance_variables</code> 來列出所有例項變數
+在您的上下文中可用。如果你想列出所有的區域性變數，你可以
+用<code>local_variables</code> 做到這一點。</p><h4 id=""><a class="anchorlink" href="#">4.3 設定</a></h4>
+<ul>
+<li>
+<code>config.web_console.allowed_ips</code>：IPv4 或 IPv6 的授權列表
+地址和網路（預設值：<code>127.0.0.1/8, ::1</code>）。</li>
+<li>
+<code>config.web_console.whiny_requests</code>: 控制檯渲染時記錄一條訊息
+被阻止（預設值：<code>true</code>）。</li>
+</ul>
+<p>由於<code>web-console</code> 在伺服器上遠端評估普通的Ruby 程式碼，所以不要嘗試
+在生產中使用它。</p><h3 id=""><a class="anchorlink" href="#">5 除錯記憶體洩漏</a></h3><p>Ruby 應用程式（在 Rails 上或不在 Rails 上）可能會洩漏記憶體 - 無論是在 Ruby 程式碼中
+或在 C 程式碼級別。</p><p>在本節中，您將學習如何使用工具查詢和修復此類洩漏
+比如瓦爾格林。</p><h4 id=""><a class="anchorlink" href="#">5.1 瓦爾格林</a></h4><p><a href="http://valgrind.org/">Valgrind</a> 是一個檢測基於 C 的記憶體的應用程式
+洩漏和比賽條件。</p><p>有Valgrind工具可以自動檢測很多記憶體管理
+和執行緒錯誤，並詳細分析您的程式。例如，如果一個 C
+直譯器中的擴充套件呼叫 <code>malloc()</code> 但沒有正確呼叫
+<code>free()</code>，在應用程式終止之前，此記憶體將不可用。</p><p>有關如何安裝 Valgrind 並與 Ruby 一起使用的更多資訊，請參閱
+<a href="https://blog.evanweaver.com/2008/02/05/valgrind-and-ruby/">Valgrind 和Ruby</a>
+透過埃文韋弗。</p><h4 id=""><a class="anchorlink" href="#">5.2 查詢記憶體洩漏</a></h4><p>在 Derailed 上有一篇關於檢測和修復記憶體洩漏的優秀文章，<a href="https://github.com/schneems/derailed_benchmarks#is-my-app-leaking-memory">您可以在這裡閱讀</a>。</p><h3 id=""><a class="anchorlink" href="#">6 除錯外掛</a></h3><p>有一些 Rails 外掛可以幫助您查詢錯誤和除錯
+應用。以下是用於除錯的有用外掛列表：</p>
+<ul>
+<li>
+<a href="https://github.com/ruckus/active-record-query-trace/tree/master">查詢跟蹤</a> 新增查詢
+源頭跟蹤到您的日誌。</li>
+<li>
+<a href="https://github.com/smartinez87/exception_notification/tree/master">異常通知程式</a>
+提供郵件程式物件和用於傳送電子郵件的預設模板集
+Rails 應用程式中發生錯誤時的通知。</li>
+<li>
+<a href="https://github.com/charliesome/better_errors">更好的錯誤</a> 替換了
+標準 Rails 錯誤頁面，包含更多上下文資訊的新頁面，
+比如原始碼和變數檢查。</li>
+<li>
+<a href="https://github.com/dejan/rails_panel">RailsPanel</a> 適用於 Rails 的 Chrome 擴充套件
+development 將結束您對 development.log 的拖尾。擁有所有資訊
+關於瀏覽器中的 Rails 應用請求——在開發者工具面板中。
+提供對資料庫/渲染/總時間、引數列表、渲染views 和
+更多的。</li>
+<li>
+<a href="https://github.com/pry/pry">Pry</a> IRB 替代和執行時開發者控制檯。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">7 參考</a></h3>
+<ul>
+<li><a href="https://github.com/rails/web-console">網路控制檯主頁</a></li>
+</ul>
+
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

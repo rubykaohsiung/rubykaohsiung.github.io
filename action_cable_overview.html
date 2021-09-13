@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Action Cable 概覽 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Action Cable 概覽 — Ruby on Rails Guides" />
+  <meta name="description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Action Cable 概覽在本指南中，您將瞭解 Action Cable 的工作原理以及如何使用 WebSockets 將實時功能整合到您的 Rails 應用程式中。閱讀本指南後，您將瞭解： Action Cable 是什麼以及它的整合後端和前端 如何設定Action Cable 如何設定頻道 用於執行Action Cable 的部署和架構設定" />
+  <meta property="og:description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Action Cable 概覽在本指南中，您將瞭解 Action Cable 的工作原理以及如何使用 WebSockets 將實時功能整合到您的 Rails 應用程式中。閱讀本指南後，您將瞭解： Action Cable 是什麼以及它的整合後端和前端 如何設定Action Cable 如何設定頻道 用於執行Action Cable 的部署和架構設定" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>不要在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>Action Cable 概覽</h2><p>在本指南中，您將瞭解 Action Cable 的工作原理以及如何使用 WebSockets
+將實時功能整合到您的 Rails 應用程式中。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>Action Cable 是什麼以及它的整合後端和前端</li>
+<li>如何設定Action Cable</li>
+<li>如何設定頻道</li>
+<li>用於執行Action Cable 的部署和架構設定</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#action-cable">什麼是Action Cable？</a></li>
+<li>
+<a href="#">術語</a>
+
+<ul>
+<li><a href="#-">連線</a></li>
+<li><a href="#">消費者</a></li>
+<li><a href="#-">頻道</a></li>
+<li><a href="#-">訂閱者</a></li>
+<li><a href="#">釋出/訂閱</a></li>
+<li><a href="#-">廣播</a></li>
+</ul>
+</li>
+<li>
+<a href="#">伺服器端元件</a>
+
+<ul>
+<li><a href="#">連線</a></li>
+<li><a href="#">頻道</a></li>
+</ul>
+</li>
+<li>
+<a href="#">客戶端元件</a>
+
+<ul>
+<li><a href="#">連線</a></li>
+</ul>
+</li>
+<li>
+<a href="#">客戶端-伺服器互動</a>
+
+<ul>
+<li><a href="#">流</a></li>
+<li><a href="#">廣播</a></li>
+<li><a href="#">訂閱</a></li>
+<li><a href="#">將引數傳遞給通道</a></li>
+<li><a href="#">重播訊息</a></li>
+</ul>
+</li>
+<li>
+<a href="#">全棧示例</a>
+
+<ul>
+<li><a href="#1">示例 1：使用者外觀</a></li>
+<li><a href="#2-web">示例 2：接收新的 Web 通知</a></li>
+<li><a href="#">更完整的例子</a></li>
+<li><a href="#">訂閱介面卡</a></li>
+<li><a href="#">允許的請求來源</a></li>
+<li><a href="#">消費者配置</a></li>
+<li><a href="#">工作池配置</a></li>
+<li><a href="#">客戶端日誌記錄</a></li>
+<li><a href="#">其他配置</a></li>
+</ul>
+</li>
+<li>
+<a href="#">執行獨立的有線伺服器</a>
+
+<ul>
+<li><a href="#">在應用程式中</a></li>
+<li><a href="#">獨立</a></li>
+<li><a href="#">註釋</a></li>
+</ul>
+</li>
+<li><a href="#">依賴</a></li>
+<li><a href="#">部署</a></li>
+<li><a href="#">測試</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="action-cable"><a class="anchorlink" href="#action-cable">1 什麼是Action Cable？</a></h3><p>Action Cable 無縫整合
+<a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> 與您的其餘部分
+軌應用。它允許在 Ruby 中編寫實時功能
+與 Rails 應用程式的其餘部分相同的樣式和形式，同時仍然是
+效能和可擴充套件性。這是一個全棧產品，提供了
+客戶端 JavaScript 框架和伺服器端 Ruby 框架。你有
+訪問使用Active Record 或 ORM 編寫的完整域模型
+選擇。</p><h3 id=""><a class="anchorlink" href="#">2 術語</a></h3><p>Action Cable 使用 WebSockets 而不是 HTTP 請求-響應協議。
+Action Cable 和 WebSockets 都引入了一些不太熟悉的術語：</p><h4 id="-"><a class="anchorlink" href="#-">2.1 連線</a></h4><p><em>連線</em>構成了客戶端-伺服器關係的基礎。
+單個Action Cable 伺服器可以處理多個連線例項。它有一個
+每個 WebSocket 連線的連線例項。一個使用者可能有多個
+如果 WebSocket 使用多個瀏覽器選項卡或裝置，則它們會向您的應用程式開放。</p><h4 id=""><a class="anchorlink" href="#">2.2 消費者</a></h4><p>WebSocket 連線的客戶端稱為<em>消費者</em>。在Action Cable中
+消費者由客戶端 JavaScript 框架建立。</p><h4 id="-"><a class="anchorlink" href="#-">2.3 頻道</a></h4><p>每個消費者可以依次訂閱多個<em>頻道</em>。每個通道
+封裝了一個邏輯工作單元，類似於控制器在
+常規的 MVC 設定。例如，你可以有一個 <code>ChatChannel</code> 和
+一個“AppearancesChannel”，消費者可以訂閱
+或這兩個頻道。至少，應該訂閱一個消費者
+到一個頻道。</p><h4 id="-"><a class="anchorlink" href="#-">2.4 訂閱者</a></h4><p>當消費者訂閱頻道時，他們充當<em>訂閱者</em>。
+訂閱者和頻道之間的連線令人驚訝，
+稱為訂閱。消費者可以充當給定頻道的訂閱者
+任意次數。例如，消費者可以訂閱多個聊天室
+同時。 （請記住，一個物理使用者可能有多個消費者，
+每個選項卡/裝置對您的連線開啟一個）。</p><h4 id=""><a class="anchorlink" href="#">2.5 釋出/訂閱</a></h4><p><a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">釋出/訂閱</a> 或
+釋出-訂閱是指一種訊息佇列正規化，其中的傳送者
+資訊（釋出者），將資料傳送到接收者的抽象類
+（訂閱者），而不指定單個收件人。 Action Cable 使用這個
+伺服器和許多客戶端之間進行通訊的方法。</p><h4 id="-"><a class="anchorlink" href="#-">2.6 廣播</a></h4><p>廣播是一個釋出/訂閱連結，廣播公司傳輸的任何內容都在其中
+直接傳送給正在流式傳輸該命名廣播的頻道訂閱者。
+每個頻道可以流式傳輸零個或多個廣播。</p><h3 id=""><a class="anchorlink" href="#">3 伺服器端元件</a></h3><h4 id=""><a class="anchorlink" href="#">3.1 連線</a></h4><p>對於伺服器接受的每個 WebSocket，都會例項化一個連線物件。這個
+物件成為所有建立的<em>頻道訂閱</em>的父級
+從此。連線本身不處理任何特定的應用程式
+超出身份驗證和授權的邏輯。 WebSocket 的客戶端
+連線被稱為連線<em>消費者</em>。個人使用者將建立
+他們開啟的每個瀏覽器選項卡、視窗或裝置都有一個消費者連線對。</p><p>連線是 <code>ApplicationCable::Connection</code> 的例項，它擴充套件了
+[<code>ActionCable::Connection::Base</code>][]。在“ApplicationCable::Connection”中，你
+授權傳入連線並繼續建立它，如果使用者可以
+被識別。</p><h5 id=""><a class="anchorlink" href="#">3.1.1 連線設定</a></h5><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/application_cable/connection.rb</span>
+<span class="k">module</span> <span class="nn">ApplicationCable</span>
+  <span class="k">class</span> <span class="nc">Connection</span> <span class="o">&lt;</span> <span class="no">ActionCable</span><span class="o">::</span><span class="no">Connection</span><span class="o">::</span><span class="no">Base</span>
+    <span class="n">identified_by</span> <span class="ss">:current_user</span>
+
+    <span class="k">def</span> <span class="nf">connect</span>
+      <span class="nb">self</span><span class="p">.</span><span class="nf">current_user</span> <span class="o">=</span> <span class="n">find_verified_user</span>
+    <span class="k">end</span>
+
+    <span class="kp">private</span>
+      <span class="k">def</span> <span class="nf">find_verified_user</span>
+        <span class="k">if</span> <span class="n">verified_user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">id: </span><span class="n">cookies</span><span class="p">.</span><span class="nf">encrypted</span><span class="p">[</span><span class="ss">:user_id</span><span class="p">])</span>
+          <span class="n">verified_user</span>
+        <span class="k">else</span>
+          <span class="n">reject_unauthorized_connection</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/channels/application_cable/connection.rb
+module ApplicationCable
+  class Connection &lt; ActionCable::Connection::Base
+    identified_by :current_user
+
+    def connect
+      self.current_user = find_verified_user
+    end
+
+    private
+      def find_verified_user
+        if verified_user = User.find_by(id: cookies.encrypted[:user_id])
+          verified_user
+        else
+          reject_unauthorized_connection
+        end
+      end
+  end
+end
+">Copy</button>
+</div>
+<p>這裡的 [<code>identified_by</code>][] 指定了一個連線識別符號，可用於查詢
+具體聯絡稍後。請注意，任何標記為識別符號的內容都會自動
+在透過連線建立的任何通道例項上建立一個同名的委託。</p><p>此示例依賴於您已經處理了使用者身份驗證的事實
+應用程式中的其他位置，並且成功的身份驗證設定了加密
+帶有使用者 ID 的 cookie。</p><p>當新的連接出現時，cookie 會自動傳送到連線例項
+已嘗試，您可以使用它來設定 <code>current_user</code>。透過識別連線
+透過同一當前使用者，您還確保以後可以檢索所有開啟的
+給定使用者的連線（如果使用者被刪除，可能會斷開所有連線
+或未經授權）。</p><p>如果您的身份驗證方法包括使用會話，則您使用 cookie 儲存
+session，你的 session cookie 被命名為 <code>_session</code>，使用者 ID 鍵是 <code>user_id</code> 你
+可以使用這種方法：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">verified_user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">id: </span><span class="n">cookies</span><span class="p">.</span><span class="nf">encrypted</span><span class="p">[</span><span class="s1">'_session'</span><span class="p">][</span><span class="s1">'user_id'</span><span class="p">])</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="verified_user = User.find_by(id: cookies.encrypted['_session']['user_id'])
+">Copy</button>
+</div>
+<p>[<code>ActionCable::Connection::Base</code>]：<a href="https://api.rubyonrails.org/classes/ActionCable/Connection/Base.html">https://api.rubyonrails.org/classes/ActionCable/Connection/Base.html</a>
+[<code>identified_by</code>]：<a href="https://api.rubyonrails.org/classes/ActionCable/Connection/Identification/ClassMethods.html#method-i-identified_by">https://api.rubyonrails.org/classes/ActionCable/Connection/Identification/ClassMethods.html#method-i-identified_by</a></p><p>＃＃＃＃ 異常處理</p><p>預設情況下，未處理的異常會被捕獲並記錄到 Rails 的記錄器中。如果你願意
+全域性攔截這些異常並將它們報告給外部錯誤跟蹤服務，以便
+例如，您可以使用 [<code>rescue_from</code>][] 執行此操作：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/application_cable/connection.rb</span>
+<span class="k">module</span> <span class="nn">ApplicationCable</span>
+  <span class="k">class</span> <span class="nc">Connection</span> <span class="o">&lt;</span> <span class="no">ActionCable</span><span class="o">::</span><span class="no">Connection</span><span class="o">::</span><span class="no">Base</span>
+    <span class="n">rescue_from</span> <span class="no">StandardError</span><span class="p">,</span> <span class="ss">with: :report_error</span>
+
+    <span class="kp">private</span>
+
+    <span class="k">def</span> <span class="nf">report_error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+      <span class="no">SomeExternalBugtrackingService</span><span class="p">.</span><span class="nf">notify</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/channels/application_cable/connection.rb
+module ApplicationCable
+  class Connection &lt; ActionCable::Connection::Base
+    rescue_from StandardError, with: :report_error
+
+    private
+
+    def report_error(e)
+      SomeExternalBugtrackingService.notify(e)
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>[<code>rescue_from</code>]：<a href="https://api.rubyonrails.org/classes/ActiveSupport/Rescuable/ClassMethods.html#method-i-rescue_from">https://api.rubyonrails.org/classes/ActiveSupport/Rescuable/ClassMethods.html#method-i-rescue_from</a></p><h4 id=""><a class="anchorlink" href="#">3.2 頻道</a></h4><p><em>通道</em>封裝了一個邏輯工作單元，類似於控制器在
+常規MVC設定。預設情況下，Rails 建立一個父類 ApplicationCable::Channel
+（它擴充套件了 [<code>ActionCable::Channel::Base</code>][]），用於封裝頻道之間的共享邏輯。</p><h5 id=""><a class="anchorlink" href="#">3.2.1 父頻道設定</a></h5><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/application_cable/channel.rb</span>
+<span class="k">module</span> <span class="nn">ApplicationCable</span>
+  <span class="k">class</span> <span class="nc">Channel</span> <span class="o">&lt;</span> <span class="no">ActionCable</span><span class="o">::</span><span class="no">Channel</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/channels/application_cable/channel.rb
+module ApplicationCable
+  class Channel &lt; ActionCable::Channel::Base
+  end
+end
+">Copy</button>
+</div>
+<p>然後，您將建立自己的頻道類。例如，你可以有一個
+<code>ChatChannel</code> 和一個 <code>AppearanceChannel</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/chat_channel.rb</span>
+<span class="k">class</span> <span class="nc">ChatChannel</span> <span class="o">&lt;</span> <span class="no">ApplicationCable</span><span class="o">::</span><span class="no">Channel</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/channels/chat_channel.rb
+class ChatChannel &lt; ApplicationCable::Channel
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/appearance_channel.rb</span>
+<span class="k">class</span> <span class="nc">AppearanceChannel</span> <span class="o">&lt;</span> <span class="no">ApplicationCable</span><span class="o">::</span><span class="no">Channel</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/channels/appearance_channel.rb
+class AppearanceChannel &lt; ApplicationCable::Channel
+end
+">Copy</button>
+</div>
+<p>[<code>ActionCable::Channel::Base</code>]：<a href="https://api.rubyonrails.org/classes/ActionCable/Channel/Base.html">https://api.rubyonrails.org/classes/ActionCable/Channel/Base.html</a></p><p>然後消費者可以訂閱這些頻道中的一個或兩個。</p><h5 id="-"><a class="anchorlink" href="#-">3.2.2 訂閱</a></h5><p>消費者訂閱頻道，充當<em>訂閱者</em>。他們的聯絡是
+稱為<em>訂閱</em>。然後將生成的訊息路由到這些通道
+基於頻道消費者傳送的識別符號的訂閱。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/chat_channel.rb</span>
+<span class="k">class</span> <span class="nc">ChatChannel</span> <span class="o">&lt;</span> <span class="no">ApplicationCable</span><span class="o">::</span><span class="no">Channel</span>
+  <span class="c1"># Called when the consumer has successfully</span>
+  <span class="c1"># become a subscriber to this channel.</span>
+  <span class="k">def</span> <span class="nf">subscribed</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/channels/chat_channel.rb
+class ChatChannel &lt; ApplicationCable::Channel
+  # Called when the consumer has successfully
+  # become a subscriber to this channel.
+  def subscribed
+  end
+end
+">Copy</button>
+</div>
+<p>＃＃＃＃ 異常處理</p><p>與 <code>ApplicationCable::Connection</code> 一樣，你也可以在一個
+處理引發異常的特定通道：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/chat_channel.rb</span>
+<span class="k">class</span> <span class="nc">ChatChannel</span> <span class="o">&lt;</span> <span class="no">ApplicationCable</span><span class="o">::</span><span class="no">Channel</span>
+  <span class="n">rescue_from</span> <span class="s1">'MyError'</span><span class="p">,</span> <span class="ss">with: :deliver_error_message</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">deliver_error_message</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">broadcast_to</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/channels/chat_channel.rb
+class ChatChannel &lt; ApplicationCable::Channel
+  rescue_from 'MyError', with: :deliver_error_message
+
+  private
+
+  def deliver_error_message(e)
+    broadcast_to(...)
+  end
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">4 客戶端元件</a></h3><h4 id=""><a class="anchorlink" href="#">4.1 連線</a></h4><p>消費者需要他們這邊的連線例項。這可以是
+使用以下 JavaScript 建立，該 JavaScript 預設由 Rails 生成：</p><h5 id=""><a class="anchorlink" href="#">4.1.1 連線消費者</a></h5><div class="code_container">
+<pre><code class="highlight js"><span class="c1">// app/javascript/channels/consumer.js</span>
+<span class="c1">// Action Cable provides the framework to deal with WebSockets in Rails.</span>
+<span class="c1">// You can generate new channels where WebSocket features live using the `bin/rails generate channel` command.</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">createConsumer</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@rails/actioncable</span><span class="dl">"</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">createConsumer</span><span class="p">()</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='// app/javascript/channels/consumer.js
+// Action Cable provides the framework to deal with WebSockets in Rails.
+// You can generate new channels where WebSocket features live using the `bin/rails generate channel` command.
+
+import { createConsumer } from "@rails/actioncable"
+
+export default createConsumer()
+'>Copy</button>
+</div>
+<p>這將準備好一個消費者，預設情況下它將連線到您伺服器上的<code>/cable</code>。
+除非您還指定了至少一個訂閱，否則不會建立連線
+你有興趣擁有。</p><p>消費者可以選擇使用一個引數來指定要連線到的 URL。這個
+可以是字串或返回字串的函式，該字串將在
+WebSocket 已開啟。</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">// Specify a different URL to connect to</span>
+<span class="nx">createConsumer</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://ws.example.com/cable</span><span class="dl">'</span><span class="p">)</span>
+
+<span class="c1">// Use a function to dynamically generate the URL</span>
+<span class="nx">createConsumer</span><span class="p">(</span><span class="nx">getWebSocketURL</span><span class="p">)</span>
+
+<span class="kd">function</span> <span class="nx">getWebSocketURL</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">localStorage</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">auth-token</span><span class="dl">'</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s2">`</span><span class="err">https://ws.example.com/cable?token=</span><span class="p">${</span><span class="nx">token</span><span class="p">}</span><span class="s2">`</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="// Specify a different URL to connect to
+createConsumer('https://ws.example.com/cable')
+
+// Use a function to dynamically generate the URL
+createConsumer(getWebSocketURL)
+
+function getWebSocketURL() {
+  const token = localStorage.get('auth-token')
+  return `https://ws.example.com/cable?token=${token}`
+}
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">4.1.2 訂閱者</a></h5><p>消費者透過建立對給定頻道的訂閱成為訂閱者：</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">// app/javascript/channels/chat_channel.js</span>
+<span class="k">import</span> <span class="nx">consumer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./consumer</span><span class="dl">"</span>
+
+<span class="nx">consumer</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span> <span class="na">channel</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ChatChannel</span><span class="dl">"</span><span class="p">,</span> <span class="na">room</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Best Room</span><span class="dl">"</span> <span class="p">})</span>
+
+<span class="c1">// app/javascript/channels/appearance_channel.js</span>
+<span class="k">import</span> <span class="nx">consumer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./consumer</span><span class="dl">"</span>
+
+<span class="nx">consumer</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span> <span class="na">channel</span><span class="p">:</span> <span class="dl">"</span><span class="s2">AppearanceChannel</span><span class="dl">"</span> <span class="p">})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='// app/javascript/channels/chat_channel.js
+import consumer from "./consumer"
+
+consumer.subscriptions.create({ channel: "ChatChannel", room: "Best Room" })
+
+// app/javascript/channels/appearance_channel.js
+import consumer from "./consumer"
+
+consumer.subscriptions.create({ channel: "AppearanceChannel" })
+'>Copy</button>
+</div>
+<p>雖然這會建立訂閱，但響應所需的功能
+接收到的資料將在後面描述。</p><p>消費者可以多次充當給定頻道的訂閱者。為了
+例如，消費者可以同時訂閱多個聊天室：</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">// app/javascript/channels/chat_channel.js</span>
+<span class="k">import</span> <span class="nx">consumer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./consumer</span><span class="dl">"</span>
+
+<span class="nx">consumer</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span> <span class="na">channel</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ChatChannel</span><span class="dl">"</span><span class="p">,</span> <span class="na">room</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1st Room</span><span class="dl">"</span> <span class="p">})</span>
+<span class="nx">consumer</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span> <span class="na">channel</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ChatChannel</span><span class="dl">"</span><span class="p">,</span> <span class="na">room</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2nd Room</span><span class="dl">"</span> <span class="p">})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='// app/javascript/channels/chat_channel.js
+import consumer from "./consumer"
+
+consumer.subscriptions.create({ channel: "ChatChannel", room: "1st Room" })
+consumer.subscriptions.create({ channel: "ChatChannel", room: "2nd Room" })
+'>Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">5 客戶端-伺服器互動</a></h3><h4 id=""><a class="anchorlink" href="#">5.1 流</a></h4><p><em>Streams</em> 提供頻道路由已釋出內容的機制
+（廣播）給他們的訂閱者。例如，以下程式碼使用
+[<code>stream_from</code>][] 訂閱名為“chat_Best Room”的廣播，當
+<code>:room</code> 引數的值是 <code>"Best Room"</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/chat_channel.rb</span>
+<span class="k">class</span> <span class="nc">ChatChannel</span> <span class="o">&lt;</span> <span class="no">ApplicationCable</span><span class="o">::</span><span class="no">Channel</span>
+  <span class="k">def</span> <span class="nf">subscribed</span>
+    <span class="n">stream_from</span> <span class="s2">"chat_</span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:room</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# app/channels/chat_channel.rb
+class ChatChannel &lt; ApplicationCable::Channel
+  def subscribed
+    stream_from "chat_#{params[:room]}"
+  end
+end
+'>Copy</button>
+</div>
+<p>然後，在 Rails 應用程式的其他地方，您可以透過以下方式向這樣的房間廣播
+呼叫[<code>廣播</code>][]：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ActionCable</span><span class="p">.</span><span class="nf">server</span><span class="p">.</span><span class="nf">broadcast</span><span class="p">(</span><span class="s2">"chat_Best Room"</span><span class="p">,</span> <span class="p">{</span> <span class="ss">body: </span><span class="s2">"This Room is Best Room."</span> <span class="p">})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='ActionCable.server.broadcast("chat_Best Room", { body: "This Room is Best Room." })
+'>Copy</button>
+</div>
+<p>如果您有一個與模型相關的流，則廣播名稱
+可以從通道和模型生成。例如，下面的程式碼
+使用 [<code>stream_for</code>][] 訂閱廣播，如
+<code>評論：Z2lkOi8vVGVzdEFwcC9Qb3N0LzE</code>，其中<code>Z2lkOi8vVGVzdEFwcC9Qb3N0LzE</code>是
+Post 模型的 GlobalID。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">CommentsChannel</span> <span class="o">&lt;</span> <span class="no">ApplicationCable</span><span class="o">::</span><span class="no">Channel</span>
+  <span class="k">def</span> <span class="nf">subscribed</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+    <span class="n">stream_for</span> <span class="n">post</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CommentsChannel &lt; ApplicationCable::Channel
+  def subscribed
+    post = Post.find(params[:id])
+    stream_for post
+  end
+end
+">Copy</button>
+</div>
+<p>然後你可以透過呼叫 [<code>broadcast_to</code>][] 來廣播到這個頻道：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">CommentsChannel</span><span class="p">.</span><span class="nf">broadcast_to</span><span class="p">(</span><span class="vi">@post</span><span class="p">,</span> <span class="vi">@comment</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="CommentsChannel.broadcast_to(@post, @comment)
+">Copy</button>
+</div>
+<p>[<code>廣播</code>]：<a href="https://api.rubyonrails.org/classes/ActionCable/Server/Broadcasting.html#method-i-broadcast">https://api.rubyonrails.org/classes/ActionCable/Server/Broadcasting.html#method-i-broadcast</a>
+[<code>broadcast_to</code>]：<a href="https://api.rubyonrails.org/classes/ActionCable/Channel/Broadcasting/ClassMethods.html#method-i-broadcast_to">https://api.rubyonrails.org/classes/ActionCable/Channel/Broadcasting/ClassMethods.html#method-i-broadcast_to</a>
+[<code>stream_for</code>]：<a href="https://api.rubyonrails.org/classes/ActionCable/Channel/Streams.html#method-i-stream_for">https://api.rubyonrails.org/classes/ActionCable/Channel/Streams.html#method-i-stream_for</a>
+[<code>stream_from</code>]：<a href="https://api.rubyonrails.org/classes/ActionCable/Channel/Streams.html#method-i-stream_from">https://api.rubyonrails.org/classes/ActionCable/Channel/Streams.html#method-i-stream_from</a></p><h4 id=""><a class="anchorlink" href="#">5.2 廣播</a></h4><p><em>廣播</em>是一個釋出/訂閱連結，其中釋出者傳輸的任何內容
+直接路由到正在流式傳輸的頻道訂閱者
+廣播。每個頻道可以流式傳輸零個或多個廣播。</p><p>廣播純粹是一個線上佇列並且依賴於時間。如果消費者是
+不流式傳輸（訂閱給定頻道），他們將無法獲得廣播
+如果他們稍後連線。</p><h4 id=""><a class="anchorlink" href="#">5.3 訂閱</a></h4><p>當消費者訂閱頻道時，他們充當訂閱者。這個
+連線稱為訂閱。傳入的訊息然後被路由到
+這些頻道訂閱基於有線電視消費者傳送的識別符號。</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">// app/javascript/channels/chat_channel.js</span>
+<span class="k">import</span> <span class="nx">consumer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./consumer</span><span class="dl">"</span>
+
+<span class="nx">consumer</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span> <span class="na">channel</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ChatChannel</span><span class="dl">"</span><span class="p">,</span> <span class="na">room</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Best Room</span><span class="dl">"</span> <span class="p">},</span> <span class="p">{</span>
+  <span class="nx">received</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">appendLine</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+  <span class="p">},</span>
+
+  <span class="nx">appendLine</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">html</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">createLine</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+    <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">[data-chat-room='Best Room']</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">element</span><span class="p">.</span><span class="nx">insertAdjacentHTML</span><span class="p">(</span><span class="dl">"</span><span class="s2">beforeend</span><span class="dl">"</span><span class="p">,</span> <span class="nx">html</span><span class="p">)</span>
+  <span class="p">},</span>
+
+  <span class="nx">createLine</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s2">`</span><span class="err">
+      &lt;article class="chat-line"&gt;
+        &lt;span class="speaker"&gt;</span><span class="p">${</span><span class="nx">data</span><span class="p">[</span><span class="dl">"</span><span class="s2">sent_by</span><span class="dl">"</span><span class="p">]}</span><span class="err">&lt;/span&gt;
+        &lt;span class="body"&gt;</span><span class="p">${</span><span class="nx">data</span><span class="p">[</span><span class="dl">"</span><span class="s2">body</span><span class="dl">"</span><span class="p">]}</span><span class="err">&lt;/span&gt;
+      &lt;/article&gt;
+    </span><span class="s2">`</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="// app/javascript/channels/chat_channel.js
+import consumer from &quot;./consumer&quot;
+
+consumer.subscriptions.create({ channel: &quot;ChatChannel&quot;, room: &quot;Best Room&quot; }, {
+  received(data) {
+    this.appendLine(data)
+  },
+
+  appendLine(data) {
+    const html = this.createLine(data)
+    const element = document.querySelector(&quot;[data-chat-room='Best Room']&quot;)
+    element.insertAdjacentHTML(&quot;beforeend&quot;, html)
+  },
+
+  createLine(data) {
+    return `
+      &lt;article class=&quot;chat-line&quot;&gt;
+        &lt;span class=&quot;speaker&quot;&gt;${data[&quot;sent_by&quot;]}&lt;/span&gt;
+        &lt;span class=&quot;body&quot;&gt;${data[&quot;body&quot;]}&lt;/span&gt;
+      &lt;/article&gt;
+    `
+  }
+})
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">5.4 將引數傳遞給通道</a></h4><p>您可以在建立一個時將引數從客戶端傳遞到伺服器端
+訂閱。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/chat_channel.rb</span>
+<span class="k">class</span> <span class="nc">ChatChannel</span> <span class="o">&lt;</span> <span class="no">ApplicationCable</span><span class="o">::</span><span class="no">Channel</span>
+  <span class="k">def</span> <span class="nf">subscribed</span>
+    <span class="n">stream_from</span> <span class="s2">"chat_</span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:room</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# app/channels/chat_channel.rb
+class ChatChannel &lt; ApplicationCable::Channel
+  def subscribed
+    stream_from "chat_#{params[:room]}"
+  end
+end
+'>Copy</button>
+</div>
+<p>作為第一個引數傳遞給 <code>subscriptions.create</code> 的物件成為
+有線電影片道中的引數雜湊。關鍵字 <code>channel</code> 是必需的：</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">// app/javascript/channels/chat_channel.js</span>
+<span class="k">import</span> <span class="nx">consumer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./consumer</span><span class="dl">"</span>
+
+<span class="nx">consumer</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span> <span class="na">channel</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ChatChannel</span><span class="dl">"</span><span class="p">,</span> <span class="na">room</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Best Room</span><span class="dl">"</span> <span class="p">},</span> <span class="p">{</span>
+  <span class="nx">received</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">appendLine</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+  <span class="p">},</span>
+
+  <span class="nx">appendLine</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">html</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">createLine</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+    <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">[data-chat-room='Best Room']</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">element</span><span class="p">.</span><span class="nx">insertAdjacentHTML</span><span class="p">(</span><span class="dl">"</span><span class="s2">beforeend</span><span class="dl">"</span><span class="p">,</span> <span class="nx">html</span><span class="p">)</span>
+  <span class="p">},</span>
+
+  <span class="nx">createLine</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s2">`</span><span class="err">
+      &lt;article class="chat-line"&gt;
+        &lt;span class="speaker"&gt;</span><span class="p">${</span><span class="nx">data</span><span class="p">[</span><span class="dl">"</span><span class="s2">sent_by</span><span class="dl">"</span><span class="p">]}</span><span class="err">&lt;/span&gt;
+        &lt;span class="body"&gt;</span><span class="p">${</span><span class="nx">data</span><span class="p">[</span><span class="dl">"</span><span class="s2">body</span><span class="dl">"</span><span class="p">]}</span><span class="err">&lt;/span&gt;
+      &lt;/article&gt;
+    </span><span class="s2">`</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="// app/javascript/channels/chat_channel.js
+import consumer from &quot;./consumer&quot;
+
+consumer.subscriptions.create({ channel: &quot;ChatChannel&quot;, room: &quot;Best Room&quot; }, {
+  received(data) {
+    this.appendLine(data)
+  },
+
+  appendLine(data) {
+    const html = this.createLine(data)
+    const element = document.querySelector(&quot;[data-chat-room='Best Room']&quot;)
+    element.insertAdjacentHTML(&quot;beforeend&quot;, html)
+  },
+
+  createLine(data) {
+    return `
+      &lt;article class=&quot;chat-line&quot;&gt;
+        &lt;span class=&quot;speaker&quot;&gt;${data[&quot;sent_by&quot;]}&lt;/span&gt;
+        &lt;span class=&quot;body&quot;&gt;${data[&quot;body&quot;]}&lt;/span&gt;
+      &lt;/article&gt;
+    `
+  }
+})
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Somewhere in your app this is called, perhaps</span>
+<span class="c1"># from a NewCommentJob.</span>
+<span class="no">ActionCable</span><span class="p">.</span><span class="nf">server</span><span class="p">.</span><span class="nf">broadcast</span><span class="p">(</span>
+  <span class="s2">"chat_</span><span class="si">#{</span><span class="n">room</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="p">{</span>
+    <span class="ss">sent_by: </span><span class="s1">'Paul'</span><span class="p">,</span>
+    <span class="ss">body: </span><span class="s1">'This is a cool chat app.'</span>
+  <span class="p">}</span>
+<span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Somewhere in your app this is called, perhaps
+# from a NewCommentJob.
+ActionCable.server.broadcast(
+  &quot;chat_#{room}&quot;,
+  {
+    sent_by: 'Paul',
+    body: 'This is a cool chat app.'
+  }
+)
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">5.5 重播訊息</a></h4><p>一個常見的用例是<em>重新廣播</em>一個客戶端傳送的訊息到任何
+其他連線的客戶端。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/chat_channel.rb</span>
+<span class="k">class</span> <span class="nc">ChatChannel</span> <span class="o">&lt;</span> <span class="no">ApplicationCable</span><span class="o">::</span><span class="no">Channel</span>
+  <span class="k">def</span> <span class="nf">subscribed</span>
+    <span class="n">stream_from</span> <span class="s2">"chat_</span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:room</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="no">ActionCable</span><span class="p">.</span><span class="nf">server</span><span class="p">.</span><span class="nf">broadcast</span><span class="p">(</span><span class="s2">"chat_</span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:room</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# app/channels/chat_channel.rb
+class ChatChannel &lt; ApplicationCable::Channel
+  def subscribed
+    stream_from "chat_#{params[:room]}"
+  end
+
+  def receive(data)
+    ActionCable.server.broadcast("chat_#{params[:room]}", data)
+  end
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight js"><span class="c1">// app/javascript/channels/chat_channel.js</span>
+<span class="k">import</span> <span class="nx">consumer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./consumer</span><span class="dl">"</span>
+
+<span class="kd">const</span> <span class="nx">chatChannel</span> <span class="o">=</span> <span class="nx">consumer</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span> <span class="na">channel</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ChatChannel</span><span class="dl">"</span><span class="p">,</span> <span class="na">room</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Best Room</span><span class="dl">"</span> <span class="p">},</span> <span class="p">{</span>
+  <span class="nx">received</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// data =&gt; { sent_by: "Paul", body: "This is a cool chat app." }</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">chatChannel</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">sent_by</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Paul</span><span class="dl">"</span><span class="p">,</span> <span class="na">body</span><span class="p">:</span> <span class="dl">"</span><span class="s2">This is a cool chat app.</span><span class="dl">"</span> <span class="p">})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='// app/javascript/channels/chat_channel.js
+import consumer from "./consumer"
+
+const chatChannel = consumer.subscriptions.create({ channel: "ChatChannel", room: "Best Room" }, {
+  received(data) {
+    // data =&gt; { sent_by: "Paul", body: "This is a cool chat app." }
+  }
+}
+
+chatChannel.send({ sent_by: "Paul", body: "This is a cool chat app." })
+'>Copy</button>
+</div>
+<p>轉播將被所有連線的客戶端接收，<em>包括</em>
+傳送訊息的客戶端。請注意，引數與它們時相同
+你訂閱了頻道。</p><h3 id=""><a class="anchorlink" href="#">6 全棧示例</a></h3><p>以下設定步驟對這兩個示例都是通用的：</p>
+<ol>
+<li>
+<a href="#connection-setup">設定您的連線</a>。</li>
+<li>
+<a href="#parent-channel-setup">設定您的父頻道</a>。</li>
+<li>
+<a href="#connect-consumer">連線您的消費者</a>。</li>
+</ol>
+<h4 id="1"><a class="anchorlink" href="#1">6.1 示例 1：使用者外觀</a></h4><p>這是一個跟蹤使用者是否線上的頻道的簡單示例
+以及他們在哪個頁面上。 （這對於建立狀態功能非常有用，例如顯示
+使用者名稱旁邊的綠點（如果他們線上）。</p><p>建立服務端外觀通道：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/appearance_channel.rb</span>
+<span class="k">class</span> <span class="nc">AppearanceChannel</span> <span class="o">&lt;</span> <span class="no">ApplicationCable</span><span class="o">::</span><span class="no">Channel</span>
+  <span class="k">def</span> <span class="nf">subscribed</span>
+    <span class="n">current_user</span><span class="p">.</span><span class="nf">appear</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">unsubscribed</span>
+    <span class="n">current_user</span><span class="p">.</span><span class="nf">disappear</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">appear</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">current_user</span><span class="p">.</span><span class="nf">appear</span><span class="p">(</span><span class="ss">on: </span><span class="n">data</span><span class="p">[</span><span class="s1">'appearing_on'</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">away</span>
+    <span class="n">current_user</span><span class="p">.</span><span class="nf">away</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/channels/appearance_channel.rb
+class AppearanceChannel &lt; ApplicationCable::Channel
+  def subscribed
+    current_user.appear
+  end
+
+  def unsubscribed
+    current_user.disappear
+  end
+
+  def appear(data)
+    current_user.appear(on: data['appearing_on'])
+  end
+
+  def away
+    current_user.away
+  end
+end
+">Copy</button>
+</div>
+<p>當啟動訂閱時，<code>subscribed</code> 回撥被觸發，我們
+藉此機會說“當前使用者確實出現了”。那
+出現/消失 API 可以由 Redis、資料庫或其他任何東西支援。</p><p>建立客戶端外觀頻道訂閱：</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">// app/javascript/channels/appearance_channel.js</span>
+<span class="k">import</span> <span class="nx">consumer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./consumer</span><span class="dl">"</span>
+
+<span class="nx">consumer</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="dl">"</span><span class="s2">AppearanceChannel</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span>
+  <span class="c1">// Called once when the subscription is created.</span>
+  <span class="nx">initialized</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+  <span class="p">},</span>
+
+  <span class="c1">// Called when the subscription is ready for use on the server.</span>
+  <span class="nx">connected</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">install</span><span class="p">()</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span>
+  <span class="p">},</span>
+
+  <span class="c1">// Called when the WebSocket connection is closed.</span>
+  <span class="nx">disconnected</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">uninstall</span><span class="p">()</span>
+  <span class="p">},</span>
+
+  <span class="c1">// Called when the subscription is rejected by the server.</span>
+  <span class="nx">rejected</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">uninstall</span><span class="p">()</span>
+  <span class="p">},</span>
+
+  <span class="nx">update</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">documentIsActive</span> <span class="p">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">appear</span><span class="p">()</span> <span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">away</span><span class="p">()</span>
+  <span class="p">},</span>
+
+  <span class="nx">appear</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Calls `AppearanceChannel#appear(data)` on the server.</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="dl">"</span><span class="s2">appear</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span> <span class="na">appearing_on</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">appearingOn</span> <span class="p">})</span>
+  <span class="p">},</span>
+
+  <span class="nx">away</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Calls `AppearanceChannel#away` on the server.</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="dl">"</span><span class="s2">away</span><span class="dl">"</span><span class="p">)</span>
+  <span class="p">},</span>
+
+  <span class="nx">install</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">focus</span><span class="dl">"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">)</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">blur</span><span class="dl">"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">)</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">turbolinks:load</span><span class="dl">"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">)</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">visibilitychange</span><span class="dl">"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">)</span>
+  <span class="p">},</span>
+
+  <span class="nx">uninstall</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">focus</span><span class="dl">"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">)</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">blur</span><span class="dl">"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">)</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">turbolinks:load</span><span class="dl">"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">)</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">visibilitychange</span><span class="dl">"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">)</span>
+  <span class="p">},</span>
+
+  <span class="kd">get</span> <span class="nx">documentIsActive</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">document</span><span class="p">.</span><span class="nx">visibilityState</span> <span class="o">==</span> <span class="dl">"</span><span class="s2">visible</span><span class="dl">"</span> <span class="o">&amp;&amp;</span> <span class="nb">document</span><span class="p">.</span><span class="nx">hasFocus</span><span class="p">()</span>
+  <span class="p">},</span>
+
+  <span class="kd">get</span> <span class="nx">appearingOn</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">[data-appearing-on]</span><span class="dl">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">element</span> <span class="p">?</span> <span class="nx">element</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="dl">"</span><span class="s2">data-appearing-on</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span> <span class="kc">null</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='// app/javascript/channels/appearance_channel.js
+import consumer from "./consumer"
+
+consumer.subscriptions.create("AppearanceChannel", {
+  // Called once when the subscription is created.
+  initialized() {
+    this.update = this.update.bind(this)
+  },
+
+  // Called when the subscription is ready for use on the server.
+  connected() {
+    this.install()
+    this.update()
+  },
+
+  // Called when the WebSocket connection is closed.
+  disconnected() {
+    this.uninstall()
+  },
+
+  // Called when the subscription is rejected by the server.
+  rejected() {
+    this.uninstall()
+  },
+
+  update() {
+    this.documentIsActive ? this.appear() : this.away()
+  },
+
+  appear() {
+    // Calls `AppearanceChannel#appear(data)` on the server.
+    this.perform("appear", { appearing_on: this.appearingOn })
+  },
+
+  away() {
+    // Calls `AppearanceChannel#away` on the server.
+    this.perform("away")
+  },
+
+  install() {
+    window.addEventListener("focus", this.update)
+    window.addEventListener("blur", this.update)
+    document.addEventListener("turbolinks:load", this.update)
+    document.addEventListener("visibilitychange", this.update)
+  },
+
+  uninstall() {
+    window.removeEventListener("focus", this.update)
+    window.removeEventListener("blur", this.update)
+    document.removeEventListener("turbolinks:load", this.update)
+    document.removeEventListener("visibilitychange", this.update)
+  },
+
+  get documentIsActive() {
+    return document.visibilityState == "visible" &amp;&amp; document.hasFocus()
+  },
+
+  get appearingOn() {
+    const element = document.querySelector("[data-appearing-on]")
+    return element ? element.getAttribute("data-appearing-on") : null
+  }
+})
+'>Copy</button>
+</div>
+<h5 id="1"><a class="anchorlink" href="#1">6.1.1 客戶端-伺服器互動</a></h5>
+<ol>
+<li><p><strong>Client</strong> 透過<code>App.cable = 連線到**Server**
+ActionCable.createConsumer("ws://cable.example.com")</code>。 (<code>cable.js</code>)。這
+<strong>Server</strong> 透過 <code>current_user</code> 識別這個連線。</p></li>
+<li><p><strong>Client</strong> 透過以下方式訂閱外觀頻道
+<code>consumer.subscriptions.create({ channel: "AppearanceChannel" })</code>。 (<code>appearance_channel.js</code>)</p></li>
+<li><p><strong>Server</strong> 識別出新的訂閱已啟動
+出現頻道並執行其“訂閱”回撥，呼叫“出現”
+<code>current_user</code> 上的方法。 (<code>appearance_channel.rb</code>)</p></li>
+<li><p><strong>Client</strong> 識別到訂閱已經建立並呼叫
+<code>connected</code>（<code>appearance_channel.js</code>）依次呼叫<code>install</code>和<code>appear</code>。
+<code>appear</code> 在伺服器上呼叫 <code>AppearanceChannel#appear(data)</code>，並提供一個
+資料雜湊<code>{looking_on: this.appearingOn }</code>。這是
+可能是因為伺服器端通道例項會自動公開所有
+在類上宣告的公共方法（減去回撥），以便這些可以
+透過訂閱的“perform”方法作為遠端過程呼叫到達。</p></li>
+<li><p><strong>Server</strong> 收到對外觀的<code>appear</code>動作的請求
+由“current_user”標識的連線的通道
+（<code>appearance_channel.rb</code>）。 <strong>伺服器</strong> 檢索資料
+<code>:appearing_on</code> 鍵來自資料雜湊並將其設定為 <code>:on</code> 的值
+鍵被傳遞給 <code>current_user.appear</code>。</p></li>
+</ol>
+<h4 id="2-web"><a class="anchorlink" href="#2-web">6.2 示例 2：接收新的 Web 通知</a></h4><p>外觀示例是關於將伺服器功能暴露給
+透過 WebSocket 連線的客戶端呼叫。但偉大的事情
+關於 WebSockets 的地方在於它是一條雙向的街道。所以現在讓我們展示一個例子
+伺服器呼叫客戶端上的操作的地方。</p><p>這是一個 Web 通知通道，可讓您觸發客戶端
+當您廣播到正確的流時的網路通知：</p><p>建立伺服器端 Web 通知通道：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/channels/web_notifications_channel.rb</span>
+<span class="k">class</span> <span class="nc">WebNotificationsChannel</span> <span class="o">&lt;</span> <span class="no">ApplicationCable</span><span class="o">::</span><span class="no">Channel</span>
+  <span class="k">def</span> <span class="nf">subscribed</span>
+    <span class="n">stream_for</span> <span class="n">current_user</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/channels/web_notifications_channel.rb
+class WebNotificationsChannel &lt; ApplicationCable::Channel
+  def subscribed
+    stream_for current_user
+  end
+end
+">Copy</button>
+</div>
+<p>建立客戶端 Web 通知頻道訂閱：</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">// app/javascript/channels/web_notifications_channel.js</span>
+<span class="c1">// Client-side which assumes you've already requested</span>
+<span class="c1">// the right to send web notifications.</span>
+<span class="k">import</span> <span class="nx">consumer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./consumer</span><span class="dl">"</span>
+
+<span class="nx">consumer</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="dl">"</span><span class="s2">WebNotificationsChannel</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">received</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">new</span> <span class="nx">Notification</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">],</span> <span class="na">body</span><span class="p">:</span> <span class="nx">data</span><span class="p">[</span><span class="dl">"</span><span class="s2">body</span><span class="dl">"</span><span class="p">])</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="// app/javascript/channels/web_notifications_channel.js
+// Client-side which assumes you've already requested
+// the right to send web notifications.
+import consumer from &quot;./consumer&quot;
+
+consumer.subscriptions.create(&quot;WebNotificationsChannel&quot;, {
+  received(data) {
+    new Notification(data[&quot;title&quot;], body: data[&quot;body&quot;])
+  }
+})
+">Copy</button>
+</div>
+<p>從您的其他位置向 Web 通知通道例項廣播內容
+應用：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Somewhere in your app this is called, perhaps from a NewCommentJob</span>
+<span class="no">WebNotificationsChannel</span><span class="p">.</span><span class="nf">broadcast_to</span><span class="p">(</span>
+  <span class="n">current_user</span><span class="p">,</span>
+  <span class="ss">title: </span><span class="s1">'New things!'</span><span class="p">,</span>
+  <span class="ss">body: </span><span class="s1">'All the news fit to print'</span>
+<span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Somewhere in your app this is called, perhaps from a NewCommentJob
+WebNotificationsChannel.broadcast_to(
+  current_user,
+  title: 'New things!',
+  body: 'All the news fit to print'
+)
+">Copy</button>
+</div>
+<p><code>WebNotificationsChannel.broadcast_to</code> 呼叫在當前的
+訂閱介面卡的 pubsub 佇列在每個單獨的廣播名稱下
+使用者。對於 ID 為 1 的使用者，廣播名稱將是
+<code>web_notifications:1</code>。</p><p>頻道已被指示流式傳輸到達的所有內容
+<code>web_notifications:1</code> 透過呼叫 <code>received</code> 直接傳送給客戶端
+打回來。作為引數傳遞的資料是作為第二個引數傳送的雜湊
+到伺服器端廣播呼叫，JSON 編碼用於跨線路的行程
+併為作為“已接收”到達的資料引數解包。</p><h4 id=""><a class="anchorlink" href="#">6.3 更完整的例子</a></h4><p>請參閱 <a href="https://github.com/rails/actioncable-examples">rails/actioncable-examples</a>
+有關如何在 Rails 應用程式中設定 Action Cable 和新增頻道的完整示例的儲存庫。</p><p>＃＃ 配置</p><p>Action Cable 有兩個必需的配置：訂閱介面卡和允許的請求源。</p><h4 id=""><a class="anchorlink" href="#">6.4 訂閱介面卡</a></h4><p>預設情況下，Action Cable 在 <code>config/cable.yml</code> 中查詢配置檔案。
+該檔案必須為每個 Rails 環境指定一個介面卡。見
+<a href="#dependencies">Dependencies</a> 部分了解有關介面卡的其他資訊。</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">async</span>
+
+<span class="na">test</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">test</span>
+
+<span class="na">production</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">redis</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">redis://10.10.3.153:6381</span>
+  <span class="na">channel_prefix</span><span class="pi">:</span> <span class="s">appname_production</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: async
+
+test:
+  adapter: test
+
+production:
+  adapter: redis
+  url: redis://10.10.3.153:6381
+  channel_prefix: appname_production
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">6.4.1 介面卡配置</a></h5><p>以下是可供終端使用者使用的訂閱介面卡列表。</p><h6 id=""><a class="anchorlink" href="#">6.4.1.1 非同步介面卡</a></h6><p>非同步介面卡用於開發/測試，不應在生產中使用。</p><h6 id="redis"><a class="anchorlink" href="#redis">6.4.1.2 Redis 介面卡</a></h6><p>Redis 介面卡要求使用者提供指向 Redis 伺服器的 URL。
+此外，還可以提供一個 <code>channel_prefix</code> 來避免頻道名稱衝突
+為多個應用程式使用同一個 Redis 伺服器時。有關更多詳細資訊，請參閱 <a href="https://redis.io/topics/pubsub#database-amp-scoping">Redis PubSub 文件</a>。</p><p>Redis 介面卡還支援 SSL/TLS 連線。所需的 SSL/TLS 引數可以在配置 yaml 檔案中的 <code>ssl_params</code> 鍵中傳遞。</p><div class="code_container">
+<pre><code class="highlight plaintext">production:
+  adapter: redis
+  url: rediss://10.10.3.153:tls_port
+  channel_prefix: appname_production
+  ssl_params: {
+    ca_file: "/path/to/ca.crt"
+  }
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='production:
+  adapter: redis
+  url: rediss://10.10.3.153:tls_port
+  channel_prefix: appname_production
+  ssl_params: {
+    ca_file: "/path/to/ca.crt"
+  }
+'>Copy</button>
+</div>
+<p>提供給 <code>ssl_params</code> 的選項直接傳遞給 <code>OpenSSL::SSL::SSLContext#set_params</code> 方法，並且可以是 SSL 上下文的任何有效屬性。
+有關其他可用屬性，請參閱 <a href="https://docs.ruby-lang.org/en/master/OpenSSL/SSL/SSLContext.html">OpenSSL::SSL::SSLContext 文件</a>。</p><p>如果您在防火牆後為 redis 介面卡使用自簽名證書並選擇跳過證書檢查，則 ssl <code>verify_mode</code> 應設定為 <code>OpenSSL::SSL::VERIFY_NONE</code>。</p><p>警告：不建議在生產中使用<code>VERIFY_NONE</code>，除非你完全瞭解安全隱患。為了為 Redis 介面卡設定這個選項，配置應該是<code>ssl_params: { verify_mode: &lt;%= OpenSSL::SSL::VERIFY_NONE %&gt; }</code>。</p><h6 id="postgresql"><a class="anchorlink" href="#postgresql">6.4.1.3 PostgreSQL 介面卡</a></h6><p>PostgreSQL 介面卡使用Active Record 的連線池，因此
+應用程式的<code>config/database.yml</code> 資料庫配置，用於其連線。
+這在未來可能會改變。 <a href="https://github.com/rails/rails/issues/27214">#27214</a></p><h4 id=""><a class="anchorlink" href="#">6.5 允許的請求來源</a></h4><p>Action Cable 將只接受來自指定來源的請求，這些來源是
+作為陣列傳遞給伺服器配置。起源可以是
+將執行匹配檢查的字串或正則表示式。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_cable</span><span class="p">.</span><span class="nf">allowed_request_origins</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'https://rubyonrails.com'</span><span class="p">,</span> <span class="sr">%r{http://ruby.*}</span><span class="err">]
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_cable.allowed_request_origins = ['https://rubyonrails.com', %r{http://ruby.*}]
+">Copy</button>
+</div>
+<p>禁用和允許來自任何來源的請求：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_cable</span><span class="p">.</span><span class="nf">disable_request_forgery_protection</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_cable.disable_request_forgery_protection = true
+">Copy</button>
+</div>
+<p>預設情況下，Action Cable 在執行時允許來自 localhost:3000 的所有請求
+在開發環境中。</p><h4 id=""><a class="anchorlink" href="#">6.6 消費者配置</a></h4><p>要配置 URL，請在 HTML 佈局中新增對 [<code>action_cable_meta_tag</code>][] 的呼叫
+頭。這使用通常透過<code>config.action_cable.url</code> 設定的 URL 或路徑
+環境配置檔案。</p><p>[<code>action_cable_meta_tag</code>]：<a href="https://api.rubyonrails.org/classes/ActionCable/Helpers/ActionCableHelper.html#method-i-action_cable_meta_tag">https://api.rubyonrails.org/classes/ActionCable/Helpers/ActionCableHelper.html#method-i-action_cable_meta_tag</a></p><h4 id=""><a class="anchorlink" href="#">6.7 工作池配置</a></h4><p>工作池用於執行連接回調和通道操作
+與伺服器的主執行緒隔離。 Action Cable 允許應用
+配置工作池中同時處理的執行緒數。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_cable</span><span class="p">.</span><span class="nf">worker_pool_size</span> <span class="o">=</span> <span class="mi">4</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_cable.worker_pool_size = 4
+">Copy</button>
+</div>
+<p>另外請注意，您的伺服器必須提供至少相同數量的資料庫
+連線，因為你有工人。預設工作池大小設定為 4，因此
+這意味著您必須至少提供 4 個可用的資料庫連線。
+您可以透過 <code>pool</code> 屬性在 <code>config/database.yml</code> 中更改它。</p><h4 id=""><a class="anchorlink" href="#">6.8 客戶端日誌記錄</a></h4><p>預設情況下禁用客戶端日誌記錄。您可以透過將 <code>ActionCable.logger.enabled</code> 設定為 true 來啟用此功能。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">import</span> <span class="o">*</span> <span class="n">as</span> <span class="no">ActionCable</span> <span class="n">from</span> <span class="s1">'@rails/actioncable'</span>
+
+<span class="no">ActionCable</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">enabled</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="import * as ActionCable from '@rails/actioncable'
+
+ActionCable.logger.enabled = true
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">6.9 其他配置</a></h4><p>另一個常見的配置選項是應用到
+每個連線記錄器。這是一個使用的示例
+使用者帳戶 ID（如果可用），否則在標記時為“無帳戶”：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_cable</span><span class="p">.</span><span class="nf">log_tags</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="o">-&gt;</span> <span class="n">request</span> <span class="p">{</span> <span class="n">request</span><span class="p">.</span><span class="nf">env</span><span class="p">[</span><span class="s1">'user_account_id'</span><span class="p">]</span> <span class="o">||</span> <span class="s2">"no-account"</span> <span class="p">},</span>
+  <span class="ss">:action_cable</span><span class="p">,</span>
+  <span class="o">-&gt;</span> <span class="n">request</span> <span class="p">{</span> <span class="n">request</span><span class="p">.</span><span class="nf">uuid</span> <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_cable.log_tags = [
+  -&gt; request { request.env['user_account_id'] || &quot;no-account&quot; },
+  :action_cable,
+  -&gt; request { request.uuid }
+]
+">Copy</button>
+</div>
+<p>有關所有配置選項的完整列表，請參閱
+<code>ActionCable::Server::Configuration</code> 類。</p><h3 id=""><a class="anchorlink" href="#">7 執行獨立的有線伺服器</a></h3><h4 id=""><a class="anchorlink" href="#">7.1 在應用程式中</a></h4><p>Action Cable 可以與您的 Rails 應用程式一起執行。例如，到
+監聽 <code>/websocket</code> 上的 WebSocket 請求，指定路徑到
+<code>config.action_cable.mount_path</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># config/application.rb</span>
+<span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">action_cable</span><span class="p">.</span><span class="nf">mount_path</span> <span class="o">=</span> <span class="s1">'/websocket'</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/application.rb
+class Application &lt; Rails::Application
+  config.action_cable.mount_path = '/websocket'
+end
+">Copy</button>
+</div>
+<p>您可以使用 <code>ActionCable.createConsumer()</code> 連線到Cable 
+如果在佈局中呼叫了<code>action_cable_meta_tag</code>，則伺服器端。否則，A 路徑為
+指定為 <code>createConsumer</code> 的第一個引數（例如 <code>ActionCable.createConsumer("/websocket")</code>）。</p><p>對於伺服器的每個例項，您都可以為每個工作人員建立您的伺服器
+生成後，您還將擁有一個新的 Action Cable 例項，但 Redis 或
+PostgreSQL 介面卡使訊息跨連線保持同步。</p><h4 id=""><a class="anchorlink" href="#">7.2 獨立</a></h4><p>Cable 伺服器可以與您的普通應用程式伺服器分開。它是
+仍然是一個 Rack 應用程式，但它是它自己的 Rack 應用程式。推薦的
+基本設定如下：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># cable/config.ru</span>
+<span class="nb">require_relative</span> <span class="s2">"../config/environment"</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">eager_load!</span>
+
+<span class="n">run</span> <span class="no">ActionCable</span><span class="p">.</span><span class="nf">server</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# cable/config.ru
+require_relative "../config/environment"
+Rails.application.eager_load!
+
+run ActionCable.server
+'>Copy</button>
+</div>
+<p>然後使用<code>bin/cable</code> ala 中的 binstub 啟動伺服器：</p><div class="code_container">
+<pre><code class="highlight plaintext">#!/bin/bash
+bundle exec puma -p 28080 cable/config.ru
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="#!/bin/bash
+bundle exec puma -p 28080 cable/config.ru
+">Copy</button>
+</div>
+<p>以上將在埠 28080 上啟動有線伺服器。</p><h4 id=""><a class="anchorlink" href="#">7.3 註釋</a></h4><p>WebSocket 伺服器無權訪問會話，但它有
+訪問 cookie。這個可以在需要處理的時候使用
+驗證。您可以在這篇 <a href="https://greg.molnar.io/blog/actioncable-devise-authentication/">文章</a> 中看到一種使用 Devise 做到這一點的方法。</p><h3 id=""><a class="anchorlink" href="#">8 依賴</a></h3><p>Action Cable 提供了一個訂閱介面卡介面來處理它的
+pubsub內部。預設情況下，非同步、內聯、PostgreSQL 和 Redis
+包括介面卡。預設介面卡
+在新的 Rails 應用程式中是非同步 (<code>async</code>) 介面卡。</p><p>Ruby 方面建立在 <a href="https://github.com/faye/websocket-driver-ruby">websocket-driver</a> 之上，
+<a href="https://github.com/celluloid/nio4r">nio4r</a> 和 <a href="https://github.com/ruby-concurrency/concurrent-ruby">concurrent-ruby</a>。</p><h3 id=""><a class="anchorlink" href="#">9 部署</a></h3><p>Action Cable 由 WebSocket 和執行緒的組合提供支援。這倆
+框架管道和使用者指定的通道工作由內部處理
+利用 Ruby 的本機執行緒支援。這意味著您可以使用所有常規
+只要您沒有犯任何執行緒安全罪，Rails 模型就沒有問題。</p><p>Action Cable 伺服器實現了 Rack 套接字劫持 API，
+從而允許使用多執行緒模式來管理連線
+在內部，無論應用伺服器是否是多執行緒的。</p><p>因此，Action Cable 可與 Unicorn、Puma 和
+乘客。</p><h3 id=""><a class="anchorlink" href="#">10 測試</a></h3><p>您可以在
+<a href="testing.html#testing-action-cable">測試指南</a>。</p>
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

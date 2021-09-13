@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>API 文件指南 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="API 文件指南 — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.API 文件指南本指南記錄了 Ruby on Rails API 文件指南。閱讀本指南後，您將瞭解： 如何為文件目的編寫有效的散文。 用於記錄不同型別Ruby 程式碼的樣式指南。" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.API 文件指南本指南記錄了 Ruby on Rails API 文件指南。閱讀本指南後，您將瞭解： 如何為文件目的編寫有效的散文。 用於記錄不同型別Ruby 程式碼的樣式指南。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>API 文件指南</h2><p>本指南記錄了 Ruby on Rails API 文件指南。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何為文件目的編寫有效的散文。</li>
+<li>用於記錄不同型別Ruby 程式碼的樣式指南。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#">檔案</a></li>
+<li><a href="#">連結</a></li>
+<li><a href="#">措辭</a></li>
+<li><a href="#">英語</a></li>
+<li><a href="#">牛津逗號</a></li>
+<li><a href="#">示例程式碼</a></li>
+<li><a href="#">布林值</a></li>
+<li><a href="#">檔名</a></li>
+<li>
+<a href="#">字型</a>
+
+<ul>
+<li><a href="#">等寬字型</a></li>
+<li><a href="#">普通字型</a></li>
+</ul>
+</li>
+<li><a href="#">描述列表</a></li>
+<li><a href="#">動態生成的方法</a></li>
+<li><a href="#">方法可見性</a></li>
+<li><a href="#rails">關於 Rails 堆疊</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 檔案</a></h3><p><a href="https://api.rubyonrails.org/v6.1.4">Rails API 文件</a> 是用
+<a href="https://ruby.github.io/rdoc/">RDoc</a>。要生成它，請確保您是
+在 rails 根目錄中，執行 <code>bundle install</code> 並執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake </span>rdoc
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bundle exec rake rdoc
+">Copy</button>
+</div>
+<p>生成的 HTML 檔案可以在 ./doc/rdoc 目錄中找到。</p><p>請查閱 RDoc 文件以獲取有關
+<a href="https://ruby.github.io/rdoc/RDoc/Markup.html">標記</a>，
+並考慮到這些[額外的
+指令]（<a href="https://ruby.github.io/rdoc/RDoc/Parser/Ruby.html%EF%BC%89%E3%80%82">https://ruby.github.io/rdoc/RDoc/Parser/Ruby.html）。</a></p><h3 id=""><a class="anchorlink" href="#">2 連結</a></h3><p>Rails API 文件不應在 GitHub 上view，因此連結應使用 RDoc <a href="https://ruby.github.io/rdoc/RDoc/Markup.html#%20class-RDoc::Markup-label-Links"><code>link</code></a> 標記相對於當前 API。</p><p>這是由於 GitHub Markdown 與在 <a href="https://api.rubyonrails.org/v6.1.4">api.rubyonrails.org</a> 和 <a href="https://edgeapi.rubyonrails.org">edgeapi.ruby onrails.org</a>。</p><p>例如，我們使用<code>[link:classes/ActiveRecord/Base.html]</code> 建立到 RDoc 生成的 <code>ActiveRecord::Base</code> 類的連結。</p><p>這比<code>[https://api.rubyonrails.org/classes/ActiveRecord/Base.html]</code> 之類的絕對 URL 更受歡迎，後者會將讀者帶到當前文件版本之外（例如 edgeapi.rubyonrails.org）。</p><h3 id=""><a class="anchorlink" href="#">3 措辭</a></h3><p>寫簡單的陳述句。簡潔是一個優點：切入正題。</p><p>用現在時寫：“返回一個......的雜湊”，而不是“返回一個......的雜湊”或“將返回一個......的雜湊”。</p><p>以大寫開始註釋。遵循常規標點規則：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Declares an attribute reader backed by an internally-named</span>
+<span class="c1"># instance variable.</span>
+<span class="k">def</span> <span class="nf">attr_internal_reader</span><span class="p">(</span><span class="o">*</span><span class="n">attrs</span><span class="p">)</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Declares an attribute reader backed by an internally-named
+# instance variable.
+def attr_internal_reader(*attrs)
+  # ...
+end
+">Copy</button>
+</div>
+<p>明確和隱含地向讀者傳達當前的做事方式。使用edge中推薦的習語。如果需要，重新排列部分以強調偏好的方法等。文件應該是 model 以獲得最佳實踐和規範的現代 Rails 用法。</p><p>文件必須簡潔但全面。探索和記錄邊緣情況。如果module 是匿名的會怎樣？如果集合為空怎麼辦？如果引數為零怎麼辦？</p><p>Rails 元件的專有名稱在單詞之間有一個空格，例如“Active Support”。 <code>ActiveRecord</code> 是一個Ruby module，而Active Record 是一個 ORM。所有的 Rails 文件都應該始終以正確的名稱來引用 Rails 元件，如果在您的下一篇部落格文章或簡報中您記得這個花絮並考慮到它，那將是非凡的。</p><p>正確拼寫名稱：Arel、minitest、RSpec、HTML、MySQL、JavaScript、ERB。如有疑問，請檢視一些權威來源，例如他們的官方文件。</p><p>將冠詞“an”用於“SQL”，就像在“SQL 語句”中一樣。也是“SQLite 資料庫”。</p><p>更喜歡避免“你”和“你的”的措辭。例如，代替</p><div class="code_container">
+<pre><code class="highlight markdown">If you need to use <span class="sb">`return`</span> statements in your callbacks, it is recommended that you explicitly define them as methods.
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="If you need to use `return` statements in your callbacks, it is recommended that you explicitly define them as methods.
+">Copy</button>
+</div>
+<p>使用這種風格：</p><div class="code_container">
+<pre><code class="highlight markdown">If <span class="sb">`return`</span> is needed it is recommended to explicitly define a method.
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="If `return` is needed it is recommended to explicitly define a method.
+">Copy</button>
+</div>
+<p>也就是說，當使用代詞來指代一個假設的人時，例如“a
+帶有session cookie" 的使用者，性別中性代詞（他們/他們/他們）應該是
+用過的。代替：</p>
+<ul>
+<li>他或她……使用它們。</li>
+<li>他或她……使用它們。</li>
+<li>他或她......使用他們的。</li>
+<li>他或她的……使用他們的。
+*他或她自己......使用自己。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">4 英語</a></h3><p>請使用美式英語（<em>color</em>、<em>center</em>、<em>modularize</em> 等）。請參閱<a href="https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences">此處列出美式英語和英式英語拼寫差異</a>。</p><h3 id=""><a class="anchorlink" href="#">5 牛津逗號</a></h3><p>請使用<a href="https://en.wikipedia.org/wiki/Serial_comma">牛津逗號</a>
+（“紅、白、藍”，而不是“紅、白、藍”）。</p><h3 id=""><a class="anchorlink" href="#">6 示例程式碼</a></h3><p>選擇有意義的例子來描述和涵蓋基礎知識以及有趣的觀點或陷阱。</p><p>使用兩個空格來縮排程式碼塊——也就是說，為了標記目的，相對於左邊距的兩個空格。示例本身應使用 <a href="contributing_to_ruby_on_rails.html#follow-the-coding-conventions">Rails 編碼約定</a>。</p><p>簡短的文件不需要明確的“示例”標籤來引入片段；他們只是按照段落：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Converts a collection of elements into a formatted string by</span>
+<span class="c1"># calling +to_s+ on all elements and joining them.</span>
+<span class="c1">#</span>
+<span class="c1">#   Blog.all.to_formatted_s # =&gt; "First PostSecond PostThird Post"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# Converts a collection of elements into a formatted string by
+# calling +to_s+ on all elements and joining them.
+#
+#   Blog.all.to_formatted_s # =&gt; "First PostSecond PostThird Post"
+'>Copy</button>
+</div>
+<p>另一方面，大塊的結構化文件可能有一個單獨的“示例”部分：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># ==== Examples</span>
+<span class="c1">#</span>
+<span class="c1">#   Person.exists?(5)</span>
+<span class="c1">#   Person.exists?('5')</span>
+<span class="c1">#   Person.exists?(name: "David")</span>
+<span class="c1">#   Person.exists?(['name LIKE ?', "%#{query}%"])</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# ==== Examples
+#
+#   Person.exists?(5)
+#   Person.exists?('5')
+#   Person.exists?(name: &quot;David&quot;)
+#   Person.exists?(['name LIKE ?', &quot;%#{query}%&quot;])
+">Copy</button>
+</div>
+<p>表示式的結果跟在它們後面，並由 "# =&gt; " 引入，垂直對齊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># For checking if an integer is even or odd.</span>
+<span class="c1">#</span>
+<span class="c1">#   1.even? # =&gt; false</span>
+<span class="c1">#   1.odd?  # =&gt; true</span>
+<span class="c1">#   2.even? # =&gt; true</span>
+<span class="c1">#   2.odd?  # =&gt; false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# For checking if an integer is even or odd.
+#
+#   1.even? # =&gt; false
+#   1.odd?  # =&gt; true
+#   2.even? # =&gt; true
+#   2.odd?  # =&gt; false
+">Copy</button>
+</div>
+<p>如果一行太長，註釋可能會放在下一行：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1">#   label(:article, :title)</span>
+<span class="c1">#   # =&gt; &lt;label for="article_title"&gt;Title&lt;/label&gt;</span>
+<span class="c1">#</span>
+<span class="c1">#   label(:article, :title, "A short title")</span>
+<span class="c1">#   # =&gt; &lt;label for="article_title"&gt;A short title&lt;/label&gt;</span>
+<span class="c1">#</span>
+<span class="c1">#   label(:article, :title, "A short title", class: "title_label")</span>
+<span class="c1">#   # =&gt; &lt;label for="article_title" class="title_label"&gt;A short title&lt;/label&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='#   label(:article, :title)
+#   # =&gt; &lt;label for="article_title"&gt;Title&lt;/label&gt;
+#
+#   label(:article, :title, "A short title")
+#   # =&gt; &lt;label for="article_title"&gt;A short title&lt;/label&gt;
+#
+#   label(:article, :title, "A short title", class: "title_label")
+#   # =&gt; &lt;label for="article_title" class="title_label"&gt;A short title&lt;/label&gt;
+'>Copy</button>
+</div>
+<p>避免為此目的使用任何列印方法，例如<code>puts</code> 或<code>p</code>。</p><p>另一方面，常規註釋不使用箭頭：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1">#   polymorphic_url(record)  # same as comment_url(record)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="#   polymorphic_url(record)  # same as comment_url(record)
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">7 布林值</a></h3><p>在謂詞和標誌中，與精確的values 相比，更喜歡記錄布林語義。</p><p>當如Ruby 中定義的那樣使用“true”或“false”時，請使用常規字型。這
+單例<code>true</code> 和<code>false</code> 需要固定寬度的字型。請避免使用類似的術語
+“truthy”，Ruby 定義了語言中的真假，因此那些
+詞語具有技術意義，無需替代。</p><p>根據經驗，除非絕對必要，否則不要記錄單身人士。那
+防止像<code>!!</code> 或三元組這樣的人工構造，允許重構，並且
+程式碼不需要依賴被呼叫的方法返回的確切values
+在實施中。</p><p>例如：</p><div class="code_container">
+<pre><code class="highlight markdown"><span class="sb">`config.action_mailer.perform_deliveries`</span> specifies whether mail will actually be delivered and is true by default
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="`config.action_mailer.perform_deliveries` specifies whether mail will actually be delivered and is true by default
+">Copy</button>
+</div>
+<p>使用者不需要知道哪個是標誌的實際預設value，
+所以我們只記錄它的布林語義。</p><p>帶有謂詞的示例：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Returns true if the collection is empty.</span>
+<span class="c1">#</span>
+<span class="c1"># If the collection has been loaded</span>
+<span class="c1"># it is equivalent to &lt;tt&gt;collection.size.zero?&lt;/tt&gt;. If the</span>
+<span class="c1"># collection has not been loaded, it is equivalent to</span>
+<span class="c1"># &lt;tt&gt;!collection.exists?&lt;/tt&gt;. If the collection has not already been</span>
+<span class="c1"># loaded and you are going to fetch the records anyway it is better to</span>
+<span class="c1"># check &lt;tt&gt;collection.length.zero?&lt;/tt&gt;.</span>
+<span class="k">def</span> <span class="nf">empty?</span>
+  <span class="k">if</span> <span class="n">loaded?</span>
+    <span class="n">size</span><span class="p">.</span><span class="nf">zero?</span>
+  <span class="k">else</span>
+    <span class="vi">@target</span><span class="p">.</span><span class="nf">blank?</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">scope</span><span class="p">.</span><span class="nf">exists?</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Returns true if the collection is empty.
+#
+# If the collection has been loaded
+# it is equivalent to &lt;tt&gt;collection.size.zero?&lt;/tt&gt;. If the
+# collection has not been loaded, it is equivalent to
+# &lt;tt&gt;!collection.exists?&lt;/tt&gt;. If the collection has not already been
+# loaded and you are going to fetch the records anyway it is better to
+# check &lt;tt&gt;collection.length.zero?&lt;/tt&gt;.
+def empty?
+  if loaded?
+    size.zero?
+  else
+    @target.blank? &amp;&amp; !scope.exists?
+  end
+end
+">Copy</button>
+</div>
+<p>API 小心不要提交任何特定的 value，該方法具有
+謂詞語義，這就夠了。</p><h3 id=""><a class="anchorlink" href="#">8 檔名</a></h3><p>根據經驗，使用相對於應用程式根目錄的檔名：</p><div class="code_container">
+<pre><code class="highlight plaintext">config/routes.rb            # YES
+routes.rb                   # NO
+RAILS_ROOT/config/routes.rb # NO
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config/routes.rb            # YES
+routes.rb                   # NO
+RAILS_ROOT/config/routes.rb # NO
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">9 字型</a></h3><h4 id=""><a class="anchorlink" href="#">9.1 等寬字型</a></h4><p>使用固定寬度字型：</p>
+<ul>
+<li>常量，特別是類和module 名稱。</li>
+<li>方法名稱。</li>
+<li>文字如<code>nil</code>、<code>false</code>、<code>true</code>、<code>self</code>。</li>
+<li>Symbol 秒。</li>
+<li>方法引數。</li>
+<li>檔名。</li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Array</span>
+  <span class="c1"># Calls +to_param+ on all its elements and joins the result with</span>
+  <span class="c1"># slashes. This is used by +url_for+ in Action Pack.</span>
+  <span class="k">def</span> <span class="nf">to_param</span>
+    <span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="p">.</span><span class="nf">to_param</span> <span class="p">}.</span><span class="nf">join</span> <span class="s1">'/'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Array
+  # Calls +to_param+ on all its elements and joins the result with
+  # slashes. This is used by +url_for+ in Action Pack.
+  def to_param
+    collect { |e| e.to_param }.join '/'
+  end
+end
+">Copy</button>
+</div>
+<p>警告：對固定寬度字型使用 <code>+...+</code> 僅適用於簡單的內容，例如
+普通方法名、symbols、路徑（帶正斜槓）等請使用
+<code>&lt;tt&gt;...&lt;/tt&gt;</code> 用於其他所有內容，特別是帶有
+名稱空間如<code>&lt;tt&gt;ActiveRecord::Base&lt;/tt&gt;</code>。</p><p>您可以使用以下命令快速測試 RDoc 輸出：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"+:to_param+"</span> | rdoc <span class="nt">--pipe</span>
+<span class="gp">#</span><span class="w"> </span><span class="o">=&gt;</span> &lt;p&gt;&lt;code&gt;:to_param&lt;/code&gt;&lt;/p&gt;
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='echo "+:to_param+" | rdoc --pipe
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">9.2 普通字型</a></h4><p>當“true”和“false”是英文單詞而不是Ruby keywords 使用常規字型時：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Runs all the validations within the specified context.</span>
+<span class="c1"># Returns true if no errors are found, false otherwise.</span>
+<span class="c1">#</span>
+<span class="c1"># If the argument is false (default is +nil+), the context is</span>
+<span class="c1"># set to &lt;tt&gt;:create&lt;/tt&gt; if &lt;tt&gt;new_record?&lt;/tt&gt; is true,</span>
+<span class="c1"># and to &lt;tt&gt;:update&lt;/tt&gt; if it is not.</span>
+<span class="c1">#</span>
+<span class="c1"># Validations with no &lt;tt&gt;:on&lt;/tt&gt; option will run no</span>
+<span class="c1"># matter the context. Validations with # some &lt;tt&gt;:on&lt;/tt&gt;</span>
+<span class="c1"># option will only run in the specified context.</span>
+<span class="k">def</span> <span class="nf">valid?</span><span class="p">(</span><span class="n">context</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Runs all the validations within the specified context.
+# Returns true if no errors are found, false otherwise.
+#
+# If the argument is false (default is +nil+), the context is
+# set to &lt;tt&gt;:create&lt;/tt&gt; if &lt;tt&gt;new_record?&lt;/tt&gt; is true,
+# and to &lt;tt&gt;:update&lt;/tt&gt; if it is not.
+#
+# Validations with no &lt;tt&gt;:on&lt;/tt&gt; option will run no
+# matter the context. Validations with # some &lt;tt&gt;:on&lt;/tt&gt;
+# option will only run in the specified context.
+def valid?(context = nil)
+  # ...
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">10 描述列表</a></h3><p>在選項、引數等列表中，在專案與其描述之間使用連字元（比冒號讀起來更好，因為通常選項是symbols）：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># * &lt;tt&gt;:allow_nil&lt;/tt&gt; - Skip validation if attribute is +nil+.</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# * &lt;tt&gt;:allow_nil&lt;/tt&gt; - Skip validation if attribute is +nil+.
+">Copy</button>
+</div>
+<p>描述以大寫開頭，以句號結尾——這是標準英語。</p><h3 id=""><a class="anchorlink" href="#">11 動態生成的方法</a></h3><p>用<code>(module|class)_eval(STRING)</code> 建立的方法旁邊有一個註釋和一個生成程式碼的例項。該註釋與模板相距 2 個空格：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">for</span> <span class="n">severity</span> <span class="k">in</span> <span class="no">Severity</span><span class="p">.</span><span class="nf">constants</span>
+  <span class="nb">class_eval</span> <span class="o">&lt;&lt;-</span><span class="no">EOT</span><span class="p">,</span> <span class="kp">__FILE__</span><span class="p">,</span> <span class="kp">__LINE__</span> <span class="o">+</span> <span class="mi">1</span><span class="sh">
+    def </span><span class="si">#{</span><span class="n">severity</span><span class="p">.</span><span class="nf">downcase</span><span class="si">}</span><span class="sh">(message = nil, progname = nil, &amp;block)  # def debug(message = nil, progname = nil, &amp;block)
+      add(</span><span class="si">#{</span><span class="n">severity</span><span class="si">}</span><span class="sh">, message, progname, &amp;block)                    #   add(DEBUG, message, progname, &amp;block)
+    end                                                              # end
+                                                                     #
+    def </span><span class="si">#{</span><span class="n">severity</span><span class="p">.</span><span class="nf">downcase</span><span class="si">}</span><span class="sh">?                                        # def debug?
+      </span><span class="si">#{</span><span class="n">severity</span><span class="si">}</span><span class="sh"> &gt;= @level                                          #   DEBUG &gt;= @level
+    end                                                              # end
+</span><span class="no">  EOT</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="for severity in Severity.constants
+  class_eval &lt;&lt;-EOT, __FILE__, __LINE__ + 1
+    def #{severity.downcase}(message = nil, progname = nil, &amp;block)  # def debug(message = nil, progname = nil, &amp;block)
+      add(#{severity}, message, progname, &amp;block)                    #   add(DEBUG, message, progname, &amp;block)
+    end                                                              # end
+                                                                     #
+    def #{severity.downcase}?                                        # def debug?
+      #{severity} &gt;= @level                                          #   DEBUG &gt;= @level
+    end                                                              # end
+  EOT
+end
+">Copy</button>
+</div>
+<p>如果生成的行太寬，比如 200 列或更多，請將註釋放在呼叫上方：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># def self.find_by_login_and_activated(*args)</span>
+<span class="c1">#   options = args.extract_options!</span>
+<span class="c1">#   ...</span>
+<span class="c1"># end</span>
+<span class="nb">self</span><span class="p">.</span><span class="nf">class_eval</span> <span class="sx">%{
+  def self.#{method_id}(*args)
+    options = args.extract_options!
+    ...
+  end
+}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# def self.find_by_login_and_activated(*args)
+#   options = args.extract_options!
+#   ...
+# end
+self.class_eval %{
+  def self.#{method_id}(*args)
+    options = args.extract_options!
+    ...
+  end
+}
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">12 方法可見性</a></h3><p>在為 Rails 編寫文件時，瞭解面向使用者的公共 API 與內部 API 之間的區別很重要。</p><p>與大多數庫一樣，Rails 使用來自 Ruby 的私有 key 詞來定義內部 API。但是，公共 API 遵循略有不同的約定。 Rails 沒有假設所有公共方法都是為使用者使用而設計的，而是使用 <code>:nodoc:</code> 指令將這些型別的方法註釋為內部 API。</p><p>這意味著 Rails 中有一些具有 <code>public</code> 可見性的方法不供使用者使用。</p><p>這方面的一個例子是<code>ActiveRecord::Core::ClassMethods#arel_table</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">ActiveRecord::Core::ClassMethods</span>
+  <span class="k">def</span> <span class="nf">arel_table</span> <span class="c1"># :nodoc:</span>
+    <span class="c1"># do some magic..</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="module ActiveRecord::Core::ClassMethods
+  def arel_table # :nodoc:
+    # do some magic..
+  end
+end
+">Copy</button>
+</div>
+<p>如果您認為“這個方法看起來像<code>ActiveRecord::Core</code> 的公共類方法”，那麼您是對的。但實際上 Rails 團隊不希望使用者依賴這種方法。因此他們將其標記為 <code>:nodoc:</code> 並將其從公共文件中刪除。這背後的原因是允許團隊根據他們認為合適的跨版本的內部需求更改這些方法。這個方法的名字可能會改變，或者返回value，或者整個類可能會消失；沒有保證，因此您不應在外掛或應用程式中依賴此 API。否則，當您升級到較新版本的 Rails 時，您的應用程式或 gem 可能會損壞。</p><p>作為貢獻者，重要的是要考慮此 API 是否旨在供終端使用者使用。 Rails 團隊致力於在不經過完整的棄用週期的情況下，不對跨版本的公共 API 進行任何重大更改。建議您 <code>:nodoc:</code> 任何內部方法/類，除非它們已經是私有的（意味著可見性），在這種情況下，預設情況下它是內部的。一旦 API 穩定，可見性可以改變，但由於向後相容，改變公共 API 會困難得多。</p><p>一個類或module 用<code>:nodoc:</code> 標記，表示所有方法都是內部API，不應直接使用。</p><p>總而言之，Rails 團隊使用<code>:nodoc:</code> 來標記公開可見的方法和類以供內部使用；應仔細考慮 API 可見性的更改，並首先透過拉取請求進行討論。</p><h3 id="rails"><a class="anchorlink" href="#rails">13 關於 Rails 堆疊</a></h3><p>在記錄部分 Rails API 時，重要的是要記住所有
+進入 Rails 堆疊的部分。</p><p>這意味著行為可能會根據範圍或上下文而改變
+您嘗試記錄的方法或類。</p><p>當你拿走整個堆疊時，在不同的地方會有不同的行為
+考慮到，一個這樣的例子是
+<code>ActionView::Helpers::AssetTagHelper#image_tag</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># image_tag("icon.png")</span>
+<span class="c1">#   # =&gt; &lt;img src="/assets/icon.png" /&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# image_tag("icon.png")
+#   # =&gt; &lt;img src="/assets/icon.png" /&gt;
+'>Copy</button>
+</div>
+<p>儘管<code>#image_tag</code> 的預設行為是始終返回
+<code>/images/icon.png</code>，我們考慮了完整的 Rails 堆疊（包括
+Asset Pipeline) 我們可能會看到上面看到的結果。</p><p>我們只關心使用完全預設時的行為
+導軌堆疊。</p><p>在這種情況下，我們想要記錄 <em>framework</em> 的行為，而不僅僅是
+這個具體方法。</p><p>如果您對 Rails 團隊如何處理某些 API 有疑問，請隨時開啟工單或向 <a href="https://github.com/rails/rails/issues">問題跟蹤器</a> 傳送補丁。</p>
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

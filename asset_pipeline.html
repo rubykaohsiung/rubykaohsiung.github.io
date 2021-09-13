@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Pipeline — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Asset Pipeline — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Asset Pipeline本指南涵蓋asset pipeline。閱讀本指南後，您將瞭解： asset pipeline 是什麼以及它有什麼作用。 如何正確組織您的應用程式資產。 *asset pipeline 的好處。 如何向管道新增預處理器。 如何使用 gem 打包資產。" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Asset Pipeline本指南涵蓋asset pipeline。閱讀本指南後，您將瞭解： asset pipeline 是什麼以及它有什麼作用。 如何正確組織您的應用程式資產。 *asset pipeline 的好處。 如何向管道新增預處理器。 如何使用 gem 打包資產。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>Asset Pipeline</h2><p>本指南涵蓋asset pipeline。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>asset pipeline 是什麼以及它有什麼作用。</li>
+<li>如何正確組織您的應用程式資產。
+*asset pipeline 的好處。</li>
+<li>如何向管道新增預處理器。</li>
+<li>如何使用 gem 打包資產。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#asset-pipeline">Asset Pipeline 是什麼？</a>
+
+<ul>
+<li><a href="#">主要特點</a></li>
+<li><a href="#">什麼是指紋識別，我為什麼要關心？</a></li>
+</ul>
+</li>
+<li>
+<a href="#asset-pipeline">如何使用Asset Pipeline</a>
+
+<ul>
+<li><a href="#controller">Controller 特定資產</a></li>
+<li><a href="#">資產組織</a></li>
+<li><a href="#">編碼資源連結</a></li>
+<li><a href="#">清單檔案和指令</a></li>
+<li><a href="#">預處理</a></li>
+</ul>
+</li>
+<li>
+<a href="#">開發中</a>
+
+<ul>
+<li><a href="#">未找到資產時引發錯誤</a></li>
+<li><a href="#">關閉摘要</a></li>
+<li><a href="#">關閉除錯</a></li>
+</ul>
+</li>
+<li>
+<a href="#">生產中</a>
+
+<ul>
+<li><a href="#">預編譯資產</a></li>
+<li><a href="#">本地預編譯</a></li>
+<li><a href="#">現場編譯</a></li>
+<li><a href="#cdn">CDN</a></li>
+</ul>
+</li>
+<li>
+<a href="#">自定義管道</a>
+
+<ul>
+<li><a href="#css">CSS 壓縮</a></li>
+<li><a href="#javascript">JavaScript 壓縮</a></li>
+<li><a href="#gzipping">GZipping 您的資產</a></li>
+<li><a href="#">使用您自己的壓縮器</a></li>
+<li><a href="#assets">更改<em>assets</em> 路徑</a></li>
+<li><a href="#x-sendfile">X-Sendfile 標頭</a></li>
+</ul>
+</li>
+<li><a href="#">資產快取儲存</a></li>
+<li><a href="#gems">將資產新增到您的 Gems</a></li>
+<li><a href="#gem">使您的庫或 Gem 成為預處理器</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="asset-pipeline"><a class="anchorlink" href="#asset-pipeline">1 Asset Pipeline 是什麼？</a></h3><p>asset pipeline 提供了一個框架來連線和縮小或壓縮
+JavaScript 和 CSS 資產。它還增加了將這些資產寫入的能力
+其他語言和預處理器，如 CoffeeScript、Sass 和 ERB。
+它允許您應用程式中的資產自動與資產組合
+來自其他寶石。</p><p>asset pipeline 由
+<a href="https://github.com/rails/sprockets-rails">sprockets-rails</a> gem，
+並預設啟用。您可以在建立新應用程式時禁用它
+傳遞<code>--skip-sprockets</code> 選項。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">rails </span>new appname <span class="nt">--skip-sprockets</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rails new appname --skip-sprockets
+">Copy</button>
+</div>
+<p>透過新增 <a href="https://github.com/sass/sassc-rails"><code>sassc-rails</code></a>，Rails 可以輕鬆地與 Sass 一起使用
+gem 到你的<code>Gemfile</code>，它被鏈輪用於 <a href="https://sass-lang.com">Sass</a> 編譯：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">gem</span> <span class="s1">'sassc-rails'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="gem 'sassc-rails'
+">Copy</button>
+</div>
+<p>要設定資產壓縮方法，請設定相應的配置選項
+在 <code>production.rb</code> - <code>config.assets.css_compressor</code> 中為您的 CSS 和
+<code>config.assets.js_compressor</code> 用於您的 JavaScript：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">css_compressor</span> <span class="o">=</span> <span class="ss">:yui</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">js_compressor</span> <span class="o">=</span> <span class="ss">:uglifier</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.css_compressor = :yui
+config.assets.js_compressor = :uglifier
+">Copy</button>
+</div>
+<p>注意：<code>sassc-rails</code> gem 會自動用於 CSS 壓縮（如果包含）
+在<code>Gemfile</code> 中，沒有設定<code>config.assets.css_compressor</code> 選項。</p><h4 id=""><a class="anchorlink" href="#">1.1 主要特點</a></h4><p>管道的第一個特點是串聯資產，這可以減少
+瀏覽器為呈現網頁而發出的請求數。網路瀏覽器是
+他們可以並行發出的請求數量有限，所以更少
+請求可能意味著您的應用程式載入速度更快。</p><p>Sprockets 將所有 JavaScript 檔案連線成一個主 <code>.js</code> 檔案，並且所有
+CSS 檔案合併為一個主 <code>.css</code> 檔案。正如您將在本指南後面瞭解到的，您
+可以自定義此策略以您喜歡的任何方式對檔案進行分組。在生產中，
+Rails 會在每個檔名中插入一個 SHA256 指紋，以便檔名
+由瀏覽器快取。你可以透過改變這個來使快取無效
+指紋，每當您更改檔案內容時都會自動發生。</p><p>asset pipeline 的第二個功能是資產縮小或壓縮。
+對於 CSS 檔案，這是透過刪除空格和註釋來完成的。對於 JavaScript，
+可以應用更復雜的過程。您可以從一組內建
+選項或指定您自己的選項。</p><p>asset pipeline 的第三個特點是它允許透過
+高階語言，預編譯到實際資產。支援的
+語言包括用於 CSS 的 Sass、用於 JavaScript 的 CoffeeScript 和用於兩者的 ERB
+預設。</p><h4 id=""><a class="anchorlink" href="#">1.2 什麼是指紋識別，我為什麼要關心？</a></h4><p>指紋識別是一種使檔名依賴於
+檔案的內容。當檔案內容改變時，檔名也隨之改變
+改變了。對於靜態或很少更改的內容，這提供了一個
+判斷一個檔案的兩個版本是否相同的簡單方法
+不同的伺服器或部署日期。</p><p>當檔名是唯一的並基於其內容時，可以將 HTTP 標頭設定為
+鼓勵無處不在的快取（無論是在 CDN、ISP、網路裝置、
+或在網路瀏覽器中）以保留自己的內容副本。當內容是
+更新，指紋會改變。這將導致遠端客戶端
+請求內容的新副本。這通常稱為 <em>cache busting</em>。</p><p>Sprockets 用於指紋識別的技術是插入
+內容進入名稱，通常在末尾。例如一個 CSS 檔案 <code>global.css</code></p><div class="code_container">
+<pre><code class="highlight plaintext">global-908e25f4bf641868d8683022a5b62f54.css
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="global-908e25f4bf641868d8683022a5b62f54.css
+">Copy</button>
+</div>
+<p>這是Railsasset pipeline採用的策略。</p><p>Rails 的舊策略是將基於日期的查詢字串附加到連結的每個資產
+帶有內建的helper。在原始碼中，生成的程式碼如下所示：</p><div class="code_container">
+<pre><code class="highlight plaintext">/stylesheets/global.css?1309495796
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="/stylesheets/global.css?1309495796
+">Copy</button>
+</div>
+<p>查詢字串策略有幾個缺點：</p>
+<ol>
+<li>
+<p><strong>並非所有快取都能可靠地快取檔名僅相差以下的內容
+查詢引數</strong></p>
+<p><a href="https://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/">史蒂夫·蘇德斯推薦</a>,
+“...避免使用可快取資源的查詢字串”。他發現在這個
+case 5-20% 的請求不會被快取。查詢字串尤其不
+完全可以使用一些 CDN 來使快取失效。</p>
+</li>
+<li>
+<p><strong>檔名可以在多伺服器環境中的節點之間更改。</strong></p>
+<p>Rails 2.x 中的預設查詢字串是基於修改時間的
+檔案。當資產部署到叢集時，不能保證
+時間戳將相同，導致使用不同的values，具體取決於
+在哪個伺服器上處理請求。</p>
+</li>
+<li>
+<p><strong>快取失效過多</strong></p>
+<p>當每個新的程式碼版本都部署靜態資產時，mtime
+（最後修改時間）<em>all</em>這些檔案的變化，強制所有遠端
+客戶端再次獲取它們，即使這些資產的內容沒有改變。</p>
+</li>
+</ol>
+<p>指紋透過避免查詢字串來解決這些問題，並確保
+檔名基於其內容是一致的。</p><p>開發和生產預設啟用指紋識別
+環境。您可以透過配置在您的配置中啟用或禁用它
+<code>config.assets.digest</code> 選項。</p><p>更多閱讀：</p>
+<ul>
+<li><a href="https://developers.google.com/speed/docs/insights/LeverageBrowserCaching">最佳化快取</a></li>
+<li><a href="http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/">修訂檔名：不要使用查詢字串</a></li>
+</ul>
+<h3 id="asset-pipeline"><a class="anchorlink" href="#asset-pipeline">2 如何使用Asset Pipeline</a></h3><p>在以前版本的 Rails 中，所有資源都位於
+<code>public</code> 例如<code>images</code>、<code>javascripts</code> 和<code>stylesheets</code>。隨著資產
+管道，這些資產的首選位置現在是<code>app/assets</code>
+目錄。此目錄中的檔案由 Sprockets 中介軟體提供服務。</p><p>資產仍然可以放置在@{<em>0} 層次結構中。 @{<em>0} 下的任何資產
+當應用程式或 Web 伺服器將作為靜態檔案提供時
+`config.public</em>file</em>server.enabled<code>設定為 true。你應該使用</code>app/assets`
+在提供服務之前必須經過一些預處理的檔案。</p><p>在生產中，Rails 預設將這些檔案預編譯為 <code>public/assets</code>。這
+預編譯的副本然後由 Web 伺服器作為靜態資產提供。檔案
+在<code>app/assets</code> 中永遠不會直接在生產中提供服務。</p><h4 id="controller"><a class="anchorlink" href="#controller">2.1 Controller 特定資產</a></h4><p>當您生成 scaffold 或 controller 時，Rails 還會生成一個
+級聯樣式表文件（或 SCSS 檔案，如果 <code>sass-rails</code> 在 <code>Gemfile</code> 中）
+為此controller。此外，當生成 scaffold 時，Rails 會生成
+檔案<code>scaffolds.css</code>（或<code>scaffolds.scss</code>，如果<code>sass-rails</code> 在
+<code>Gemfile</code>。）</p><p>例如，如果你生成一個<code>ProjectsController</code>，Rails 也會新增一個新的
+檔案位於<code>app/assets/stylesheets/projects.scss</code>。預設情況下，這些檔案將是
+準備好由您的應用程式立即使用 <code>require_tree</code> 指令使用。看
+<a href="#manifest-files-and-directives">清單檔案和指令</a> 瞭解更多詳情
+在 require_tree 上。</p><p>您還可以選擇包含 controller 特定的樣式表和 JavaScript 檔案
+僅在各自的controllers 中使用以下內容：</p><p><code>&lt;%= javascript_include_tag params[:controller] %&gt;</code> 或 <code>&lt;%= stylesheet_link_tag
+引數[:controller] %&gt;</code></p><p>執行此操作時，請確保您沒有使用 <code>require_tree</code> 指令，因為
+將導致您的資產被多次包含在內。</p><p>警告：使用資產預編譯時，您需要確保您的
+controller 資產將在逐頁載入時進行預編譯。經過
+預設<code>.coffee</code> 和<code>.scss</code> 檔案不會自行預編譯。看
+<a href="#precompiling-assets">預編譯資產</a> 瞭解更多關於如何
+預編譯工作。</p><p>注意：您必須有一個支援 ExecJS 的執行時才能使用 CoffeeScript。
+如果您使用的是 macOS 或 Windows，則您已經安裝了 JavaScript 執行時
+你的作業系統。檢視 <a href="https://github.com/rails/execjs#readme">ExecJS</a> 文件以瞭解所有支援的 JavaScript 執行時。</p><h4 id=""><a class="anchorlink" href="#">2.2 資產組織</a></h4><p>管道資產可以放置在應用程式中的三個位置之一：
+<code>app/assets</code>、<code>lib/assets</code> 或 <code>vendor/assets</code>。</p>
+<ul>
+<li><p><code>app/assets</code> 用於應用程式擁有的資產，例如自定義
+影象、JavaScript 檔案或樣式表。</p></li>
+<li><p><code>lib/assets</code> 用於您自己的庫的程式碼，這些程式碼並不真正適合
+應用程式的範圍或那些跨應用程式共享的庫。</p></li>
+<li><p><code>vendor/assets</code> 用於外部實體擁有的資產，例如
+JavaScript 外掛和 CSS 框架的程式碼。請記住，第三方
+引用也由資產管道處理的其他檔案的程式碼（影象、
+樣式表等），需要重寫以使用helpers 就像<code>asset_path</code>。</p></li>
+</ul>
+<h5 id=""><a class="anchorlink" href="#">2.2.1 搜尋路徑</a></h5><p>當從清單或 helper 引用檔案時，Sprockets 會搜尋
+它的三個預設資產位置。</p><p>預設位置是：<code>images</code>、<code>javascripts</code> 和<code>stylesheets</code>
+<code>app/assets</code> 資料夾下的目錄，但這些子目錄
+並不特殊 - 將搜尋 <code>assets/*</code> 下的任何路徑。</p><p>例如，這些檔案：</p><div class="code_container">
+<pre><code class="highlight plaintext">app/assets/javascripts/home.js
+lib/assets/javascripts/moovinator.js
+vendor/assets/javascripts/slider.js
+vendor/assets/somepackage/phonebox.js
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="app/assets/javascripts/home.js
+lib/assets/javascripts/moovinator.js
+vendor/assets/javascripts/slider.js
+vendor/assets/somepackage/phonebox.js
+">Copy</button>
+</div>
+<p>將在這樣的清單中引用：</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">//= require home</span>
+<span class="c1">//= require moovinator</span>
+<span class="c1">//= require slider</span>
+<span class="c1">//= require phonebox</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="//= require home
+//= require moovinator
+//= require slider
+//= require phonebox
+">Copy</button>
+</div>
+<p>也可以訪問子目錄內的資產。</p><div class="code_container">
+<pre><code class="highlight plaintext">app/assets/javascripts/sub/something.js
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="app/assets/javascripts/sub/something.js
+">Copy</button>
+</div>
+<p>被引用為：</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">//= require sub/something</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="//= require sub/something
+">Copy</button>
+</div>
+<p>您可以透過檢查view 搜尋路徑
+<code>Rails.application.config.assets.paths</code> 在 Rails 控制檯中。</p><p>除了標準的<code>assets/*</code> 路徑之外，還可以使用其他（完全限定的）路徑
+新增到<code>config/initializers/assets.rb</code> 中的管道中。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"lib"</span><span class="p">,</span> <span class="s2">"videoplayer"</span><span class="p">,</span> <span class="s2">"flash"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Rails.application.config.assets.paths &lt;&lt; Rails.root.join("lib", "videoplayer", "flash")
+'>Copy</button>
+</div>
+<p>路徑按照它們在搜尋路徑中出現的順序遍歷。預設情況下，
+這意味著<code>app/assets</code> 中的檔案優先，並將遮蔽
+<code>lib</code> 和<code>vendor</code> 中的對應路徑。</p><p>請務必注意，您要在清單之外引用的檔案必須
+被新增到預編譯陣列中，否則它們在生產中將不可用
+環境。</p><h5 id=""><a class="anchorlink" href="#">2.2.2 使用索引檔案</a></h5><p>Sprockets 使用名為 <code>index</code>（帶有相關副檔名）的檔案作為一個特殊的
+目的。</p><p>例如，如果您有一個包含許多 modules 的 jQuery 庫，它儲存在
+<code>lib/assets/javascripts/library_name</code>，檔案<code>lib/assets/javascripts/library_name/index.js</code> 作為
+此庫中所有檔案的清單。這個檔案可能包括一個列表
+按順序所有必需的檔案，或一個簡單的 <code>require_tree</code> 指令。</p><p>可以在應用程式清單中訪問整個庫，如下所示：</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">//= require library_name</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="//= require library_name
+">Copy</button>
+</div>
+<p>這透過允許相關程式碼來簡化維護並保持清潔
+在包含在其他地方之前先分組。</p><h4 id=""><a class="anchorlink" href="#">2.3 編碼資源連結</a></h4><p>Sprockets 不會新增任何新方法來訪問您的資產——您仍然使用
+熟悉的<code>javascript_include_tag</code> 和<code>stylesheet_link_tag</code>：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s2">"application"</span><span class="p">,</span> <span class="ss">media: </span><span class="s2">"all"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s2">"application"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= stylesheet_link_tag "application", media: "all" %&gt;
+&lt;%= javascript_include_tag "application" %&gt;
+'>Copy</button>
+</div>
+<p>如果使用 Rails 中預設包含的 turbolinks gem，則
+包括“data-turbo-track”選項，這會導致 Turbo 檢查是否
+資產已更新，如果是，則將其載入到頁面中：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s2">"application"</span><span class="p">,</span> <span class="ss">media: </span><span class="s2">"all"</span><span class="p">,</span> <span class="s2">"data-turbo-track"</span> <span class="o">=&gt;</span> <span class="s2">"reload"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s2">"application"</span><span class="p">,</span> <span class="s2">"data-turbo-track"</span> <span class="o">=&gt;</span> <span class="s2">"reload"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= stylesheet_link_tag "application", media: "all", "data-turbo-track" =&gt; "reload" %&gt;
+&lt;%= javascript_include_tag "application", "data-turbo-track" =&gt; "reload" %&gt;
+'>Copy</button>
+</div>
+<p>在常規views 中，您可以訪問<code>app/assets/images</code> 目錄中的影象
+像這樣：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="s2">"rails.png"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= image_tag "rails.png" %&gt;
+'>Copy</button>
+</div>
+<p>前提是在您的應用程式中啟用了管道（並且未禁用）
+在當前環境上下文中），此檔案由鏈輪提供。如果一個檔案
+存在於<code>public/assets/rails.png</code> 它由網路伺服器提供服務。</p><p>或者，對具有 SHA256 雜湊值的檔案的請求，例如
+<code>public/assets/rails-f90d8a84c707a8dc923fca1ca1895ae8ed0a09237f6992015fef1e11be77c023.png</code>
+以同樣的方式對待。這些雜湊是如何生成的在 <a href="#in-production">In
+Production</a> 部分在本指南的後面部分。</p><p>鏈輪還將檢視<code>config.assets.paths</code> 中指定的路徑，
+其中包括標準應用程式路徑和 Rails 新增的任何路徑
+引擎。</p><p>如果需要，影象也可以組織到子目錄中，然後可以
+透過在標籤中指定目錄名稱來訪問：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="s2">"icons/rails.png"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= image_tag "icons/rails.png" %&gt;
+'>Copy</button>
+</div>
+<p>警告：如果您正在預編譯您的資產（請參閱 <a href="#in-production">生產中</a>
+下），連結到不存在的資產將在
+呼叫頁面。這包括連結到一個空白字串。因此，請小心使用
+<code>image_tag</code> 和另一個 helpers 使用使用者提供的資料。</p><h5 id="css-erb"><a class="anchorlink" href="#css-erb">2.3.1 CSS 和 ERB</a></h5><p>asset pipeline 自動評估 ERB。這意味著如果你新增一個
+<code>erb</code> 擴充套件到 CSS 資產（例如，<code>application.css.erb</code>），然後
+helpers like <code>asset_path</code> 在您的 CSS 規則中可用：</p><div class="code_container">
+<pre><code class="highlight css"><span class="nc">.class</span> <span class="p">{</span> <span class="nl">background-image</span><span class="p">:</span> <span class="sx">url(&lt;%= asset_path 'image.png' %&gt;)</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text=".class { background-image: url(&lt;%= asset_path 'image.png' %&gt;) }
+">Copy</button>
+</div>
+<p>這將寫入所引用的特定資產的路徑。在這個例子中，
+在資產載入路徑之一中放置影象是有意義的，例如
+<code>app/assets/images/image.png</code>，這裡會引用。如果這張圖片是
+已經在<code>public/assets</code> 中作為指紋檔案可用，那麼該路徑是
+參考。</p><p>如果您想使用 <a href="https://en.wikipedia.org/wiki/Data_URI_scheme">資料 URI</a> -
+一種將影象資料直接嵌入到 CSS 檔案中的方法 - 您可以使用
+<code>asset_data_uri</code> helper。</p><div class="code_container">
+<pre><code class="highlight css"><span class="nf">#logo</span> <span class="p">{</span> <span class="nl">background</span><span class="p">:</span> <span class="sx">url(&lt;%= asset_data_uri 'logo.png' %&gt;)</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="#logo { background: url(&lt;%= asset_data_uri 'logo.png' %&gt;) }
+">Copy</button>
+</div>
+<p>這會將格式正確的資料 URI 插入 CSS 源。</p><p>請注意，結束標記不能是<code>-%&gt;</code> 樣式。</p><h5 id="css-sass"><a class="anchorlink" href="#css-sass">2.3.2 CSS 和 Sass</a></h5><p>使用asset pipeline 時，必須重寫資產路徑並
+<code>sass-rails</code> 提供 <code>-url</code> 和 <code>-path</code> helpers（在 Sass 中連字元，
+下劃線Ruby）用於以下資產類別：影象、字型、影片、音訊、
+JavaScript 和樣式表。</p>
+<ul>
+<li>
+<code>image-url("rails.png")</code> 返回 <code>url(/assets/rails.png)</code>
+</li>
+<li>
+<code>image-path("rails.png")</code> 返回 <code>"/assets/rails.png"</code>
+</li>
+</ul>
+<p>也可以使用更通用的形式：</p>
+<ul>
+<li>
+<code>asset-url("rails.png")</code> 返回 <code>url(/assets/rails.png)</code>
+</li>
+<li>
+<code>asset-path("rails.png")</code> 返回 <code>"/assets/rails.png"</code>
+</li>
+</ul>
+<h5 id="javascript-coffeescript-erb"><a class="anchorlink" href="#javascript-coffeescript-erb">2.3.3 JavaScript/CoffeeScript 和 ERB</a></h5><p>如果您向 JavaScript 資產新增 <code>erb</code> 副檔名，使其成為諸如
+<code>application.js.erb</code>，然後您就可以使用<code>asset_path</code> helper
+JavaScript 程式碼：</p><div class="code_container">
+<pre><code class="highlight js"><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">logo</span><span class="dl">'</span><span class="p">).</span><span class="nx">src</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">&lt;%= asset_path('logo.png') %&gt;</span><span class="dl">"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="document.getElementById('logo').src = &quot;&lt;%= asset_path('logo.png') %&gt;&quot;
+">Copy</button>
+</div>
+<p>這將寫入所引用的特定資產的路徑。</p><h4 id=""><a class="anchorlink" href="#">2.4 清單檔案和指令</a></h4><p>Sprockets 使用清單檔案來確定要包含和提供哪些資產。
+這些清單檔案包含 <em>directives</em> - 告訴鏈輪的指令
+構建單個 CSS 或 JavaScript 檔案需要哪些檔案。和
+這些指令，鏈輪載入指定的檔案，如果
+必要時，將它們連線成一個檔案，然後壓縮它們
+（基於<code>Rails.application.config.assets.js_compressor</code> 的value）。透過服務
+一個檔案而不是多個檔案，頁面的載入時間可以大大減少，因為
+瀏覽器發出更少的請求。壓縮還可以減小檔案大小，使
+瀏覽器以更快地下載它們。</p><p>例如，一個<code>app/assets/javascripts/application.js</code> 檔案包含
+以下幾行：</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">// ...</span>
+<span class="c1">//= require rails-ujs</span>
+<span class="c1">//= require turbolinks</span>
+<span class="c1">//= require_tree .</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="// ...
+//= require rails-ujs
+//= require turbolinks
+//= require_tree .
+">Copy</button>
+</div>
+<p>在 JavaScript 檔案中，Sprockets 指令以 <code>//=</code> 開頭。在上述情況下，
+該檔案正在使用 @{<em>0} 和 <code>require_tree</code> 指令。 @{_0}
+指令用於告訴鏈輪您希望需要的檔案。這個給你
+需要在某處可用的檔案<code>rails-ujs.js</code> 和<code>turbolinks.js</code>
+在鏈輪的搜尋路徑中。您無需明確提供擴充套件。
+Sprockets 假設您在 @{</em>0} 內完成時需要一個 @{_0} 檔案
+檔案。</p><p><code>require_tree</code> 指令告訴 Sprockets 遞迴地包含 <em>all</em>
+將指定目錄中的 JavaScript 檔案放入輸出中。這些路徑必須是
+相對於清單檔案指定。您還可以使用
+<code>require_directory</code> 指令僅包含所有 JavaScript 檔案
+指定的目錄，沒有遞迴。</p><p>指令從上到下處理，但檔案的順序
+<code>require_tree</code> 包含的內容未指定。你不應該依賴任何特定的
+其中的順序。如果您需要確保某些特定的 JavaScript 結束
+在連線檔案中的其他檔案之上，首先需要先決條件檔案
+在清單中。請注意，<code>require</code> 指令系列阻止檔案
+從被包含在輸出中兩次。</p><p>Rails 還會建立一個預設的<code>app/assets/stylesheets/application.css</code> 檔案
+其中包含這些行：</p><div class="code_container">
+<pre><code class="highlight css"><span class="c">/* ...
+ *= require_self
+ *= require_tree .
+ */</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="/* ...
+ *= require_self
+ *= require_tree .
+ */
+">Copy</button>
+</div>
+<p>Rails 會建立 <code>app/assets/stylesheets/application.css</code>，無論
+<code>--skip-sprockets</code> 選項用於建立新的 Rails 應用程式。這是
+因此，如果您願意，您可以在以後輕鬆新增資產流水線。</p><p>適用於 JavaScript 檔案的指令也適用於樣式表
+（雖然顯然包括樣式表而不是 JavaScript 檔案）。這
+CSS 清單中的 <code>require_tree</code> 指令的工作方式與 JavaScript 相同
+一，需要當前目錄中的所有樣式表。</p><p>在本例中，使用了<code>require_self</code>。這會將 CSS 包含在
+檔案（如果有）在<code>require_self</code> 呼叫的精確位置。</p><p>筆記。如果要使用多個Sass檔案，一般應該使用<a href="https://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#import">Sass<code>@import</code>規則</a>
+而不是這些鏈輪指令。使用鏈輪指令時，Sass 檔案存在於
+它們自己的作用域，使變數或 mixin 僅在定義它們的文件中可用。</p><p>您也可以使用<code>@import "*"</code> 和<code>@import "**/*"</code> 進行檔案通配以新增整個樹，這與<code>require_tree</code> 的工作方式相同。檢視 <a href="https://github.com/rails/sass-rails#features">sass-rails 文件</a> 瞭解更多資訊和重要警告。</p><p>您可以根據需要擁有任意數量的清單檔案。例如，<code>admin.css</code>
+和<code>admin.js</code> 清單可以包含用於
+應用程式的管理部分。</p><p>上面關於訂購的說明同樣適用。特別是，您可以指定
+單個檔案，它們按指定的順序編譯。例如，你
+可以透過這種方式將三個 CSS 檔案連線在一起：</p><div class="code_container">
+<pre><code class="highlight js"><span class="cm">/* ...
+ *= require reset
+ *= require layout
+ *= require chrome
+ */</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="/* ...
+ *= require reset
+ *= require layout
+ *= require chrome
+ */
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.5 預處理</a></h4><p>資產上使用的副檔名決定了應用什麼預處理。
+當使用預設的 Rails gemset 生成 controller 或 scaffold 時，
+SCSS 檔案代替常規 CSS 檔案生成。之前使用的例子
+是一個名為“projects”的controller，它生成了一個
+<code>app/assets/stylesheets/projects.scss</code> 檔案。</p><p>在開發模式下，或者如果asset pipeline 被禁用，當這個檔案被
+請求它由<code>sass-rails</code> gem 提供的處理器處理，並且
+然後作為 CSS 傳送回瀏覽器。當啟用資產流水線時，這
+檔案被預處理並放置在<code>public/assets</code> 目錄中以供服務
+Rails 應用程式或 Web 伺服器。</p><p>可以透過新增其他擴充套件來請求額外的預處理層，
+其中每個擴充套件都以從右到左的方式進行處理。這些應該是
+以應用處理的順序使用。例如，一個樣式表
+名為<code>app/assets/stylesheets/projects.scss.erb</code> 的首先被處理為 ERB，
+然後是SCSS，最後擔任CSS。這同樣適用於 JavaScript 檔案 -
+<code>app/assets/javascripts/projects.coffee.erb</code> 作為 ERB 處理，然後
+CoffeeScript，並充當 JavaScript。</p><p>請記住，這些預處理器的順序很重要。例如，如果
+你呼叫了你的 JavaScript 檔案 <code>app/assets/javascripts/projects.erb.coffee</code>
+然後它會首先用 CoffeeScript 直譯器處理，它
+不會理解 ERB，因此你會遇到問題。</p><h3 id=""><a class="anchorlink" href="#">3 開發中</a></h3><p>在開發模式下，資產按照它們的順序作為單獨的檔案提供
+在清單檔案中指定。</p><p>這個清單<code>app/assets/javascripts/application.js</code>：</p><div class="code_container">
+<pre><code class="highlight js"><span class="c1">//= require core</span>
+<span class="c1">//= require projects</span>
+<span class="c1">//= require tickets</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="//= require core
+//= require projects
+//= require tickets
+">Copy</button>
+</div>
+<p>將生成此 HTML：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/assets/core.js?body=1"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/assets/projects.js?body=1"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/assets/tickets.js?body=1"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;script src="/assets/core.js?body=1"&gt;&lt;/script&gt;
+&lt;script src="/assets/projects.js?body=1"&gt;&lt;/script&gt;
+&lt;script src="/assets/tickets.js?body=1"&gt;&lt;/script&gt;
+'>Copy</button>
+</div>
+<p>Sprockets 需要 <code>body</code> 引數。</p><h4 id=""><a class="anchorlink" href="#">3.1 未找到資產時引發錯誤</a></h4><p>如果您使用 sprockets-rails &gt;= 3.2.0，您可以配置會發生什麼
+當執行資產查詢但未找到任何內容時。如果您關閉“資產回退”
+那麼當找不到資產時將引發錯誤。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">unknown_asset_fallback</span> <span class="o">=</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.unknown_asset_fallback = false
+">Copy</button>
+</div>
+<p>如果啟用了“資產回退”，那麼當找不到資產時，路徑將是
+輸出而不是引發錯誤。預設情況下禁用資產回退行為。</p><h4 id=""><a class="anchorlink" href="#">3.2 關閉摘要</a></h4><p>您可以透過更新<code>config/environments/development.rb</code> 來關閉摘要
+包括：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">digest</span> <span class="o">=</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.digest = false
+">Copy</button>
+</div>
+<p>當此選項為 true 時，將為資產 URL 生成摘要。</p><h4 id=""><a class="anchorlink" href="#">3.3 關閉除錯</a></h4><p>您可以透過更新<code>config/environments/development.rb</code> 來關閉除錯模式
+包括：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">debug</span> <span class="o">=</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.debug = false
+">Copy</button>
+</div>
+<p>當除錯模式關閉時，鏈輪連線並執行必要的
+所有檔案的預處理器。關閉除錯模式後，上面的清單會
+改為生成：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/assets/application.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;script src="/assets/application.js"&gt;&lt;/script&gt;
+'>Copy</button>
+</div>
+<p>資源在伺服器啟動後的第一個請求時被編譯和快取。
+Sprockets 設定一個<code>must-revalidate</code> Cache-Control HTTP 頭來減少請求
+後續請求的開銷 - 在這些請求上，瀏覽器會收到 304（未修改）
+回覆。</p><p>如果清單中的任何檔案在請求之間發生了更改，則伺服器
+以一個新的編譯檔案響應。</p><p>除錯模式也可以在 Rails helper 方法中啟用：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s2">"application"</span><span class="p">,</span> <span class="ss">debug: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s2">"application"</span><span class="p">,</span> <span class="ss">debug: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= stylesheet_link_tag "application", debug: true %&gt;
+&lt;%= javascript_include_tag "application", debug: true %&gt;
+'>Copy</button>
+</div>
+<p>如果除錯模式已經開啟，<code>:debug</code> 選項是多餘的。</p><p>您還可以在開發模式下啟用壓縮作為完整性檢查，並且
+根據除錯的需要按需禁用它。</p><h3 id=""><a class="anchorlink" href="#">4 生產中</a></h3><p>在生產環境中，Sprockets 使用了概述的指紋識別方案
+以上。預設情況下，Rails 假設資源已經被預編譯，並且會被
+由您的 Web 伺服器用作靜態資產。</p><p>在預編譯階段，SHA256 從檔案的內容中生成
+編譯檔案，並在寫入磁碟時插入檔名。
+Rails helpers 使用這些指紋名稱代替清單
+姓名。</p><p>例如這個：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s2">"application"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s2">"application"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= javascript_include_tag "application" %&gt;
+&lt;%= stylesheet_link_tag "application" %&gt;
+'>Copy</button>
+</div>
+<p>生成這樣的東西：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/assets/application-908e25f4bf641868d8683022a5b62f54.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"/assets/application-4dd5b109ee3439da54f5bdfd78a80473.css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="nt">/&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;script src="/assets/application-908e25f4bf641868d8683022a5b62f54.js"&gt;&lt;/script&gt;
+&lt;link href="/assets/application-4dd5b109ee3439da54f5bdfd78a80473.css" rel="stylesheet" /&gt;
+'>Copy</button>
+</div>
+<p>注意：對於Asset Pipeline，不使用<code>:cache</code> 和<code>:concat</code> 選項
+再從<code>javascript_include_tag</code> 和
+<code>stylesheet_link_tag</code>。</p><p>指紋行為由<code>config.assets.digest</code> 控制
+初始化選項（預設為<code>true</code>）。</p><p>注意：一般情況下預設<code>config.assets.digest</code>選項
+不應該改變。如果檔名中沒有摘要，並且在很遠的將來
+標頭已設定，遠端客戶端將永遠不會知道重新獲取檔案時
+內容變化。</p><h4 id=""><a class="anchorlink" href="#">4.1 預編譯資產</a></h4><p>Rails 捆綁了一個命令來編譯資產清單和其他
+管道中的檔案。</p><p>編譯後的資產被寫入<code>config.assets.prefix</code> 中指定的位置。
+預設情況下，這是<code>/assets</code> 目錄。</p><p>你可以在部署的時候在伺服器上呼叫這個命令來建立編譯好的
+直接在伺服器上的資產版本。請參閱下一節
+有關本地編譯的資訊。</p><p>命令是：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nb">rails </span>assets:precompile
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="RAILS_ENV=production rails assets:precompile
+">Copy</button>
+</div>
+<p>這會將<code>config.assets.prefix</code> 中指定的資料夾連結到<code>shared/assets</code>。
+如果您已經使用此共享資料夾，則需要編寫自己的部署
+命令。</p><p>在部署之間共享此資料夾很重要，以便遠端
+引用舊編譯資產的快取頁面在其生命週期內仍然有效
+快取的頁面。</p><p>編譯檔案的預設匹配器包括<code>application.js</code>，
+<code>application.css</code> 和所有非 JS/CSS 檔案（這將包括所有影象資產
+自動）來自<code>app/assets</code> 資料夾，包括您的寶石：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="p">[</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">filename</span><span class="p">,</span> <span class="n">path</span><span class="o">|</span> <span class="n">path</span> <span class="o">=~</span> <span class="sr">/app\/assets/</span><span class="err"> &amp;&amp; !%w(.j</span><span class="sr">s</span> <span class="p">.</span><span class="nf">css</span><span class="p">).</span><span class="nf">include?</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">extname</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span> <span class="p">},</span>
+<span class="sr">/application.(css|js)$/</span><span class="err"> ]
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="[ Proc.new { |filename, path| path =~ /app\/assets/ &amp;&amp; !%w(.js .css).include?(File.extname(filename)) },
+/application.(css|js)$/ ]
+">Copy</button>
+</div>
+<p>注意：匹配器（和預編譯陣列的其他成員；見下文）是
+應用於最終編譯的檔名。這意味著任何編譯為
+不包括 JS/CSS，以及原始 JS/CSS 檔案；例如，<code>.coffee</code> 和
+<code>.scss</code> 檔案在編譯為 JS/CSS 時<strong>不會</strong>自動包含在內。</p><p>如果您有其他清單或單獨的樣式表和 JavaScript 檔案
+包括，您可以將它們新增到<code>config/initializers/assets.rb</code> 中的<code>precompile</code> 陣列中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">precompile</span> <span class="o">+=</span> <span class="sx">%w( admin.js admin.css )</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.config.assets.precompile += %w( admin.js admin.css )
+">Copy</button>
+</div>
+<p>筆記。始終指定以<code>.js</code> 或<code>.css</code> 結尾的預期編譯檔名，
+即使您想將 Sass 或 CoffeeScript 檔案新增到預編譯陣列中。</p><p>該命令還會生成一個<code>.sprockets-manifest-randomhex.json</code>（其中<code>randomhex</code> 是
+一個 16 位元組的隨機十六進位制字串），其中包含一個列表，其中包含您的所有資產及其各自的資產
+指紋。 Rails helper 方法使用它來避免處理
+將請求映射回鏈輪。典型的清單檔案如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="p">{</span><span class="s2">"files"</span><span class="p">:{</span><span class="s2">"application-aee4be71f1288037ae78b997df388332edfd246471b533dcedaa8f9fe156442b.js"</span><span class="p">:{</span><span class="s2">"logical_path"</span><span class="ss">:"application.js"</span><span class="p">,</span><span class="s2">"mtime"</span><span class="ss">:"2016-12-23T20:12:03-05:00"</span><span class="p">,</span><span class="s2">"size"</span><span class="p">:</span><span class="mi">412383</span><span class="p">,</span>
+<span class="s2">"digest"</span><span class="ss">:"aee4be71f1288037ae78b997df388332edfd246471b533dcedaa8f9fe156442b"</span><span class="p">,</span><span class="s2">"integrity"</span><span class="ss">:"sha256-ruS+cfEogDeueLmX3ziDMu39JGRxtTPc7aqPn+FWRCs="</span><span class="p">},</span>
+<span class="s2">"application-86a292b5070793c37e2c0e5f39f73bb387644eaeada7f96e6fc040a028b16c18.css"</span><span class="p">:{</span><span class="s2">"logical_path"</span><span class="ss">:"application.css"</span><span class="p">,</span><span class="s2">"mtime"</span><span class="ss">:"2016-12-23T19:12:20-05:00"</span><span class="p">,</span><span class="s2">"size"</span><span class="p">:</span><span class="mi">2994</span><span class="p">,</span>
+<span class="s2">"digest"</span><span class="ss">:"86a292b5070793c37e2c0e5f39f73bb387644eaeada7f96e6fc040a028b16c18"</span><span class="p">,</span><span class="s2">"integrity"</span><span class="ss">:"sha256-hqKStQcHk8N+LA5fOfc7s4dkTq6tp/lub8BAoCixbBg="</span><span class="p">},</span>
+<span class="s2">"favicon-8d2387b8d4d32cecd93fa3900df0e9ff89d01aacd84f50e780c17c9f6b3d0eda.ico"</span><span class="p">:{</span><span class="s2">"logical_path"</span><span class="ss">:"favicon.ico"</span><span class="p">,</span><span class="s2">"mtime"</span><span class="ss">:"2016-12-23T20:11:00-05:00"</span><span class="p">,</span><span class="s2">"size"</span><span class="p">:</span><span class="mi">8629</span><span class="p">,</span>
+<span class="s2">"digest"</span><span class="ss">:"8d2387b8d4d32cecd93fa3900df0e9ff89d01aacd84f50e780c17c9f6b3d0eda"</span><span class="p">,</span><span class="s2">"integrity"</span><span class="ss">:"sha256-jSOHuNTTLOzZP6OQDfDp/4nQGqzYT1DngMF8n2s9Dto="</span><span class="p">},</span>
+<span class="s2">"my_image-f4028156fd7eca03584d5f2fc0470df1e0dbc7369eaae638b2ff033f988ec493.png"</span><span class="p">:{</span><span class="s2">"logical_path"</span><span class="ss">:"my_image.png"</span><span class="p">,</span><span class="s2">"mtime"</span><span class="ss">:"2016-12-23T20:10:54-05:00"</span><span class="p">,</span><span class="s2">"size"</span><span class="p">:</span><span class="mi">23414</span><span class="p">,</span>
+<span class="s2">"digest"</span><span class="ss">:"f4028156fd7eca03584d5f2fc0470df1e0dbc7369eaae638b2ff033f988ec493"</span><span class="p">,</span><span class="s2">"integrity"</span><span class="ss">:"sha256-9AKBVv1+ygNYTV8vwEcN8eDbxzaequY4sv8DP5iOxJM="</span><span class="p">}},</span>
+<span class="s2">"assets"</span><span class="p">:{</span><span class="s2">"application.js"</span><span class="ss">:"application-aee4be71f1288037ae78b997df388332edfd246471b533dcedaa8f9fe156442b.js"</span><span class="p">,</span>
+<span class="s2">"application.css"</span><span class="ss">:"application-86a292b5070793c37e2c0e5f39f73bb387644eaeada7f96e6fc040a028b16c18.css"</span><span class="p">,</span>
+<span class="s2">"favicon.ico"</span><span class="ss">:"favicon-8d2387b8d4d32cecd93fa3900df0e9ff89d01aacd84f50e780c17c9f6b3d0eda.ico"</span><span class="p">,</span>
+<span class="s2">"my_image.png"</span><span class="ss">:"my_image-f4028156fd7eca03584d5f2fc0470df1e0dbc7369eaae638b2ff033f988ec493.png"</span><span class="p">}}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='{"files":{"application-aee4be71f1288037ae78b997df388332edfd246471b533dcedaa8f9fe156442b.js":{"logical_path":"application.js","mtime":"2016-12-23T20:12:03-05:00","size":412383,
+"digest":"aee4be71f1288037ae78b997df388332edfd246471b533dcedaa8f9fe156442b","integrity":"sha256-ruS+cfEogDeueLmX3ziDMu39JGRxtTPc7aqPn+FWRCs="},
+"application-86a292b5070793c37e2c0e5f39f73bb387644eaeada7f96e6fc040a028b16c18.css":{"logical_path":"application.css","mtime":"2016-12-23T19:12:20-05:00","size":2994,
+"digest":"86a292b5070793c37e2c0e5f39f73bb387644eaeada7f96e6fc040a028b16c18","integrity":"sha256-hqKStQcHk8N+LA5fOfc7s4dkTq6tp/lub8BAoCixbBg="},
+"favicon-8d2387b8d4d32cecd93fa3900df0e9ff89d01aacd84f50e780c17c9f6b3d0eda.ico":{"logical_path":"favicon.ico","mtime":"2016-12-23T20:11:00-05:00","size":8629,
+"digest":"8d2387b8d4d32cecd93fa3900df0e9ff89d01aacd84f50e780c17c9f6b3d0eda","integrity":"sha256-jSOHuNTTLOzZP6OQDfDp/4nQGqzYT1DngMF8n2s9Dto="},
+"my_image-f4028156fd7eca03584d5f2fc0470df1e0dbc7369eaae638b2ff033f988ec493.png":{"logical_path":"my_image.png","mtime":"2016-12-23T20:10:54-05:00","size":23414,
+"digest":"f4028156fd7eca03584d5f2fc0470df1e0dbc7369eaae638b2ff033f988ec493","integrity":"sha256-9AKBVv1+ygNYTV8vwEcN8eDbxzaequY4sv8DP5iOxJM="}},
+"assets":{"application.js":"application-aee4be71f1288037ae78b997df388332edfd246471b533dcedaa8f9fe156442b.js",
+"application.css":"application-86a292b5070793c37e2c0e5f39f73bb387644eaeada7f96e6fc040a028b16c18.css",
+"favicon.ico":"favicon-8d2387b8d4d32cecd93fa3900df0e9ff89d01aacd84f50e780c17c9f6b3d0eda.ico",
+"my_image.png":"my_image-f4028156fd7eca03584d5f2fc0470df1e0dbc7369eaae638b2ff033f988ec493.png"}}
+'>Copy</button>
+</div>
+<p>清單的預設位置是指定位置的根目錄
+<code>config.assets.prefix</code>（預設為“/assets”）。</p><p>注意：如果生產中缺少預編譯檔案，您將獲得
+<code>Sprockets::Helpers::RailsHelper::AssetPaths::AssetNotPrecompiledError</code>
+指示丟失檔名稱的異常。</p><h5 id=""><a class="anchorlink" href="#">4.1.1 遠期到期標題</a></h5><p>預編譯資產存在於檔案系統中，由您的網站直接提供
+伺服器。預設情況下，它們沒有遠未來的標頭，因此要獲得
+指紋識別你必須更新你的伺服器配置來新增那些
+標題。</p><p>對於阿帕奇：</p><div class="code_container">
+<pre><code class="highlight apache"><span class="c"># The Expires* directives requires the Apache module</span>
+<span class="c"># `mod_expires` to be enabled.</span>
+<span class="p">&lt;</span><span class="nl">Location</span><span class="sr"> /assets/</span><span class="p">&gt;
+</span>  <span class="c"># Use of ETag is discouraged when Last-Modified is present</span>
+  <span class="nc">Header</span> <span class="ss">unset</span> ETag
+  <span class="nc">FileETag</span> <span class="ss">None</span>
+  <span class="c"># RFC says only cache for 1 year</span>
+  <span class="nc">ExpiresActive</span> <span class="ss">On</span>
+  <span class="nc">ExpiresDefault</span> "access plus 1 year"
+<span class="p">&lt;/</span><span class="nl">Location</span><span class="p">&gt;
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text='# The Expires* directives requires the Apache module
+# `mod_expires` to be enabled.
+&lt;Location /assets/&gt;
+  # Use of ETag is discouraged when Last-Modified is present
+  Header unset ETag
+  FileETag None
+  # RFC says only cache for 1 year
+  ExpiresActive On
+  ExpiresDefault "access plus 1 year"
+&lt;/Location&gt;
+'>Copy</button>
+</div>
+<p>對於 NGINX：</p><div class="code_container">
+<pre><code class="highlight nginx"><span class="k">location</span> <span class="p">~</span> <span class="sr">^/assets/</span> <span class="p">{</span>
+  <span class="kn">expires</span> <span class="s">1y</span><span class="p">;</span>
+  <span class="kn">add_header</span> <span class="s">Cache-Control</span> <span class="s">public</span><span class="p">;</span>
+
+  <span class="kn">add_header</span> <span class="s">ETag</span> <span class="s">""</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='location ~ ^/assets/ {
+  expires 1y;
+  add_header Cache-Control public;
+
+  add_header ETag "";
+}
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">4.2 本地預編譯</a></h4><p>有時，您可能不希望或無法在生產中編譯資產
+伺服器。例如，您可能對生產的寫訪問許可權有限
+檔案系統，或者您可能計劃頻繁部署而不對
+你的資產。</p><p>在這種情況下，您可以 <em>locally</em> 預編譯資產 — 即新增一個最終確定的
+將一組已編譯的、生產就緒的資產新增到您的原始碼儲存庫之前
+推向生產。這樣，它們就不需要單獨預編譯
+在每次部署時在生產伺服器上。</p><p>如上所述，您可以使用執行此步驟</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nb">rails </span>assets:precompile
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="RAILS_ENV=production rails assets:precompile
+">Copy</button>
+</div>
+<p>請注意以下注意事項：</p>
+<ul>
+<li>
+<p>如果預編譯資產可用，它們將被提供——即使它們沒有
+更長時間匹配原始（未編譯）資產，<em>甚至在開發中
+伺服器。</em></p>
+<p>確保開發伺服器始終即時編譯資產（和
+因此總是反映程式碼的最新狀態），開發
+環境<em>必須配置為將預編譯資產儲存在不同的
+位置而不是生產。</em>否則，任何預編譯用於
+生產將在開發中破壞對它們的請求（<em>即，</em>隨後的
+您對資產所做的更改不會反映在瀏覽器中）。</p>
+<p>您可以透過將以下行新增到
+<code>config/environments/development.rb</code>：</p>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">prefix</span> <span class="o">=</span> <span class="s2">"/dev-assets"</span>
+<span class="sb">``</span>
+<span class="o">*</span> <span class="err">部署工具（</span><span class="n">_e</span><span class="p">.</span><span class="nf">g</span><span class="p">.</span><span class="nf">,</span><span class="n">_</span> <span class="no">Capistrano</span><span class="err">）中的資產預編譯任務應該</span>
+<span class="err">被禁用。</span>
+<span class="o">*</span> <span class="err">任何必要的壓縮器或壓縮器必須在您的開發中可用</span>
+<span class="err">系統。</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.assets.prefix = "/dev-assets"
+``
+* 部署工具（_e.g.,_ Capistrano）中的資產預編譯任務應該
+被禁用。
+* 任何必要的壓縮器或壓縮器必須在您的開發中可用
+系統。
+'>Copy</button>
+</div>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">4.3 現場編譯</a></h4><p>在某些情況下，您可能希望使用實時編譯。在這種模式下所有
+對管道中資產的請求由鏈輪直接處理。</p><p>要啟用此選項集：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">compile</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.compile = true
+">Copy</button>
+</div>
+<p>在第一個請求中，資產被編譯和快取，如 <a href="#assets-cache-store">資產
+Cache Store</a>，以及helpers 中使用的清單名稱
+被更改為包括 SHA256 雜湊。</p><p>Sprockets 還將 <code>Cache-Control</code> HTTP 標頭設定為 <code>max-age=31536000</code>。這個
+向您的伺服器和客戶端瀏覽器之間的所有快取發出訊號，表明此內容
+（提供的檔案）可以快取 1 年。這樣做的效果是減少
+您的伺服器對此資產的請求數；資產有很好的機會
+位於本地瀏覽器快取或某些中間快取中。</p><p>此模式使用更多記憶體，效能比預設模式更差，並且不
+受到推崇的。</p><p>如果您將生產應用程式部署到沒有任何
+預先存在的 JavaScript 執行時，您可能希望在 <code>Gemfile</code> 中新增一個：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">group</span> <span class="ss">:production</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'mini_racer'</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="group :production do
+  gem 'mini_racer'
+end
+">Copy</button>
+</div>
+<h4 id="cdn"><a class="anchorlink" href="#cdn">4.4 CDN</a></h4><p>CDN 代表 <a href="https://en.wikipedia.org/wiki/Content_delivery_network">內容交付
+網路</a>，它們是
+主要用於快取世界各地的資產，以便當瀏覽器
+請求資產，快取副本將在地理上靠近該瀏覽器。
+如果您在生產環境中直接從 Rails 伺服器提供資源，
+最佳實踐是在您的應用程式前使用 CDN。</p><p>使用 CDN 的一種常見模式是將您的生產應用程式設定為
+“起源”伺服器。這意味著當瀏覽器從 CDN 請求資產並且
+有一個快取未命中，它會從您的伺服器上即時抓取檔案並
+然後快取它。例如，如果您正在執行 Rails 應用程式
+<code>example.com</code> 並在 <code>mycdnsubdomain.fictional-cdn.com</code> 處配置了 CDN，
+然後當向<code>mycdnsubdomain.fictional-發出請求時
+cdn.com/assets/smile.png</code>，CDN 將查詢您的伺服器一次
+<code>example.com/assets/smile.png</code> 並快取請求。下一個請求
+進入相同 URL 的 CDN 將命中快取副本。當 CDN 可以
+直接提供資產請求永遠不會觸及您的 Rails 伺服器。由於
+來自 CDN 的資產在地理上更接近瀏覽器，請求是
+更快，而且由於您的伺服器不需要花時間服務資產，它可以
+專注於盡可能快地提供應用程式程式碼。</p><h5 id="cdn"><a class="anchorlink" href="#cdn">4.4.1 設定 CDN 來服務靜態資產</a></h5><p>要設定您的 CDN，您必須讓您的應用程式在生產環境中執行
+網際網路上公開可用的 URL，例如 <code>example.com</code>。下一個
+您需要從雲託管服務提供商處註冊 CDN 服務。當你
+為此，您需要配置 CDN 的“來源”以指向您的
+網站<code>example.com</code>，請檢查您的提供商以獲取有關配置
+源伺服器。</p><p>您提供的 CDN 應該為您的應用程式提供自定義子域
+例如<code>mycdnsubdomain.fictional-cdn.com</code>（注意虛構-cdn.com 不是
+在撰寫本文時有效的 CDN 提供商）。現在你已經配置了
+您的 CDN 伺服器，您需要告訴瀏覽器使用您的 CDN 來抓取資產
+而不是直接使用 Rails 伺服器。您可以透過將 Rails 配置為
+將您的 CDN 設定為資產主機，而不是使用相對路徑。設定您的
+在 Rails 中的資產主機，你需要設定 <code>config.asset_host</code>
+<code>config/environments/production.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">asset_host</span> <span class="o">=</span> <span class="s1">'mycdnsubdomain.fictional-cdn.com'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.asset_host = 'mycdnsubdomain.fictional-cdn.com'
+">Copy</button>
+</div>
+<p>注意：您只需要提供“主機”，這是子域和根
+域，您不需要指定協議或“方案”，例如<code>http://</code> 或
+<code>https://</code>。當請求網頁時，連結到您的資產的協議
+生成的將與預設情況下訪問網頁的方式相匹配。</p><p>您還可以透過 <a href="https://en.wikipedia.org/wiki/Environment_variable">environment
+變數</a> 執行
+更輕鬆地暫存網站副本：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">asset_host</span> <span class="o">=</span> <span class="no">ENV</span><span class="p">[</span><span class="s1">'CDN_HOST'</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.asset_host = ENV['CDN_HOST']
+">Copy</button>
+</div>
+<p>注意：您需要將伺服器上的 <code>CDN_HOST</code> 設定為 <code>mycdnsubdomain
+.fictional-cdn.com</code> 使其工作。</p><p>一旦您在提供網頁時配置了伺服器和 CDN
+有資產：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">asset_path</span><span class="p">(</span><span class="s1">'smile.png'</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= asset_path('smile.png') %&gt;
+">Copy</button>
+</div>
+<p>而不是返回諸如<code>/assets/smile.png</code> 之類的路徑（摘要被省略
+為了可讀性）。生成的 URL 將包含 CDN 的完整路徑。</p><div class="code_container">
+<pre><code class="highlight plaintext">http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
+">Copy</button>
+</div>
+<p>如果 CDN 有 <code>smile.png</code> 的副本，它將提供給瀏覽器和您的
+伺服器甚至不知道它被請求。如果 CDN 沒有副本
+將嘗試在“原點”<code>example.com/assets/smile.png</code> 處找到它，然後儲存
+以備將來使用。</p><p>如果您只想提供 CDN 中的某些資產，則可以使用自定義 <code>:host</code>
+選擇您的資產helper，它會覆蓋value 中的設定
+<code>config.action_controller.asset_host</code>。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">asset_path</span> <span class="s1">'image.png'</span><span class="p">,</span> <span class="ss">host: </span><span class="s1">'mycdnsubdomain.fictional-cdn.com'</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= asset_path 'image.png', host: 'mycdnsubdomain.fictional-cdn.com' %&gt;
+">Copy</button>
+</div>
+<h5 id="cdn"><a class="anchorlink" href="#cdn">4.4.2 自定義 CDN 快取行為</a></h5><p>CDN 透過快取內容來工作。如果 CDN 有陳舊或壞的內容，那麼它是
+傷害而不是幫助您的應用程式。本節的目的是
+描述大多數 CDN 的一般快取行為，您的特定提供商可能
+行為略有不同。</p><h6 id="cdn"><a class="anchorlink" href="#cdn">4.4.2.1 CDN 請求快取</a></h6><p>雖然 CDN 被描述為有利於快取資產，但實際上快取的是
+整個請求。這包括資產的主體以及任何標題。這
+最重要的一個是<code>Cache-Control</code>，它告訴 CDN（和網路瀏覽器）
+如何快取內容。這意味著如果有人請求資產
+不存在 <code>/assets/i-dont-exist.png</code> 並且您的 Rails 應用程式返回 404，
+如果<code>Cache-Control</code> 標頭有效，那麼您的 CDN 可能會快取 404 頁面
+存在。</p><h6 id="cdn"><a class="anchorlink" href="#cdn">4.4.2.2 CDN 頭除錯</a></h6><p>檢查標頭是否正確快取在 CDN 中的一種方法是使用 [curl](
+<a href="https://explainshell.com/explain?cmd=curl+-I+http%3A%2F%2Fwww.example.com%EF%BC%89%E3%80%82%E4%BD%A0">https://explainshell.com/explain?cmd=curl+-I+http%3A%2F%2Fwww.example.com）。你</a>
+可以從您的伺服器和 CDN 請求標頭以驗證它們是
+相同：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span>curl <span class="nt">-I</span> http://www.example/assets/application-
+<span class="go">d0e099e021c95eb0de3615fd1d8c4d83.css
+HTTP/1.1 200 OK
+Server: Cowboy
+Date: Sun, 24 Aug 2014 20:27:50 GMT
+Connection: keep-alive
+Last-Modified: Thu, 08 May 2014 01:24:14 GMT
+Content-Type: text/css
+Cache-Control: public, max-age=2592000
+Content-Length: 126560
+Via: 1.1 vegur
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="curl -I http://www.example/assets/application-
+">Copy</button>
+</div>
+<p>與 CDN 副本相對。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span>curl <span class="nt">-I</span> http://mycdnsubdomain.fictional-cdn.com/application-
+<span class="go">d0e099e021c95eb0de3615fd1d8c4d83.css
+HTTP/1.1 200 OK Server: Cowboy Last-
+Modified: Thu, 08 May 2014 01:24:14 GMT Content-Type: text/css
+Cache-Control:
+public, max-age=2592000
+Via: 1.1 vegur
+Content-Length: 126560
+Accept-Ranges:
+bytes
+Date: Sun, 24 Aug 2014 20:28:45 GMT
+Via: 1.1 varnish
+Age: 885814
+Connection: keep-alive
+X-Served-By: cache-dfw1828-DFW
+X-Cache: HIT
+X-Cache-Hits:
+68
+X-Timer: S1408912125.211638212,VS0,VE0
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="curl -I http://mycdnsubdomain.fictional-cdn.com/application-
+">Copy</button>
+</div>
+<p>檢查您的 CDN 文件以瞭解他們可能提供的任何其他資訊
+例如<code>X-Cache</code> 或他們可能新增的任何其他標題。</p><h6 id="cdn-cache-control"><a class="anchorlink" href="#cdn-cache-control">4.4.2.3 CDN 和 Cache-Control 標頭</a></h6><p><a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">快取控制
+header</a> 是 W3C
+描述如何快取請求的規範。不使用 CDN 時，
+瀏覽器將使用此資訊來快取內容。這對
+未修改的資產，因此瀏覽器不需要重新下載
+每個請求的網站的 CSS 或 JavaScript。通常我們想要我們的 Rails 伺服器
+告訴我們的 CDN（和瀏覽器）資產是“公開的”，這意味著任何快取
+可以儲存請求。另外我們通常想設定<code>max-age</code> 是多長時間
+快取將在快取失效之前儲存物件。 <code>max-age</code>
+value 設定為秒，value 的最大可能 <code>31536000</code> 是一
+年。您可以透過設定在 Rails 應用程式中執行此操作</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">public_file_server</span><span class="p">.</span><span class="nf">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'Cache-Control'</span> <span class="o">=&gt;</span> <span class="s1">'public, max-age=31536000'</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.public_file_server.headers = {
+  'Cache-Control' =&gt; 'public, max-age=31536000'
+}
+">Copy</button>
+</div>
+<p>現在，當您的應用程式在生產中提供資產時，CDN 將儲存
+資產長達一年。由於大多數 CDN 還快取請求的標頭，因此
+<code>Cache-Control</code> 將傳遞給所有未來尋求此資產的瀏覽器，
+然後瀏覽器知道它可以在很長一段時間之前儲存此資產
+需要重新申請。</p><h6 id="cdn-url"><a class="anchorlink" href="#cdn-url">4.4.2.4 CDN 和基於 URL 的快取失效</a></h6><p>大多數 CDN 會根據完整的 URL 快取資產的內容。這意味著
+要求</p><div class="code_container">
+<pre><code class="highlight plaintext">http://mycdnsubdomain.fictional-cdn.com/assets/smile-123.png
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="http://mycdnsubdomain.fictional-cdn.com/assets/smile-123.png
+">Copy</button>
+</div>
+<p>將是一個完全不同的快取</p><div class="code_container">
+<pre><code class="highlight plaintext">http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
+">Copy</button>
+</div>
+<p>如果你想在你的<code>Cache-Control</code> 中設定遠未來<code>max-age</code>（你這樣做），
+然後確保在更改資產時快取無效。為了
+例如，將影象中的笑臉從黃色更改為藍色時，您需要
+您網站的所有訪問者都可以獲得新的藍臉。將 CDN 與
+Rails asset pipeline <code>config.assets.digest</code> 預設設定為 true，以便
+每個資產在更改時將具有不同的檔名。這樣你
+不必手動使快取中的任何專案無效。透過使用一個
+取而代之的是不同的唯一資產名稱，您的使用者將獲得最新的資產。</p><h3 id=""><a class="anchorlink" href="#">5 自定義管道</a></h3><h4 id="css"><a class="anchorlink" href="#css">5.1 CSS 壓縮</a></h4><p>壓縮 CSS 的選項之一是 YUI。 <a href="https://yui.github.io/yuicompressor/css.html">YUI CSS
+壓縮器</a> 提供
+縮小。</p><p>以下行啟用 YUI 壓縮，並需要 <code>yui-compressor</code>
+寶石。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">css_compressor</span> <span class="o">=</span> <span class="ss">:yui</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.css_compressor = :yui
+">Copy</button>
+</div>
+<p>如果安裝了 sass-rails gem，則壓縮 CSS 的另一個選項是</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">css_compressor</span> <span class="o">=</span> <span class="ss">:sass</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.css_compressor = :sass
+">Copy</button>
+</div>
+<h4 id="javascript"><a class="anchorlink" href="#javascript">5.2 JavaScript 壓縮</a></h4><p>JavaScript 壓縮的可能選項是<code>:terser</code>、<code>:closure</code>、<code>:uglifier</code> 和
+<code>:yui</code>。這些需要使用<code>terser</code>、<code>closure-compiler</code>、<code>uglifier</code> 或
+<code>yui-compressor</code> 寶石，分別。</p><p>以<code>terser</code> gem 為例。
+這個 gem 包裝了 <a href="https://github.com/terser/terser">Terser</a>（為
+NodeJS）在Ruby 中。它透過刪除空格和註釋來壓縮您的程式碼，
+縮短區域性變數名稱，並執行其他微最佳化，例如
+儘可能將 <code>if</code> 和 <code>else</code> 語句更改為三元運算子。</p><p>以下行呼叫 <code>terser</code> 進行 JavaScript 壓縮。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">js_compressor</span> <span class="o">=</span> <span class="ss">:terser</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.js_compressor = :terser
+">Copy</button>
+</div>
+<p>注意：您將需要一個 <a href="https://github.com/rails/execjs#readme">ExecJS</a>
+支援執行時以使用<code>terser</code>。如果您使用的是 macOS 或
+Windows 您的作業系統中安裝了 JavaScript 執行時。</p><h4 id="gzipping"><a class="anchorlink" href="#gzipping">5.3 GZipping 您的資產</a></h4><p>預設情況下，將生成編譯資產的 gzip 版本，以及
+資產的非 gzip 版本。壓縮資產有助於減少傳輸
+線上的資料。您可以透過設定 <code>gzip</code> 標誌來配置它。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">gzip</span> <span class="o">=</span> <span class="kp">false</span> <span class="c1"># disable gzipped assets generation</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.gzip = false # disable gzipped assets generation
+">Copy</button>
+</div>
+<p>有關如何提供壓縮資產的說明，請參閱 Web 伺服器的文件。</p><h4 id=""><a class="anchorlink" href="#">5.4 使用您自己的壓縮器</a></h4><p>CSS 和 JavaScript 的壓縮器配置設定也可以接受任何物件。
+此物件必須有一個<code>compress</code> 方法，該方法以字串為唯一
+引數，它必須返回一個字串。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Transformer</span>
+  <span class="k">def</span> <span class="nf">compress</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="n">do_something_returning_a_string</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Transformer
+  def compress(string)
+    do_something_returning_a_string(string)
+  end
+end
+">Copy</button>
+</div>
+<p>要啟用此功能，請將新物件傳遞給<code>application.rb</code> 中的配置選項：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">css_compressor</span> <span class="o">=</span> <span class="no">Transformer</span><span class="p">.</span><span class="nf">new</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.css_compressor = Transformer.new
+">Copy</button>
+</div>
+<h4 id="assets"><a class="anchorlink" href="#assets">5.5 更改<em>assets</em> 路徑</a></h4><p>Sprockets 預設使用的公共路徑是<code>/assets</code>。</p><p>這可以更改為其他內容：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">prefix</span> <span class="o">=</span> <span class="s2">"/some_other_path"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.assets.prefix = "/some_other_path"
+'>Copy</button>
+</div>
+<p>如果您正在更新未使用
+asset pipeline 並且已經使用此路徑或您希望將此路徑用於
+一種新資源。</p><h4 id="x-sendfile"><a class="anchorlink" href="#x-sendfile">5.6 X-Sendfile 標頭</a></h4><p>X-Sendfile 標頭是一個指令，讓 Web 伺服器忽略響應
+從應用程式，而是從磁碟提供指定的檔案。這個選項
+預設情況下是關閉的，但如果您的伺服器支援，可以啟用它。啟用時，
+這會將提供檔案的責任傳遞給 Web 伺服器，即
+快點。看看 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionController/DataStreaming.html#method-i-send_file">send_file</a>
+關於如何使用此功能。</p><p>Apache 和 NGINX 支援這個選項，可以在
+<code>config/environments/production.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache</span>
+<span class="c1"># config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config.action_dispatch.x_sendfile_header = &quot;X-Sendfile&quot; # for Apache
+# config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+">Copy</button>
+</div>
+<p>警告：如果您正在升級現有應用程式並打算使用此應用程式
+選項，注意僅將此配置選項貼上到<code>production.rb</code>
+以及您使用生產行為定義的任何其他環境（不是
+<code>application.rb</code>）。</p><p>提示：有關更多詳細資訊，請檢視您的生產網路伺服器的文件：
+- <a href="https://tn123.org/mod_xsendfile/">Apache</a>
+- <a href="https://www.nginx.com/resources/wiki/start/topics/examples/xsendfile/">NGINX</a></p><h3 id=""><a class="anchorlink" href="#">6 資產快取儲存</a></h3><p>預設情況下，Sprockets 在開發中快取 <code>tmp/cache/assets</code> 中的資產
+和生產環境。這可以更改如下：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
+  <span class="n">env</span><span class="p">.</span><span class="nf">cache</span> <span class="o">=</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Cache</span><span class="p">.</span><span class="nf">lookup_store</span><span class="p">(</span><span class="ss">:memory_store</span><span class="p">,</span>
+                                                <span class="p">{</span> <span class="ss">size: </span><span class="mi">32</span><span class="p">.</span><span class="nf">megabytes</span> <span class="p">})</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.configure do |env|
+  env.cache = ActiveSupport::Cache.lookup_store(:memory_store,
+                                                { size: 32.megabytes })
+end
+">Copy</button>
+</div>
+<p>要禁用資產快取儲存：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
+  <span class="n">env</span><span class="p">.</span><span class="nf">cache</span> <span class="o">=</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Cache</span><span class="p">.</span><span class="nf">lookup_store</span><span class="p">(</span><span class="ss">:null_store</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.assets.configure do |env|
+  env.cache = ActiveSupport::Cache.lookup_store(:null_store)
+end
+">Copy</button>
+</div>
+<h3 id="gems"><a class="anchorlink" href="#gems">7 將資產新增到您的 Gems</a></h3><p>資產也可以來自寶石形式的外部來源。</p><p><code>jquery-rails</code> gem 就是一個很好的例子。
+這個 gem 包含一個繼承自 <code>Rails::Engine</code> 的引擎類。
+透過這樣做，Rails 被告知這個目錄
+gem 可能包含資產和<code>app/assets</code>、<code>lib/assets</code> 和
+該引擎的<code>vendor/assets</code> 目錄被新增到搜尋路徑中
+鏈輪。</p><h3 id="gem"><a class="anchorlink" href="#gem">8 使您的庫或 Gem 成為預處理器</a></h3><p>Sprockets 使用處理器、變壓器、壓縮器和匯出器來擴充套件
+鏈輪功能。看一下
+<a href="https://github.com/rails/sprockets/blob/master/guides/extending_sprockets.md">擴充套件鏈輪</a>
+瞭解更多。這裡我們註冊了一個預處理器，在最後添加註釋
+文字/css (<code>.css</code>) 檔案。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">AddComment</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">call</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+    <span class="p">{</span> <span class="ss">data: </span><span class="n">input</span><span class="p">[</span><span class="ss">:data</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"/* Hello From my sprockets extension */"</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='module AddComment
+  def self.call(input)
+    { data: input[:data] + "/* Hello From my sprockets extension */" }
+  end
+end
+'>Copy</button>
+</div>
+<p>現在你有了一個修改輸入資料的module，是時候註冊了
+它作為您的 mime 型別的預處理器。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Sprockets</span><span class="p">.</span><span class="nf">register_preprocessor</span> <span class="s1">'text/css'</span><span class="p">,</span> <span class="no">AddComment</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Sprockets.register_preprocessor 'text/css', AddComment
+">Copy</button>
+</div>
+
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

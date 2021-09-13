@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Action View 表單 Helpers — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Action View 表單 Helpers — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Action View 表單 HelpersWeb 應用程式中的表單是使用者輸入的基本介面。然而，由於需要處理表單控制元件命名及其眾多屬性，表單標記的編寫和維護很快就會變得乏味。 Rails 透過提供用於生成表單標記的 view helpers 消除了這種複雜性。但是，由於這些helpers 具有不同的用例，因此開發人員需要在使用它們之前瞭解輔助方法之間的差異。閱讀本指南後，您將瞭解： 如何在您的應用程式中建立不代表任何特定model 的搜尋表單和類似型別的通用表單。 如何製作以model 為中心的表單來建立和編輯特定的資料庫記錄。 如何從多種型別的資料中生成選擇框。 什麼日期和時間helpers Rails 提供。 是什麼讓檔案上傳表單與眾不同。 如何將表單釋出到外部資源並指定設定authenticity_token。 如何構建複雜的表單。" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Action View 表單 HelpersWeb 應用程式中的表單是使用者輸入的基本介面。然而，由於需要處理表單控制元件命名及其眾多屬性，表單標記的編寫和維護很快就會變得乏味。 Rails 透過提供用於生成表單標記的 view helpers 消除了這種複雜性。但是，由於這些helpers 具有不同的用例，因此開發人員需要在使用它們之前瞭解輔助方法之間的差異。閱讀本指南後，您將瞭解： 如何在您的應用程式中建立不代表任何特定model 的搜尋表單和類似型別的通用表單。 如何製作以model 為中心的表單來建立和編輯特定的資料庫記錄。 如何從多種型別的資料中生成選擇框。 什麼日期和時間helpers Rails 提供。 是什麼讓檔案上傳表單與眾不同。 如何將表單釋出到外部資源並指定設定authenticity_token。 如何構建複雜的表單。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>Action View 表單 Helpers</h2><p>Web 應用程式中的表單是使用者輸入的基本介面。然而，由於需要處理表單控制元件命名及其眾多屬性，表單標記的編寫和維護很快就會變得乏味。 Rails 透過提供用於生成表單標記的 view helpers 消除了這種複雜性。但是，由於這些helpers 具有不同的用例，因此開發人員需要在使用它們之前瞭解輔助方法之間的差異。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何在您的應用程式中建立不代表任何特定model 的搜尋表單和類似型別的通用表單。</li>
+<li>如何製作以model 為中心的表單來建立和編輯特定的資料庫記錄。</li>
+<li>如何從多種型別的資料中生成選擇框。</li>
+<li>什麼日期和時間helpers Rails 提供。</li>
+<li>是什麼讓檔案上傳表單與眾不同。</li>
+<li>如何將表單釋出到外部資源並指定設定<code>authenticity_token</code>。</li>
+<li>如何構建複雜的表單。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#">處理基本表格</a>
+
+<ul>
+<li><a href="#">通用搜索表單</a></li>
+<li><a href="#helpers">Helpers 用於生成表單元素</a></li>
+<li><a href="#helper">其他感興趣的 Helper</a></li>
+</ul>
+</li>
+<li>
+<a href="#model">處理Model 物件</a>
+
+<ul>
+<li><a href="#">將表單繫結到物件</a></li>
+<li><a href="#">依賴記錄識別</a></li>
+<li><a href="#patch-put-delete">帶有 PATCH、PUT 或 DELETE 方法的表單如何工作？</a></li>
+</ul>
+</li>
+<li>
+<a href="#">輕鬆製作選擇框</a>
+
+<ul>
+<li><a href="#">選項組</a></li>
+<li><a href="#model">選擇框和Model 物件</a></li>
+<li><a href="#">時區和國家選擇</a></li>
+</ul>
+</li>
+<li>
+<a href="#helpers">使用日期和時間表單Helpers</a>
+
+<ul>
+<li><a href="#">為各個時間元件選擇框</a></li>
+</ul>
+</li>
+<li>
+<a href="#">從任意物件集合中選擇</a>
+
+<ul>
+<li><a href="#collection-select-helper"><code>collection_select</code> Helper</a></li>
+<li><a href="#collection-radio-buttons-helper"><code>collection_radio_buttons</code> Helper</a></li>
+<li><a href="#collection-check-boxes-helper"><code>collection_check_boxes</code> Helper</a></li>
+</ul>
+</li>
+<li>
+<a href="#">上傳檔案</a>
+
+<ul>
+<li><a href="#">上傳的內容</a></li>
+</ul>
+</li>
+<li><a href="#">自定義表單構建器</a></li>
+<li>
+<a href="#">瞭解引數命名約定</a>
+
+<ul>
+<li><a href="#">基本結構</a></li>
+<li><a href="#">結合它們</a></li>
+<li><a href="#fields-for-helper"><code>fields_for</code> Helper</a></li>
+</ul>
+</li>
+<li><a href="#">外部資源的表格</a></li>
+<li>
+<a href="#">構建複雜的表單</a>
+
+<ul>
+<li><a href="#model">配置Model</a></li>
+<li><a href="#">巢狀表單</a></li>
+<li><a href="#controller">Controller</a></li>
+<li><a href="#">移除物件</a></li>
+<li><a href="#">防止空記錄</a></li>
+<li><a href="#">動態新增欄位</a></li>
+</ul>
+</li>
+<li><a href="#helper">在沒有表單生成器的情況下使用標記 Helper</a></li>
+<li><a href="#form-tag-form-for">使用<code>form_tag</code> 和<code>form_for</code></a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <p>注意：本指南並非旨在成為可用表單helpers 及其引數的完整文件。請訪問 <a href="https://api.rubyonrails.org/v6.1.4/">Rails API 文件</a> 以獲取完整參考。</p><h3 id=""><a class="anchorlink" href="#">1 處理基本表格</a></h3><p>主要的表單助手是 [<code>form_with</code>](<a href="https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i">https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i</a> -form_with）。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  Form contents
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with do |form| %&gt;
+  Form contents
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>當像這樣不帶引數呼叫時，它會建立一個表單標籤，當提交時，將 POST 到當前頁面。例如，假設當前頁面是主頁，生成的 HTML 將如下所示：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="na">action=</span><span class="s">"/"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"authenticity_token"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"J7CBxfHalt49OSHp27hblqK20c9PgwJ108nDHX/8Cts="</span> <span class="nt">/&gt;</span>
+  Form contents
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form accept-charset="UTF-8" action="/" method="post"&gt;
+  &lt;input name="authenticity_token" type="hidden" value="J7CBxfHalt49OSHp27hblqK20c9PgwJ108nDHX/8Cts=" /&gt;
+  Form contents
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>您會注意到 HTML 包含一個 @{_0} 元素，其型別為 <code>hidden</code>。這個@{_0} 很重要，因為沒有它就不能成功提交非 GET 表單。
+名為<code>authenticity_token</code> 的隱藏輸入元素是Rails 的一項安全特性，稱為<strong>跨站請求偽造保護</strong>，表單helpers 為每個非GET 表單生成它（前提是該安全特性是啟用）。您可以在 <a href="security.html#cross-site-request-forgery-csrf">Securing Rails Applications</a> 指南中閱讀更多相關資訊。</p><h4 id=""><a class="anchorlink" href="#">1.1 通用搜索表單</a></h4><p>您在網路上看到的最基本的表單之一是搜尋表單。該表格包含：</p>
+<ul>
+<li>一個帶有“GET”方法的表單元素，</li>
+<li>輸入標籤，</li>
+<li>一個文字輸入元素，以及</li>
+<li>一個提交元素。</li>
+</ul>
+<p>要建立此表單，您將使用 <code>form_with</code> 及其生成的表單構建器物件。像這樣：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">url: </span><span class="s2">"/search"</span><span class="p">,</span> <span class="ss">method: :get</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:query</span><span class="p">,</span> <span class="s2">"Search for:"</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:query</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="s2">"Search"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form_with url: "/search", method: :get do |form| %&gt;
+  &lt;%= form.label :query, "Search for:" %&gt;
+  &lt;%= form.text_field :query %&gt;
+  &lt;%= form.submit "Search" %&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>這將生成以下 HTML：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/search"</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"query"</span><span class="nt">&gt;</span>Search for:<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"query"</span> <span class="na">name=</span><span class="s">"query"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"commit"</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Search"</span> <span class="na">data-disable-with=</span><span class="s">"Search"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form action="/search" method="get" accept-charset="UTF-8" &gt;
+  &lt;label for="query"&gt;Search for:&lt;/label&gt;
+  &lt;input id="query" name="query" type="text" /&gt;
+  &lt;input name="commit" type="submit" value="Search" data-disable-with="Search" /&gt;
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>提示：將<code>url: my_specified_path</code> 傳遞給<code>form_with</code> 告訴表單在哪裡發出請求。但是，如下所述，您也可以將 ActiveRecord 物件傳遞給表單。</p><p>提示：對於每個表單輸入，都會根據其名稱生成一個 ID 屬性（在上面的示例中為<code>"query"</code>）。這些 ID 對於 CSS 樣式或使用 JavaScript 的表單控制元件操作非常有用。</p><p>重要提示：使用“GET”作為搜尋表單的方法。這允許使用者為特定搜尋新增書籤並返回到它。更一般地說，Rails 鼓勵您對 action 使用正確的 HTTP 動詞。</p><h4 id="helpers"><a class="anchorlink" href="#helpers">1.2 Helpers 用於生成表單元素</a></h4><p>由<code>form_with</code> 生成的表單構建器物件提供了許多helper 方法來生成表單元素，例如文字欄位、複選框和單選按鈕。這些方法的第一個引數始終是
+輸入。提交表單時，名稱將與表單一起傳遞
+資料，並將透過controller 中的<code>params</code>
+value 由使用者為該欄位輸入。例如，如果表單包含
+<code>&lt;%= form.text_field :query %&gt;</code>，那麼你就可以得到這個value
+controller 和 <code>params[:query]</code> 中的欄位。</p><p>在命名輸入時，Rails 使用某些約定使得可以使用非標量 values 提交引數，例如陣列或雜湊，這些引數也可以在 <code>params</code> 中訪問。您可以在本指南的 <a href="#understanding-parameter-naming-conventions">瞭解引數命名約定</a> 一章中閱讀有關它們的更多資訊。這些助手的具體用法請參考[API文件](<a href="https://api.rubyonrails.org/classes/ActionView/Helpers/FormTag@%7B14">https://api.rubyonrails.org/classes/ActionView/Helpers/FormTag@{14</a> }.html）。</p><h5 id=""><a class="anchorlink" href="#">1.2.1 複選框</a></h5><p>複選框是表單控制元件，為使用者提供一組可以啟用或禁用的選項：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">check_box</span> <span class="ss">:pet_dog</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:pet_dog</span><span class="p">,</span> <span class="s2">"I own a dog"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">check_box</span> <span class="ss">:pet_cat</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:pet_cat</span><span class="p">,</span> <span class="s2">"I own a cat"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form.check_box :pet_dog %&gt;
+&lt;%= form.label :pet_dog, "I own a dog" %&gt;
+&lt;%= form.check_box :pet_cat %&gt;
+&lt;%= form.label :pet_cat, "I own a cat" %&gt;
+'>Copy</button>
+</div>
+<p>這會生成以下內容：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">id=</span><span class="s">"pet_dog"</span> <span class="na">name=</span><span class="s">"pet_dog"</span> <span class="na">value=</span><span class="s">"1"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"pet_dog"</span><span class="nt">&gt;</span>I own a dog<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">id=</span><span class="s">"pet_cat"</span> <span class="na">name=</span><span class="s">"pet_cat"</span> <span class="na">value=</span><span class="s">"1"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"pet_cat"</span><span class="nt">&gt;</span>I own a cat<span class="nt">&lt;/label&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input type="checkbox" id="pet_dog" name="pet_dog" value="1" /&gt;
+&lt;label for="pet_dog"&gt;I own a dog&lt;/label&gt;
+&lt;input type="checkbox" id="pet_cat" name="pet_cat" value="1" /&gt;
+&lt;label for="pet_cat"&gt;I own a cat&lt;/label&gt;
+'>Copy</button>
+</div>
+<p><a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/FormBuilder.html#method-i-check_box"><code>check_box</code></a> 的第一個引數是輸入的名稱。第二個引數是輸入的value。當複選框被選中時，這個value 將包含在表單資料中（並出現在<code>params</code> 中）。</p><h5 id=""><a class="anchorlink" href="#">1.2.2 單選按鈕</a></h5><p>單選按鈕雖然類似於複選框，但它們是指定一組選項的控制元件，其中它們是互斥的（即，使用者只能選擇一個）：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">radio_button</span> <span class="ss">:age</span><span class="p">,</span> <span class="s2">"child"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:age_child</span><span class="p">,</span> <span class="s2">"I am younger than 21"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">radio_button</span> <span class="ss">:age</span><span class="p">,</span> <span class="s2">"adult"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:age_adult</span><span class="p">,</span> <span class="s2">"I am over 21"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form.radio_button :age, "child" %&gt;
+&lt;%= form.label :age_child, "I am younger than 21" %&gt;
+&lt;%= form.radio_button :age, "adult" %&gt;
+&lt;%= form.label :age_adult, "I am over 21" %&gt;
+'>Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">id=</span><span class="s">"age_child"</span> <span class="na">name=</span><span class="s">"age"</span> <span class="na">value=</span><span class="s">"child"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"age_child"</span><span class="nt">&gt;</span>I am younger than 21<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">id=</span><span class="s">"age_adult"</span> <span class="na">name=</span><span class="s">"age"</span> <span class="na">value=</span><span class="s">"adult"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"age_adult"</span><span class="nt">&gt;</span>I am over 21<span class="nt">&lt;/label&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input type="radio" id="age_child" name="age" value="child" /&gt;
+&lt;label for="age_child"&gt;I am younger than 21&lt;/label&gt;
+&lt;input type="radio" id="age_adult" name="age" value="adult" /&gt;
+&lt;label for="age_adult"&gt;I am over 21&lt;/label&gt;
+'>Copy</button>
+</div>
+<p>與<code>check_box</code> 一樣，<a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/FormBuilder.html#method%20-i-radio_button"><code>radio_button</code></a> 是輸入的value。因為這兩個單選按鈕共享相同的名稱 (<code>age</code>)，使用者只能選擇其中之一，<code>params[:age]</code> 將包含<code>"child"</code> 或<code>"adult"</code>。</p><p>注意：始終為複選框和單選按鈕使用標籤。他們將文字與特定選項相關聯，並且，
+透過擴充套件可點選區域，
+使使用者更容易點選輸入。</p><h4 id="helper"><a class="anchorlink" href="#helper">1.3 其他感興趣的 Helper</a></h4><p>其他值得一提的表單控制元件有文字區域、隱藏欄位、密碼欄位、數字欄位、日期和時間欄位等等：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:message</span><span class="p">,</span> <span class="ss">size: </span><span class="s2">"70x5"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">hidden_field</span> <span class="ss">:parent_id</span><span class="p">,</span> <span class="ss">value: </span><span class="s2">"foo"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">password_field</span> <span class="ss">:password</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">number_field</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">in: </span><span class="mf">1.0</span><span class="o">..</span><span class="mf">20.0</span><span class="p">,</span> <span class="ss">step: </span><span class="mf">0.5</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">range_field</span> <span class="ss">:discount</span><span class="p">,</span> <span class="ss">in: </span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">date_field</span> <span class="ss">:born_on</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">time_field</span> <span class="ss">:started_at</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">datetime_local_field</span> <span class="ss">:graduation_day</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">month_field</span> <span class="ss">:birthday_month</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">week_field</span> <span class="ss">:birthday_week</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">search_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">email_field</span> <span class="ss">:address</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">telephone_field</span> <span class="ss">:phone</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">url_field</span> <span class="ss">:homepage</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">color_field</span> <span class="ss">:favorite_color</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form.text_area :message, size: "70x5" %&gt;
+&lt;%= form.hidden_field :parent_id, value: "foo" %&gt;
+&lt;%= form.password_field :password %&gt;
+&lt;%= form.number_field :price, in: 1.0..20.0, step: 0.5 %&gt;
+&lt;%= form.range_field :discount, in: 1..100 %&gt;
+&lt;%= form.date_field :born_on %&gt;
+&lt;%= form.time_field :started_at %&gt;
+&lt;%= form.datetime_local_field :graduation_day %&gt;
+&lt;%= form.month_field :birthday_month %&gt;
+&lt;%= form.week_field :birthday_week %&gt;
+&lt;%= form.search_field :name %&gt;
+&lt;%= form.email_field :address %&gt;
+&lt;%= form.telephone_field :phone %&gt;
+&lt;%= form.url_field :homepage %&gt;
+&lt;%= form.color_field :favorite_color %&gt;
+'>Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;textarea</span> <span class="na">name=</span><span class="s">"message"</span> <span class="na">id=</span><span class="s">"message"</span> <span class="na">cols=</span><span class="s">"70"</span> <span class="na">rows=</span><span class="s">"5"</span><span class="nt">&gt;&lt;/textarea&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"parent_id"</span> <span class="na">id=</span><span class="s">"parent_id"</span> <span class="na">value=</span><span class="s">"foo"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">id=</span><span class="s">"password"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"number"</span> <span class="na">name=</span><span class="s">"price"</span> <span class="na">id=</span><span class="s">"price"</span> <span class="na">step=</span><span class="s">"0.5"</span> <span class="na">min=</span><span class="s">"1.0"</span> <span class="na">max=</span><span class="s">"20.0"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"range"</span> <span class="na">name=</span><span class="s">"discount"</span> <span class="na">id=</span><span class="s">"discount"</span> <span class="na">min=</span><span class="s">"1"</span> <span class="na">max=</span><span class="s">"100"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"date"</span> <span class="na">name=</span><span class="s">"born_on"</span> <span class="na">id=</span><span class="s">"born_on"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"time"</span> <span class="na">name=</span><span class="s">"started_at"</span> <span class="na">id=</span><span class="s">"started_at"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"datetime-local"</span> <span class="na">name=</span><span class="s">"graduation_day"</span> <span class="na">id=</span><span class="s">"graduation_day"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"month"</span> <span class="na">name=</span><span class="s">"birthday_month"</span> <span class="na">id=</span><span class="s">"birthday_month"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"week"</span> <span class="na">name=</span><span class="s">"birthday_week"</span> <span class="na">id=</span><span class="s">"birthday_week"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"search"</span> <span class="na">name=</span><span class="s">"name"</span> <span class="na">id=</span><span class="s">"name"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"email"</span> <span class="na">name=</span><span class="s">"address"</span> <span class="na">id=</span><span class="s">"address"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"tel"</span> <span class="na">name=</span><span class="s">"phone"</span> <span class="na">id=</span><span class="s">"phone"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"url"</span> <span class="na">name=</span><span class="s">"homepage"</span> <span class="na">id=</span><span class="s">"homepage"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"color"</span> <span class="na">name=</span><span class="s">"favorite_color"</span> <span class="na">id=</span><span class="s">"favorite_color"</span> <span class="na">value=</span><span class="s">"#000000"</span> <span class="nt">/&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;textarea name="message" id="message" cols="70" rows="5"&gt;&lt;/textarea&gt;
+&lt;input type="hidden" name="parent_id" id="parent_id" value="foo" /&gt;
+&lt;input type="password" name="password" id="password" /&gt;
+&lt;input type="number" name="price" id="price" step="0.5" min="1.0" max="20.0" /&gt;
+&lt;input type="range" name="discount" id="discount" min="1" max="100" /&gt;
+&lt;input type="date" name="born_on" id="born_on" /&gt;
+&lt;input type="time" name="started_at" id="started_at" /&gt;
+&lt;input type="datetime-local" name="graduation_day" id="graduation_day" /&gt;
+&lt;input type="month" name="birthday_month" id="birthday_month" /&gt;
+&lt;input type="week" name="birthday_week" id="birthday_week" /&gt;
+&lt;input type="search" name="name" id="name" /&gt;
+&lt;input type="email" name="address" id="address" /&gt;
+&lt;input type="tel" name="phone" id="phone" /&gt;
+&lt;input type="url" name="homepage" id="homepage" /&gt;
+&lt;input type="color" name="favorite_color" id="favorite_color" value="#000000" /&gt;
+'>Copy</button>
+</div>
+<p>隱藏輸入不會向用戶顯示，而是像任何文字輸入一樣儲存資料。裡面的Values 可以用 JavaScript 改變。</p><p>重要：搜尋、電話、日期、時間、顏色、日期時間、本地日期時間、
+月、周、URL、電子郵件、數字和範圍輸入是 HTML5 控制元件。
+如果您要求您的應用在舊版瀏覽器中獲得一致的體驗，
+你需要一個 HTML5 polyfill（由 CSS 和/或 JavaScript 提供）。
+肯定有<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills">不乏解決方案</a>，儘管目前流行的工具是
+<a href="https://modernizr.com/">Modernizr</a>，它提供了一種簡單的方法來新增基於存在的功能
+檢測到 HTML5 功能。</p><p>提示：如果您使用密碼輸入欄位（出於任何目的），您可能需要配置您的應用程式以防止記錄這些引數。您可以在 <a href="security.html#logging">Securing Rails Applications</a> 指南中瞭解這一點。</p><h3 id="model"><a class="anchorlink" href="#model">2 處理Model 物件</a></h3><h4 id=""><a class="anchorlink" href="#">2.1 將表單繫結到物件</a></h4><p><code>form_with</code> 的<code>:model</code> 引數允許我們將表單構建器物件繫結到model 物件。這意味著表單的範圍將限定為model 物件，並且表單的欄位將使用來自model 物件的values 填充。</p><p>例如，如果我們有一個 <code>@article</code> model 物件，例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="c1"># =&gt; #&lt;Article id: 42, title: "My Title", body: "My Body"&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='@article = Article.find(42)
+# =&gt; #&lt;Article id: 42, title: "My Title", body: "My Body"&gt;
+'>Copy</button>
+</div>
+<p>以下表格：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@article</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:title</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">size: </span><span class="s2">"60x10"</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form_with model: @article do |form| %&gt;
+  &lt;%= form.text_field :title %&gt;
+  &lt;%= form.text_area :body, size: "60x10" %&gt;
+  &lt;%= form.submit %&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/articles/42"</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"authenticity_token"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"..."</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"article[title]"</span> <span class="na">id=</span><span class="s">"article_title"</span> <span class="na">value=</span><span class="s">"My Title"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;textarea</span> <span class="na">name=</span><span class="s">"article[body]"</span> <span class="na">id=</span><span class="s">"article_body"</span> <span class="na">cols=</span><span class="s">"60"</span> <span class="na">rows=</span><span class="s">"10"</span><span class="nt">&gt;</span>
+    My Body
+  <span class="nt">&lt;/textarea&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">name=</span><span class="s">"commit"</span> <span class="na">value=</span><span class="s">"Update Article"</span> <span class="na">data-disable-with=</span><span class="s">"Update Article"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form action="/articles/42" method="post" accept-charset="UTF-8" &gt;
+  &lt;input name="authenticity_token" type="hidden" value="..." /&gt;
+  &lt;input type="text" name="article[title]" id="article_title" value="My Title" /&gt;
+  &lt;textarea name="article[body]" id="article_body" cols="60" rows="10"&gt;
+    My Body
+  &lt;/textarea&gt;
+  &lt;input type="submit" name="commit" value="Update Article" data-disable-with="Update Article"&gt;
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>這裡有幾件事需要注意：</p>
+<ul>
+<li>表單<code>action</code> 會自動為<code>@article</code> 填入適當的value。</li>
+<li>表單欄位會自動填充來自<code>@article</code> 的相應values。</li>
+<li>表單欄位名稱以<code>article[...]</code> 為範圍。這意味著<code>params[:article]</code> 將是包含所有這些欄位的values 的雜湊。您可以在本指南的 <a href="#understanding-parameter-naming-conventions">瞭解引數命名約定</a> 一章中閱讀有關輸入名稱重要性的更多資訊。</li>
+<li>提交按鈕會自動賦予適當的文字value。</li>
+</ul>
+<p>提示：通常您的輸入將反映model 屬性。然而，他們沒有必要！如果您需要其他資訊，您可以將其包含在表單中，就像使用屬性一樣，並透過<code>params[:article][:my_nifty_non_attribute_input]</code> 訪問它。</p><h5 id="-fields-for-helper"><a class="anchorlink" href="#-fields-for-helper">2.1.1 <code>fields_for</code> Helper</a></h5><p>您可以使用 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/%20FormBuilder.html#method-i-fields_for"><code>fields_for</code></a> 助手。這對於編輯具有相同形式的其他model 物件非常有用。例如，如果您有一個 <code>Person</code> model 和一個關聯的 <code>ContactDetail</code> model，您可以建立一個表單來建立兩者，如下所示：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@person</span> <span class="k">do</span> <span class="o">|</span><span class="n">person_form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">person_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">fields_for</span> <span class="ss">:contact_detail</span><span class="p">,</span> <span class="vi">@person</span><span class="p">.</span><span class="nf">contact_detail</span> <span class="k">do</span> <span class="o">|</span><span class="n">contact_detail_form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">contact_detail_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:phone_number</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: @person do |person_form| %&gt;
+  &lt;%= person_form.text_field :name %&gt;
+  &lt;%= fields_for :contact_detail, @person.contact_detail do |contact_detail_form| %&gt;
+    &lt;%= contact_detail_form.text_field :phone_number %&gt;
+  &lt;% end %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>產生以下輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/people"</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"authenticity_token"</span> <span class="na">value=</span><span class="s">"bL13x72pldyDD8bgtkjKQakJCpd4A8JdXGbfksxBDHdf1uC0kCMqe2tvVdUYfidJt0fj3ihC4NxiVHv8GVYxJA=="</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"person[name]"</span> <span class="na">id=</span><span class="s">"person_name"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"contact_detail[phone_number]"</span> <span class="na">id=</span><span class="s">"contact_detail_phone_number"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form action="/people" accept-charset="UTF-8" method="post"&gt;
+  &lt;input type="hidden" name="authenticity_token" value="bL13x72pldyDD8bgtkjKQakJCpd4A8JdXGbfksxBDHdf1uC0kCMqe2tvVdUYfidJt0fj3ihC4NxiVHv8GVYxJA==" /&gt;
+  &lt;input type="text" name="person[name]" id="person_name" /&gt;
+  &lt;input type="text" name="contact_detail[phone_number]" id="contact_detail_phone_number" /&gt;
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p><code>fields_for</code> 產生的物件是一個類似於<code>form_with</code> 產生的表單構建器。</p><h4 id=""><a class="anchorlink" href="#">2.2 依賴記錄識別</a></h4><p>文章model 可直接提供給應用程式的使用者，因此 - 遵循使用 Rails 開發的最佳實踐 - 您應該將其宣告為 <strong>資源</strong>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">resources</span> <span class="ss">:articles</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="resources :articles
+">Copy</button>
+</div>
+<p>提示：宣告一個資源有很多副作用。有關設定和使用資源的更多資訊，請參閱 <a href="routing.html#resource-routing-the-rails-default">Rails Routing from the Outside In</a> 指南。</p><p>在處理 RESTful 資源時，如果您依賴 <strong>記錄識別</strong>，則對 <code>form_with</code> 的呼叫會變得更加容易。簡而言之，您可以只傳遞 model 例項，然後讓 Rails 找出 model 名稱和其餘部分。在這兩個示例中，多頭和空頭樣式具有相同的結果：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1">## Creating a new article</span>
+<span class="c1"># long-style:</span>
+<span class="n">form_with</span><span class="p">(</span><span class="ss">model: </span><span class="vi">@article</span><span class="p">,</span> <span class="ss">url: </span><span class="n">articles_path</span><span class="p">)</span>
+<span class="c1"># short-style:</span>
+<span class="n">form_with</span><span class="p">(</span><span class="ss">model: </span><span class="vi">@article</span><span class="p">)</span>
+
+<span class="c1">## Editing an existing article</span>
+<span class="c1"># long-style:</span>
+<span class="n">form_with</span><span class="p">(</span><span class="ss">model: </span><span class="vi">@article</span><span class="p">,</span> <span class="ss">url: </span><span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="ss">method: </span><span class="s2">"patch"</span><span class="p">)</span>
+<span class="c1"># short-style:</span>
+<span class="n">form_with</span><span class="p">(</span><span class="ss">model: </span><span class="vi">@article</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='## Creating a new article
+# long-style:
+form_with(model: @article, url: articles_path)
+# short-style:
+form_with(model: @article)
+
+## Editing an existing article
+# long-style:
+form_with(model: @article, url: article_path(@article), method: "patch")
+# short-style:
+form_with(model: @article)
+'>Copy</button>
+</div>
+<p>請注意簡短風格的 <code>form_with</code> 呼叫是如何方便地相同的，無論記錄是新的還是現有的。記錄識別足夠聰明，可以透過詢問<code>record.persisted?</code> 來確定記錄是否是新的。它還選擇要提交到的正確路徑，以及基於物件類的名稱。</p><p>如果你有一個<a href="routing.html#singular-resources">單一資源</a>，你需要呼叫<code>resource</code> 和<code>resolve</code> 才能與<code>form_with</code> 一起工作：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">resource</span> <span class="ss">:geocoder</span>
+<span class="n">resolve</span><span class="p">(</span><span class="s1">'Geocoder'</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="ss">:geocoder</span><span class="p">]</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="resource :geocoder
+resolve('Geocoder') { [:geocoder] }
+">Copy</button>
+</div>
+<p>警告：當您將 STI（單表繼承）與 models 一起使用時，如果僅將其父類宣告為資源，則不能依賴子類上的記錄標識。您必須明確指定<code>:url</code> 和<code>:scope</code>（模型名稱）。</p><h5 id=""><a class="anchorlink" href="#">2.2.1 處理名稱空間</a></h5><p>如果您建立了名稱空間路由，<code>form_with</code> 也有一個漂亮的簡寫。如果您的應用程式有一個 admin 名稱空間，那麼</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">form_with</span> <span class="ss">model: </span><span class="p">[</span><span class="ss">:admin</span><span class="p">,</span> <span class="vi">@article</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="form_with model: [:admin, @article]
+">Copy</button>
+</div>
+<p>將建立一個提交給 admin 名稱空間內的 <code>ArticlesController</code> 的表單（在更新的情況下提交給 <code>admin_article_path(@article)</code>）。如果您有多個級別的名稱空間，則語法類似：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">form_with</span> <span class="ss">model: </span><span class="p">[</span><span class="ss">:admin</span><span class="p">,</span> <span class="ss">:management</span><span class="p">,</span> <span class="vi">@article</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="form_with model: [:admin, :management, @article]
+">Copy</button>
+</div>
+<p>有關 Rails 路由系統和相關約定的更多資訊，請參閱 <a href="routing.html">Rails Routing from the Outside In</a> 指南。</p><h4 id="patch-put-delete"><a class="anchorlink" href="#patch-put-delete">2.3 帶有 PATCH、PUT 或 DELETE 方法的表單如何工作？</a></h4><p>Rails 框架鼓勵您的應用程式採用 RESTful 設計，這意味著您將發出大量“PATCH”、“PUT”和“DELETE”請求（除了“GET”和“POST”）。但是，在提交表單時，大多數瀏覽器<em>不支援</em>除“GET”和“POST”之外的其他方法。</p><p>Rails 透過使用名為 <code>"_method"</code> 的隱藏輸入模擬 POST 上的其他方法來解決此問題，該輸入設定為反映所需的方法：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">form_with</span><span class="p">(</span><span class="ss">url: </span><span class="n">search_path</span><span class="p">,</span> <span class="ss">method: </span><span class="s2">"patch"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='form_with(url: search_path, method: "patch")
+'>Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="na">action=</span><span class="s">"/search"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"_method"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"patch"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"authenticity_token"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"f755bb0ed134b76c432144748a6d4b7a7ddf2b71"</span> <span class="nt">/&gt;</span>
+  <span class="c">&lt;!-- ... --&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form accept-charset="UTF-8" action="/search" method="post"&gt;
+  &lt;input name="_method" type="hidden" value="patch" /&gt;
+  &lt;input name="authenticity_token" type="hidden" value="f755bb0ed134b76c432144748a6d4b7a7ddf2b71" /&gt;
+  &lt;!-- ... --&gt;
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>在解析 POSTed 資料時，Rails 會考慮特殊的 <code>_method</code> 引數，並且就像 HTTP 方法是其中指定的方法一樣（在本例中為“PATCH”）。</p><p>呈現表單時，提交按鈕可以透過<code>formmethod:</code> key 字覆蓋宣告的<code>method</code> 屬性：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">url: </span><span class="s2">"/posts/1"</span><span class="p">,</span> <span class="ss">method: :patch</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">button</span> <span class="s2">"Delete"</span><span class="p">,</span> <span class="ss">formmethod: :delete</span><span class="p">,</span> <span class="ss">data: </span><span class="p">{</span> <span class="ss">confirm: </span><span class="s2">"Are you sure?"</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">button</span> <span class="s2">"Update"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form_with url: "/posts/1", method: :patch do |form| %&gt;
+  &lt;%= form.button "Delete", formmethod: :delete, data: { confirm: "Are you sure?" } %&gt;
+  &lt;%= form.button "Update" %&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>與<code>&lt;form&gt;</code> 元素類似，大多數瀏覽器<em>不支援</em>覆蓋透過 [formmethod][] 宣告的表單方法，而不是“GET”和“POST”。</p><p>Rails 透過 [formmethod][]、[value][button-value] 和 [name][button-name] 屬性的組合在 POST 上模擬其他方法來解決這個問題：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="na">action=</span><span class="s">"/posts/1"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"_method"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"patch"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"authenticity_token"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"f755bb0ed134b76c432144748a6d4b7a7ddf2b71"</span> <span class="nt">/&gt;</span>
+  <span class="c">&lt;!-- ... --&gt;</span>
+
+  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">formmethod=</span><span class="s">"post"</span> <span class="na">name=</span><span class="s">"_method"</span> <span class="na">value=</span><span class="s">"delete"</span> <span class="na">data-confirm=</span><span class="s">"Are you sure?"</span><span class="nt">&gt;</span>Delete<span class="nt">&lt;/button&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">name=</span><span class="s">"button"</span><span class="nt">&gt;</span>Update<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form accept-charset="UTF-8" action="/posts/1" method="post"&gt;
+  &lt;input name="_method" type="hidden" value="patch" /&gt;
+  &lt;input name="authenticity_token" type="hidden" value="f755bb0ed134b76c432144748a6d4b7a7ddf2b71" /&gt;
+  &lt;!-- ... --&gt;
+
+  &lt;button type="submit" formmethod="post" name="_method" value="delete" data-confirm="Are you sure?"&gt;Delete&lt;/button&gt;
+  &lt;button type="submit" name="button"&gt;Update&lt;/button&gt;
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>重要提示：在 Rails 6.0 和 5.2 中，所有使用 <code>form_with</code> 的表單預設都實現 <code>remote: true</code>。這些表單將使用 XHR (Ajax) 請求提交資料。要禁用此功能，請包括<code>local: true</code>。要深入瞭解，請參閱 <a href="working_with_javascript_in_rails.html#remote-elements">在 Rails 中使用 JavaScript</a> 指南。</p><p>[表單方法]：<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-formmethod">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-formmethod</a>
+[按鈕名稱]：<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-name">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-name</a>
+[button-value]：<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-value">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-value</a></p><h3 id=""><a class="anchorlink" href="#">3 輕鬆製作選擇框</a></h3><p>HTML 中的選擇框需要大量標記 - 每個選項有一個 <code>&lt;option&gt;</code> 元素可供選擇。所以Rails 提供了helper 方法來減輕這個負擔。</p><p>例如，假設我們有一個城市列表供使用者選擇。我們可以使用 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/FormBuilder.html#method-i-select"><code>select</code></a> 幫助器，例如所以：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">select</span> <span class="ss">:city</span><span class="p">,</span> <span class="p">[</span><span class="s2">"Berlin"</span><span class="p">,</span> <span class="s2">"Chicago"</span><span class="p">,</span> <span class="s2">"Madrid"</span><span class="p">]</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form.select :city, ["Berlin", "Chicago", "Madrid"] %&gt;
+'>Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"city"</span> <span class="na">id=</span><span class="s">"city"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"Berlin"</span><span class="nt">&gt;</span>Berlin<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"Chicago"</span><span class="nt">&gt;</span>Chicago<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"Madrid"</span><span class="nt">&gt;</span>Madrid<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;select name="city" id="city"&gt;
+  &lt;option value="Berlin"&gt;Berlin&lt;/option&gt;
+  &lt;option value="Chicago"&gt;Chicago&lt;/option&gt;
+  &lt;option value="Madrid"&gt;Madrid&lt;/option&gt;
+&lt;/select&gt;
+'>Copy</button>
+</div>
+<p>我們還可以指定與標籤不同的<code>&lt;option&gt;</code> values：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">select</span> <span class="ss">:city</span><span class="p">,</span> <span class="p">[[</span><span class="s2">"Berlin"</span><span class="p">,</span> <span class="s2">"BE"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"Chicago"</span><span class="p">,</span> <span class="s2">"CHI"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"Madrid"</span><span class="p">,</span> <span class="s2">"MD"</span><span class="p">]]</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form.select :city, [["Berlin", "BE"], ["Chicago", "CHI"], ["Madrid", "MD"]] %&gt;
+'>Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"city"</span> <span class="na">id=</span><span class="s">"city"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"BE"</span><span class="nt">&gt;</span>Berlin<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"CHI"</span><span class="nt">&gt;</span>Chicago<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"MD"</span><span class="nt">&gt;</span>Madrid<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;select name="city" id="city"&gt;
+  &lt;option value="BE"&gt;Berlin&lt;/option&gt;
+  &lt;option value="CHI"&gt;Chicago&lt;/option&gt;
+  &lt;option value="MD"&gt;Madrid&lt;/option&gt;
+&lt;/select&gt;
+'>Copy</button>
+</div>
+<p>這樣，使用者將看到完整的城市名稱，但<code>params[:city]</code> 將是<code>"BE"</code>、<code>"CHI"</code> 或<code>"MD"</code> 之一。</p><p>最後，我們可以使用 <code>:selected</code> 引數為選擇框指定一個預設選項：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">select</span> <span class="ss">:city</span><span class="p">,</span> <span class="p">[[</span><span class="s2">"Berlin"</span><span class="p">,</span> <span class="s2">"BE"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"Chicago"</span><span class="p">,</span> <span class="s2">"CHI"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"Madrid"</span><span class="p">,</span> <span class="s2">"MD"</span><span class="p">]],</span> <span class="ss">selected: </span><span class="s2">"CHI"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form.select :city, [["Berlin", "BE"], ["Chicago", "CHI"], ["Madrid", "MD"]], selected: "CHI" %&gt;
+'>Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"city"</span> <span class="na">id=</span><span class="s">"city"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"BE"</span><span class="nt">&gt;</span>Berlin<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"CHI"</span> <span class="na">selected=</span><span class="s">"selected"</span><span class="nt">&gt;</span>Chicago<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"MD"</span><span class="nt">&gt;</span>Madrid<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;select name="city" id="city"&gt;
+  &lt;option value="BE"&gt;Berlin&lt;/option&gt;
+  &lt;option value="CHI" selected="selected"&gt;Chicago&lt;/option&gt;
+  &lt;option value="MD"&gt;Madrid&lt;/option&gt;
+&lt;/select&gt;
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">3.1 選項組</a></h4><p>在某些情況下，我們可能希望透過將相關選項組合在一起來改善使用者體驗。我們可以透過將<code>Hash</code>（或類似的<code>Array</code>）傳遞給<code>select</code> 來實現：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">select</span> <span class="ss">:city</span><span class="p">,</span>
+      <span class="p">{</span>
+        <span class="s2">"Europe"</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="p">[</span><span class="s2">"Berlin"</span><span class="p">,</span> <span class="s2">"BE"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"Madrid"</span><span class="p">,</span> <span class="s2">"MD"</span><span class="p">]</span> <span class="p">],</span>
+        <span class="s2">"North America"</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="p">[</span><span class="s2">"Chicago"</span><span class="p">,</span> <span class="s2">"CHI"</span><span class="p">]</span> <span class="p">],</span>
+      <span class="p">},</span>
+      <span class="ss">selected: </span><span class="s2">"CHI"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form.select :city,
+      {
+        "Europe" =&gt; [ ["Berlin", "BE"], ["Madrid", "MD"] ],
+        "North America" =&gt; [ ["Chicago", "CHI"] ],
+      },
+      selected: "CHI" %&gt;
+'>Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"city"</span> <span class="na">id=</span><span class="s">"city"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;optgroup</span> <span class="na">label=</span><span class="s">"Europe"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"BE"</span><span class="nt">&gt;</span>Berlin<span class="nt">&lt;/option&gt;</span>
+    <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"MD"</span><span class="nt">&gt;</span>Madrid<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;/optgroup&gt;</span>
+  <span class="nt">&lt;optgroup</span> <span class="na">label=</span><span class="s">"North America"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"CHI"</span> <span class="na">selected=</span><span class="s">"selected"</span><span class="nt">&gt;</span>Chicago<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;/optgroup&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;select name="city" id="city"&gt;
+  &lt;optgroup label="Europe"&gt;
+    &lt;option value="BE"&gt;Berlin&lt;/option&gt;
+    &lt;option value="MD"&gt;Madrid&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="North America"&gt;
+    &lt;option value="CHI" selected="selected"&gt;Chicago&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;
+'>Copy</button>
+</div>
+<h4 id="model"><a class="anchorlink" href="#model">3.2 選擇框和Model 物件</a></h4><p>與其他表單控制元件一樣，選擇框可以繫結到model 屬性。例如，如果我們有一個 <code>@person</code> model 物件，例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="vi">@person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">city: </span><span class="s2">"MD"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='@person = Person.new(city: "MD")
+'>Copy</button>
+</div>
+<p>以下表格：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@person</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">select</span> <span class="ss">:city</span><span class="p">,</span> <span class="p">[[</span><span class="s2">"Berlin"</span><span class="p">,</span> <span class="s2">"BE"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"Chicago"</span><span class="p">,</span> <span class="s2">"CHI"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"Madrid"</span><span class="p">,</span> <span class="s2">"MD"</span><span class="p">]]</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form_with model: @person do |form| %&gt;
+  &lt;%= form.select :city, [["Berlin", "BE"], ["Chicago", "CHI"], ["Madrid", "MD"]] %&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>輸出一個選擇框，如：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"person[city]"</span> <span class="na">id=</span><span class="s">"person_city"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"BE"</span><span class="nt">&gt;</span>Berlin<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"CHI"</span><span class="nt">&gt;</span>Chicago<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"MD"</span> <span class="na">selected=</span><span class="s">"selected"</span><span class="nt">&gt;</span>Madrid<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;select name="person[city]" id="person_city"&gt;
+  &lt;option value="BE"&gt;Berlin&lt;/option&gt;
+  &lt;option value="CHI"&gt;Chicago&lt;/option&gt;
+  &lt;option value="MD" selected="selected"&gt;Madrid&lt;/option&gt;
+&lt;/select&gt;
+'>Copy</button>
+</div>
+<p>請注意，相應的選項會自動標記為 <code>selected="selected"</code>。由於這個選擇框繫結到model，我們不需要指定<code>:selected</code> 引數！</p><h4 id=""><a class="anchorlink" href="#">3.3 時區和國家選擇</a></h4><p>要利用 Rails 中的時區支援，您必須詢問使用者他們所在的時區。這樣做需要從預定義的列表中生成選擇選項 <a href="https://api.@%7B%2026%7Donrails.org/classes/ActiveSupport/TimeZone.html"><code>ActiveSupport::TimeZone</code></a> 物件，但您可以簡單地使用 <a href="https://api.rubyonrails.org/v6.1.4/classes/@%7B%205%7D/Helpers/FormBuilder.html#method-i-time_zone_select"><code>time_zone_select</code></a> helper 已經包裝了這個：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">time_zone_select</span> <span class="ss">:time_zone</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form.time_zone_select :time_zone %&gt;
+">Copy</button>
+</div>
+<p>Rails <em>used</em> 具有用於選擇國家/地區的 <code>country_select</code> helper，但這已被提取到 <a href="https://github.com/stefanpenner/country_select">country_select 外掛</a>。</p><h3 id="helpers"><a class="anchorlink" href="#helpers">4 使用日期和時間表單Helpers</a></h3><p>如果您不想使用 HTML5 日期和時間輸入，Rails 提供了替代日期和時間表單 helpers 來呈現簡單的選擇框。這些helpers 為每個時間元件（例如年、月、日等）渲染一個選擇框。例如，如果我們有一個 <code>@person</code> model 物件，例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="vi">@person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">birth_date: </span><span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1995</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">21</span><span class="p">))</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="@person = Person.new(birth_date: Date.new(1995, 12, 21))
+">Copy</button>
+</div>
+<p>以下表格：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@person</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">date_select</span> <span class="ss">:birth_date</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: @person do |form| %&gt;
+  &lt;%= form.date_select :birth_date %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>輸出選擇框，如：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"person[birth_date(1i)]"</span> <span class="na">id=</span><span class="s">"person_birth_date_1i"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1990"</span><span class="nt">&gt;</span>1990<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1991"</span><span class="nt">&gt;</span>1991<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1992"</span><span class="nt">&gt;</span>1992<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1993"</span><span class="nt">&gt;</span>1993<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1994"</span><span class="nt">&gt;</span>1994<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1995"</span> <span class="na">selected=</span><span class="s">"selected"</span><span class="nt">&gt;</span>1995<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1996"</span><span class="nt">&gt;</span>1996<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1997"</span><span class="nt">&gt;</span>1997<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1998"</span><span class="nt">&gt;</span>1998<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1999"</span><span class="nt">&gt;</span>1999<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"2000"</span><span class="nt">&gt;</span>2000<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+<span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"person[birth_date(2i)]"</span> <span class="na">id=</span><span class="s">"person_birth_date_2i"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>January<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"2"</span><span class="nt">&gt;</span>February<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"3"</span><span class="nt">&gt;</span>March<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"4"</span><span class="nt">&gt;</span>April<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"5"</span><span class="nt">&gt;</span>May<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"6"</span><span class="nt">&gt;</span>June<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"7"</span><span class="nt">&gt;</span>July<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"8"</span><span class="nt">&gt;</span>August<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"9"</span><span class="nt">&gt;</span>September<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"10"</span><span class="nt">&gt;</span>October<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"11"</span><span class="nt">&gt;</span>November<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"12"</span> <span class="na">selected=</span><span class="s">"selected"</span><span class="nt">&gt;</span>December<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+<span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"person[birth_date(3i)]"</span> <span class="na">id=</span><span class="s">"person_birth_date_3i"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>1<span class="nt">&lt;/option&gt;</span>
+  ...
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"21"</span> <span class="na">selected=</span><span class="s">"selected"</span><span class="nt">&gt;</span>21<span class="nt">&lt;/option&gt;</span>
+  ...
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"31"</span><span class="nt">&gt;</span>31<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;select name="person[birth_date(1i)]" id="person_birth_date_1i"&gt;
+  &lt;option value="1990"&gt;1990&lt;/option&gt;
+  &lt;option value="1991"&gt;1991&lt;/option&gt;
+  &lt;option value="1992"&gt;1992&lt;/option&gt;
+  &lt;option value="1993"&gt;1993&lt;/option&gt;
+  &lt;option value="1994"&gt;1994&lt;/option&gt;
+  &lt;option value="1995" selected="selected"&gt;1995&lt;/option&gt;
+  &lt;option value="1996"&gt;1996&lt;/option&gt;
+  &lt;option value="1997"&gt;1997&lt;/option&gt;
+  &lt;option value="1998"&gt;1998&lt;/option&gt;
+  &lt;option value="1999"&gt;1999&lt;/option&gt;
+  &lt;option value="2000"&gt;2000&lt;/option&gt;
+&lt;/select&gt;
+&lt;select name="person[birth_date(2i)]" id="person_birth_date_2i"&gt;
+  &lt;option value="1"&gt;January&lt;/option&gt;
+  &lt;option value="2"&gt;February&lt;/option&gt;
+  &lt;option value="3"&gt;March&lt;/option&gt;
+  &lt;option value="4"&gt;April&lt;/option&gt;
+  &lt;option value="5"&gt;May&lt;/option&gt;
+  &lt;option value="6"&gt;June&lt;/option&gt;
+  &lt;option value="7"&gt;July&lt;/option&gt;
+  &lt;option value="8"&gt;August&lt;/option&gt;
+  &lt;option value="9"&gt;September&lt;/option&gt;
+  &lt;option value="10"&gt;October&lt;/option&gt;
+  &lt;option value="11"&gt;November&lt;/option&gt;
+  &lt;option value="12" selected="selected"&gt;December&lt;/option&gt;
+&lt;/select&gt;
+&lt;select name="person[birth_date(3i)]" id="person_birth_date_3i"&gt;
+  &lt;option value="1"&gt;1&lt;/option&gt;
+  ...
+  &lt;option value="21" selected="selected"&gt;21&lt;/option&gt;
+  ...
+  &lt;option value="31"&gt;31&lt;/option&gt;
+&lt;/select&gt;
+'>Copy</button>
+</div>
+<p>請注意，提交表單時，<code>params</code> 雜湊中將沒有包含完整日期的單個值。相反，會有幾個values 具有特殊名稱，如<code>"birth_date(1i)"</code>。 Active Record 知道如何根據model 屬性的宣告型別將這些特殊命名的values 組合成完整的日期或時間。所以我們可以將<code>params[:person]</code> 傳遞給例如<code>Person.new</code> 或 <code>Person#update</code> 就像表單使用單個欄位來表示完整日期一樣。</p><p>除了 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/FormBuilder.html#method-i-date_select"><code>date_select</code></a> 幫助程式， Rails 提供 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/FormBuilder.html#method-i-time_select"><code>time_select</code></a> 和 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/FormBuilder.html#method-i-datetime_select">@{ _2}</a>。</p><h4 id=""><a class="anchorlink" href="#">4.1 為各個時間元件選擇框</a></h4><p>Rails 還提供了幫助程式來為各個時間元件呈現選擇框：<a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/Date@%7B%2014%7D.html#method-i-select_year"><code>select_year</code></a>, <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/Date@%7B14%20%7D.html#method-i-select_month"><code>select_month</code></a>, <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/DateHelper%20.html#method-i-select_day"><code>select_day</code></a>、<a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/DateHelper%E3%80%82%20html#method-i-select_hour"><code>select_hour</code></a>, <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/DateHelper.html%20#method-i-select_minute"><code>select_minute</code></a> 和 [<code>select_second</code>](<a href="https://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html">https://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html</a> #method-i-select_second）。這些助手是“裸”方法，這意味著它們不會在表單構建器例項上呼叫。例如：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">select_year</span> <span class="mi">1999</span><span class="p">,</span> <span class="ss">prefix: </span><span class="s2">"party"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= select_year 1999, prefix: "party" %&gt;
+'>Copy</button>
+</div>
+<p>輸出一個選擇框，如：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"party[year]"</span> <span class="na">id=</span><span class="s">"party_year"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1994"</span><span class="nt">&gt;</span>1994<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1995"</span><span class="nt">&gt;</span>1995<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1996"</span><span class="nt">&gt;</span>1996<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1997"</span><span class="nt">&gt;</span>1997<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1998"</span><span class="nt">&gt;</span>1998<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1999"</span> <span class="na">selected=</span><span class="s">"selected"</span><span class="nt">&gt;</span>1999<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"2000"</span><span class="nt">&gt;</span>2000<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"2001"</span><span class="nt">&gt;</span>2001<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"2002"</span><span class="nt">&gt;</span>2002<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"2003"</span><span class="nt">&gt;</span>2003<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"2004"</span><span class="nt">&gt;</span>2004<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;select name="party[year]" id="party_year"&gt;
+  &lt;option value="1994"&gt;1994&lt;/option&gt;
+  &lt;option value="1995"&gt;1995&lt;/option&gt;
+  &lt;option value="1996"&gt;1996&lt;/option&gt;
+  &lt;option value="1997"&gt;1997&lt;/option&gt;
+  &lt;option value="1998"&gt;1998&lt;/option&gt;
+  &lt;option value="1999" selected="selected"&gt;1999&lt;/option&gt;
+  &lt;option value="2000"&gt;2000&lt;/option&gt;
+  &lt;option value="2001"&gt;2001&lt;/option&gt;
+  &lt;option value="2002"&gt;2002&lt;/option&gt;
+  &lt;option value="2003"&gt;2003&lt;/option&gt;
+  &lt;option value="2004"&gt;2004&lt;/option&gt;
+&lt;/select&gt;
+'>Copy</button>
+</div>
+<p>對於這些helpers 中的每一個，您可以指定日期或時間物件而不是數字作為預設value，並且將提取和使用適當的時間元件。</p><h3 id=""><a class="anchorlink" href="#">5 從任意物件集合中選擇</a></h3><p>通常，我們希望從一組物件中以某種形式生成一組選擇。例如，當我們希望使用者從我們資料庫中的城市中進行選擇時，我們有一個 <code>City</code> model 像：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">City</span><span class="p">.</span><span class="nf">order</span><span class="p">(</span><span class="ss">:name</span><span class="p">).</span><span class="nf">to_a</span>
+<span class="c1"># =&gt; [</span>
+<span class="c1">#      #&lt;City id: 3, name: "Berlin"&gt;,</span>
+<span class="c1">#      #&lt;City id: 1, name: "Chicago"&gt;,</span>
+<span class="c1">#      #&lt;City id: 2, name: "Madrid"&gt;</span>
+<span class="c1">#    ]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='City.order(:name).to_a
+# =&gt; [
+#      #&lt;City id: 3, name: "Berlin"&gt;,
+#      #&lt;City id: 1, name: "Chicago"&gt;,
+#      #&lt;City id: 2, name: "Madrid"&gt;
+#    ]
+'>Copy</button>
+</div>
+<p>Rails 提供了helpers，它可以從集合中生成選擇，而無需顯式迭代它。這些helpers 透過呼叫集合中每個物件的指定方法來確定每個選項的value 和文字標籤。</p><h4 id="collection-select-helper"><a class="anchorlink" href="#collection-select-helper">5.1 <code>collection_select</code> Helper</a></h4><p>要為我們的城市生成選擇框，我們可以使用 [<code>collection_select</code>](<a href="https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#%E6%96%B9%E6%B3%95-i-collection_select%EF%BC%89%EF%BC%9A">https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#方法-i-collection_select）：</a></p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">collection_select</span> <span class="ss">:city_id</span><span class="p">,</span> <span class="no">City</span><span class="p">.</span><span class="nf">order</span><span class="p">(</span><span class="ss">:name</span><span class="p">),</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form.collection_select :city_id, City.order(:name), :id, :name %&gt;
+">Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"city_id"</span> <span class="na">id=</span><span class="s">"city_id"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"3"</span><span class="nt">&gt;</span>Berlin<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>Chicago<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"2"</span><span class="nt">&gt;</span>Madrid<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;select name="city_id" id="city_id"&gt;
+  &lt;option value="3"&gt;Berlin&lt;/option&gt;
+  &lt;option value="1"&gt;Chicago&lt;/option&gt;
+  &lt;option value="2"&gt;Madrid&lt;/option&gt;
+&lt;/select&gt;
+'>Copy</button>
+</div>
+<p>注意：對於<code>collection_select</code>，我們首先指定value 方法（上例中的<code>:id</code>），然後指定文字標籤方法（上例中的<code>:name</code>）。這與為<code>select</code> helper 指定選項時使用的順序相反，其中文字標籤首先出現，value 其次。</p><h4 id="collection-radio-buttons-helper"><a class="anchorlink" href="#collection-radio-buttons-helper">5.2 <code>collection_radio_buttons</code> Helper</a></h4><p>要為我們的城市生成一組單選按鈕，我們可以使用 [<code>collection_radio_buttons</code>](<a href="https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder">https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder</a>. html#method-i-collection_radio_buttons）：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">collection_radio_buttons</span> <span class="ss">:city_id</span><span class="p">,</span> <span class="no">City</span><span class="p">.</span><span class="nf">order</span><span class="p">(</span><span class="ss">:name</span><span class="p">),</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form.collection_radio_buttons :city_id, City.order(:name), :id, :name %&gt;
+">Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"city_id"</span> <span class="na">value=</span><span class="s">"3"</span> <span class="na">id=</span><span class="s">"city_id_3"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"city_id_3"</span><span class="nt">&gt;</span>Berlin<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"city_id"</span> <span class="na">value=</span><span class="s">"1"</span> <span class="na">id=</span><span class="s">"city_id_1"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"city_id_1"</span><span class="nt">&gt;</span>Chicago<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"city_id"</span> <span class="na">value=</span><span class="s">"2"</span> <span class="na">id=</span><span class="s">"city_id_2"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"city_id_2"</span><span class="nt">&gt;</span>Madrid<span class="nt">&lt;/label&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input type="radio" name="city_id" value="3" id="city_id_3"&gt;
+&lt;label for="city_id_3"&gt;Berlin&lt;/label&gt;
+&lt;input type="radio" name="city_id" value="1" id="city_id_1"&gt;
+&lt;label for="city_id_1"&gt;Chicago&lt;/label&gt;
+&lt;input type="radio" name="city_id" value="2" id="city_id_2"&gt;
+&lt;label for="city_id_2"&gt;Madrid&lt;/label&gt;
+'>Copy</button>
+</div>
+<h4 id="collection-check-boxes-helper"><a class="anchorlink" href="#collection-check-boxes-helper">5.3 <code>collection_check_boxes</code> Helper</a></h4><p>要為我們的城市生成一組複選框（允許使用者選擇多個），我們可以使用 [<code>collection_check_boxes</code>](<a href="https://api.rubyonrails.org/classes/@%7B5">https://api.rubyonrails.org/classes/@{5</a> }/Helpers/FormBuilder.html#method-i-collection_check_boxes）：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">collection_check_boxes</span> <span class="ss">:city_id</span><span class="p">,</span> <span class="no">City</span><span class="p">.</span><span class="nf">order</span><span class="p">(</span><span class="ss">:name</span><span class="p">),</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form.collection_check_boxes :city_id, City.order(:name), :id, :name %&gt;
+">Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"city_id[]"</span> <span class="na">value=</span><span class="s">"3"</span> <span class="na">id=</span><span class="s">"city_id_3"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"city_id_3"</span><span class="nt">&gt;</span>Berlin<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"city_id[]"</span> <span class="na">value=</span><span class="s">"1"</span> <span class="na">id=</span><span class="s">"city_id_1"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"city_id_1"</span><span class="nt">&gt;</span>Chicago<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"city_id[]"</span> <span class="na">value=</span><span class="s">"2"</span> <span class="na">id=</span><span class="s">"city_id_2"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"city_id_2"</span><span class="nt">&gt;</span>Madrid<span class="nt">&lt;/label&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input type="checkbox" name="city_id[]" value="3" id="city_id_3"&gt;
+&lt;label for="city_id_3"&gt;Berlin&lt;/label&gt;
+&lt;input type="checkbox" name="city_id[]" value="1" id="city_id_1"&gt;
+&lt;label for="city_id_1"&gt;Chicago&lt;/label&gt;
+&lt;input type="checkbox" name="city_id[]" value="2" id="city_id_2"&gt;
+&lt;label for="city_id_2"&gt;Madrid&lt;/label&gt;
+'>Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">6 上傳檔案</a></h3><p>一個常見的任務是上傳某種檔案，無論是人的照片還是包含要處理的資料的 CSV 檔案。檔案上傳欄位可以使用 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/FormBuilder.html#method-i-%20file_field"><code>file_field</code></a> 助手。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@person</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">file_field</span> <span class="ss">:picture</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: @person do |form| %&gt;
+  &lt;%= form.file_field :picture %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>檔案上傳時要記住的最重要的事情是渲染表單的<code>enctype</code> 屬性<strong>必須</strong>設定為“multipart/form-data”。如果您在 <code>form_with</code> 中使用 <code>file_field</code>，這會自動完成。您還可以手動設定屬性：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">url: </span><span class="s2">"/uploads"</span><span class="p">,</span> <span class="ss">multipart: </span><span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">file_field_tag</span> <span class="ss">:picture</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= form_with url: "/uploads", multipart: true do |form| %&gt;
+  &lt;%= file_field_tag :picture %&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>注意，按照<code>form_with</code>約定，上面兩種形式的欄位名也會有所不同。也就是說，第一個表單中的欄位名稱將是<code>person[picture]</code>（可透過<code>params[:person][:picture]</code> 訪問），而第二個表單中的欄位名稱將是<code>picture</code>（可透過<code>params[:picture]</code> 訪問）。</p><h4 id=""><a class="anchorlink" href="#">6.1 上傳的內容</a></h4><p><code>params</code> 雜湊中的物件是 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/Http/UploadedFile.html"><code>ActionDispatch::Http::UploadedFile</code></a> 的例項。以下程式碼段將上傳的檔案以與原始檔案相同的名稱儲存在<code>#{Rails.root}/public/uploads</code> 中。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">upload</span>
+  <span class="n">uploaded_file</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:picture</span><span class="p">]</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'public'</span><span class="p">,</span> <span class="s1">'uploads'</span><span class="p">,</span> <span class="n">uploaded_file</span><span class="p">.</span><span class="nf">original_filename</span><span class="p">),</span> <span class="s1">'wb'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+    <span class="n">file</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="n">uploaded_file</span><span class="p">.</span><span class="nf">read</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def upload
+  uploaded_file = params[:picture]
+  File.open(Rails.root.join('public', 'uploads', uploaded_file.original_filename), 'wb') do |file|
+    file.write(uploaded_file.read)
+  end
+end
+">Copy</button>
+</div>
+<p>檔案上傳後，有許多潛在的任務，包括將檔案儲存在何處（在磁碟、Amazon S3 等上）、將它們與 models 相關聯、調整影象檔案大小以及生成縮圖等。 <a href="active_storage_overview.html">Active Storage</a> 旨在協助完成這些任務。</p><h3 id=""><a class="anchorlink" href="#">7 自定義表單構建器</a></h3><p><code>form_with</code> 和 <code>fields_for</code> 生成的物件是 [@{<em>2}](<a href="https://api.rubyonrails.org/classes/ActionView/Helpers">https://api.rubyonrails.org/classes/ActionView/Helpers</a> /FormBuilder.html）。表單構建器封裝了為單個物件顯示錶單元素的概念。雖然您可以用通常的方式為表單編寫助手，但您也可以建立 @{</em>2} 的子類，並在那裡新增助手。例如，</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@person</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">text_field_with_label</span> <span class="n">form</span><span class="p">,</span> <span class="ss">:first_name</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: @person do |form| %&gt;
+  &lt;%= text_field_with_label form, :first_name %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>可以替換為</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@person</span><span class="p">,</span> <span class="ss">builder: </span><span class="no">LabellingFormBuilder</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:first_name</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: @person, builder: LabellingFormBuilder do |form| %&gt;
+  &lt;%= form.text_field :first_name %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>透過定義類似於以下內容的 <code>LabellingFormBuilder</code> 類：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">LabellingFormBuilder</span> <span class="o">&lt;</span> <span class="no">ActionView</span><span class="o">::</span><span class="no">Helpers</span><span class="o">::</span><span class="no">FormBuilder</span>
+  <span class="k">def</span> <span class="nf">text_field</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{})</span>
+    <span class="n">label</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span> <span class="o">+</span> <span class="k">super</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class LabellingFormBuilder &lt; ActionView::Helpers::FormBuilder
+  def text_field(attribute, options={})
+    label(attribute) + super
+  end
+end
+">Copy</button>
+</div>
+<p>如果你經常重用它，你可以定義一個 <code>labeled_form_with</code> helper 來自動應用 <code>builder: LabellingFormBuilder</code> 選項：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">labeled_form_with</span><span class="p">(</span><span class="ss">model: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">scope: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">url: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">format: </span><span class="kp">nil</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+  <span class="n">options</span><span class="p">.</span><span class="nf">merge!</span> <span class="ss">builder: </span><span class="no">LabellingFormBuilder</span>
+  <span class="n">form_with</span> <span class="ss">model: </span><span class="n">model</span><span class="p">,</span> <span class="ss">scope: </span><span class="n">scope</span><span class="p">,</span> <span class="ss">url: </span><span class="n">url</span><span class="p">,</span> <span class="ss">format: </span><span class="nb">format</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def labeled_form_with(model: nil, scope: nil, url: nil, format: nil, **options, &amp;block)
+  options.merge! builder: LabellingFormBuilder
+  form_with model: model, scope: scope, url: url, format: format, **options, &amp;block
+end
+">Copy</button>
+</div>
+<p>使用的表單構建器還決定了當您執行以下操作時會發生什麼：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="n">f</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= render partial: f %&gt;
+">Copy</button>
+</div>
+<p>如果<code>f</code> 是<code>ActionView::Helpers::FormBuilder</code> 的一個例項，那麼這將呈現<code>form</code> 部分，將部分的物件設定為表單構建器。如果表單構建器屬於 <code>LabellingFormBuilder</code> 類，則將呈現 <code>labelling_form</code> 部分。</p><h3 id=""><a class="anchorlink" href="#">8 瞭解引數命名約定</a></h3><p>表單中的Value 可以位於@{<em>0} 雜湊的頂層或巢狀在另一個雜湊中。例如，在標準<code>create</code> action 中，model 中的<code>params[:person]</code> 通常是該人要建立的所有屬性的雜湊。 @{</em>0} 雜湊還可以包含陣列、雜湊陣列等。</p><p>從根本上說，HTML 表單不知道任何型別的結構化資料，它們生成的只是名稱-value 對，其中對只是簡單的字串。您在應用程式中看到的陣列和雜湊是 Rails 使用的一些引數命名約定的結果。</p><h4 id=""><a class="anchorlink" href="#">8.1 基本結構</a></h4><p>兩種基本結構是陣列和雜湊。雜湊反映了用於訪問<code>params</code> 中的value 的語法。例如，如果表單包含：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"person_name"</span> <span class="na">name=</span><span class="s">"person[name]"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">value=</span><span class="s">"Henry"</span><span class="nt">/&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input id="person_name" name="person[name]" type="text" value="Henry"/&gt;
+'>Copy</button>
+</div>
+<p><code>params</code> 雜湊將包含</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="p">{</span><span class="s1">'person'</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Henry'</span><span class="p">}}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="{'person' =&gt; {'name' =&gt; 'Henry'}}
+">Copy</button>
+</div>
+<p>而<code>params[:person][:name]</code> 將在controller 中檢索提交的value。</p><p>雜湊可以根據需要巢狀多個級別，例如：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"person_address_city"</span> <span class="na">name=</span><span class="s">"person[address][city]"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">value=</span><span class="s">"New York"</span><span class="nt">/&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input id="person_address_city" name="person[address][city]" type="text" value="New York"/&gt;
+'>Copy</button>
+</div>
+<p>將導致 <code>params</code> 雜湊被</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="p">{</span><span class="s1">'person'</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">'address'</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">'city'</span> <span class="o">=&gt;</span> <span class="s1">'New York'</span><span class="p">}}}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="{'person' =&gt; {'address' =&gt; {'city' =&gt; 'New York'}}}
+">Copy</button>
+</div>
+<p>通常 Rails 會忽略重複的引數名稱。如果引數名稱以一組空的方括號<code>[]</code> 結尾，那麼它們將累積在一個數組中。如果您希望使用者能夠輸入多個電話號碼，您可以將其放在表單中：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"person[phone_number][]"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"person[phone_number][]"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"person[phone_number][]"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">/&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input name="person[phone_number][]" type="text"/&gt;
+&lt;input name="person[phone_number][]" type="text"/&gt;
+&lt;input name="person[phone_number][]" type="text"/&gt;
+'>Copy</button>
+</div>
+<p>這將導致 <code>params[:person][:phone_number]</code> 成為包含輸入電話號碼的陣列。</p><h4 id=""><a class="anchorlink" href="#">8.2 結合它們</a></h4><p>我們可以混合搭配這兩個概念。雜湊的一個元素可能是前一個示例中的陣列，或者您可以擁有一個雜湊陣列。例如，一個表單可以讓您透過重複以下表單片段來建立任意數量的地址</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"person[addresses][][line1]"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"person[addresses][][line2]"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"person[addresses][][city]"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"person[addresses][][line1]"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"person[addresses][][line2]"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"person[addresses][][city]"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">/&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input name="person[addresses][][line1]" type="text"/&gt;
+&lt;input name="person[addresses][][line2]" type="text"/&gt;
+&lt;input name="person[addresses][][city]" type="text"/&gt;
+&lt;input name="person[addresses][][line1]" type="text"/&gt;
+&lt;input name="person[addresses][][line2]" type="text"/&gt;
+&lt;input name="person[addresses][][city]" type="text"/&gt;
+'>Copy</button>
+</div>
+<p>這將導致<code>params[:person][:addresses]</code> 成為包含keys、<code>line1</code>、<code>line2</code> 和<code>city</code> 的雜湊陣列。</p><p>然而，有一個限制：雖然雜湊可以任意巢狀，但只允許一級“陣列”。陣列通常可以用雜湊代替；例如，不是擁有model 物件的陣列，而是可以擁有model 物件的雜湊，key 透過它們的 id、陣列索引或其他一些引數進行處理。</p><p>警告：陣列引數不能很好地與@{_0} helper 配合使用。根據 HTML 規範，未選中的複選框不提交 value。然而，複選框總是提交value 通常很方便。 @{_0} helper 透過建立一個同名的輔助隱藏輸入來偽造這一點。如果複選框未選中，則僅提交隱藏輸入，如果選中，則兩者都提交，但複選框提交的value 優先。</p><h4 id="fields-for-helper"><a class="anchorlink" href="#fields-for-helper">8.3 <code>fields_for</code> Helper</a></h4><p>假設我們想要為每個人的地址呈現一個包含一組欄位的表單。 <code>fields_for</code> helper 及其 <code>:index</code> 引數可以幫助解決這個問題：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@person</span> <span class="k">do</span> <span class="o">|</span><span class="n">person_form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">person_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@person</span><span class="p">.</span><span class="nf">addresses</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">address</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">person_form</span><span class="p">.</span><span class="nf">fields_for</span> <span class="n">address</span><span class="p">,</span> <span class="ss">index: </span><span class="n">address</span><span class="p">.</span><span class="nf">id</span> <span class="k">do</span> <span class="o">|</span><span class="n">address_form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">address_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:city</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: @person do |person_form| %&gt;
+  &lt;%= person_form.text_field :name %&gt;
+  &lt;% @person.addresses.each do |address| %&gt;
+    &lt;%= person_form.fields_for address, index: address.id do |address_form| %&gt;
+      &lt;%= address_form.text_field :city %&gt;
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>假設此人有兩個地址，ID 為 23 和 45，這將建立類似於以下的輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="na">action=</span><span class="s">"/people/1"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"_method"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"patch"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"person_name"</span> <span class="na">name=</span><span class="s">"person[name]"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"person_address_23_city"</span> <span class="na">name=</span><span class="s">"person[address][23][city]"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"person_address_45_city"</span> <span class="na">name=</span><span class="s">"person[address][45][city]"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form accept-charset="UTF-8" action="/people/1" method="post"&gt;
+  &lt;input name="_method" type="hidden" value="patch" /&gt;
+  &lt;input id="person_name" name="person[name]" type="text" /&gt;
+  &lt;input id="person_address_23_city" name="person[address][23][city]" type="text" /&gt;
+  &lt;input id="person_address_45_city" name="person[address][45][city]" type="text" /&gt;
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>這將導致 <code>params</code> 雜湊看起來像</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="p">{</span><span class="s1">'person'</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Bob'</span><span class="p">,</span> <span class="s1">'address'</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">'23'</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">'city'</span> <span class="o">=&gt;</span> <span class="s1">'Paris'</span><span class="p">},</span> <span class="s1">'45'</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">'city'</span> <span class="o">=&gt;</span> <span class="s1">'London'</span><span class="p">}}}}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="{'person' =&gt; {'name' =&gt; 'Bob', 'address' =&gt; {'23' =&gt; {'city' =&gt; 'Paris'}, '45' =&gt; {'city' =&gt; 'London'}}}}
+">Copy</button>
+</div>
+<p>Rails 知道所有這些輸入都應該是 person hash 的一部分，因為你
+在第一個表單生成器上呼叫 <code>fields_for</code>。透過指定<code>:index</code> 選項
+你告訴 Rails，而不是命名輸入 <code>person[address][city]</code>
+它應該在地址和城市之間插入由 [] 包圍的索引。
+這通常很有用，因為它很容易找到哪個地址記錄
+應該修改。你可以傳遞具有其他意義的數字，
+字串甚至<code>nil</code>（這將導致建立一個數組引數）。</p><p>要建立更復雜的巢狀，您可以指定輸入的第一部分
+名稱（在前面的示例中為<code>person[address]</code>）顯式：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">fields_for</span> <span class="s1">'person[address][primary]'</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="ss">index: </span><span class="n">address</span><span class="p">.</span><span class="nf">id</span> <span class="k">do</span> <span class="o">|</span><span class="n">address_form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">address_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:city</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= fields_for 'person[address][primary]', address, index: address.id do |address_form| %&gt;
+  &lt;%= address_form.text_field :city %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>將建立輸入，如</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"person_address_primary_1_city"</span> <span class="na">name=</span><span class="s">"person[address][primary][1][city]"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">value=</span><span class="s">"Bologna"</span> <span class="nt">/&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input id="person_address_primary_1_city" name="person[address][primary][1][city]" type="text" value="Bologna" /&gt;
+'>Copy</button>
+</div>
+<p>作為一般規則，最終輸入名稱是為<code>fields_for</code>/<code>form_with</code> 提供的名稱、索引value 和屬性名稱的串聯。您還可以將<code>:index</code> 選項直接傳遞給helpers，例如<code>text_field</code>，但在表單構建器級別而不是在單個輸入控制元件上指定它通常不太重複。</p><p>作為快捷方式，您可以將 [] 附加到名稱並省略 <code>:index</code> 選項。這與指定<code>index: address.id</code> 相同，所以</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">fields_for</span> <span class="s1">'person[address][primary][]'</span><span class="p">,</span> <span class="n">address</span> <span class="k">do</span> <span class="o">|</span><span class="n">address_form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">address_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:city</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= fields_for 'person[address][primary][]', address do |address_form| %&gt;
+  &lt;%= address_form.text_field :city %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>產生與前一個示例完全相同的輸出。</p><h3 id=""><a class="anchorlink" href="#">9 外部資源的表格</a></h3><p>Rails 的表單helpers 也可用於構建將資料釋出到外部資源的表單。但是，有時可能需要為資源設定<code>authenticity_token</code>；這可以透過將<code>authenticity_token: 'your_external_token'</code> 引數傳遞給<code>form_with</code> 選項來完成：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">url: </span><span class="s1">'http://farfar.away/form'</span><span class="p">,</span> <span class="ss">authenticity_token: </span><span class="s1">'external_token'</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+  Form contents
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with url: 'http://farfar.away/form', authenticity_token: 'external_token' do %&gt;
+  Form contents
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>有時在向外部資源（例如支付閘道器）提交資料時，表單中可以使用的欄位受外部 API 限制，因此生成 <code>authenticity_token</code> 可能是不可取的。要不傳送token，只需將<code>false</code> 傳遞給<code>:authenticity_token</code> 選項：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">url: </span><span class="s1">'http://farfar.away/form'</span><span class="p">,</span> <span class="ss">authenticity_token: </span><span class="kp">false</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+  Form contents
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with url: 'http://farfar.away/form', authenticity_token: false do %&gt;
+  Form contents
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">10 構建複雜的表單</a></h3><p>許多應用程式超越了編輯單個物件的簡單表單。例如，在建立<code>Person</code> 時，您可能希望允許使用者（在同一個表單上）建立多個地址記錄（家庭、工作等）。稍後編輯該人時，使用者應該能夠根據需要新增、刪除或修改地址。</p><h4 id="model"><a class="anchorlink" href="#model">10.1 配置Model</a></h4><p>Active Record 透過 [<code>accepts_nested_attributes_for</code>](<a href="https://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html#method-i-accepts_nested_attributes_for">https://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html#method-i-accepts_nested_attributes_for</a> ） 方法：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:addresses</span><span class="p">,</span> <span class="ss">inverse_of: :person</span>
+  <span class="n">accepts_nested_attributes_for</span> <span class="ss">:addresses</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Address</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">belongs_to</span> <span class="ss">:person</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  has_many :addresses, inverse_of: :person
+  accepts_nested_attributes_for :addresses
+end
+
+class Address &lt; ApplicationRecord
+  belongs_to :person
+end
+">Copy</button>
+</div>
+<p>這會在 <code>Person</code> 上建立一個 <code>addresses_attributes=</code> 方法，允許您建立、更新和（可選）銷燬地址。</p><h4 id=""><a class="anchorlink" href="#">10.2 巢狀表單</a></h4><p>以下表單允許使用者建立<code>Person</code> 及其關聯的地址。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@person</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  Addresses:
+  <span class="nt">&lt;ul&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">fields_for</span> <span class="ss">:addresses</span> <span class="k">do</span> <span class="o">|</span><span class="n">addresses_form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">addresses_form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:kind</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">addresses_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:kind</span> <span class="cp">%&gt;</span>
+
+        <span class="cp">&lt;%=</span> <span class="n">addresses_form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:street</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">addresses_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:street</span> <span class="cp">%&gt;</span>
+        ...
+      <span class="nt">&lt;/li&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/ul&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: @person do |form| %&gt;
+  Addresses:
+  &lt;ul&gt;
+    &lt;%= form.fields_for :addresses do |addresses_form| %&gt;
+      &lt;li&gt;
+        &lt;%= addresses_form.label :kind %&gt;
+        &lt;%= addresses_form.text_field :kind %&gt;
+
+        &lt;%= addresses_form.label :street %&gt;
+        &lt;%= addresses_form.text_field :street %&gt;
+        ...
+      &lt;/li&gt;
+    &lt;% end %&gt;
+  &lt;/ul&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>當association 接受巢狀屬性時，<code>fields_for</code> 會為association 的每個元素渲染一次其塊。特別是，如果一個人沒有地址，則它什麼也不呈現。一種常見的模式是controller 構建一個或多個空子項，以便向用戶顯示至少一組欄位。下面的示例將導致在新人員表單上呈現 2 組地址欄位。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">new</span>
+  <span class="vi">@person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+  <span class="mi">2</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="vi">@person</span><span class="p">.</span><span class="nf">addresses</span><span class="p">.</span><span class="nf">build</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def new
+  @person = Person.new
+  2.times { @person.addresses.build }
+end
+">Copy</button>
+</div>
+<p><code>fields_for</code> 生成一個表單構建器。引數的名稱將是什麼
+<code>accepts_nested_attributes_for</code> 期待。例如，在建立使用者時
+2 個地址，提交的引數如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="p">{</span>
+  <span class="s1">'person'</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'John Doe'</span><span class="p">,</span>
+    <span class="s1">'addresses_attributes'</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="s1">'0'</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="s1">'kind'</span> <span class="o">=&gt;</span> <span class="s1">'Home'</span><span class="p">,</span>
+        <span class="s1">'street'</span> <span class="o">=&gt;</span> <span class="s1">'221b Baker Street'</span>
+      <span class="p">},</span>
+      <span class="s1">'1'</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="s1">'kind'</span> <span class="o">=&gt;</span> <span class="s1">'Office'</span><span class="p">,</span>
+        <span class="s1">'street'</span> <span class="o">=&gt;</span> <span class="s1">'31 Spooner Street'</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="{
+  'person' =&gt; {
+    'name' =&gt; 'John Doe',
+    'addresses_attributes' =&gt; {
+      '0' =&gt; {
+        'kind' =&gt; 'Home',
+        'street' =&gt; '221b Baker Street'
+      },
+      '1' =&gt; {
+        'kind' =&gt; 'Office',
+        'street' =&gt; '31 Spooner Street'
+      }
+    }
+  }
+}
+">Copy</button>
+</div>
+<p><code>:addresses_attributes</code> 雜湊的keys 並不重要，它們只需要針對每個地址不同即可。</p><p>如果關聯的物件已經儲存，@{<em>0} 會自動生成一個帶有儲存記錄的<code>id</code> 的隱藏輸入。您可以透過將`include</em>id: false` 傳遞給@{_0} 來禁用此功能。</p><h4 id="controller"><a class="anchorlink" href="#controller">10.3 Controller</a></h4><p>像往常一樣，你需要
+<a href="action_controller_overview.html#strong-parameters">宣告允許的引數</a> in
+在將 controller 傳遞給 model 之前：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">create</span>
+  <span class="vi">@person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">person_params</span><span class="p">)</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="kp">private</span>
+  <span class="k">def</span> <span class="nf">person_params</span>
+    <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:person</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">addresses_attributes: </span><span class="p">[</span><span class="ss">:id</span><span class="p">,</span> <span class="ss">:kind</span><span class="p">,</span> <span class="ss">:street</span><span class="p">])</span>
+  <span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def create
+  @person = Person.new(person_params)
+  # ...
+end
+
+private
+  def person_params
+    params.require(:person).permit(:name, addresses_attributes: [:id, :kind, :street])
+  end
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">10.4 移除物件</a></h4><p>您可以透過將<code>allow_destroy: true</code> 傳遞給<code>accepts_nested_attributes_for</code> 來允許使用者刪除關聯物件</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:addresses</span>
+  <span class="n">accepts_nested_attributes_for</span> <span class="ss">:addresses</span><span class="p">,</span> <span class="ss">allow_destroy: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  has_many :addresses
+  accepts_nested_attributes_for :addresses, allow_destroy: true
+end
+">Copy</button>
+</div>
+<p>如果物件的屬性雜湊包含帶有 value 的 key <code>_destroy</code>
+計算結果為<code>true</code>（例如 1、'1'、true 或 'true'）則物件將被銷燬。
+此表單允許使用者刪除地址：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@person</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  Addresses:
+  <span class="nt">&lt;ul&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">fields_for</span> <span class="ss">:addresses</span> <span class="k">do</span> <span class="o">|</span><span class="n">addresses_form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">addresses_form</span><span class="p">.</span><span class="nf">check_box</span> <span class="ss">:_destroy</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">addresses_form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:kind</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">addresses_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:kind</span> <span class="cp">%&gt;</span>
+        ...
+      <span class="nt">&lt;/li&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/ul&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: @person do |form| %&gt;
+  Addresses:
+  &lt;ul&gt;
+    &lt;%= form.fields_for :addresses do |addresses_form| %&gt;
+      &lt;li&gt;
+        &lt;%= addresses_form.check_box :_destroy %&gt;
+        &lt;%= addresses_form.label :kind %&gt;
+        &lt;%= addresses_form.text_field :kind %&gt;
+        ...
+      &lt;/li&gt;
+    &lt;% end %&gt;
+  &lt;/ul&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>不要忘記更新 controller 中允許的引數以包括
+<code>_destroy</code> 欄位：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">person_params</span>
+  <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:person</span><span class="p">).</span>
+    <span class="nf">permit</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">addresses_attributes: </span><span class="p">[</span><span class="ss">:id</span><span class="p">,</span> <span class="ss">:kind</span><span class="p">,</span> <span class="ss">:street</span><span class="p">,</span> <span class="ss">:_destroy</span><span class="p">])</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def person_params
+  params.require(:person).
+    permit(:name, addresses_attributes: [:id, :kind, :street, :_destroy])
+end
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">10.5 防止空記錄</a></h4><p>忽略使用者未填寫的欄位集通常很有用。您可以透過將<code>:reject_if</code> proc 傳遞給<code>accepts_nested_attributes_for</code> 來控制這一點。將使用表單提交的每個屬性雜湊呼叫此過程。如果 proc 返回 <code>false</code>，那麼 Active Record 將不會為該雜湊構建關聯物件。如果設定了<code>kind</code> 屬性，下面的示例僅嘗試構建地址。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:addresses</span>
+  <span class="n">accepts_nested_attributes_for</span> <span class="ss">:addresses</span><span class="p">,</span> <span class="ss">reject_if: </span><span class="nb">lambda</span> <span class="p">{</span><span class="o">|</span><span class="n">attributes</span><span class="o">|</span> <span class="n">attributes</span><span class="p">[</span><span class="s1">'kind'</span><span class="p">].</span><span class="nf">blank?</span><span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  has_many :addresses
+  accepts_nested_attributes_for :addresses, reject_if: lambda {|attributes| attributes['kind'].blank?}
+end
+">Copy</button>
+</div>
+<p>為方便起見，您可以改為傳遞symbol <code>:all_blank</code>，這將建立一個過程，該過程將拒絕所有屬性為空的記錄，不包括<code>_destroy</code> 的任何value。</p><h4 id=""><a class="anchorlink" href="#">10.6 動態新增欄位</a></h4><p>您可能希望僅在使用者單擊“新增新地址”按鈕時才新增它們，而不是提前呈現多組欄位。 Rails 沒有為此提供任何內建支援。生成新的欄位集時，您必須確保關聯陣列的 key 是唯一的 - 當前 JavaScript 日期（自 <a href="https://en.wikipedia.org/wiki/Unix_time">epoch</a> 以來的毫秒數）是一個共同的選擇。</p><h3 id="helper"><a class="anchorlink" href="#helper">11 在沒有表單生成器的情況下使用標記 Helper</a></h3><p>如果您需要在表單構建器的上下文之外呈現表單欄位，Rails 為常見表單元素提供了標籤助手。例如，<a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/Helpers/FormTagHelper.html#method-i-check_box_tag"><code>check_box_tag</code></a>：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">check_box_tag</span> <span class="s2">"accept"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= check_box_tag "accept" %&gt;
+'>Copy</button>
+</div>
+<p>輸出：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"accept"</span> <span class="na">id=</span><span class="s">"accept"</span> <span class="na">value=</span><span class="s">"1"</span> <span class="nt">/&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;input type="checkbox" name="accept" id="accept" value="1" /&gt;
+'>Copy</button>
+</div>
+<p>通常，這些幫助器與它們的表單構建器對應物具有相同的名稱，加上一個 <code>_tag</code> 字尾。有關完整列表，請參閱 [<code>FormTagHelper</code> API 文件](<a href="https://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html">https://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html</a> ）。</p><h3 id="form-tag-form-for"><a class="anchorlink" href="#form-tag-form-for">12 使用<code>form_tag</code> 和<code>form_for</code></a></h3><p>在 Rails 5.1 中引入 <code>form_with</code> 之前，它的功能曾經在 <a href="https://api.rubyonrails.org/v5.2/classes/ActionView/@%20%7B14%7Ds/FormTagHelper.html#method-i-form_tag"><code>form_tag</code></a> 和 [<code>form_for</code>](<a href="https://api.rubyonrails.org/v5.2/classes/@%7B5">https://api.rubyonrails.org/v5.2/classes/@{5</a> }/Helpers/FormHelper.html#method-i-form_for）。兩者現在都已被軟棄用。有關其使用的文件可在 <a href="https://guides.rubyonrails.org/v5.2/form_helpers.html">本指南的舊版本</a> 中找到。</p>
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

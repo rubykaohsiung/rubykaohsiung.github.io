@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>現役工作基礎 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="現役工作基礎 — Ruby on Rails Guides" />
+  <meta name="description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.現役工作基礎本指南為您提供了開始建立、 排隊和執行後臺作業。閱讀本指南後，您將瞭解： 如何創造就業機會。 如何排隊工作。 如何在後臺執行作業。 如何從您的應用程式非同步傳送電子郵件。" />
+  <meta property="og:description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.現役工作基礎本指南為您提供了開始建立、 排隊和執行後臺作業。閱讀本指南後，您將瞭解： 如何創造就業機會。 如何排隊工作。 如何在後臺執行作業。 如何從您的應用程式非同步傳送電子郵件。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>不要在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>現役工作基礎</h2><p>本指南為您提供了開始建立、
+排隊和執行後臺作業。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何創造就業機會。</li>
+<li>如何排隊工作。</li>
+<li>如何在後臺執行作業。</li>
+<li>如何從您的應用程式非同步傳送電子郵件。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#">什麼是主動工作？</a></li>
+<li><a href="#">主動工作的目的</a></li>
+<li>
+<a href="#">建立工作</a>
+
+<ul>
+<li><a href="#">建立作業</a></li>
+<li><a href="#">將作業排入佇列</a></li>
+</ul>
+</li>
+<li>
+<a href="#">工作執行</a>
+
+<ul>
+<li><a href="#">後端</a></li>
+<li><a href="#">設定後端</a></li>
+<li><a href="#">啟動後端</a></li>
+</ul>
+</li>
+<li><a href="#">佇列</a></li>
+<li>
+<a href="#">回撥</a>
+
+<ul>
+<li><a href="#">可用的回撥</a></li>
+</ul>
+</li>
+<li><a href="#action">Action 郵寄者</a></li>
+<li><a href="#">國際化</a></li>
+<li>
+<a href="#">支援的引數型別</a>
+
+<ul>
+<li><a href="#id">全域性 ID</a></li>
+<li><a href="#">序列化程式</a></li>
+</ul>
+</li>
+<li>
+<a href="#">例外</a>
+
+<ul>
+<li><a href="#">重試或放棄失敗的作業</a></li>
+<li><a href="#">反序列化</a></li>
+</ul>
+</li>
+<li><a href="#">工作測試</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 什麼是主動工作？</a></h3><p>Active Job 是一個框架，用於宣告作業並使它們在各種
+排隊後端。這些工作可以是定期安排的一切
+清理，計費，郵寄。任何可以切碎的東西
+分成小的工作單元並並行執行，真的。</p><h3 id=""><a class="anchorlink" href="#">2 主動工作的目的</a></h3><p>重點是確保所有 Rails 應用程式都具有作業基礎架構
+到位。然後我們可以在此基礎上構建框架功能和其他 gem，
+無需擔心各種作業執行程式之間的 API 差異，例如
+延遲工作和重新安排。選擇您的排隊後端變得更具有操作性
+那麼關心。而且您將能夠在它們之間切換而無需重寫
+你的工作。</p><p>注意：預設情況下，Rails 帶有非同步排隊實現
+使用程序內執行緒池執行作業。作業將非同步執行，但任何
+佇列中的作業將在重新啟動時刪除。</p><h3 id=""><a class="anchorlink" href="#">3 建立工作</a></h3><p>本節將提供建立作業和排隊的分步指南。</p><h4 id=""><a class="anchorlink" href="#">3.1 建立作業</a></h4><p>Active Job 提供了一個 Rails 生成器來建立作業。下面將建立一個
+<code>app/jobs</code> 中的工作（在 <code>test/jobs</code> 下有一個附加的測試用例）：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate job guests_cleanup
+<span class="go">invoke  test_unit
+create    test/jobs/guests_cleanup_job_test.rb
+create  app/jobs/guests_cleanup_job.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate job guests_cleanup
+">Copy</button>
+</div>
+<p>您還可以建立將在特定佇列上執行的作業：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate job guests_cleanup <span class="nt">--queue</span> urgent
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate job guests_cleanup --queue urgent
+">Copy</button>
+</div>
+<p>如果你不想使用生成器，你可以在裡面建立你自己的檔案
+<code>app/jobs</code>，只需確保它繼承自 <code>ApplicationJob</code>。</p><p>這是一份工作的樣子：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">GuestsCleanupJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:default</span>
+
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="o">*</span><span class="n">guests</span><span class="p">)</span>
+    <span class="c1"># Do something later</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class GuestsCleanupJob &lt; ApplicationJob
+  queue_as :default
+
+  def perform(*guests)
+    # Do something later
+  end
+end
+">Copy</button>
+</div>
+<p>請注意，您可以使用任意數量的引數定義 <code>perform</code>。</p><h4 id=""><a class="anchorlink" href="#">3.2 將作業排入佇列</a></h4><p>使用 [<code>perform_later</code>][] 和可選的 [<code>set</code>][] 將作業排入佇列。像這樣：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Enqueue a job to be performed as soon as the queuing system is</span>
+<span class="c1"># free.</span>
+<span class="no">GuestsCleanupJob</span><span class="p">.</span><span class="nf">perform_later</span> <span class="n">guest</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Enqueue a job to be performed as soon as the queuing system is
+# free.
+GuestsCleanupJob.perform_later guest
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Enqueue a job to be performed tomorrow at noon.</span>
+<span class="no">GuestsCleanupJob</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="ss">wait_until: </span><span class="no">Date</span><span class="p">.</span><span class="nf">tomorrow</span><span class="p">.</span><span class="nf">noon</span><span class="p">).</span><span class="nf">perform_later</span><span class="p">(</span><span class="n">guest</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Enqueue a job to be performed tomorrow at noon.
+GuestsCleanupJob.set(wait_until: Date.tomorrow.noon).perform_later(guest)
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Enqueue a job to be performed 1 week from now.</span>
+<span class="no">GuestsCleanupJob</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="ss">wait: </span><span class="mi">1</span><span class="p">.</span><span class="nf">week</span><span class="p">).</span><span class="nf">perform_later</span><span class="p">(</span><span class="n">guest</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Enqueue a job to be performed 1 week from now.
+GuestsCleanupJob.set(wait: 1.week).perform_later(guest)
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># `perform_now` and `perform_later` will call `perform` under the hood so</span>
+<span class="c1"># you can pass as many arguments as defined in the latter.</span>
+<span class="no">GuestsCleanupJob</span><span class="p">.</span><span class="nf">perform_later</span><span class="p">(</span><span class="n">guest1</span><span class="p">,</span> <span class="n">guest2</span><span class="p">,</span> <span class="ss">filter: </span><span class="s1">'some_filter'</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# `perform_now` and `perform_later` will call `perform` under the hood so
+# you can pass as many arguments as defined in the latter.
+GuestsCleanupJob.perform_later(guest1, guest2, filter: 'some_filter')
+">Copy</button>
+</div>
+<p>就是這樣！</p><p>[<code>perform_later</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/Enqueuing/ClassMethods.html#method-i-perform_later">https://api.rubyonrails.org/classes/ActiveJob/Enqueuing/ClassMethods.html#method-i-perform_later</a>
+[<code>set</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/Core/ClassMethods.html#method-i-set">https://api.rubyonrails.org/classes/ActiveJob/Core/ClassMethods.html#method-i-set</a></p><h3 id=""><a class="anchorlink" href="#">4 工作執行</a></h3><p>為了在生產中排隊和執行作業，您需要設定一個排隊後端，
+也就是說，你需要決定 Rails 應該使用的第 3 方佇列庫。
+Rails 本身只提供了一個程序內排隊系統，它只將作業儲存在 RAM 中。
+如果程序崩潰或機器被重置，那麼所有未完成的作業都會丟失
+預設非同步後端。這對於較小的應用程式或非關鍵工作可能沒問題，但大多數
+生產應用程式需要選擇一個持久的後端。</p><h4 id=""><a class="anchorlink" href="#">4.1 後端</a></h4><p>Active Job 具有用於多個佇列後端的內建介面卡（Sidekiq、
+Resque、延遲作業等）。獲取最新的介面卡列表
+請參閱 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveJob/QueueAdapters.html"><code>ActiveJob::QueueAdapters</code></a> 的 API 文件。</p><h4 id=""><a class="anchorlink" href="#">4.2 設定後端</a></h4><p>您可以輕鬆設定排隊後端：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># config/application.rb</span>
+<span class="k">module</span> <span class="nn">YourApp</span>
+  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+    <span class="c1"># Be sure to have the adapter's gem in your Gemfile</span>
+    <span class="c1"># and follow the adapter's specific installation</span>
+    <span class="c1"># and deployment instructions.</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">active_job</span><span class="p">.</span><span class="nf">queue_adapter</span> <span class="o">=</span> <span class="ss">:sidekiq</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/application.rb
+module YourApp
+  class Application &lt; Rails::Application
+    # Be sure to have the adapter's gem in your Gemfile
+    # and follow the adapter's specific installation
+    # and deployment instructions.
+    config.active_job.queue_adapter = :sidekiq
+  end
+end
+">Copy</button>
+</div>
+<p>您還可以基於每個作業配置您的後端：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">GuestsCleanupJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">queue_adapter</span> <span class="o">=</span> <span class="ss">:resque</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="c1"># Now your job will use `resque` as its backend queue adapter, overriding what</span>
+<span class="c1"># was configured in `config.active_job.queue_adapter`.</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class GuestsCleanupJob &lt; ApplicationJob
+  self.queue_adapter = :resque
+  # ...
+end
+
+# Now your job will use `resque` as its backend queue adapter, overriding what
+# was configured in `config.active_job.queue_adapter`.
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">4.3 啟動後端</a></h4><p>由於作業與 Rails 應用程式並行執行，因此大多數排隊庫
+要求您啟動特定於圖書館的排隊服務（除了
+啟動您的 Rails 應用程式）以使作業處理工作。參考圖書館
+有關啟動佇列後端的說明的文件。</p><p>這是一個不全面的文件列表：</p>
+<ul>
+<li><a href="https://github.com/mperham/sidekiq/wiki/Active-Job">Sidekiq</a></li>
+<li><a href="https://github.com/resque/resque/wiki/ActiveJob">Resque</a></li>
+<li><a href="https://github.com/jondot/sneakers/wiki/How-To:-Rails-Background-Jobs-with-ActiveJob">運動鞋</a></li>
+<li><a href="https://github.com/brandonhilkert/sucker_punch#active-job">Sucker Punch</a></li>
+<li><a href="https://github.com/QueueClassic/queue_classic#active-job">佇列經典</a></li>
+<li><a href="https://github.com/collectiveidea/delayed_job#active-job">延遲作業</a></li>
+<li><a href="https://github.com/que-rb/que#additional-rails-specific-setup">Que</a></li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">5 佇列</a></h3><p>大多數介面卡支援多個佇列。使用 Active Job，您可以安排
+使用 [<code>queue_as</code>][] 在特定佇列上執行的作業：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">GuestsCleanupJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:low_priority</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class GuestsCleanupJob &lt; ApplicationJob
+  queue_as :low_priority
+  # ...
+end
+">Copy</button>
+</div>
+<p>您可以使用字首為所有作業的佇列名稱
+<code>application.rb</code> 中的 <code>config.active_job.queue_name_prefix</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># config/application.rb</span>
+<span class="k">module</span> <span class="nn">YourApp</span>
+  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">active_job</span><span class="p">.</span><span class="nf">queue_name_prefix</span> <span class="o">=</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">env</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/application.rb
+module YourApp
+  class Application &lt; Rails::Application
+    config.active_job.queue_name_prefix = Rails.env
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/jobs/guests_cleanup_job.rb</span>
+<span class="k">class</span> <span class="nc">GuestsCleanupJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:low_priority</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="c1"># Now your job will run on queue production_low_priority on your</span>
+<span class="c1"># production environment and on staging_low_priority</span>
+<span class="c1"># on your staging environment</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/jobs/guests_cleanup_job.rb
+class GuestsCleanupJob &lt; ApplicationJob
+  queue_as :low_priority
+  # ...
+end
+
+# Now your job will run on queue production_low_priority on your
+# production environment and on staging_low_priority
+# on your staging environment
+">Copy</button>
+</div>
+<p>您還可以在每個作業的基礎上配置字首。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">GuestsCleanupJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:low_priority</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">queue_name_prefix</span> <span class="o">=</span> <span class="kp">nil</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="c1"># Now your job's queue won't be prefixed, overriding what</span>
+<span class="c1"># was configured in `config.active_job.queue_name_prefix`.</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class GuestsCleanupJob &lt; ApplicationJob
+  queue_as :low_priority
+  self.queue_name_prefix = nil
+  # ...
+end
+
+# Now your job's queue won't be prefixed, overriding what
+# was configured in `config.active_job.queue_name_prefix`.
+">Copy</button>
+</div>
+<p>預設佇列名稱字首定界符是“_”。這可以透過設定來改變
+“application.rb”中的“config.active_job.queue_name_delimiter”：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># config/application.rb</span>
+<span class="k">module</span> <span class="nn">YourApp</span>
+  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">active_job</span><span class="p">.</span><span class="nf">queue_name_prefix</span> <span class="o">=</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">env</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">active_job</span><span class="p">.</span><span class="nf">queue_name_delimiter</span> <span class="o">=</span> <span class="s1">'.'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/application.rb
+module YourApp
+  class Application &lt; Rails::Application
+    config.active_job.queue_name_prefix = Rails.env
+    config.active_job.queue_name_delimiter = '.'
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/jobs/guests_cleanup_job.rb</span>
+<span class="k">class</span> <span class="nc">GuestsCleanupJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:low_priority</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="c1"># Now your job will run on queue production.low_priority on your</span>
+<span class="c1"># production environment and on staging.low_priority</span>
+<span class="c1"># on your staging environment</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/jobs/guests_cleanup_job.rb
+class GuestsCleanupJob &lt; ApplicationJob
+  queue_as :low_priority
+  # ...
+end
+
+# Now your job will run on queue production.low_priority on your
+# production environment and on staging.low_priority
+# on your staging environment
+">Copy</button>
+</div>
+<p>如果你想更多地控制作業將執行的佇列，你可以傳遞一個<code>:queue</code>
+“設定”選項：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">MyJob</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="ss">queue: :another_queue</span><span class="p">).</span><span class="nf">perform_later</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="MyJob.set(queue: :another_queue).perform_later(record)
+">Copy</button>
+</div>
+<p>要從作業級別控制佇列，您可以將一個塊傳遞給 <code>queue_as</code>。這
+塊將在作業上下文中執行（因此它可以訪問<code>self.arguments</code>），
+它必須返回佇列名稱：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ProcessVideoJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="k">do</span>
+    <span class="n">video</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="nf">arguments</span><span class="p">.</span><span class="nf">first</span>
+    <span class="k">if</span> <span class="n">video</span><span class="p">.</span><span class="nf">owner</span><span class="p">.</span><span class="nf">premium?</span>
+      <span class="ss">:premium_videojobs</span>
+    <span class="k">else</span>
+      <span class="ss">:videojobs</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
+    <span class="c1"># Do process video</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ProcessVideoJob &lt; ApplicationJob
+  queue_as do
+    video = self.arguments.first
+    if video.owner.premium?
+      :premium_videojobs
+    else
+      :videojobs
+    end
+  end
+
+  def perform(video)
+    # Do process video
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ProcessVideoJob</span><span class="p">.</span><span class="nf">perform_later</span><span class="p">(</span><span class="no">Video</span><span class="p">.</span><span class="nf">last</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ProcessVideoJob.perform_later(Video.last)
+">Copy</button>
+</div>
+<p>注意：確保您的排隊後端“監聽”您的佇列名稱。對於一些
+後端您需要指定要偵聽的佇列。</p><p>[<code>queue_as</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/QueueName/ClassMethods.html#method-i-queue_as">https://api.rubyonrails.org/classes/ActiveJob/QueueName/ClassMethods.html#method-i-queue_as</a></p><h3 id=""><a class="anchorlink" href="#">6 回撥</a></h3><p>Active Job 提供鉤子以在作業的生命週期內觸發邏輯。喜歡
+Rails 中的其他回撥，您可以將回調實現為普通方法
+並使用宏風格的類方法將它們註冊為回撥：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">GuestsCleanupJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:default</span>
+
+  <span class="n">around_perform</span> <span class="ss">:around_cleanup</span>
+
+  <span class="k">def</span> <span class="nf">perform</span>
+    <span class="c1"># Do something later</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">around_cleanup</span>
+      <span class="c1"># Do something before perform</span>
+      <span class="k">yield</span>
+      <span class="c1"># Do something after perform</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class GuestsCleanupJob &lt; ApplicationJob
+  queue_as :default
+
+  around_perform :around_cleanup
+
+  def perform
+    # Do something later
+  end
+
+  private
+    def around_cleanup
+      # Do something before perform
+      yield
+      # Do something after perform
+    end
+end
+">Copy</button>
+</div>
+<p>宏風格的類方法也可以接收一個塊。考慮使用這個
+如果塊中的程式碼太短以至於它適合一行。
+例如，您可以為每個入隊的作業傳送指標：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationJob</span> <span class="o">&lt;</span> <span class="no">ActiveJob</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">before_enqueue</span> <span class="p">{</span> <span class="o">|</span><span class="n">job</span><span class="o">|</span> <span class="vg">$statsd</span><span class="p">.</span><span class="nf">increment</span> <span class="s2">"</span><span class="si">#{</span><span class="n">job</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">underscore</span><span class="si">}</span><span class="s2">.enqueue"</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ApplicationJob &lt; ActiveJob::Base
+  before_enqueue { |job| $statsd.increment "#{job.class.name.underscore}.enqueue" }
+end
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">6.1 可用的回撥</a></h4>
+<ul>
+<li>[<code>before_enqueue</code>][]</li>
+<li>[<code>around_enqueue</code>][]</li>
+<li>[<code>after_enqueue</code>][]</li>
+<li>[<code>before_perform</code>][]</li>
+<li>[<code>around_perform</code>][]</li>
+<li>[<code>after_perform</code>][]</li>
+</ul>
+<p>[<code>before_enqueue</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-before_enqueue">https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-before_enqueue</a>
+[<code>around_enqueue</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-around_enqueue">https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-around_enqueue</a>
+[<code>after_enqueue</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-after_enqueue">https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-after_enqueue</a>
+[<code>before_perform</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-before_perform">https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-before_perform</a>
+[<code>around_perform</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-around_perform">https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-around_perform</a>
+[<code>after_perform</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-after_perform">https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-after_perform</a></p><h3 id="action"><a class="anchorlink" href="#action">7 Action 郵寄者</a></h3><p>現代 Web 應用程式中最常見的工作之一是向外部發送電子郵件
+請求-響應週期，所以使用者不必等待它。在職工作
+與Action Mailer 整合，因此您可以輕鬆地非同步傳送電子郵件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># If you want to send the email now use #deliver_now</span>
+<span class="no">UserMailer</span><span class="p">.</span><span class="nf">welcome</span><span class="p">(</span><span class="vi">@user</span><span class="p">).</span><span class="nf">deliver_now</span>
+
+<span class="c1"># If you want to send the email through Active Job use #deliver_later</span>
+<span class="no">UserMailer</span><span class="p">.</span><span class="nf">welcome</span><span class="p">(</span><span class="vi">@user</span><span class="p">).</span><span class="nf">deliver_later</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# If you want to send the email now use #deliver_now
+UserMailer.welcome(@user).deliver_now
+
+# If you want to send the email through Active Job use #deliver_later
+UserMailer.welcome(@user).deliver_later
+">Copy</button>
+</div>
+<p>注意：使用來自 Rake 任務的非同步佇列（例如，
+使用 <code>.deliver_later</code> 傳送電子郵件通常不會起作用，因為 Rake 會
+可能結束，導致程序內執行緒池在任何/全部之前被刪除
+的“.deliver_later”電子郵件被處理。為避免此問題，請使用
+<code>.deliver_now</code> 或在開發中執行持久佇列。</p><h3 id=""><a class="anchorlink" href="#">8 國際化</a></h3><p>每個作業都使用建立作業時設定的“I18n.locale”。如果您傳送，這很有用
+非同步傳送電子郵件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">locale</span> <span class="o">=</span> <span class="ss">:eo</span>
+
+<span class="no">UserMailer</span><span class="p">.</span><span class="nf">welcome</span><span class="p">(</span><span class="vi">@user</span><span class="p">).</span><span class="nf">deliver_later</span> <span class="c1"># Email will be localized to Esperanto.</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.locale = :eo
+
+UserMailer.welcome(@user).deliver_later # Email will be localized to Esperanto.
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">9 支援的引數型別</a></h3><p>預設情況下，ActiveJob 支援以下型別的引數：</p>
+<ul>
+<li>基本型別（<code>NilClass</code>、<code>String</code>、<code>Integer</code>、<code>Float</code>、<code>BigDecimal</code>、<code>TrueClass</code>、<code>FalseClass</code>）
+-<code>符號</code>
+-<code>日期</code>
+-<code>時間</code>
+-<code>日期時間</code>
+-<code>ActiveSupport::TimeWithZone</code>
+-<code>ActiveSupport::Duration</code>
+</li>
+<li>
+<code>Hash</code>（鍵應該是 <code>String</code> 或 <code>Symbol</code> 型別）
+-<code>ActiveSupport::HashWithIndifferentAccess</code>
+</li>
+<li>
+<code>陣列</code>
+-<code>範圍</code>
+-<code>模組</code>
+-<code>類</code>
+</li>
+</ul>
+<h4 id="id"><a class="anchorlink" href="#id">9.1 全域性 ID</a></h4><p>Active Job 支援 <a href="https://github.com/rails/globalid/blob/master/README.md">GlobalID</a> 作為引數。這使得透過直播成為可能
+Active Record 物件到您的工作，而不是類/id 對，然後您擁有
+手動反序列化。以前，作業看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">TrashableCleanupJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">trashable_class</span><span class="p">,</span> <span class="n">trashable_id</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+    <span class="n">trashable</span> <span class="o">=</span> <span class="n">trashable_class</span><span class="p">.</span><span class="nf">constantize</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">trashable_id</span><span class="p">)</span>
+    <span class="n">trashable</span><span class="p">.</span><span class="nf">cleanup</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class TrashableCleanupJob &lt; ApplicationJob
+  def perform(trashable_class, trashable_id, depth)
+    trashable = trashable_class.constantize.find(trashable_id)
+    trashable.cleanup(depth)
+  end
+end
+">Copy</button>
+</div>
+<p>現在你可以簡單地做：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">TrashableCleanupJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">trashable</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+    <span class="n">trashable</span><span class="p">.</span><span class="nf">cleanup</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class TrashableCleanupJob &lt; ApplicationJob
+  def perform(trashable, depth)
+    trashable.cleanup(depth)
+  end
+end
+">Copy</button>
+</div>
+<p>這適用於任何混合在 <code>GlobalID::Identification</code> 中的類，它
+預設情況下已混入Active Record 類。</p><h4 id=""><a class="anchorlink" href="#">9.2 序列化程式</a></h4><p>您可以擴充套件支援的引數型別列表。您只需要定義自己的序列化程式：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/serializers/money_serializer.rb</span>
+<span class="k">class</span> <span class="nc">MoneySerializer</span> <span class="o">&lt;</span> <span class="no">ActiveJob</span><span class="o">::</span><span class="no">Serializers</span><span class="o">::</span><span class="no">ObjectSerializer</span>
+  <span class="c1"># Checks if an argument should be serialized by this serializer.</span>
+  <span class="k">def</span> <span class="nf">serialize?</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+    <span class="n">argument</span><span class="p">.</span><span class="nf">is_a?</span> <span class="no">Money</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Converts an object to a simpler representative using supported object types.</span>
+  <span class="c1"># The recommended representative is a Hash with a specific key. Keys can be of basic types only.</span>
+  <span class="c1"># You should call `super` to add the custom serializer type to the hash.</span>
+  <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="n">money</span><span class="p">)</span>
+    <span class="k">super</span><span class="p">(</span>
+      <span class="s2">"amount"</span> <span class="o">=&gt;</span> <span class="n">money</span><span class="p">.</span><span class="nf">amount</span><span class="p">,</span>
+      <span class="s2">"currency"</span> <span class="o">=&gt;</span> <span class="n">money</span><span class="p">.</span><span class="nf">currency</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Converts serialized value into a proper object.</span>
+  <span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="nb">hash</span><span class="p">)</span>
+    <span class="no">Money</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="nb">hash</span><span class="p">[</span><span class="s2">"amount"</span><span class="p">],</span> <span class="nb">hash</span><span class="p">[</span><span class="s2">"currency"</span><span class="p">])</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# app/serializers/money_serializer.rb
+class MoneySerializer &lt; ActiveJob::Serializers::ObjectSerializer
+  # Checks if an argument should be serialized by this serializer.
+  def serialize?(argument)
+    argument.is_a? Money
+  end
+
+  # Converts an object to a simpler representative using supported object types.
+  # The recommended representative is a Hash with a specific key. Keys can be of basic types only.
+  # You should call `super` to add the custom serializer type to the hash.
+  def serialize(money)
+    super(
+      "amount" =&gt; money.amount,
+      "currency" =&gt; money.currency
+    )
+  end
+
+  # Converts serialized value into a proper object.
+  def deserialize(hash)
+    Money.new(hash["amount"], hash["currency"])
+  end
+end
+'>Copy</button>
+</div>
+<p>並將此序列化程式新增到列表中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># config/initializers/custom_serializers.rb</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">active_job</span><span class="p">.</span><span class="nf">custom_serializers</span> <span class="o">&lt;&lt;</span> <span class="no">MoneySerializer</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/initializers/custom_serializers.rb
+Rails.application.config.active_job.custom_serializers &lt;&lt; MoneySerializer
+">Copy</button>
+</div>
+<p>請注意，不支援在初始化期間自動載入可過載程式碼。因此建議
+設定僅載入一次的序列化程式，例如透過像這樣修改<code>config/application.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># config/application.rb</span>
+<span class="k">module</span> <span class="nn">YourApp</span>
+  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">autoload_once_paths</span> <span class="o">&lt;&lt;</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="s1">'serializers'</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/application.rb
+module YourApp
+  class Application &lt; Rails::Application
+    config.autoload_once_paths &lt;&lt; Rails.root.join('app', 'serializers')
+  end
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">10 例外</a></h3><p>可以使用以下方法處理作業執行期間引發的異常
+[<code>rescue_from</code>][]：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">GuestsCleanupJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:default</span>
+
+  <span class="n">rescue_from</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">RecordNotFound</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">exception</span><span class="o">|</span>
+    <span class="c1"># Do something with the exception</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">perform</span>
+    <span class="c1"># Do something later</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class GuestsCleanupJob &lt; ApplicationJob
+  queue_as :default
+
+  rescue_from(ActiveRecord::RecordNotFound) do |exception|
+    # Do something with the exception
+  end
+
+  def perform
+    # Do something later
+  end
+end
+">Copy</button>
+</div>
+<p>如果作業的異常未獲救，則該作業被稱為“失敗”。</p><p>[<code>rescue_from</code>]：<a href="https://api.rubyonrails.org/classes/ActiveSupport/Rescuable/ClassMethods.html#method-i-rescue_from">https://api.rubyonrails.org/classes/ActiveSupport/Rescuable/ClassMethods.html#method-i-rescue_from</a></p><h4 id=""><a class="anchorlink" href="#">10.1 重試或放棄失敗的作業</a></h4><p>除非另有配置，否則不會重試失敗的作業。</p><p>可以使用 [<code>retry_on</code>] 或
+[<code>discard_on</code>]，分別。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">RemoteServiceJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">retry_on</span> <span class="no">CustomAppException</span> <span class="c1"># defaults to 3s wait, 5 attempts</span>
+
+  <span class="n">discard_on</span> <span class="no">ActiveJob</span><span class="o">::</span><span class="no">DeserializationError</span>
+
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="c1"># Might raise CustomAppException or ActiveJob::DeserializationError</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class RemoteServiceJob &lt; ApplicationJob
+  retry_on CustomAppException # defaults to 3s wait, 5 attempts
+
+  discard_on ActiveJob::DeserializationError
+
+  def perform(*args)
+    # Might raise CustomAppException or ActiveJob::DeserializationError
+  end
+end
+">Copy</button>
+</div>
+<p>[<code>discard_on</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/Exceptions/ClassMethods.html#method-i-discard_on">https://api.rubyonrails.org/classes/ActiveJob/Exceptions/ClassMethods.html#method-i-discard_on</a>
+[<code>retry_on</code>]：<a href="https://api.rubyonrails.org/classes/ActiveJob/Exceptions/ClassMethods.html#method-i-retry_on">https://api.rubyonrails.org/classes/ActiveJob/Exceptions/ClassMethods.html#method-i-retry_on</a></p><h4 id=""><a class="anchorlink" href="#">10.2 反序列化</a></h4><p>GlobalID 允許序列化傳遞給 <code>#perform</code> 的完整 Active Record 物件。</p><p>如果在作業入隊之後但在 <code>#perform</code> 之前刪除了傳遞的記錄
+方法被呼叫 Active Job 將引發 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveJob/DeserializationError.html"><code>ActiveJob::DeserializationError</code></a>
+例外。</p><h3 id=""><a class="anchorlink" href="#">11 工作測試</a></h3><p>您可以在
+<a href="testing.html#testing-jobs">測試指南</a>。</p>
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

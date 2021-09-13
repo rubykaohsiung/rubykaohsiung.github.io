@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>開發依賴安裝 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="開發依賴安裝 — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.開發依賴安裝本指南介紹瞭如何為 Ruby on Rails 核心開發設定環境。閱讀本指南後，您將瞭解： 如何為 Rails 開發設定你的機器" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.開發依賴安裝本指南介紹瞭如何為 Ruby on Rails 核心開發設定環境。閱讀本指南後，您將瞭解： 如何為 Rails 開發設定你的機器" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>開發依賴安裝</h2><p>本指南介紹瞭如何為 Ruby on Rails 核心開發設定環境。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何為 Rails 開發設定你的機器</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#">簡單的方法</a></li>
+<li>
+<a href="#">艱難的道路</a>
+
+<ul>
+<li><a href="#git">安裝 Git</a></li>
+<li><a href="#rails-ruby">在 Rails 儲存庫上克隆 Ruby</a></li>
+<li><a href="#">安裝其他工具和服務</a></li>
+<li><a href="#">資料庫配置</a></li>
+<li><a href="#javascript">安裝 JavaScript 依賴</a></li>
+<li><a href="#bundler-gem">安裝 Bundler gem</a></li>
+<li><a href="#rails">為 Rails 做貢獻</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 簡單的方法</a></h3><p>讓開發環境準備好進行 hack 的最簡單和推薦的方法是使用 <a href="https://github.com/rails/rails-dev-box">Rails 開發框</a>。</p><h3 id=""><a class="anchorlink" href="#">2 艱難的道路</a></h3><p>如果無法使用 Rails 開發框，請參閱以下步驟手動
+在 Rails 核心開發上為Ruby 構建一個開發框。</p><h4 id="git"><a class="anchorlink" href="#git">2.1 安裝 Git</a></h4><p>Ruby on Rails 使用 Git 進行原始碼控制。 <a href="https://git-scm.com/">Git 主頁</a> 有安裝說明。網路上有多種資源可以幫助您熟悉 Git：</p>
+<ul>
+<li>
+<a href="https://try.github.io/">試用 Git 課程</a> 是一門互動式課程，將教您基礎知識。</li>
+<li>
+<a href="https://git-scm.com/documentation">官方文件</a> 非常全面，還包含一些有關 Git 基礎知識的影片。</li>
+<li>
+<a href="https://schacon.github.io/git/everyday.html">Everyday Git</a> 將教你足夠的 Git 知識。</li>
+<li>
+<a href="https://help.github.com/">GitHub</a> 提供各種 Git 資源的連結。</li>
+<li>
+<a href="https://git-scm.com/book">Pro Git</a> 是一本關於 Git 的完整書籍，具有知識共享許可。</li>
+</ul>
+<h4 id="rails-ruby"><a class="anchorlink" href="#rails-ruby">2.2 在 Rails 儲存庫上克隆 Ruby</a></h4><p>導航到 Rails 原始碼中需要 Ruby 的資料夾（它將建立自己的 <code>rails</code> 子目錄）並執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>clone https://github.com/rails/rails.git
+<span class="gp">$</span><span class="w"> </span><span class="nb">cd rails</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git clone https://github.com/rails/rails.git
+cd rails
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.3 安裝其他工具和服務</a></h4><p>某些 Rails 測試依賴於您在執行這些特定測試之前需要安裝的其他工具。</p><p>這是每個 gem 的附加依賴項的列表：</p>
+<ul>
+<li>Action Cable 依賴於 Redis</li>
+<li>Active Record 依賴於 SQLite3、MySQL 和 PostgreSQL</li>
+<li>Active Storage 取決於 Yarn （另外 Yarn 取決於
+<a href="https://nodejs.org/">Node.js</a>)、ImageMagick、FFmpeg、muPDF 和 macOS
+還有 XQuartz 和 Poppler。</li>
+<li>Active Support 依賴於 memcached 和 Redis</li>
+<li>Railties 依賴於 JavaScript 執行時環境，例如具有
+<a href="https://nodejs.org/">Node.js</a> 已安裝。</li>
+</ul>
+<p>安裝您需要的所有服務以正確測試您將成為的完整 gem
+做出改變。</p><p>注意：Redis 的文件不鼓勵使用包管理器進行安裝，因為它們通常已經過時。從原始碼安裝和啟動伺服器很簡單，並在 <a href="https://redis.io/download#installation">Redis 文件</a> 中有詳細記錄。</p><p>注意：Active Record 測試必須至少透過 MySQL、PostgreSQL 和 SQLite3。各種介面卡之間的細微差異導致許多補丁被拒絕，這些補丁僅針對單個介面卡進行測試時看起來還可以。</p><p>您可以在下面找到有關如何安裝所有附加元件的說明
+不同作業系統的工具。</p><h5 id="macos"><a class="anchorlink" href="#macos">2.3.1 macOS</a></h5><p>在 macOS 上，您可以使用 <a href="https://brew.sh/">Homebrew</a> 來安裝所有
+附加工具。</p><p>要安裝所有執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">brew bundle</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="brew bundle
+">Copy</button>
+</div>
+<p>您還需要啟動每個已安裝的服務。列出所有
+可用服務執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">brew </span>services list
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="brew services list
+">Copy</button>
+</div>
+<p>然後，您可以像這樣一一啟動每個服務：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">brew </span>services start mysql
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="brew services start mysql
+">Copy</button>
+</div>
+<p>將 <code>mysql</code> 替換為您要啟動的服務的名稱。</p><h5 id="ubuntu"><a class="anchorlink" href="#ubuntu">2.3.2 Ubuntu</a></h5><p>要安裝所有執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>apt-get update
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>apt-get <span class="nb">install sqlite3 </span>libsqlite3-dev mysql-server libmysqlclient-dev postgresql postgresql-client postgresql-contrib libpq-dev redis-server memcached imagemagick ffmpeg mupdf mupdf-tools libxml2-dev
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Install Yarn
+<span class="gp">$</span><span class="w"> </span>curl <span class="nt">-sS</span> https://dl.yarnpkg.com/debian/pubkey.gpg | <span class="nb">sudo </span>apt-key add -
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"deb https://dl.yarnpkg.com/debian/ stable main"</span> | <span class="nb">sudo tee</span> /etc/apt/sources.list.d/yarn.list
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>apt-get <span class="nb">install yarn</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='sudo apt-get update
+sudo apt-get install sqlite3 libsqlite3-dev mysql-server libmysqlclient-dev postgresql postgresql-client postgresql-contrib libpq-dev redis-server memcached imagemagick ffmpeg mupdf mupdf-tools libxml2-dev
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt-get install yarn
+'>Copy</button>
+</div>
+<h5 id="fedora-centos"><a class="anchorlink" href="#fedora-centos">2.3.3 Fedora 或 CentOS</a></h5><p>要安裝所有執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>dnf <span class="nb">install </span>sqlite-devel sqlite-libs mysql-server mysql-devel postgresql-server postgresql-devel redis memcached imagemagick ffmpeg mupdf libxml2-devel
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Install Yarn
+<span class="gp">#</span><span class="w"> </span>Use this <span class="nb">command </span><span class="k">if </span>you <span class="k">do </span>not have Node.js installed
+<span class="gp">$</span><span class="w"> </span>curl <span class="nt">--silent</span> <span class="nt">--location</span> https://rpm.nodesource.com/setup_8.x | <span class="nb">sudo </span>bash -
+<span class="gp">#</span><span class="w"> </span>If you have Node.js installed, use this <span class="nb">command </span>instead
+<span class="gp">$</span><span class="w"> </span>curl <span class="nt">--silent</span> <span class="nt">--location</span> https://dl.yarnpkg.com/rpm/yarn.repo | <span class="nb">sudo tee</span> /etc/yum.repos.d/yarn.repo
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>dnf <span class="nb">install yarn</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="sudo dnf install sqlite-devel sqlite-libs mysql-server mysql-devel postgresql-server postgresql-devel redis memcached imagemagick ffmpeg mupdf libxml2-devel
+curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+sudo dnf install yarn
+">Copy</button>
+</div>
+<h5 id="arch-linux"><a class="anchorlink" href="#arch-linux">2.3.4 Arch Linux</a></h5><p>要安裝所有執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>pacman <span class="nt">-S</span> sqlite mariadb libmariadbclient mariadb-clients postgresql postgresql-libs redis memcached imagemagick ffmpeg mupdf mupdf-tools poppler <span class="nb">yarn </span>libxml2
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>mariadb-install-db <span class="nt">--user</span><span class="o">=</span>mysql <span class="nt">--basedir</span><span class="o">=</span>/usr <span class="nt">--datadir</span><span class="o">=</span>/var/lib/mysql
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>systemctl start redis mariadb memcached
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="sudo pacman -S sqlite mariadb libmariadbclient mariadb-clients postgresql postgresql-libs redis memcached imagemagick ffmpeg mupdf mupdf-tools poppler yarn libxml2
+sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+sudo systemctl start redis mariadb memcached
+">Copy</button>
+</div>
+<p>注意：如果您正在執行 Arch Linux，則不再支援 MySQL，因此您需要
+改用 MariaDB（參見 <a href="https://www.archlinux.org/news/mariadb-replaces-mysql-in-repositories/">本公告</a>）。</p><h5 id="freebsd"><a class="anchorlink" href="#freebsd">2.3.5 FreeBSD</a></h5><p>要安裝所有執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span>pkg <span class="nb">install sqlite3 </span>mysql80-client mysql80-server postgresql11-client postgresql11-server memcached imagemagick ffmpeg mupdf <span class="nb">yarn </span>libxml2
+<span class="gp">#</span><span class="w"> </span>portmaster databases/redis
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="pkg install sqlite3 mysql80-client mysql80-server postgresql11-client postgresql11-server memcached imagemagick ffmpeg mupdf yarn libxml2
+">Copy</button>
+</div>
+<p>或者透過埠安裝所有東西（這些包位於
+<code>databases</code> 資料夾）。</p><p>注意：如果您在安裝 MySQL 過程中遇到問題，請參閱
+<a href="https://dev.mysql.com/doc/refman/en/freebsd-installation.html">MySQL 文件</a>。</p><h4 id=""><a class="anchorlink" href="#">2.4 資料庫配置</a></h4><p>配置資料庫引擎需要幾個額外的步驟
+執行Active Record 測試所需。</p><p>為了能夠針對 MySQL 執行測試套件，您需要建立一個名為 <code>rails</code> 的使用者，該使用者具有測試資料庫的許可權：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="err">$</span> <span class="n">mysql</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">p</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">USER</span> <span class="s1">'rails'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">activerecord_unittest</span><span class="p">.</span><span class="o">*</span>
+       <span class="k">to</span> <span class="s1">'rails'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">activerecord_unittest2</span><span class="p">.</span><span class="o">*</span>
+       <span class="k">to</span> <span class="s1">'rails'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">inexistent_activerecord_unittest</span><span class="p">.</span><span class="o">*</span>
+       <span class="k">to</span> <span class="s1">'rails'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="$ mysql -uroot -p
+
+mysql&gt; CREATE USER 'rails'@'localhost';
+mysql&gt; GRANT ALL PRIVILEGES ON activerecord_unittest.*
+       to 'rails'@'localhost';
+mysql&gt; GRANT ALL PRIVILEGES ON activerecord_unittest2.*
+       to 'rails'@'localhost';
+mysql&gt; GRANT ALL PRIVILEGES ON inexistent_activerecord_unittest.*
+       to 'rails'@'localhost';
+">Copy</button>
+</div>
+<p>PostgreSQL 的身份驗證工作方式不同。設定開發環境
+使用您的開發帳戶，在 Linux 或 BSD 上，您只需要執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">sudo</span> <span class="nt">-u</span> postgres createuser <span class="nt">--superuser</span> <span class="nv">$USER</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="sudo -u postgres createuser --superuser $USER
+">Copy</button>
+</div>
+<p>對於 macOS：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span>createuser <span class="nt">--superuser</span> <span class="nv">$USER</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="createuser --superuser $USER
+">Copy</button>
+</div>
+<p>然後，您需要使用以下命令為 MySQL 和 PostgreSQL 建立測試資料庫：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>activerecord
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake </span>db:create
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd activerecord
+bundle exec rake db:create
+">Copy</button>
+</div>
+<p>注意：在 PostgreSQL 9.1.x 或更早版本中啟用 HStore 擴充套件時，您將看到以下警告（或本地化警告）：“警告：=&gt; 已棄用為運算子”。</p><p>您還可以分別為每個資料庫引擎建立測試資料庫：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>activerecord
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake </span>db:mysql:build
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake </span>db:postgresql:build
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd activerecord
+bundle exec rake db:mysql:build
+bundle exec rake db:postgresql:build
+">Copy</button>
+</div>
+<p>您可以使用以下方法刪除資料庫：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>activerecord
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake </span>db:drop
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd activerecord
+bundle exec rake db:drop
+">Copy</button>
+</div>
+<p>注意：使用 Rake 任務建立測試資料庫可確保它們具有正確的字符集和排序規則。</p><p>如果您使用其他資料庫，請檢查檔案@{<em>0} 或<code>activerecord/test/config.example.yml</code> 以獲取預設連線資訊。如果必須，您可以編輯 @{</em>0} 以在您的機器上提供不同的憑據，但顯然您不應將任何此類更改推回 Rails。</p><h4 id="javascript"><a class="anchorlink" href="#javascript">2.5 安裝 JavaScript 依賴</a></h4><p>如果您安裝了 Yarn，則需要安裝 JavaScript 依賴項：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">yarn install</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="yarn install
+">Copy</button>
+</div>
+<h4 id="bundler-gem"><a class="anchorlink" href="#bundler-gem">2.6 安裝 Bundler gem</a></h4><p>獲取最新版本的 <a href="https://bundler.io/">Bundler</a></p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">gem install </span>bundler
+<span class="gp">$</span><span class="w"> </span><span class="nb">gem </span>update bundler
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="gem install bundler
+gem update bundler
+">Copy</button>
+</div>
+<p>並執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bundle install</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bundle install
+">Copy</button>
+</div>
+<p>或者：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bundle install</span> <span class="nt">--without</span> db
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bundle install --without db
+">Copy</button>
+</div>
+<p>如果您不需要執行 Active Record 測試。</p><h4 id="rails"><a class="anchorlink" href="#rails">2.7 為 Rails 做貢獻</a></h4><p>完成所有設定後，請閱讀如何開始 <a href="contributing_to_ruby_on_rails.html#running-an-application-against-your-local-branch">貢獻</a>。</p>
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

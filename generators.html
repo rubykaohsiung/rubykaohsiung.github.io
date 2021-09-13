@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>建立和自定義 Rails 生成器和模板 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="建立和自定義 Rails 生成器和模板 — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.建立和自定義 Rails 生成器和模板如果您打算改進工作流程，Rails 生成器是必不可少的工具。透過本指南，您將學習如何建立生成器和自定義現有生成器。閱讀本指南後，您將瞭解： 如何檢視您的應用程式中可用的生成器。 如何使用模板建立生成器。 Rails 如何在呼叫生成器之前搜尋生成器。 Rails 如何從模板內部生成 Rails 程式碼。 如何透過建立新的生成器來自定義您的 scaffold。 如何透過更改生成器模板來自定義您的scaffold。 如何使用回退來避免覆蓋大量生成器。 如何建立應用程式模板。" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.建立和自定義 Rails 生成器和模板如果您打算改進工作流程，Rails 生成器是必不可少的工具。透過本指南，您將學習如何建立生成器和自定義現有生成器。閱讀本指南後，您將瞭解： 如何檢視您的應用程式中可用的生成器。 如何使用模板建立生成器。 Rails 如何在呼叫生成器之前搜尋生成器。 Rails 如何從模板內部生成 Rails 程式碼。 如何透過建立新的生成器來自定義您的 scaffold。 如何透過更改生成器模板來自定義您的scaffold。 如何使用回退來避免覆蓋大量生成器。 如何建立應用程式模板。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>建立和自定義 Rails 生成器和模板</h2><p>如果您打算改進工作流程，Rails 生成器是必不可少的工具。透過本指南，您將學習如何建立生成器和自定義現有生成器。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何檢視您的應用程式中可用的生成器。</li>
+<li>如何使用模板建立生成器。</li>
+<li>Rails 如何在呼叫生成器之前搜尋生成器。</li>
+<li>Rails 如何從模板內部生成 Rails 程式碼。</li>
+<li>如何透過建立新的生成器來自定義您的 scaffold。</li>
+<li>如何透過更改生成器模板來自定義您的scaffold。</li>
+<li>如何使用回退來避免覆蓋大量生成器。</li>
+<li>如何建立應用程式模板。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#">第一次接觸</a></li>
+<li><a href="#">建立您的第一個生成器</a></li>
+<li><a href="#">使用生成器建立生成器</a></li>
+<li><a href="#">生成器查詢</a></li>
+<li><a href="#">自定義您的工作流程</a></li>
+<li><a href="#">透過更改生成器模板自定義您的工作流程</a></li>
+<li><a href="#">新增生成器回退</a></li>
+<li><a href="#">申請模板</a></li>
+<li><a href="#">新增命令列引數</a></li>
+<li>
+<a href="#">生成器方法</a>
+
+<ul>
+<li><a href="#gem"><code>gem</code></a></li>
+<li><a href="#gem-group"><code>gem_group</code></a></li>
+<li><a href="#add-source"><code>add_source</code></a></li>
+<li><a href="#inject-into-file"><code>inject_into_file</code></a></li>
+<li><a href="#gsub-file"><code>gsub_file</code></a></li>
+<li><a href="#application"><code>application</code></a></li>
+<li><a href="#git"><code>git</code></a></li>
+<li><a href="#vendor"><code>vendor</code></a></li>
+<li><a href="#lib"><code>lib</code></a></li>
+<li><a href="#rakefile"><code>rakefile</code></a></li>
+<li><a href="#initializer"><code>initializer</code></a></li>
+<li><a href="#generate"><code>generate</code></a></li>
+<li><a href="#rake"><code>rake</code></a></li>
+<li><a href="#route"><code>route</code></a></li>
+<li><a href="#readme"><code>readme</code></a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 第一次接觸</a></h3><p>當您使用 <code>rails</code> 命令建立應用程式時，您實際上是在使用 Rails 生成器。之後，您只需呼叫<code>bin/rails generate</code> 即可獲得所有可用生成器的列表：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">rails </span>new myapp
+<span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>myapp
+<span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rails new myapp
+cd myapp
+bin/rails generate
+">Copy</button>
+</div>
+<p>注意：要建立 rails 應用程式，我們使用 <code>rails</code> 全域性命令，透過 <code>gem install rails</code> 安裝的 rails gem。在您的應用程式目錄中，我們使用命令<code>bin/rails</code>，它使用此應用程式中的捆綁導軌。</p><p>您將獲得 Rails 附帶的所有生成器的列表。例如，如果您需要helper 生成器的詳細說明，您可以簡單地執行以下操作：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate helper <span class="nt">--help</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate helper --help
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">2 建立您的第一個生成器</a></h3><p>從 Rails 3.0 開始，生成器建立在 <a href="https://github.com/erikhuda/thor">Thor</a> 之上。 Thor 提供了強大的解析選項和用於操作檔案的出色 API。例如，讓我們構建一個生成器，在 <code>config/initializers</code> 內部建立一個名為 <code>initializer.rb</code> 的初始化檔案。</p><p>第一步是在<code>lib/generators/initializer_generator.rb</code> 建立一個檔案，內容如下：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">InitializerGenerator</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Generators</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">create_initializer_file</span>
+    <span class="n">create_file</span> <span class="s2">"config/initializers/initializer.rb"</span><span class="p">,</span> <span class="s2">"# Add initialization content here"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class InitializerGenerator &lt; Rails::Generators::Base
+  def create_initializer_file
+    create_file "config/initializers/initializer.rb", "# Add initialization content here"
+  end
+end
+'>Copy</button>
+</div>
+<p>注意：@{_0} 是<code>Thor::Actions</code> 提供的方法。 @{_0} 和其他 Thor 方法的文件可以在 <a href="https://rdoc.info/github/erikhuda/thor/master/Thor/Actions.html">Thor 的文件</a> 中找到</p><p>我們的新生成器非常簡單：它繼承自 <code>Rails::Generators::Base</code> 並且有一個方法定義。呼叫生成器時，生成器中的每個公共方法都按照定義的順序依次執行。最後，我們呼叫 <code>create_file</code> 方法，該方法將在給定的目的地建立一個具有給定內容的檔案。如果您熟悉 Rails 應用程式模板 API，就會對新的生成器 API 感到賓至如歸。</p><p>要呼叫我們的新生成器，我們只需要執行以下操作：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate initializer
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate initializer
+">Copy</button>
+</div>
+<p>在我們繼續之前，讓我們看看我們全新的生成器描述：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate initializer <span class="nt">--help</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate initializer --help
+">Copy</button>
+</div>
+<p>如果生成器被命名為<code>ActiveRecord::Generators::ModelGenerator</code>，Rails 通常能夠生成良好的描述，但在這種特殊情況下則不然。我們可以透過兩種方式解決這個問題。第一個是在我們的生成器中呼叫 <code>desc</code> ：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">InitializerGenerator</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Generators</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">desc</span> <span class="s2">"This generator creates an initializer file at config/initializers"</span>
+  <span class="k">def</span> <span class="nf">create_initializer_file</span>
+    <span class="n">create_file</span> <span class="s2">"config/initializers/initializer.rb"</span><span class="p">,</span> <span class="s2">"# Add initialization content here"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class InitializerGenerator &lt; Rails::Generators::Base
+  desc "This generator creates an initializer file at config/initializers"
+  def create_initializer_file
+    create_file "config/initializers/initializer.rb", "# Add initialization content here"
+  end
+end
+'>Copy</button>
+</div>
+<p>現在我們可以透過在新生成器上呼叫 <code>--help</code> 來檢視新描述。新增描述的第二種方法是在與生成器相同的目錄中建立一個名為 <code>USAGE</code> 的檔案。我們將在下一步中做到這一點。</p><h3 id=""><a class="anchorlink" href="#">3 使用生成器建立生成器</a></h3><p>生成器本身有一個生成器：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate generator initializer
+<span class="go">      create  lib/generators/initializer
+      create  lib/generators/initializer/initializer_generator.rb
+      create  lib/generators/initializer/USAGE
+      create  lib/generators/initializer/templates
+      invoke  test_unit
+      create    test/lib/generators/initializer_generator_test.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate generator initializer
+">Copy</button>
+</div>
+<p>這是剛剛建立的生成器：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">InitializerGenerator</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Generators</span><span class="o">::</span><span class="no">NamedBase</span>
+  <span class="n">source_root</span> <span class="no">File</span><span class="p">.</span><span class="nf">expand_path</span><span class="p">(</span><span class="s1">'templates'</span><span class="p">,</span> <span class="n">__dir__</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class InitializerGenerator &lt; Rails::Generators::NamedBase
+  source_root File.expand_path('templates', __dir__)
+end
+">Copy</button>
+</div>
+<p>首先，請注意我們繼承的是<code>Rails::Generators::NamedBase</code> 而不是<code>Rails::Generators::Base</code>。這意味著我們的生成器至少需要一個引數，它將是初始化程式的名稱，並且可以在我們的程式碼中的變數<code>name</code> 中使用。</p><p>我們可以透過呼叫這個新生成器的描述看到（不要忘記刪除舊的生成器檔案）：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate initializer <span class="nt">--help</span>
+<span class="go">Usage:
+  bin/rails generate initializer NAME [options]
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate initializer --help
+">Copy</button>
+</div>
+<p>我們還可以看到我們的新生成器有一個名為 <code>source_root</code> 的類方法。這個方法指向我們的生成器模板將被放置的位置，如果有的話，預設情況下它指向建立的目錄<code>lib/generators/initializer/templates</code>。</p><p>為了理解生成器模板的含義，讓我們使用以下內容建立檔案<code>lib/generators/initializer/templates/initializer.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Add initialization content here</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Add initialization content here
+">Copy</button>
+</div>
+<p>現在讓我們更改生成器以在呼叫時複製此模板：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">InitializerGenerator</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Generators</span><span class="o">::</span><span class="no">NamedBase</span>
+  <span class="n">source_root</span> <span class="no">File</span><span class="p">.</span><span class="nf">expand_path</span><span class="p">(</span><span class="s1">'templates'</span><span class="p">,</span> <span class="n">__dir__</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">copy_initializer_file</span>
+    <span class="n">copy_file</span> <span class="s2">"initializer.rb"</span><span class="p">,</span> <span class="s2">"config/initializers/</span><span class="si">#{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">.rb"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class InitializerGenerator &lt; Rails::Generators::NamedBase
+  source_root File.expand_path('templates', __dir__)
+
+  def copy_initializer_file
+    copy_file &quot;initializer.rb&quot;, &quot;config/initializers/#{file_name}.rb&quot;
+  end
+end
+">Copy</button>
+</div>
+<p>讓我們執行我們的生成器：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate initializer core_extensions
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate initializer core_extensions
+">Copy</button>
+</div>
+<p>我們可以看到，現在在<code>config/initializers/core_extensions.rb</code> 處建立了一個名為 core_extensions 的初始化程式，其中包含我們模板的內容。這意味著<code>copy_file</code> 將源根目錄中的檔案複製到我們提供的目標路徑中。當我們從<code>Rails::Generators::NamedBase</code> 繼承時，會自動建立方法<code>file_name</code>。</p><p>本指南的 <a href="#generator-methods">最後一節</a> 介紹了可用於生成器的方法。</p><h3 id=""><a class="anchorlink" href="#">4 生成器查詢</a></h3><p>當你執行<code>bin/rails generate initializer core_extensions</code> 時，Rails 會依次需要這些檔案，直到找到一個：</p><div class="code_container">
+<pre><code class="highlight plaintext">rails/generators/initializer/initializer_generator.rb
+generators/initializer/initializer_generator.rb
+rails/generators/initializer_generator.rb
+generators/initializer_generator.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rails/generators/initializer/initializer_generator.rb
+generators/initializer/initializer_generator.rb
+rails/generators/initializer_generator.rb
+generators/initializer_generator.rb
+">Copy</button>
+</div>
+<p>如果沒有找到，您會收到一條錯誤訊息。</p><p>資訊：上面的示例將檔案放在應用程式的<code>lib</code> 下，因為該目錄屬於<code>$LOAD_PATH</code>。</p><h3 id=""><a class="anchorlink" href="#">5 自定義您的工作流程</a></h3><p>Rails 自己的生成器足夠靈活，可以讓您自定義 scaffolding。它們可以在<code>config/application.rb</code> 中配置，這些是一些預設值：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">generators</span> <span class="k">do</span> <span class="o">|</span><span class="n">g</span><span class="o">|</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">orm</span>             <span class="ss">:active_record</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">template_engine</span> <span class="ss">:erb</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">test_framework</span>  <span class="ss">:test_unit</span><span class="p">,</span> <span class="ss">fixture: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.generators do |g|
+  g.orm             :active_record
+  g.template_engine :erb
+  g.test_framework  :test_unit, fixture: true
+end
+">Copy</button>
+</div>
+<p>在我們自定義我們的工作流程之前，讓我們先看看我們的 scaffold 是什麼樣子的：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate scaffold User name:string
+<span class="go">      invoke  active_record
+      create    db/migrate/20130924151154_create_users.rb
+      create    app/models/user.rb
+      invoke    test_unit
+      create      test/models/user_test.rb
+      create      test/fixtures/users.yml
+      invoke  resource_route
+       route    resources :users
+      invoke  scaffold_controller
+      create    app/controllers/users_controller.rb
+      invoke    erb
+      create      app/views/users
+      create      app/views/users/index.html.erb
+      create      app/views/users/edit.html.erb
+      create      app/views/users/show.html.erb
+      create      app/views/users/new.html.erb
+      create      app/views/users/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/users_controller_test.rb
+      invoke    helper
+      create      app/helpers/users_helper.rb
+      invoke    jbuilder
+      create      app/views/users/index.json.jbuilder
+      create      app/views/users/show.json.jbuilder
+      invoke  test_unit
+      create    test/application_system_test_case.rb
+      create    test/system/users_test.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate scaffold User name:string
+">Copy</button>
+</div>
+<p>檢視此輸出，很容易理解生成器在 Rails 3.0 及更高版本中的工作方式。 scaffold 生成器實際上不生成任何東西，它只是呼叫其他人來完成工作。這允許我們新增/替換/刪除任何這些呼叫。例如，scaffold 生成器呼叫 scaffold_controller 生成​​器，後者呼叫 erb、test_unit 和 helper 生成器。由於每個生成器都有一個單一的職責，它們很容易重用，避免了程式碼重複。</p><p>工作流的下一個自定義將是完全停止為scaffolds 生成樣式表和測試裝置檔案。我們可以透過將我們的配置更改為以下內容來實現：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">generators</span> <span class="k">do</span> <span class="o">|</span><span class="n">g</span><span class="o">|</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">orm</span>             <span class="ss">:active_record</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">template_engine</span> <span class="ss">:erb</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">test_framework</span>  <span class="ss">:test_unit</span><span class="p">,</span> <span class="ss">fixture: </span><span class="kp">false</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.generators do |g|
+  g.orm             :active_record
+  g.template_engine :erb
+  g.test_framework  :test_unit, fixture: false
+end
+">Copy</button>
+</div>
+<p>如果我們使用scaffold 生成器生成另一個資源，我們可以看到不再建立樣式表、JavaScript 和夾具檔案。如果您想進一步自定義它，例如使用 DataMapper 和 RSpec 而不是 Active Record 和 TestUnit，只需將它們的 gem 新增到您的應用程式並配置您的生成器。</p><p>為了演示這一點，我們將建立一個新的 helper 生成器，它只新增一些例項變數讀取器。首先，我們在 rails 名稱空間中建立一個生成器，因為這是 rails 搜尋用作鉤子的生成器的地方：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate generator <span class="nb">rails</span>/my_helper
+<span class="go">      create  lib/generators/rails/my_helper
+      create  lib/generators/rails/my_helper/my_helper_generator.rb
+      create  lib/generators/rails/my_helper/USAGE
+      create  lib/generators/rails/my_helper/templates
+      invoke  test_unit
+      create    test/lib/generators/rails/my_helper_generator_test.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate generator rails/my_helper
+">Copy</button>
+</div>
+<p>之後，我們可以同時刪除<code>templates</code> 目錄和<code>source_root</code>
+從我們的新生成器呼叫類方法，因為我們不需要它們。
+新增下面的方法，因此我們的生成器如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># lib/generators/rails/my_helper/my_helper_generator.rb</span>
+<span class="k">class</span> <span class="nc">Rails::MyHelperGenerator</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Generators</span><span class="o">::</span><span class="no">NamedBase</span>
+  <span class="k">def</span> <span class="nf">create_helper_file</span>
+    <span class="n">create_file</span> <span class="s2">"app/helpers/</span><span class="si">#{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">_helper.rb"</span><span class="p">,</span> <span class="o">&lt;&lt;-</span><span class="no">FILE</span><span class="sh">
+module </span><span class="si">#{</span><span class="n">class_name</span><span class="si">}</span><span class="sh">Helper
+  attr_reader :</span><span class="si">#{</span><span class="n">plural_name</span><span class="si">}</span><span class="sh">, :</span><span class="si">#{</span><span class="n">plural_name</span><span class="p">.</span><span class="nf">singularize</span><span class="si">}</span><span class="sh">
+end
+</span><span class="no">    FILE</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# lib/generators/rails/my_helper/my_helper_generator.rb
+class Rails::MyHelperGenerator &lt; Rails::Generators::NamedBase
+  def create_helper_file
+    create_file "app/helpers/#{file_name}_helper.rb", &lt;&lt;-FILE
+module #{class_name}Helper
+  attr_reader :#{plural_name}, :#{plural_name.singularize}
+end
+    FILE
+  end
+end
+'>Copy</button>
+</div>
+<p>我們可以透過為產品建立 helper 來試用我們的新生成器：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate my_helper products
+<span class="go">      create  app/helpers/products_helper.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate my_helper products
+">Copy</button>
+</div>
+<p>它將在<code>app/helpers</code> 中生成以下helper 檔案：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">ProductsHelper</span>
+  <span class="nb">attr_reader</span> <span class="ss">:products</span><span class="p">,</span> <span class="ss">:product</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="module ProductsHelper
+  attr_reader :products, :product
+end
+">Copy</button>
+</div>
+<p>這正是我們所期望的。我們現在可以透過再次編輯<code>config/application.rb</code> 來告訴scaffold 使用我們新的helper 生成器：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">generators</span> <span class="k">do</span> <span class="o">|</span><span class="n">g</span><span class="o">|</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">orm</span>             <span class="ss">:active_record</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">template_engine</span> <span class="ss">:erb</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">test_framework</span>  <span class="ss">:test_unit</span><span class="p">,</span> <span class="ss">fixture: </span><span class="kp">false</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">stylesheets</span>     <span class="kp">false</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">helper</span>          <span class="ss">:my_helper</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.generators do |g|
+  g.orm             :active_record
+  g.template_engine :erb
+  g.test_framework  :test_unit, fixture: false
+  g.stylesheets     false
+  g.helper          :my_helper
+end
+">Copy</button>
+</div>
+<p>並在呼叫生成器時在action 中看到它：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate scaffold Article body:text
+<span class="go">      [...]
+      invoke    my_helper
+      create      app/helpers/articles_helper.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate scaffold Article body:text
+">Copy</button>
+</div>
+<p>我們可以在輸出中注意到我們的新助手被呼叫而不是 Rails 的預設值。但是缺少一件事，那就是對我們新生成器的測試，為此，我們將重用舊的 helpers 測試生成器。</p><p>從 Rails 3.0 開始，由於 hooks 概念，這很容易做到。我們的新helper 不需要專注於一個特定的測試框架，它可以簡單地提供一個鉤子，一個測試框架只需要實現這個鉤子就可以相容。</p><p>為此，我們可以透過以下方式更改生成器：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># lib/generators/rails/my_helper/my_helper_generator.rb</span>
+<span class="k">class</span> <span class="nc">Rails::MyHelperGenerator</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Generators</span><span class="o">::</span><span class="no">NamedBase</span>
+  <span class="k">def</span> <span class="nf">create_helper_file</span>
+    <span class="n">create_file</span> <span class="s2">"app/helpers/</span><span class="si">#{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">_helper.rb"</span><span class="p">,</span> <span class="o">&lt;&lt;-</span><span class="no">FILE</span><span class="sh">
+module </span><span class="si">#{</span><span class="n">class_name</span><span class="si">}</span><span class="sh">Helper
+  attr_reader :</span><span class="si">#{</span><span class="n">plural_name</span><span class="si">}</span><span class="sh">, :</span><span class="si">#{</span><span class="n">plural_name</span><span class="p">.</span><span class="nf">singularize</span><span class="si">}</span><span class="sh">
+end
+</span><span class="no">    FILE</span>
+  <span class="k">end</span>
+
+  <span class="n">hook_for</span> <span class="ss">:test_framework</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# lib/generators/rails/my_helper/my_helper_generator.rb
+class Rails::MyHelperGenerator &lt; Rails::Generators::NamedBase
+  def create_helper_file
+    create_file "app/helpers/#{file_name}_helper.rb", &lt;&lt;-FILE
+module #{class_name}Helper
+  attr_reader :#{plural_name}, :#{plural_name.singularize}
+end
+    FILE
+  end
+
+  hook_for :test_framework
+end
+'>Copy</button>
+</div>
+<p>現在，當helper 生成器被呼叫並且TestUnit 被配置為測試框架時，它會嘗試同時呼叫<code>Rails::TestUnitGenerator</code> 和<code>TestUnit::MyHelperGenerator</code>。由於這些都沒有被定義，我們可以告訴我們的生成器呼叫 <code>TestUnit::Generators::HelperGenerator</code> ，因為它是一個 Rails 生成器。為此，我們只需要新增：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Search for :helper instead of :my_helper</span>
+<span class="n">hook_for</span> <span class="ss">:test_framework</span><span class="p">,</span> <span class="ss">as: :helper</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Search for :helper instead of :my_helper
+hook_for :test_framework, as: :helper
+">Copy</button>
+</div>
+<p>現在您可以為另一個資源重新執行 scaffold 並檢視它生成的測試！</p><h3 id=""><a class="anchorlink" href="#">6 透過更改生成器模板自定義您的工作流程</a></h3><p>在上面的步驟中，我們只是想在生成的helper 中新增一行，而不新增任何額外的功能。有一種更簡單的方法可以做到這一點，它是透過替換現有生成器的模板，在這種情況下<code>Rails::Generators::HelperGenerator</code>。</p><p>在 Rails 3.0 及更高版本中，生成器不僅會在原始碼根目錄中查詢模板，還會在其他路徑中搜索模板。其中之一是<code>lib/templates</code>。由於我們想要自定義<code>Rails::Generators::HelperGenerator</code>，我們可以透過簡單地在<code>lib/templates/rails/helper</code> 中建立一個名為<code>helper.rb</code> 的模板副本來實現。因此，讓我們使用以下內容建立該檔案：</p><div class="code_container">
+<pre><code class="highlight erb">module <span class="cp">&lt;%=</span> <span class="n">class_name</span> <span class="cp">%&gt;</span>Helper
+  attr_reader :<span class="cp">&lt;%=</span> <span class="n">plural_name</span> <span class="cp">%&gt;</span>, :<span class="cp">&lt;%=</span> <span class="n">plural_name</span><span class="p">.</span><span class="nf">singularize</span> <span class="cp">%&gt;</span>
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="module &lt;%= class_name %&gt;Helper
+  attr_reader :&lt;%= plural_name %&gt;, :&lt;%= plural_name.singularize %&gt;
+end
+">Copy</button>
+</div>
+<p>並恢復<code>config/application.rb</code> 中的最後一次更改：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">generators</span> <span class="k">do</span> <span class="o">|</span><span class="n">g</span><span class="o">|</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">orm</span>             <span class="ss">:active_record</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">template_engine</span> <span class="ss">:erb</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">test_framework</span>  <span class="ss">:test_unit</span><span class="p">,</span> <span class="ss">fixture: </span><span class="kp">false</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.generators do |g|
+  g.orm             :active_record
+  g.template_engine :erb
+  g.test_framework  :test_unit, fixture: false
+end
+">Copy</button>
+</div>
+<p>如果您生成另一個資源，您可以看到我們得到了完全相同的結果！如果您只想透過在 <code>lib/templates/erb/scaffold</code> 內建立 <code>edit.html.erb</code>、<code>index.html.erb</code> 等來自定義 scaffold 模板和/或佈局，這將非常有用。</p><p>Rails 中的Scaffold 模板經常使用 ERB 標籤；這些標籤需要
+轉義，以便生成的輸出是有效的 ERB 程式碼。</p><p>例如，模板中將需要以下轉義的 ERB 標記
+（注意額外的<code>%</code>）...</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%%</span><span class="o">=</span> <span class="n">stylesheet_link_tag</span> <span class="ss">:application</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%%= stylesheet_link_tag :application %&gt;
+">Copy</button>
+</div>
+<p>...生成以下輸出：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="ss">:application</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= stylesheet_link_tag :application %&gt;
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">7 新增生成器回退</a></h3><p>關於生成器的最後一個對外掛生成器非常有用的特性是回退。例如，假設您想在 TestUnit 之上新增一個功能，就像 <a href="https://github.com/thoughtbot/should">should</a> 所做的那樣。由於 TestUnit 已經實現了 Rails 需要的所有生成器，而 shoulda 只是想覆蓋其中的一部分，因此 shoulda 沒有必要再次重新實現一些生成器，它可以簡單地告訴 Rails 使用 <code>TestUnit</code> 生成器，如果在<code>Shoulda</code> 名稱空間。</p><p>我們可以透過再次更改 <code>config/application.rb</code> 輕鬆模擬這種行為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">generators</span> <span class="k">do</span> <span class="o">|</span><span class="n">g</span><span class="o">|</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">orm</span>             <span class="ss">:active_record</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">template_engine</span> <span class="ss">:erb</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">test_framework</span>  <span class="ss">:shoulda</span><span class="p">,</span> <span class="ss">fixture: </span><span class="kp">false</span>
+
+  <span class="c1"># Add a fallback!</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">fallbacks</span><span class="p">[</span><span class="ss">:shoulda</span><span class="p">]</span> <span class="o">=</span> <span class="ss">:test_unit</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.generators do |g|
+  g.orm             :active_record
+  g.template_engine :erb
+  g.test_framework  :shoulda, fixture: false
+
+  # Add a fallback!
+  g.fallbacks[:shoulda] = :test_unit
+end
+">Copy</button>
+</div>
+<p>現在，如果你建立一個 Comment scaffold，你會看到 shoulda 生成器被呼叫，最後，它們只是回退到 TestUnit 生成器：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate scaffold Comment body:text
+<span class="go">      invoke  active_record
+      create    db/migrate/20130924143118_create_comments.rb
+      create    app/models/comment.rb
+      invoke    shoulda
+      create      test/models/comment_test.rb
+      create      test/fixtures/comments.yml
+      invoke  resource_route
+       route    resources :comments
+      invoke  scaffold_controller
+      create    app/controllers/comments_controller.rb
+      invoke    erb
+      create      app/views/comments
+      create      app/views/comments/index.html.erb
+      create      app/views/comments/edit.html.erb
+      create      app/views/comments/show.html.erb
+      create      app/views/comments/new.html.erb
+      create      app/views/comments/_form.html.erb
+      invoke    shoulda
+      create      test/controllers/comments_controller_test.rb
+      invoke    my_helper
+      create      app/helpers/comments_helper.rb
+      invoke    jbuilder
+      create      app/views/comments/index.json.jbuilder
+      create      app/views/comments/show.json.jbuilder
+      invoke  test_unit
+      create    test/application_system_test_case.rb
+      create    test/system/comments_test.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate scaffold Comment body:text
+">Copy</button>
+</div>
+<p>回退允許您的生成器承擔單一責任，增加程式碼重用並減少重複量。</p><h3 id=""><a class="anchorlink" href="#">8 申請模板</a></h3><p>既然您已經瞭解瞭如何在應用程式內部使用生成器，您是否知道它們也可以用於 <em>generate</em> 應用程式？這種生成器被稱為“模板”。這是模板 API 的簡要介紹view。有關詳細文件，請參閱 <a href="rails_application_templates.html">Rails 應用程式模板指南</a>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">gem</span> <span class="s2">"rspec-rails"</span><span class="p">,</span> <span class="ss">group: </span><span class="s2">"test"</span>
+<span class="n">gem</span> <span class="s2">"cucumber-rails"</span><span class="p">,</span> <span class="ss">group: </span><span class="s2">"test"</span>
+
+<span class="k">if</span> <span class="n">yes?</span><span class="p">(</span><span class="s2">"Would you like to install Devise?"</span><span class="p">)</span>
+  <span class="n">gem</span> <span class="s2">"devise"</span>
+  <span class="n">generate</span> <span class="s2">"devise:install"</span>
+  <span class="n">model_name</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="s2">"What would you like the user model to be called? [user]"</span><span class="p">)</span>
+  <span class="n">model_name</span> <span class="o">=</span> <span class="s2">"user"</span> <span class="k">if</span> <span class="n">model_name</span><span class="p">.</span><span class="nf">blank?</span>
+  <span class="n">generate</span> <span class="s2">"devise"</span><span class="p">,</span> <span class="n">model_name</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='gem "rspec-rails", group: "test"
+gem "cucumber-rails", group: "test"
+
+if yes?("Would you like to install Devise?")
+  gem "devise"
+  generate "devise:install"
+  model_name = ask("What would you like the user model to be called? [user]")
+  model_name = "user" if model_name.blank?
+  generate "devise", model_name
+end
+'>Copy</button>
+</div>
+<p>在上面的模板中，我們指定應用程式依賴於<code>rspec-rails</code> 和<code>cucumber-rails</code> gem，因此這兩個將被新增到@{<em>3} 中的<code>test</code> 組中。然後我們向用戶提出一個關於他們是否願意安裝 Devise 的問題。如果使用者對這個問題回答“y”或“yes”，那麼模板將把Devise 新增到任何組之外的@{</em>3} 中，然後執行<code>devise:install</code> 生成器。這個模板然後接受使用者輸入並執行<code>devise</code> 生成器，使用者的最後一個問題的答案被傳遞給這個生成器。</p><p>想象一下，這個模板在一個名為<code>template.rb</code> 的檔案中。我們可以使用它透過使用<code>-m</code> 選項並傳入檔名來修改<code>rails new</code> 命令的結果：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">rails </span>new thud <span class="nt">-m</span> template.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rails new thud -m template.rb
+">Copy</button>
+</div>
+<p>此命令將生成<code>Thud</code> 應用程式，然後將模板應用於生成的輸出。</p><p>模板不必儲存在本地系統上，<code>-m</code> 選項也支援線上模板：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">rails </span>new thud <span class="nt">-m</span> https://gist.github.com/radar/722911/raw/
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rails new thud -m https://gist.github.com/radar/722911/raw/
+">Copy</button>
+</div>
+<p>雖然本指南的最後一部分沒有介紹如何生成人類已知的最棒的模板，但它將帶您瞭解可用的方法，以便您可以自己開發它。這些相同的方法也可用於生成器。</p><h3 id=""><a class="anchorlink" href="#">9 新增命令列引數</a></h3><p>Rails 生成器可以很容易地修改為接受自定義命令列引數。此功能來自 <a href="https://www.rubydoc.info/github/erikhuda/thor/master/Thor/Base/ClassMethods#class_option-instance_method">Thor</a>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">class_option</span> <span class="ss">:scope</span><span class="p">,</span> <span class="ss">type: :string</span><span class="p">,</span> <span class="ss">default: </span><span class="s1">'read_products'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class_option :scope, type: :string, default: 'read_products'
+">Copy</button>
+</div>
+<p>現在我們的生成器可以被呼叫如下：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate initializer <span class="nt">--scope</span> write_products
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate initializer --scope write_products
+">Copy</button>
+</div>
+<p>命令列引數透過生成器類中的 <code>options</code> 方法訪問。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="vi">@scope</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s1">'scope'</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="@scope = options['scope']
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">10 生成器方法</a></h3><p>以下是可用於 Rails 的生成器和模板的方法。</p><p>注意：Thor 提供的方法不在本指南中，可以在 <a href="https://rdoc.info/github/erikhuda/thor/master/Thor/Actions.html">Thor 的文件</a> 中找到</p><h4 id="gem"><a class="anchorlink" href="#gem">10.1 <code>gem</code></a></h4><p>指定應用程式的 gem 依賴項。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">gem</span> <span class="s2">"rspec"</span><span class="p">,</span> <span class="ss">group: </span><span class="s2">"test"</span><span class="p">,</span> <span class="ss">version: </span><span class="s2">"2.1.0"</span>
+<span class="n">gem</span> <span class="s2">"devise"</span><span class="p">,</span> <span class="s2">"1.1.5"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='gem "rspec", group: "test", version: "2.1.0"
+gem "devise", "1.1.5"
+'>Copy</button>
+</div>
+<p>可用選項有：</p>
+<ul>
+<li>
+<code>:group</code> - 這個寶石應該去的<code>Gemfile</code> 組。</li>
+<li>
+<code>:version</code> - 您要使用的 gem 的版本字串。也可以指定為方法的第二個引數。</li>
+<li>
+<code>:git</code> - 此 gem 的 git 儲存庫的 URL。</li>
+</ul>
+<p>傳遞給此方法的任何其他選項都放在行尾：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">gem</span> <span class="s2">"devise"</span><span class="p">,</span> <span class="ss">git: </span><span class="s2">"https://github.com/plataformatec/devise.git"</span><span class="p">,</span> <span class="ss">branch: </span><span class="s2">"master"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='gem "devise", git: "https://github.com/plataformatec/devise.git", branch: "master"
+'>Copy</button>
+</div>
+<p>上面的程式碼將以下行放入<code>Gemfile</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">gem</span> <span class="s2">"devise"</span><span class="p">,</span> <span class="ss">git: </span><span class="s2">"https://github.com/plataformatec/devise.git"</span><span class="p">,</span> <span class="ss">branch: </span><span class="s2">"master"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='gem "devise", git: "https://github.com/plataformatec/devise.git", branch: "master"
+'>Copy</button>
+</div>
+<h4 id="gem-group"><a class="anchorlink" href="#gem-group">10.2 <code>gem_group</code></a></h4><p>將 gem 條目包裝在一個組中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">gem_group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s2">"rspec-rails"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='gem_group :development, :test do
+  gem "rspec-rails"
+end
+'>Copy</button>
+</div>
+<h4 id="add-source"><a class="anchorlink" href="#add-source">10.3 <code>add_source</code></a></h4><p>將指定的源新增到<code>Gemfile</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">add_source</span> <span class="s2">"http://gems.github.com"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='add_source "http://gems.github.com"
+'>Copy</button>
+</div>
+<p>這個方法也需要一個塊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">add_source</span> <span class="s2">"http://gems.github.com"</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s2">"rspec-rails"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='add_source "http://gems.github.com" do
+  gem "rspec-rails"
+end
+'>Copy</button>
+</div>
+<h4 id="inject-into-file"><a class="anchorlink" href="#inject-into-file">10.4 <code>inject_into_file</code></a></h4><p>將程式碼塊注入檔案中的定義位置。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">inject_into_file</span> <span class="s1">'name_of_file.rb'</span><span class="p">,</span> <span class="ss">after: </span><span class="s2">"#The code goes below this line. Don't forget the Line break at the end</span><span class="se">\n</span><span class="s2">"</span> <span class="k">do</span> <span class="o">&lt;&lt;-</span><span class="no">'RUBY'</span><span class="sh">
+  puts "Hello World"
+</span><span class="no">RUBY</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="inject_into_file 'name_of_file.rb', after: &quot;#The code goes below this line. Don't forget the Line break at the end\n&quot; do &lt;&lt;-'RUBY'
+  puts &quot;Hello World&quot;
+RUBY
+end
+">Copy</button>
+</div>
+<h4 id="gsub-file"><a class="anchorlink" href="#gsub-file">10.5 <code>gsub_file</code></a></h4><p>替換檔案中的文字。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">gsub_file</span> <span class="s1">'name_of_file.rb'</span><span class="p">,</span> <span class="s1">'method.to_be_replaced'</span><span class="p">,</span> <span class="s1">'method.the_replacing_code'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="gsub_file 'name_of_file.rb', 'method.to_be_replaced', 'method.the_replacing_code'
+">Copy</button>
+</div>
+<p>正則表示式可用於使此方法更精確。您也可以以相同的方式使用<code>append_file</code> 和<code>prepend_file</code> 將程式碼分別放置在檔案的開頭和結尾。</p><h4 id="application"><a class="anchorlink" href="#application">10.6 <code>application</code></a></h4><p>在應用程式類定義之後直接向<code>config/application.rb</code> 新增一行。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">application</span> <span class="s2">"config.asset_host = 'http://example.com'"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="application &quot;config.asset_host = 'http://example.com'&quot;
+">Copy</button>
+</div>
+<p>這個方法也可以帶一個塊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">application</span> <span class="k">do</span>
+  <span class="s2">"config.asset_host = 'http://example.com'"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="application do
+  &quot;config.asset_host = 'http://example.com'&quot;
+end
+">Copy</button>
+</div>
+<p>可用選項有：</p>
+<ul>
+<li>
+<code>:env</code> - 為這個配置選項指定一個環境。如果您希望將此選項與塊語法一起使用，推薦的語法如下：</li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="n">application</span><span class="p">(</span><span class="kp">nil</span><span class="p">,</span> <span class="ss">env: </span><span class="s2">"development"</span><span class="p">)</span> <span class="k">do</span>
+  <span class="s2">"config.asset_host = 'http://localhost:3000'"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="application(nil, env: &quot;development&quot;) do
+  &quot;config.asset_host = 'http://localhost:3000'&quot;
+end
+">Copy</button>
+</div>
+<h4 id="git"><a class="anchorlink" href="#git">10.7 <code>git</code></a></h4><p>執行指定的 git 命令：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">git</span> <span class="ss">:init</span>
+<span class="n">git</span> <span class="ss">add: </span><span class="s2">"."</span>
+<span class="n">git</span> <span class="ss">commit: </span><span class="s2">"-m First commit!"</span>
+<span class="n">git</span> <span class="ss">add: </span><span class="s2">"onefile.rb"</span><span class="p">,</span> <span class="ss">rm: </span><span class="s2">"badfile.cxx"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='git :init
+git add: "."
+git commit: "-m First commit!"
+git add: "onefile.rb", rm: "badfile.cxx"
+'>Copy</button>
+</div>
+<p>此處雜湊的 values 是傳遞給特定 git 命令的引數或選項。根據此處顯示的最後一個示例，可以一次指定多個 git 命令，但不能保證它們的執行順序與指定它們的順序相同。</p><h4 id="vendor"><a class="anchorlink" href="#vendor">10.8 <code>vendor</code></a></h4><p>將檔案放入包含指定程式碼的<code>vendor</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">vendor</span> <span class="s2">"sekrit.rb"</span><span class="p">,</span> <span class="s1">'#top secret stuff'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="vendor &quot;sekrit.rb&quot;, '#top secret stuff'
+">Copy</button>
+</div>
+<p>這個方法也需要一個塊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">vendor</span> <span class="s2">"seeds.rb"</span> <span class="k">do</span>
+  <span class="s2">"puts 'in your app, seeding your database'"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="vendor &quot;seeds.rb&quot; do
+  &quot;puts 'in your app, seeding your database'&quot;
+end
+">Copy</button>
+</div>
+<h4 id="lib"><a class="anchorlink" href="#lib">10.9 <code>lib</code></a></h4><p>將檔案放入包含指定程式碼的<code>lib</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">lib</span> <span class="s2">"special.rb"</span><span class="p">,</span> <span class="s2">"p Rails.root"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='lib "special.rb", "p Rails.root"
+'>Copy</button>
+</div>
+<p>這個方法也需要一個塊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">lib</span> <span class="s2">"super_special.rb"</span> <span class="k">do</span>
+  <span class="s2">"puts 'Super special!'"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="lib &quot;super_special.rb&quot; do
+  &quot;puts 'Super special!'&quot;
+end
+">Copy</button>
+</div>
+<h4 id="rakefile"><a class="anchorlink" href="#rakefile">10.10 <code>rakefile</code></a></h4><p>在應用程式的<code>lib/tasks</code> 目錄中建立一個 Rake 檔案。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">rakefile</span> <span class="s2">"test.rake"</span><span class="p">,</span> <span class="s1">'task(:hello) { puts "Hello, there" }'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rakefile &quot;test.rake&quot;, 'task(:hello) { puts &quot;Hello, there&quot; }'
+">Copy</button>
+</div>
+<p>這個方法也需要一個塊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">rakefile</span> <span class="s2">"test.rake"</span> <span class="k">do</span>
+  <span class="sx">%Q{
+    task rock: :environment do
+      puts "Rockin'"
+    end
+  }</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rakefile &quot;test.rake&quot; do
+  %Q{
+    task rock: :environment do
+      puts &quot;Rockin'&quot;
+    end
+  }
+end
+">Copy</button>
+</div>
+<h4 id="initializer"><a class="anchorlink" href="#initializer">10.11 <code>initializer</code></a></h4><p>在應用程式的<code>config/initializers</code> 目錄中建立一個初始化程式：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">initializer</span> <span class="s2">"begin.rb"</span><span class="p">,</span> <span class="s2">"puts 'this is the beginning'"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="initializer &quot;begin.rb&quot;, &quot;puts 'this is the beginning'&quot;
+">Copy</button>
+</div>
+<p>這個方法也需要一個塊，期望返回一個字串：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">initializer</span> <span class="s2">"begin.rb"</span> <span class="k">do</span>
+  <span class="s2">"puts 'this is the beginning'"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="initializer &quot;begin.rb&quot; do
+  &quot;puts 'this is the beginning'&quot;
+end
+">Copy</button>
+</div>
+<h4 id="generate"><a class="anchorlink" href="#generate">10.12 <code>generate</code></a></h4><p>執行指定的生成器，其中第一個引數是生成器名稱，其餘引數直接傳遞給生成器。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">generate</span> <span class="s2">"scaffold"</span><span class="p">,</span> <span class="s2">"forums title:string description:text"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='generate "scaffold", "forums title:string description:text"
+'>Copy</button>
+</div>
+<h4 id="rake"><a class="anchorlink" href="#rake">10.13 <code>rake</code></a></h4><p>執行指定的 Rake 任務。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">rake</span> <span class="s2">"db:migrate"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='rake "db:migrate"
+'>Copy</button>
+</div>
+<p>可用選項有：</p>
+<ul>
+<li>
+<code>:env</code> - 指定執行這個 rake 任務的環境。</li>
+<li>
+<code>:sudo</code> - 是否使用<code>sudo</code> 執行此任務。預設為<code>false</code>。</li>
+</ul>
+<h4 id="route"><a class="anchorlink" href="#route">10.14 <code>route</code></a></h4><p>向<code>config/routes.rb</code> 檔案新增文字：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">route</span> <span class="s2">"resources :people"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='route "resources :people"
+'>Copy</button>
+</div>
+<h4 id="readme"><a class="anchorlink" href="#readme">10.15 <code>readme</code></a></h4><p>在模板的<code>source_path</code> 中輸出檔案的內容，通常是 README。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">readme</span> <span class="s2">"README"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='readme "README"
+'>Copy</button>
+</div>
+
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

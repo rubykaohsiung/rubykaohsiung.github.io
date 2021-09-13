@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>將 Rails 用於僅 API 的應用程式 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="將 Rails 用於僅 API 的應用程式 — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.將 Rails 用於僅 API 的應用程式在本指南中，您將學習： Rails 為僅 API 的應用程式提供了什麼 如何配置 Rails 以在沒有任何瀏覽器功能的情況下啟動 如何決定要包含哪些中介軟體 如何決定在您的controller 中使用哪些模組" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.將 Rails 用於僅 API 的應用程式在本指南中，您將學習： Rails 為僅 API 的應用程式提供了什麼 如何配置 Rails 以在沒有任何瀏覽器功能的情況下啟動 如何決定要包含哪些中介軟體 如何決定在您的controller 中使用哪些模組" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>將 Rails 用於僅 API 的應用程式</h2><p>在本指南中，您將學習：</p>
+<ul>
+<li>Rails 為僅 API 的應用程式提供了什麼</li>
+<li>如何配置 Rails 以在沒有任何瀏覽器功能的情況下啟動</li>
+<li>如何決定要包含哪些中介軟體</li>
+<li>如何決定在您的controller 中使用哪些模組</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#api">什麼是 API 應用程式？</a></li>
+<li><a href="#json-api-rails">為什麼要為 JSON API 使用 Rails？</a></li>
+<li>
+<a href="#">基本配置</a>
+
+<ul>
+<li><a href="#">建立一個新的應用程式</a></li>
+<li><a href="#">更改現有應用程式</a></li>
+</ul>
+</li>
+<li>
+<a href="#">選擇中介軟體</a>
+
+<ul>
+<li><a href="#">使用快取中介軟體</a></li>
+<li><a href="#rack-sendfile">使用 Rack::Sendfile</a></li>
+<li><a href="#actiondispatch-request">使用 ActionDispatch::Request</a></li>
+<li><a href="#session">使用 Session 中介軟體</a></li>
+<li><a href="#">其他中介軟體</a></li>
+<li><a href="#">刪除中介軟體</a></li>
+</ul>
+</li>
+<li>
+<a href="#controller-modules">選擇Controller Modules</a>
+
+<ul>
+<li><a href="#module">新增其他Module</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="api"><a class="anchorlink" href="#api">1 什麼是 API 應用程式？</a></h3><p>傳統上，當人們說他們使用 Rails 作為“API”時，他們的意思是
+在其 Web 應用程式旁邊提供可透過程式設計訪問的 API。
+例如，GitHub 提供了 <a href="https://developer.github.com">一個 API</a>，您
+可以從您自己的自定義客戶端使用。</p><p>隨著客戶端框架的出現，越來越多的開發人員使用 Rails
+構建一個在他們的 Web 應用程式和其他本地應用程式之間共享的後端
+應用程式。</p><p>例如，Twitter 在其網站中使用其 <a href="https://developer.twitter.com/">公共 API</a>
+應用程式，它構建為消耗 JSON 資源的靜態站點。</p><p>而不是使用 Rails 生成與伺服器通訊的 HTML
+透過表單和連結，許多開發人員將他們的 Web 應用程式視為
+只是一個 API 客戶端，以 HTML 形式使用 JavaScript 交付，使用 JSON API。</p><p>本指南涵蓋了構建一個為 JSON 資源提供服務的 Rails 應用程式。
+API 客戶端，包括客戶端框架。</p><h3 id="json-api-rails"><a class="anchorlink" href="#json-api-rails">2 為什麼要為 JSON API 使用 Rails？</a></h3><p>很多人在考慮構建 JSON API 時遇到的第一個問題
+使用 Rails 是：“不是使用 Rails 來吐出一些 JSON 矯枉過正嗎？我不應該
+只是使用像 Sinatra 這樣的東西？”。</p><p>對於非常簡單的 API，這可能是正確的。然而，即使在非常 HTML-heavy
+應用程式，應用程式的大部分邏輯都存在於view
+層。</p><p>大多數人使用 Rails 的原因是它提供了一組預設值
+允許開發人員快速啟動和執行，而無需做很多瑣碎的工作
+決定。</p><p>讓我們來看看 Rails 提供的一些開箱即用的東西
+仍然適用於 API 應用程式。</p><p>在中介軟體層處理：</p>
+<ul>
+<li>重新載入：Rails 應用程式支援透明重新載入。即使
+您的應用程式變大並且為每個請求重新啟動伺服器變得
+不可行。</li>
+<li>開發模式：Rails 應用程式帶有用於開發的智慧預設值，
+在不影響生產時間效能的情況下使開發愉快。</li>
+<li>測試模式：同上開發模式。</li>
+<li>日誌記錄：Rails 應用程式記錄每個請求，並具有一定的詳細程度
+適合當前模式。開發中的 Rails 日誌包含資訊
+關於請求環境、資料庫查詢和基本效能
+資訊。</li>
+<li>安全性：Rails 檢測並阻止 <a href="https://en.wikipedia.org/wiki/IP_address_spoofing">IP 欺騙
+攻擊</a> 和處理
+<a href="https://en.wikipedia.org/wiki/Timing_attack">時序中的加密簽名
+攻擊</a> 感知方式。不知道什麼
+IP欺騙攻擊還是定時攻擊？確切地。</li>
+<li>引數解析：想要將您的引數指定為 JSON 而不是作為
+URL 編碼的字串？沒問題。 Rails 將為您解碼 JSON 並製作
+它在<code>params</code> 中可用。想要使用巢狀的 URL 編碼引數嗎？那
+也有效。</li>
+<li>條件獲取：Rails 處理條件<code>GET</code>（<code>ETag</code> 和<code>Last-Modified</code>）
+處理請求頭並返回正確的響應頭和狀態
+程式碼。您需要做的就是使用
+<a href="https://api.rubyonrails.org/v6.1.4/classes/ActionController/ConditionalGet.html#method-i-stale-3F"><code>stale?</code></a>
+簽入您的controller，Rails 將為您處理所有 HTTP 詳細資訊。</li>
+<li>HEAD 請求：Rails 會透明地將 <code>HEAD</code> 請求轉換為 <code>GET</code> 請求，
+並在出路時僅返回標題。這使得<code>HEAD</code> 在
+所有 Rails API。</li>
+</ul>
+<p>雖然您顯然可以根據現有的 Rack 中介軟體來構建這些，
+這個列表展示了預設的 Rails 中介軟體堆疊提供了很多
+value 的，即使您“只是生成 JSON”。</p><p>在Action Pack 層處理：</p>
+<ul>
+<li>Resourceful Routing：如果您正在構建 RESTful JSON API，您希望成為
+使用 Rails 路由器。從 HTTP 到 controllers 的乾淨和傳統的對映
+意味著不必花時間考慮如何model您的 API
+的 HTTP。</li>
+<li>URL 生成：路由的另一面是 URL 生成。基於良好的 API
+在 HTTP 上包含 URL（請參閱 <a href="https://docs.github.com/en/rest/reference/gists">GitHub Gist API</a>
+例如）。</li>
+<li>標頭和重定向響應：<code>head :no_content</code> 和
+<code>redirect_to user_url(current_user)</code> 派上用場。當然，你可以手動
+新增響應頭，但為什麼呢？</li>
+<li>快取：Rails 提供頁面、action 和片段快取。片段快取
+在構建巢狀的 JSON 物件時特別有用。</li>
+<li>基本、摘要和Token 身份驗證：Rails 提供開箱即用的支援
+用於三種 HTTP 身份驗證。</li>
+<li>檢測：Rails 有一個檢測 API，可以觸發註冊
+各種事件的處理程式，例如action 處理、傳送檔案或
+資料、重定向和資料庫查詢。每個事件的有效載荷都帶有
+相關資訊（對於action 處理事件，有效載荷包括
+controller、action、引數、請求格式、請求方法和
+請求的完整路徑）。</li>
+<li>生成器：生成資源並獲取model 通常很方便，
+controller、測試存根和在單個命令中為您建立的路由
+進一步調整。 migrations 和其他人也是如此。</li>
+<li>外掛：許多第三方庫都支援 Rails，減少了
+或消除設定和粘合圖書館和圖書館的成本
+網路框架。這包括覆蓋預設生成器、新增
+Rake 任務，並尊重 Rails 選擇（如記錄器和快取後端）。</li>
+</ul>
+<p>當然，Rails 啟動過程也將所有註冊的元件粘合在一起。
+例如，Rails 啟動過程就是使用你的 <code>config/database.yml</code> 檔案的
+配置Active Record 時。</p><p><strong>簡短的版本是</strong>：你可能沒有想過 Rails 的哪些部分
+即使您刪除view 層仍然適用，但答案是
+成為其中的大部分。</p><h3 id=""><a class="anchorlink" href="#">3 基本配置</a></h3><p>如果您正在構建一個首先作為 API 伺服器的 Rails 應用程式，並且
+最重要的是，您可以從更有限的 Rails 子集開始並新增功能
+如所須。</p><h4 id=""><a class="anchorlink" href="#">3.1 建立一個新的應用程式</a></h4><p>您可以生成一個新的 api Rails 應用程式：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">rails </span>new my_api <span class="nt">--api</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rails new my_api --api
+">Copy</button>
+</div>
+<p>這將為您做三件事：</p>
+<ul>
+<li>配置您的應用程式以從一組更有限的中介軟體開始
+比正常。具體來說，它將不包括任何主要有用的中介軟體
+預設用於瀏覽器應用程式（如cookies 支援）。</li>
+<li>使<code>Application@{19}</code> 繼承自<code>@{1}::API</code> 而不是
+<code>@{1}::Base</code>。與中介軟體一樣，這將忽略任何 Action
+Controller 提供主要由瀏覽器使用的功能的模組
+應用程式。</li>
+<li>將生成器配置為在以下情況下跳過生成 views、helpers 和資產
+你生成了一個新資源。</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">3.2 更改現有應用程式</a></h4><p>如果您想採用現有應用程式並將其設為 API 應用程式，請閱讀
+以下步驟。</p><p>在<code>config/application.rb</code> 中，在<code>Application</code> 的頂部新增以下行
+類定義：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">api_only</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.api_only = true
+">Copy</button>
+</div>
+<p>在<code>config/environments/development.rb</code> 中，設定<code>config.debug_exception_response_format</code>
+配置在開發模式下發生錯誤時響應中使用的格式。</p><p>要呈現帶有除錯資訊的 HTML 頁面，請使用 value <code>:default</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">debug_exception_response_format</span> <span class="o">=</span> <span class="ss">:default</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.debug_exception_response_format = :default
+">Copy</button>
+</div>
+<p>要呈現保留響應格式的除錯資訊，請使用value <code>:api</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">debug_exception_response_format</span> <span class="o">=</span> <span class="ss">:api</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.debug_exception_response_format = :api
+">Copy</button>
+</div>
+<p>預設情況下，<code>config.debug_exception_response_format</code> 設定為 <code>:api</code>，當 <code>config.api_only</code> 設定為 true 時。</p><p>最後，在<code>app/@{19}/application_controller.rb</code> 中，而不是：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ApplicationController &lt; ActionController::Base
+end
+">Copy</button>
+</div>
+<p>做：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">API</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ApplicationController &lt; ActionController::API
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">4 選擇中介軟體</a></h3><p>預設情況下，API 應用程式帶有以下中介軟體：</p>
+<ul>
+<li><code>@{13}Dispatch::HostAuthorization</code></li>
+<li><code>Rack::Sendfile</code></li>
+<li><code>@{13}Dispatch::Static</code></li>
+<li><code>@{13}Dispatch::Executor</code></li>
+<li><code>@{10}::Cache::Strategy::LocalCache::Middleware</code></li>
+<li><code>@{13}Dispatch::RequestId</code></li>
+<li><code>@{13}Dispatch::RemoteIp</code></li>
+<li><code>Rails::Rack::Logger</code></li>
+<li><code>@{13}Dispatch::ShowExceptions</code></li>
+<li><code>@{13}Dispatch::DebugExceptions</code></li>
+<li><code>@{13}Dispatch::@{13}ableExceptions</code></li>
+<li><code>@{13}Dispatch::Reloader</code></li>
+<li><code>@{13}Dispatch::@{27}s</code></li>
+<li><code>@{8}::@{16}::CheckPending</code></li>
+<li><code>Rack::Head</code></li>
+<li><code>Rack::ConditionalGet</code></li>
+<li><code>Rack::ETag</code></li>
+</ul>
+<p>請參閱<a href="rails_on_rack.html#internal-middleware-stack">內部中介軟體</a>
+機架指南的部分以獲取有關它們的更多資訊。</p><p>其他外掛，包括Active Record，可能會新增額外的中介軟體。在
+一般而言，這些中介軟體與您所使用的應用程式型別無關
+構建，並在僅 API 的 Rails 應用程式中有意義。</p><p>您可以透過以下方式獲取應用程式中所有中介軟體的列表：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>middleware
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails middleware
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">4.1 使用快取中介軟體</a></h4><p>預設情況下，Rails 會新增一箇中間件，提供基於
+應用程式的配置（預設為 memcache）。這意味著
+內建的 HTTP 快取將依賴它。</p><p>例如，使用<code>stale?</code> 方法：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">show</span>
+  <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+
+  <span class="k">if</span> <span class="n">stale?</span><span class="p">(</span><span class="ss">last_modified: </span><span class="vi">@post</span><span class="p">.</span><span class="nf">updated_at</span><span class="p">)</span>
+    <span class="n">render</span> <span class="ss">json: </span><span class="vi">@post</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def show
+  @post = Post.find(params[:id])
+
+  if stale?(last_modified: @post.updated_at)
+    render json: @post
+  end
+end
+">Copy</button>
+</div>
+<p>對<code>stale?</code> 的呼叫將比較請求中的<code>If-Modified-Since</code> 標頭
+與<code>@post.updated_at</code>。如果標頭比上次修改的要新，則此
+action 將返回“304 Not Modified”響應。否則，它將呈現
+響應並在其中包含 <code>Last-Modified</code> 標頭。</p><p>通常，這種機制是在每個客戶端的基礎上使用的。快取中介軟體
+允許我們在客戶端之間共享這種快取機制。我們可以啟用
+對<code>stale?</code> 的呼叫中的跨客戶端快取：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">show</span>
+  <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+
+  <span class="k">if</span> <span class="n">stale?</span><span class="p">(</span><span class="ss">last_modified: </span><span class="vi">@post</span><span class="p">.</span><span class="nf">updated_at</span><span class="p">,</span> <span class="ss">public: </span><span class="kp">true</span><span class="p">)</span>
+    <span class="n">render</span> <span class="ss">json: </span><span class="vi">@post</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def show
+  @post = Post.find(params[:id])
+
+  if stale?(last_modified: @post.updated_at, public: true)
+    render json: @post
+  end
+end
+">Copy</button>
+</div>
+<p>這意味著快取中介軟體將儲存<code>Last-Modified</code> value
+為 Rails 快取中的 URL 新增一個 <code>If-Modified-Since</code> 標頭到任何
+對同一 URL 的後續入站請求。</p><p>將其視為使用 HTTP 語義的頁面快取。</p><h4 id="rack-sendfile"><a class="anchorlink" href="#rack-sendfile">4.2 使用 Rack::Sendfile</a></h4><p>當您在 Rails controller 中使用 <code>send_file</code> 方法時，它會設定
+<code>X-Sendfile</code> 標題。 <code>Rack::Sendfile</code> 負責實際傳送
+檔案。</p><p>如果您的前端伺服器支援加速檔案傳送，<code>Rack::Sendfile</code>
+將實際的檔案傳送工作解除安裝到前端伺服器。</p><p>您可以配置前端伺服器用於的標頭的名稱
+這個目的使用<code>config.@{13}_dispatch.x_sendfile_header</code> 在適當的
+環境的配置檔案。</p><p>您可以詳細瞭解如何將<code>Rack::Sendfile</code> 與熱門
+[the Rack::Sendfile 中的前端
+文件]（<a href="https://www.rubydoc.info/github/rack/rack/master/Rack/Sendfile%EF%BC%89%E3%80%82">https://www.rubydoc.info/github/rack/rack/master/Rack/Sendfile）。</a></p><p>這是一些流行伺服器的此標頭的一些values，一旦這些伺服器配置為支援
+加速檔案傳送：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Apache and lighttpd</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_dispatch</span><span class="p">.</span><span class="nf">x_sendfile_header</span> <span class="o">=</span> <span class="s2">"X-Sendfile"</span>
+
+<span class="c1"># Nginx</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_dispatch</span><span class="p">.</span><span class="nf">x_sendfile_header</span> <span class="o">=</span> <span class="s2">"X-Accel-Redirect"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# Apache and lighttpd
+config.action_dispatch.x_sendfile_header = "X-Sendfile"
+
+# Nginx
+config.action_dispatch.x_sendfile_header = "X-Accel-Redirect"
+'>Copy</button>
+</div>
+<p>確保配置您的伺服器以支援以下選項
+<code>Rack::Sendfile</code> 文件中的說明。</p><h4 id="actiondispatch-request"><a class="anchorlink" href="#actiondispatch-request">4.3 使用 ActionDispatch::Request</a></h4><p><code>@{13}Dispatch::Request#params</code> 將從客戶端獲取 JSON 中的引數
+格式並在<code>params</code> 內的controller 中提供它們。</p><p>要使用它，您的客戶端需要使用 JSON 編碼的引數發出請求
+並將<code>Content-Type</code> 指定為<code>application/json</code>。</p><p>這是 jQuery 中的一個示例：</p><div class="code_container">
+<pre><code class="highlight js"><span class="nx">jQuery</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+  <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/people</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">dataType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">contentType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">data</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span> <span class="na">person</span><span class="p">:</span> <span class="p">{</span> <span class="na">firstName</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Yehuda</span><span class="dl">"</span><span class="p">,</span> <span class="na">lastName</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Katz</span><span class="dl">"</span> <span class="p">}</span> <span class="p">}),</span>
+  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">json</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="jQuery.ajax({
+  type: 'POST',
+  url: '/people',
+  dataType: 'json',
+  contentType: 'application/json',
+  data: JSON.stringify({ person: { firstName: &quot;Yehuda&quot;, lastName: &quot;Katz&quot; } }),
+  success: function(json) { }
+});
+">Copy</button>
+</div>
+<p><code>@{13}Dispatch::Request</code> 會看到<code>Content-Type</code> 和你的引數
+將會：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="p">{</span> <span class="ss">:person</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:firstName</span> <span class="o">=&gt;</span> <span class="s2">"Yehuda"</span><span class="p">,</span> <span class="ss">:lastName</span> <span class="o">=&gt;</span> <span class="s2">"Katz"</span> <span class="p">}</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='{ :person =&gt; { :firstName =&gt; "Yehuda", :lastName =&gt; "Katz" } }
+'>Copy</button>
+</div>
+<h4 id="session"><a class="anchorlink" href="#session">4.4 使用 Session 中介軟體</a></h4><p>以下用於會話管理的中介軟體被排除在 API 應用程式之外，因為它們通常不需要 sessions。如果您的 API 客戶端之一是瀏覽器，您可能希望將其中之一添加回：</p>
+<ul>
+<li><code>@{13}Dispatch::@{22}::CacheStore</code></li>
+<li><code>@{13}Dispatch::@{22}::@{21}Store</code></li>
+<li><code>@{13}Dispatch::@{22}::MemCacheStore</code></li>
+</ul>
+<p>重新新增這些的技巧是，預設情況下，它們被傳遞<code>@{22}_options</code>
+新增時（包括session key），因此您不能只新增<code>@{22}_store.rb</code> 初始值設定項，新增
+<code>use @{13}Dispatch::@{22}::@{21}Store</code> 並讓會話照常執行。 （要明確：會話
+可能有效，但您的 session 選項將被忽略 - 即 session key 將預設為 <code>_@{22}_id</code>)</p><p>您必須在中介軟體之前的某處設定相關選項，而不是初始化程式
+構建（如<code>config/application.rb</code>）並將它們傳遞給您首選的中介軟體，如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># This also configures session_options for use below</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">session_store</span> <span class="ss">:cookie_store</span><span class="p">,</span> <span class="ss">key: </span><span class="s1">'_interslice_session'</span>
+
+<span class="c1"># Required for all session management (regardless of session_store)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Cookies</span>
+
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">use</span> <span class="n">config</span><span class="p">.</span><span class="nf">session_store</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="nf">session_options</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# This also configures session_options for use below
+config.session_store :cookie_store, key: '_interslice_session'
+
+# Required for all session management (regardless of session_store)
+config.middleware.use ActionDispatch::Cookies
+
+config.middleware.use config.session_store, config.session_options
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">4.5 其他中介軟體</a></h4><p>Rails 附帶了許多其他中介軟體，您可能希望在
+API 應用程式，尤其是當您的 API 客戶端之一是瀏覽器時：</p>
+<ul>
+<li><code>Rack::MethodOverride</code></li>
+<li><code>ActionDispatch::Cookies</code></li>
+<li><code>ActionDispatch::Flash</code></li>
+</ul>
+<p>可以透過以下方式新增任何這些中介軟體：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">MethodOverride</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.use Rack::MethodOverride
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">4.6 刪除中介軟體</a></h4><p>如果您不想使用預設包含在僅 API 中的中介軟體
+中介軟體集，您可以使用以下方法將其刪除：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">delete</span> <span class="o">::</span><span class="no">Rack</span><span class="o">::</span><span class="no">Sendfile</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.delete ::Rack::Sendfile
+">Copy</button>
+</div>
+<p>請記住，刪除這些中介軟體將刪除對某些
+Action Controller 中的特徵。</p><h3 id="controller-modules"><a class="anchorlink" href="#controller-modules">5 選擇Controller Modules</a></h3><p>API 應用程式（使用<code>ActionController::API</code>）帶有以下內容
+controller modules 預設：</p>
+<ul>
+<li>
+<code>ActionController::UrlFor</code>：使<code>url_for</code> 和類似的helpers 可用。</li>
+<li>
+<code>ActionController::Redirecting</code>：支援<code>redirect_to</code>。</li>
+<li>
+<code>AbstractController::Rendering</code> 和<code>ActionController::ApiRendering</code>：對渲染的基本支援。</li>
+<li>
+<code>ActionController::Renderers::All</code>：支援<code>render :json</code> 和朋友。</li>
+<li>
+<code>ActionController::ConditionalGet</code>：支援<code>stale?</code>。</li>
+<li>
+<code>ActionController::BasicImplicitRender</code>：如果沒有明確的響應，請確保返回空響應。</li>
+<li>
+<code>ActionController::StrongParameters</code>：支援引數過濾結合Active Model 批次賦值。</li>
+<li>
+<code>ActionController::DataStreaming</code>：支援<code>send_file</code> 和<code>send_data</code>。</li>
+<li>
+<code>AbstractController::Callbacks</code>：支援<code>before_action</code> 和
+類似helpers。</li>
+<li>
+<code>ActionController::Rescue</code>：支援<code>rescue_from</code>。</li>
+<li>
+<code>ActionController::Instrumentation</code>：支援檢測
+由Action Controller 定義的鉤子（參見 <a href="active_support_instrumentation.html#action-controller">the instrumentation
+指南</a> 用於
+有關此的更多資訊）。</li>
+<li>
+<code>ActionController::ParamsWrapper</code>：將引數雜湊包裝成巢狀雜湊，
+這樣您就不必指定傳送 POST 請求的根元素。</li>
+<li>
+<code>ActionController::Head</code>：支援返回沒有內容，只有標題的響應。</li>
+</ul>
+<p>其他外掛可能會新增額外的modules。您可以獲得所有modules
+包含在 rails 控制檯中的 <code>ActionController::API</code> 中：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">ActionController</span><span class="o">::</span><span class="no">API</span><span class="p">.</span><span class="nf">ancestors</span> <span class="o">-</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Metal</span><span class="p">.</span><span class="nf">ancestors</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="no">ActionController</span><span class="o">::</span><span class="no">API</span><span class="p">,</span>
+    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Railties</span><span class="o">::</span><span class="no">ControllerRuntime</span><span class="p">,</span>
+    <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Routing</span><span class="o">::</span><span class="no">RouteSet</span><span class="o">::</span><span class="no">MountedHelpers</span><span class="p">,</span>
+    <span class="no">ActionController</span><span class="o">::</span><span class="no">ParamsWrapper</span><span class="p">,</span>
+    <span class="o">...</span> <span class="p">,</span>
+    <span class="no">AbstractController</span><span class="o">::</span><span class="no">Rendering</span><span class="p">,</span>
+    <span class="no">ActionView</span><span class="o">::</span><span class="no">ViewPaths</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ActionController::API.ancestors - ActionController::Metal.ancestors
+">Copy</button>
+</div>
+<h4 id="module"><a class="anchorlink" href="#module">5.1 新增其他Module</a></h4><p>所有Action Controllermodules 都知道他們的依賴modules，所以你可以感覺到
+可以自由地將任何 modules 包含到您的 controllers 中，並且所有依賴項都將被
+包括並設定。</p><p>您可能想要新增一些常見的 modules：</p>
+<ul>
+<li>
+<code>AbstractController::Translation</code>：支援<code>l</code> 和<code>t</code> 本地化
+和翻譯方法。</li>
+<li>支援基本、摘要或token HTTP 身份驗證：
+
+<ul>
+<li><code>ActionController::HttpAuthentication::Basic::ControllerMethods</code></li>
+<li><code>ActionController::HttpAuthentication::Digest::ControllerMethods</code></li>
+<li><code>ActionController::HttpAuthentication::Token::ControllerMethods</code></li>
+</ul>
+</li>
+<li>
+<code>ActionView::Layouts</code>：渲染時支援佈局。</li>
+<li>
+<code>ActionController::MimeResponds</code>：支援<code>respond_to</code>。</li>
+<li>
+<code>ActionController::Cookies</code>：支援<code>cookies</code>，其中包括
+支援簽名和加密cookies。這需要cookies 中介軟體。</li>
+<li>
+<p><code>ActionController::Caching</code>：支援 API controller 的 view 快取。請注意
+您需要像這樣手動指定 controller 內的快取儲存：</p>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="err">類應用程式</span><span class="no">Controller</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">API</span>
+  <span class="err">包括</span><span class="o">::</span><span class="no">ActionController</span><span class="o">::</span><span class="err">快取</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">cache_store</span> <span class="o">=</span> <span class="ss">:mem_cache_store</span>
+<span class="err">結尾</span>
+<span class="sb">``</span>
+<span class="no">Rails</span> <span class="o">*</span><span class="err">不會</span><span class="o">*</span><span class="err">自​​動傳遞此配置。</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="類應用程式Controller &lt; ActionController::API
+  包括::ActionController::快取
+  self.cache_store = :mem_cache_store
+結尾
+``
+Rails *不會*自​​動傳遞此配置。
+">Copy</button>
+</div>
+</li>
+</ul>
+<p>新增module 的最佳位置是在您的<code>ApplicationController</code> 中，但您可以
+還將modules 新增到個人controllers。</p>
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

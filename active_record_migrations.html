@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>active record Migrations — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="active record Migrations — Ruby on Rails Guides" />
+  <meta name="description" content="active record MigrationsMigrations 是 active record 的一項功能，可讓您發展自己的 隨著時間的推移資料庫模式。而不是在純 SQL 中編寫模式修改， migrations 允許您使用 Ruby dsl 來描述對錶的更改。閱讀本指南後，您將瞭解： 您可以用來建立它們的生成器。 Active Record 提供的用於操作資料庫的方法。 操作 Migrations 和您的架構的 rails 命令。 Migrations 如何與 schema.rb 相關。" />
+  <meta property="og:description" content="active record MigrationsMigrations 是 active record 的一項功能，可讓您發展自己的 隨著時間的推移資料庫模式。而不是在純 SQL 中編寫模式修改， migrations 允許您使用 Ruby dsl 來描述對錶的更改。閱讀本指南後，您將瞭解： 您可以用來建立它們的生成器。 Active Record 提供的用於操作資料庫的方法。 操作 Migrations 和您的架構的 rails 命令。 Migrations 如何與 schema.rb 相關。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>active record Migrations</h2><p>Migrations 是 active record 的一項功能，可讓您發展自己的
+隨著時間的推移資料庫模式。而不是在純 SQL 中編寫模式修改，
+migrations 允許您使用 Ruby dsl 來描述對錶的更改。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>您可以用來建立它們的生成器。</li>
+<li>Active Record 提供的用於操作資料庫的方法。</li>
+<li>操作 Migrations 和您的架構的 rails 命令。</li>
+<li>Migrations 如何與 <code>schema.rb</code> 相關。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#view">遷移過來View</a></li>
+<li>
+<a href="#">建立遷移</a>
+
+<ul>
+<li><a href="#">建立獨立遷移</a></li>
+<li><a href="#model">Model 生成器</a></li>
+<li><a href="#">傳遞修飾符</a></li>
+</ul>
+</li>
+<li>
+<a href="#">編寫遷移</a>
+
+<ul>
+<li><a href="#">建立一個表</a></li>
+<li><a href="#">建立連線表</a></li>
+<li><a href="#">換表</a></li>
+<li><a href="#">更改列</a></li>
+<li><a href="#">列修飾符</a></li>
+<li><a href="#">外來鍵</a></li>
+<li><a href="#helper">當Helper 不夠用時</a></li>
+<li><a href="#change">使用 <code>change</code> 方法</a></li>
+<li><a href="#">使用<code>可逆</code></a></li>
+<li><a href="#up-down">使用 <code>up</code>/<code>down</code> 方法</a></li>
+<li><a href="#migrations">恢復以前的Migrations</a></li>
+</ul>
+</li>
+<li>
+<a href="#migrations">執行Migrations</a>
+
+<ul>
+<li><a href="#">設定資料庫</a></li>
+<li><a href="#">重置資料庫</a></li>
+<li><a href="#migrations">執行特定的Migrations</a></li>
+<li><a href="#migrations">在不同環境中執行Migrations</a></li>
+<li><a href="#migrations">改變執行Migrations 的輸出</a></li>
+</ul>
+</li>
+<li><a href="#migrations">更改現有Migrations</a></li>
+<li>
+<a href="#">模式傾銷和你</a>
+
+<ul>
+<li><a href="#">架構檔案的用途是什麼？</a></li>
+<li><a href="#">模式轉儲的型別</a></li>
+<li><a href="#">模式轉儲和原始碼控制</a></li>
+</ul>
+</li>
+<li><a href="#active-record">Active Record 和參照完整性</a></li>
+<li><a href="#migrations">Migrations 和種子資料</a></li>
+<li><a href="#migrations">老Migrations</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="view"><a class="anchorlink" href="#view">1 遷移過來View</a></h3><p>Migrations 是一種方便的方式
+<a href="https://en.wikipedia.org/wiki/Schema_migration">隨著時間的推移改變你的資料庫架構</a>
+以一致的方式。他們使用Ruby dsl 這樣您就不必
+手動編寫 SQL，允許您的架構和更改獨立於資料庫。</p><p>您可以將每次遷移視為資料庫的一個新“版本”。一種
+架構一開始什麼都沒有，每次遷移都會修改它以新增或
+刪除表、列或條目。 Active Record 知道如何更新您的
+沿著這個時間線的模式，從它在
+歷史記錄到最新版本。 Active Record 也會更新您的
+<code>db/schema.rb</code> 檔案以匹配資料庫的最新結構。</p><p>下面是一個遷移示例：</p><div class="code_container">
+<pre><code class="highlight plaintext">class CreateProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :products do |t|
+      t.string :name
+      t.text :description
+
+      t.timestamps
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CreateProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :products do |t|
+      t.string :name
+      t.text :description
+
+      t.timestamps
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>此遷移添加了一個名為“products”的表，其中包含一個名為
+<code>name</code> 和一個名為 <code>description</code> 的文字列。名為“id”的主鍵列
+也將被隱式新增，因為它是所有 Active 的預設主鍵
+記錄Models。 <code>timestamps</code> 巨集添加了兩列，<code>created_at</code> 和
+<code>updated_at</code>。這些特殊列由Active Record 自動管理
+如果它們存在。</p><p>請注意，我們定義了我們希望及時發生的變化。
+在執行此遷移之前，將沒有表。之後，表將
+存在。 Active Record 也知道如何逆轉這種遷移：如果我們滾動
+這次遷移回來，它將刪除表。</p><p>在支援 transAction 的資料庫上使用更改架構的語句，
+Migrations 包含在 transaction 中。如果資料庫不支援這個
+那麼當遷移失敗時，成功的部分將不會被滾動
+背部。您將不得不回滾手動所做的更改。</p><p>注意：有些查詢不能在 transAction 內執行。如果你的
+介面卡支援 ddl transAction 你可以使用 <code>disable_ddl_transAction!</code> 來
+為一次遷移禁用它們。</p><p>如果您希望遷移做一些Active Record 不知道如何做的事情
+要反轉，您可以使用 <code>reversible</code>：</p><div class="code_container">
+<pre><code class="highlight plaintext">class ChangeProductsPrice &lt; ActiveRecord::Migration[7.0]
+  def change
+    reversible do |dir|
+      change_table :products do |t|
+        dir.up   { t.change :price, :string }
+        dir.down { t.change :price, :integer }
+      end
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ChangeProductsPrice &lt; ActiveRecord::Migration[7.0]
+  def change
+    reversible do |dir|
+      change_table :products do |t|
+        dir.up   { t.change :price, :string }
+        dir.down { t.change :price, :integer }
+      end
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>或者，您可以使用 <code>up</code> 和 <code>down</code> 代替 <code>change</code>：</p><div class="code_container">
+<pre><code class="highlight plaintext">class ChangeProductsPrice &lt; ActiveRecord::Migration[7.0]
+  def up
+    change_table :products do |t|
+      t.change :price, :string
+    end
+  end
+
+  def down
+    change_table :products do |t|
+      t.change :price, :integer
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ChangeProductsPrice &lt; ActiveRecord::Migration[7.0]
+  def up
+    change_table :products do |t|
+      t.change :price, :string
+    end
+  end
+
+  def down
+    change_table :products do |t|
+      t.change :price, :integer
+    end
+  end
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">2 建立遷移</a></h3><h4 id=""><a class="anchorlink" href="#">2.1 建立獨立遷移</a></h4><p>Migrations 作為檔案儲存在 <code>db/migrate</code> 目錄中，每個檔案一個
+遷移類。檔名的形式是
+<code>YYYYMMDDHHMMSS_create_products.rb</code>，即UTC時間戳
+標識遷移後跟下劃線後跟名稱
+的遷移。遷移類的名稱（CamelCased 版本）
+應該匹配檔名的後半部分。例如
+<code>20080906120000_create_products.rb</code> 應該定義類 <code>CreateProducts</code> 和
+<code>20080906120001_add_details_to_products.rb</code> 應該定義
+<code>AddDetailsToProducts</code>。 Rails 使用這個時間戳來確定哪個遷移
+應該以什麼順序執行，所以如果你從另一個複製遷移
+應用程式或自己生成檔案，注意它在訂單中的位置。</p><p>當然，計算時間戳並不好玩，所以Active Record 提供了一個
+發電機為您處理製作：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration AddPartNumberToProducts
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration AddPartNumberToProducts
+">Copy</button>
+</div>
+<p>這將建立一個適當命名的空遷移：</p><div class="code_container">
+<pre><code class="highlight plaintext">class AddPartNumberToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class AddPartNumberToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+  end
+end
+">Copy</button>
+</div>
+<p>這個生成器可以做的不僅僅是在檔名上附加一個時間戳。
+基於命名約定和附加（可選）引數，它可以
+也開始充實遷移。</p><p>如果遷移名稱的格式為“AddColumnToTable”或
+“RemoveColumnFromTable”，後跟列名列表和
+然後鍵入包含適當 [<code>add_column</code>][] 的遷移和
+[<code>remove_column</code>][] 語句將被建立。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration AddPartNumberToProducts part_number:string
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration AddPartNumberToProducts part_number:string
+">Copy</button>
+</div>
+<p>會產生</p><div class="code_container">
+<pre><code class="highlight plaintext">class AddPartNumberToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    add_column :products, :part_number, :string
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class AddPartNumberToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    add_column :products, :part_number, :string
+  end
+end
+">Copy</button>
+</div>
+<p>如果您想在新列上新增索引，您也可以這樣做。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration AddPartNumberToProducts part_number:string:index
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration AddPartNumberToProducts part_number:string:index
+">Copy</button>
+</div>
+<p>將生成適當的 <code>add_column</code> 和 [<code>add_index</code>][] 語句：</p><div class="code_container">
+<pre><code class="highlight plaintext">class AddPartNumberToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    add_column :products, :part_number, :string
+    add_index :products, :part_number
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class AddPartNumberToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    add_column :products, :part_number, :string
+    add_index :products, :part_number
+  end
+end
+">Copy</button>
+</div>
+<p>同樣，您可以生成遷移以從命令列中刪除列：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration RemovePartNumberFromProducts part_number:string
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration RemovePartNumberFromProducts part_number:string
+">Copy</button>
+</div>
+<p>產生</p><div class="code_container">
+<pre><code class="highlight plaintext">class RemovePartNumberFromProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    remove_column :products, :part_number, :string
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class RemovePartNumberFromProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    remove_column :products, :part_number, :string
+  end
+end
+">Copy</button>
+</div>
+<p>您不僅限於一個神奇生成的列。例如：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration AddDetailsToProducts part_number:string price:decimal
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration AddDetailsToProducts part_number:string price:decimal
+">Copy</button>
+</div>
+<p>產生</p><div class="code_container">
+<pre><code class="highlight plaintext">class AddDetailsToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    add_column :products, :part_number, :string
+    add_column :products, :price, :decimal
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class AddDetailsToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    add_column :products, :part_number, :string
+    add_column :products, :price, :decimal
+  end
+end
+">Copy</button>
+</div>
+<p>如果遷移名稱的格式為“CreateXXX”並且是
+後跟列名和型別列表，然後是建立表的遷移
+將生成列有列的 XXX。例如：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration CreateProducts name:string part_number:string
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration CreateProducts name:string part_number:string
+">Copy</button>
+</div>
+<p>產生</p><div class="code_container">
+<pre><code class="highlight plaintext">class CreateProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :products do |t|
+      t.string :name
+      t.string :part_number
+
+      t.timestamps
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CreateProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :products do |t|
+      t.string :name
+      t.string :part_number
+
+      t.timestamps
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>與往常一樣，為您生成的內容只是一個起點。你可以加
+或通過編輯
+<code>db/migrate/YYYYMMDDHHMMSS_add_details_to_products.rb</code> 檔案。</p><p>此外，生成器接受列型別作為<code>references</code>（也可作為
+<code>belongs_to</code>）。例如，</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration AddUserRefToProducts user:references
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration AddUserRefToProducts user:references
+">Copy</button>
+</div>
+<p>生成以下 [<code>add_reference</code>][] 呼叫：</p><div class="code_container">
+<pre><code class="highlight plaintext">class AddUserRefToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    add_reference :products, :user, foreign_key: true
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class AddUserRefToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    add_reference :products, :user, foreign_key: true
+  end
+end
+">Copy</button>
+</div>
+<p>此遷移將建立一個 <code>user_id</code> 列，<a href="#references">references</a> 是一個
+建立列、索引、外來鍵甚至多型的簡寫
+Association 列。</p><p>如果<code>JoinTable</code> 是名稱的一部分，那麼還有一個生成器將生成連線表：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration CreateJoinTableCustomerProduct customer product
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration CreateJoinTableCustomerProduct customer product
+">Copy</button>
+</div>
+<p>將產生以下遷移：</p><div class="code_container">
+<pre><code class="highlight plaintext">class CreateJoinTableCustomerProduct &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_join_table :customers, :products do |t|
+      # t.index [:customer_id, :product_id]
+      # t.index [:product_id, :customer_id]
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CreateJoinTableCustomerProduct &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_join_table :customers, :products do |t|
+      # t.index [:customer_id, :product_id]
+      # t.index [:product_id, :customer_id]
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>[<code>add_column</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_column">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_column</a>
+[<code>add_index</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_index">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_index</a>
+[<code>add_reference</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_reference">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_reference</a>
+[<code>remove_column</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-remove_column">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-remove_column</a></p><h4 id="model"><a class="anchorlink" href="#model">2.2 Model 生成器</a></h4><p>Model 和 scaffold 生成器將建立適合新增的 migrations
+一個新的Model。此遷移已包含建立
+相關表。如果你告訴 Rails 你想要什麼列，那麼語句
+新增這些列也將被建立。例如，執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate Model product name:string description:text
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate Model product name:string description:text
+">Copy</button>
+</div>
+<p>將建立一個看起來像這樣的遷移</p><div class="code_container">
+<pre><code class="highlight plaintext">class CreateProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :products do |t|
+      t.string :name
+      t.text :description
+
+      t.timestamps
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CreateProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :products do |t|
+      t.string :name
+      t.text :description
+
+      t.timestamps
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>您可以根據需要附加任意數量的列名/型別對。</p><h4 id=""><a class="anchorlink" href="#">2.3 傳遞修飾符</a></h4><p>一些常用的<a href="#column-modifiers">型別修飾符</a>可以直接傳入
+命令列。它們用花括號括起來並遵循欄位型別：</p><p>例如，執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration AddDetailsToProducts <span class="s1">'price:decimal{5,2}'</span> supplier:references<span class="o">{</span>polymorphic<span class="o">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration AddDetailsToProducts 'price:decimal{5,2}' supplier:references{polymorphic}
+">Copy</button>
+</div>
+<p>將產生一個看起來像這樣的遷移</p><div class="code_container">
+<pre><code class="highlight plaintext">class AddDetailsToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    add_column :products, :price, :decimal, precision: 5, scale: 2
+    add_reference :products, :supplier, polymorphic: true
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class AddDetailsToProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    add_column :products, :price, :decimal, precision: 5, scale: 2
+    add_reference :products, :supplier, polymorphic: true
+  end
+end
+">Copy</button>
+</div>
+<p>提示：檢視生成器幫助輸出以獲取更多詳細資訊。</p><h3 id=""><a class="anchorlink" href="#">3 編寫遷移</a></h3><p>使用其中一個生成器建立遷移後，就該
+開始工作！</p><h4 id=""><a class="anchorlink" href="#">3.1 建立一個表</a></h4><p>[<code>create_table</code>][] 方法是最基本的方法之一，但大多數時候，
+將使用 Model 或 scaffold 生成器為您生成。一個典型的
+使用將是</p><div class="code_container">
+<pre><code class="highlight plaintext">create_table :products do |t|
+  t.string :name
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="create_table :products do |t|
+  t.string :name
+end
+">Copy</button>
+</div>
+<p>它建立了一個名為“name”的列的“products”表。</p><p>預設情況下，<code>create_table</code> 將建立一個名為 <code>id</code> 的主鍵。你可以改變
+帶有 <code>:primary_key</code> 選項的主鍵的名稱（不要忘記
+更新相應的Model) 或者，如果您根本不需要主鍵，您
+可以傳遞選項<code>id: false</code>。如果您需要傳遞特定於資料庫的選項
+你可以在 <code>:options</code> 選項中放置一個 SQL 片段。例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">create_table :products, options: "ENGINE=BLACKHOLE" do |t|
+  t.string :name, null: false
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='create_table :products, options: "ENGINE=BLACKHOLE" do |t|
+  t.string :name, null: false
+end
+'>Copy</button>
+</div>
+<p>將“ENGINE=BLACKHOLE”附加到用於建立表的 SQL 語句。</p><p>可以在 <code>create_table</code> 塊中建立的列上建立索引
+通過將 true 或選項雜湊傳遞給 <code>:index</code> 選項：</p><div class="code_container">
+<pre><code class="highlight plaintext">create_table :users do |t|
+  t.string :name, index: true
+  t.string :email, index: { unique: true, name: 'unique_emails' }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="create_table :users do |t|
+  t.string :name, index: true
+  t.string :email, index: { unique: true, name: 'unique_emails' }
+end
+">Copy</button>
+</div>
+<p>您也可以傳遞帶有任何表描述的<code>:comment</code> 選項
+將儲存在資料庫本身中，並且可以通過資料庫管理View
+工具，例如 MySQL Workbench 或 PgAdmin III。強烈建議指定
+Migrations 中針對具有大型資料庫的應用程式的評論，因為它可以幫助人們
+理解資料Model 並生成文件。
+目前只有 MySQL 和 PostgreSQL 介面卡支援註釋。</p><p>[<code>create_table</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-create_table">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-create_table</a></p><h4 id=""><a class="anchorlink" href="#">3.2 建立連線表</a></h4><p>遷移方法[<code>create_join_table</code>][]建立一個HABTM（擁有並屬於
+許多）連線表。一個典型的用途是：</p><div class="code_container">
+<pre><code class="highlight plaintext">create_join_table :products, :categories
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="create_join_table :products, :categories
+">Copy</button>
+</div>
+<p>它建立了一個包含兩列的 <code>categories_products</code> 表
+<code>category_id</code> 和 <code>product_id</code>。這些列的選項 <code>:null</code> 設定為
+預設情況下為“假”。這可以通過指定 <code>:column_options</code> 來覆蓋
+選項：</p><div class="code_container">
+<pre><code class="highlight plaintext">create_join_table :products, :categories, column_options: { null: true }
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="create_join_table :products, :categories, column_options: { null: true }
+">Copy</button>
+</div>
+<p>預設情況下，連線表的名稱來自前兩個的並集
+按字母順序提供給 create_join_table 的引數。
+要自定義表的名稱，請提供一個 <code>:table_name</code> 選項：</p><div class="code_container">
+<pre><code class="highlight plaintext">create_join_table :products, :categories, table_name: :categorization
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="create_join_table :products, :categories, table_name: :categorization
+">Copy</button>
+</div>
+<p>建立一個“分類”表。</p><p><code>create_join_table</code> 也接受一個塊，你可以用它來新增索引
+（預設情況下不建立）或其他列：</p><div class="code_container">
+<pre><code class="highlight plaintext">create_join_table :products, :categories do |t|
+  t.index :product_id
+  t.index :category_id
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="create_join_table :products, :categories do |t|
+  t.index :product_id
+  t.index :category_id
+end
+">Copy</button>
+</div>
+<p>[<code>create_join_table</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-create_join_table">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-create_join_table</a></p><h4 id=""><a class="anchorlink" href="#">3.3 換表</a></h4><p><code>create_table</code> 的近親是 [<code>change_table</code>][]，用於改變現有的
+表。它以類似於“create_table”的方式使用，但物件
+屈服於塊知道更多的技巧。例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">change_table :products do |t|
+  t.remove :description, :name
+  t.string :part_number
+  t.index :part_number
+  t.rename :upccode, :upc_code
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="change_table :products do |t|
+  t.remove :description, :name
+  t.string :part_number
+  t.index :part_number
+  t.rename :upccode, :upc_code
+end
+">Copy</button>
+</div>
+<p>刪除 <code>description</code> 和 <code>name</code> 列，建立一個 <code>part_number</code> 字串
+列並在其上新增索引。最後，它重新命名了 <code>upccode</code> 列。</p><p>[<code>change_table</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-change_table">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-change_table</a></p><h4 id=""><a class="anchorlink" href="#">3.4 更改列</a></h4><p>像 <code>remove_column</code> 和 <code>add_column</code> 一樣，Rails 提供了 [<code>change_column</code>][]
+遷移方法。</p><div class="code_container">
+<pre><code class="highlight plaintext">change_column :products, :part_number, :text
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="change_column :products, :part_number, :text
+">Copy</button>
+</div>
+<p>這將產品表上的“part_number”列更改為“:text”欄位。
+請注意，<code>change_column</code> 命令是不可逆的。</p><p>除了 <code>change_column</code>，[<code>change_column_null</code>][] 和 [<code>change_column_default</code>][]
+方法專門用於更改非空約束和預設值
+列的值。</p><div class="code_container">
+<pre><code class="highlight plaintext">change_column_null :products, :name, false
+change_column_default :products, :approved, from: true, to: false
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="change_column_null :products, :name, false
+change_column_default :products, :approved, from: true, to: false
+">Copy</button>
+</div>
+<p>這將產品上的 <code>:name</code> 欄位設定為 <code>NOT NULL</code> 列和預設值
+<code>:approved</code> 欄位的值從 true 到 false。</p><p>注意：您也可以將上面的 <code>change_column_default</code> 遷移寫為
+<code>change_column_default :products, :approved, false</code>，但與之前的不同
+例如，這將使您的遷移不可逆轉。</p><p>[<code>change_column</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-change_column">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-change_column</a>
+[<code>change_column_default</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-change_column_default">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-change_column_default</a>
+[<code>change_column_null</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-change_column_null">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-change_column_null</a></p><h4 id=""><a class="anchorlink" href="#">3.5 列修飾符</a></h4><p>建立或更改列時可以應用列修飾符：</p>
+<ul>
+<li>
+<code>comment</code> 為列添加註釋。</li>
+<li>
+<code>collat​​ion</code> 指定<code>string</code> 或<code>text</code> 列的排序規則。</li>
+<li>
+<code>default</code> 允許在列上設定預設值。請注意，如果您
+正在使用動態值（例如日期），將僅計算預設值
+第一次（即在應用遷移的日期）。使用 <code>nil</code> 表示 <code>NULL</code>。</li>
+<li>
+<code>limit</code> 設定 <code>string</code> 列的最大字元數
+以及 <code>text/binary/integer</code> 列的最大位元組數。</li>
+<li>
+<code>null</code> 允許或禁止列中的 <code>NULL</code> 值。</li>
+<li>
+<code>precision</code> 指定<code>decimal/numeric/datetime/time</code> 列的精度。</li>
+<li>
+<code>scale</code> 指定 <code>decimal</code> 和 <code>numeric</code> 列的比例，
+表示小數點後的位數。</li>
+</ul>
+<p>注意：對於 <code>add_column</code> 或 <code>change_column</code> 沒有新增索引的選項。
+它們需要使用 <code>add_index</code> 單獨新增。</p><p>某些介面卡可能支援其他選項；檢視介面卡特定的 API 文件
+瞭解更多資訊。</p><p>注意：不能通過命令列指定 <code>null</code> 和 <code>default</code>。</p><p>＃＃＃ 參考</p><p><code>add_reference</code> 方法允許建立一個適當命名的列。</p><div class="code_container">
+<pre><code class="highlight plaintext">add_reference :users, :role
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="add_reference :users, :role
+">Copy</button>
+</div>
+<p>此遷移將在使用者表中建立一個 <code>role_id</code> 列。它創造了一個
+此列的索引也是如此，除非明確告知不要使用
+<code>index: false</code> 選項：</p><div class="code_container">
+<pre><code class="highlight plaintext">add_reference :users, :role, index: false
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="add_reference :users, :role, index: false
+">Copy</button>
+</div>
+<p><code>add_belongs_to</code> 方法是 <code>add_reference</code> 的別名。</p><div class="code_container">
+<pre><code class="highlight plaintext">add_belongs_to :taggings, :taggable, polymorphic: true
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="add_belongs_to :taggings, :taggable, polymorphic: true
+">Copy</button>
+</div>
+<p>多型選項將在標籤表上建立兩列，它們可以
+用於多型Association：<code>taggable_type</code> 和 <code>taggable_id</code>。</p><p>可以使用 <code>foreign_key</code> 選項建立外來鍵。</p><div class="code_container">
+<pre><code class="highlight plaintext">add_reference :users, :role, foreign_key: true
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="add_reference :users, :role, foreign_key: true
+">Copy</button>
+</div>
+<p>有關更多 <code>add_reference</code> 選項，請訪問 <a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_reference">api 文件</a>。</p><p>也可以刪除引用：</p><div class="code_container">
+<pre><code class="highlight plaintext">remove_reference :products, :user, foreign_key: true, index: false
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="remove_reference :products, :user, foreign_key: true, index: false
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">3.6 外來鍵</a></h4><p>雖然不是必需的，但您可能希望將外來鍵約束新增到
+<a href="#active-record-and-referential-integrity">保證參照完整性</a>。</p><div class="code_container">
+<pre><code class="highlight plaintext">add_foreign_key :articles, :authors
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="add_foreign_key :articles, :authors
+">Copy</button>
+</div>
+<p>這會向 <code>articles</code> 的 <code>author_id</code> 列新增一個新的外來鍵
+桌子。鍵引用了 <code>authors</code> 表的 <code>id</code> 列。如果
+列名不能從表名派生，您可以使用
+<code>:column</code> 和 <code>:primary_key</code> 選項。</p><p>Rails 將為每個外來鍵生成一個名稱，以
+<code>fk_rails_</code> 後跟 10 個確定性的字元
+從 <code>from_table</code> 和 <code>column</code> 生成。
+如果需要，有一個 <code>:name</code> 選項可以指定不同的名稱。</p><p>注意：Active Record 只支援單列外來鍵。 <code>執行</code>和
+<code>structure.sql</code> 需要使用複合外來鍵。看
+<a href="#schema-dumping-and-you">模式轉儲和你</a>。</p><p>外來鍵也可以刪除：</p><div class="code_container">
+<pre><code class="highlight plaintext"># let Active Record figure out the column name
+remove_foreign_key :accounts, :branches
+
+# remove foreign key for a specific column
+remove_foreign_key :accounts, column: :owner_id
+
+# remove foreign key by name
+remove_foreign_key :accounts, name: :special_fk_name
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# let Active Record figure out the column name
+remove_foreign_key :accounts, :branches
+
+# remove foreign key for a specific column
+remove_foreign_key :accounts, column: :owner_id
+
+# remove foreign key by name
+remove_foreign_key :accounts, name: :special_fk_name
+">Copy</button>
+</div>
+<h4 id="helper"><a class="anchorlink" href="#helper">3.7 當Helper 不夠用時</a></h4><p>如果Active Record 提供的helper 不夠用，您可以使用 [<code>execute</code>][]
+執行任意SQL的方法：</p><div class="code_container">
+<pre><code class="highlight plaintext">Product.connection.execute("UPDATE products SET price = 'free' WHERE 1=1")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Product.connection.execute(&quot;UPDATE products SET price = 'free' WHERE 1=1&quot;)
+">Copy</button>
+</div>
+<p>有關各個方法的更多詳細資訊和示例，請檢視 API 文件。
+特別是文件
+<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html"><code>activerecord::connectionadapters::schemastatements</code></a>
+（它提供了 <code>change</code>、<code>up</code> 和 <code>down</code> 方法中可用的方法），
+<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/tabledefinition.html"><code>activerecord::connectionadapters::tabledefinition</code></a>
+（它提供了對<code>create_table</code> 產生的物件可用的方法）
+和
+<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/table.html"><code>activerecord::connectionadapters::table</code></a>
+（它提供了對由 <code>change_table</code> 產生的物件可用的方法）。</p><p>[<code>execute</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/databasestatements.html#method-i-execute">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/databasestatements.html#method-i-execute</a></p><h4 id="change"><a class="anchorlink" href="#change">3.8 使用 <code>change</code> 方法</a></h4><p><code>change</code> 方法是編寫Migrations 的主要方式。它適用於
+大多數情況下，Active Record 知道如何逆轉遷移
+自動地。目前，<code>change</code> 方法只支援這些遷移
+定義：</p>
+<ul>
+<li>[<code>add_column</code>][]</li>
+<li>[<code>add_foreign_key</code>][]</li>
+<li>[<code>add_index</code>][]</li>
+<li>[<code>add_reference</code>][]</li>
+<li>[<code>add_timestamps</code>][]</li>
+<li>[<code>change_column_default</code>][]（必須提供<code>:from</code> 和<code>:to</code> 選項）</li>
+<li>[<code>change_column_null</code>][]</li>
+<li>[<code>create_join_table</code>][]</li>
+<li>[<code>create_table</code>][]</li>
+<li><code>disable_extension</code></li>
+<li>[<code>drop_join_table</code>][]</li>
+<li>[<code>drop_table</code>][]（必須提供一個區塊）
+*<code>啟用_擴充套件</code>
+</li>
+<li>[<code>remove_column</code>][]（必須提供一個型別）</li>
+<li>[<code>remove_foreign_key</code>][]（必須提供第二個表）</li>
+<li>[<code>remove_index</code>][]</li>
+<li>[<code>remove_reference</code>][]</li>
+<li>[<code>remove_timestamps</code>][]</li>
+<li>[<code>rename_column</code>][]</li>
+<li>[<code>rename_index</code>][]</li>
+<li>[<code>rename_table</code>][]</li>
+</ul>
+<p>[<code>change_table</code>][] 也是可逆的，只要塊不呼叫<code>change</code>，
+<code>change_default</code> 或 <code>remove</code>。</p><p>如果您提供列型別作為第三個，<code>remove_column</code> 是可逆的
+爭論。也提供原始列選項，否則 Rails 不能
+回滾時完全重新建立列：</p><div class="code_container">
+<pre><code class="highlight plaintext">remove_column :posts, :slug, :string, null: false, default: ''
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="remove_column :posts, :slug, :string, null: false, default: ''
+">Copy</button>
+</div>
+<p>如果你需要使用任何其他方法，你應該使用 <code>reversible</code>
+或者編寫 <code>up</code> 和 <code>down</code> 方法而不是使用 <code>change</code> 方法。</p><p>[<code>add_foreign_key</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_foreign_key">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_foreign_key</a>
+[<code>add_timestamps</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_timestamps">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-add_timestamps</a>
+[<code>drop_join_table</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-drop_join_table">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-drop_join_table</a>
+[<code>drop_table</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-drop_table">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-drop_table</a>
+[<code>remove_foreign_key</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-remove_foreign_key">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-remove_foreign_key</a>
+[<code>remove_index</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-remove_index">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-remove_index</a>
+[<code>remove_reference</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-remove_reference">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-remove_reference</a>
+[<code>remove_timestamps</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-remove_timestamps">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-remove_timestamps</a>
+[<code>rename_column</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-rename_column">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-rename_column</a>
+[<code>rename_index</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-rename_index">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-rename_index</a>
+[<code>rename_table</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-rename_table">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/schemastatements.html#method-i-rename_table</a></p><h4 id=""><a class="anchorlink" href="#">3.9 使用<code>可逆</code></a></h4><p>複雜的Migrations 可能需要active record 不知道如何處理
+扭轉。你可以使用 [<code>reversible</code>][] 來指定在執行一個
+遷移以及恢復時還需要做什麼。例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">class ExampleMigration &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :distributors do |t|
+      t.string :zipcode
+    end
+
+    reversible do |dir|
+      dir.up do
+        # add a CHECK constraint
+        execute &lt;&lt;-SQL
+          ALTER TABLE distributors
+            ADD CONSTRAINT zipchk
+              CHECK (char_length(zipcode) = 5) NO INHERIT;
+        SQL
+      end
+      dir.down do
+        execute &lt;&lt;-SQL
+          ALTER TABLE distributors
+            DROP CONSTRAINT zipchk
+        SQL
+      end
+    end
+
+    add_column :users, :home_page_url, :string
+    rename_column :users, :email, :email_address
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ExampleMigration &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :distributors do |t|
+      t.string :zipcode
+    end
+
+    reversible do |dir|
+      dir.up do
+        # add a CHECK constraint
+        execute &lt;&lt;-SQL
+          ALTER TABLE distributors
+            ADD CONSTRAINT zipchk
+              CHECK (char_length(zipcode) = 5) NO INHERIT;
+        SQL
+      end
+      dir.down do
+        execute &lt;&lt;-SQL
+          ALTER TABLE distributors
+            DROP CONSTRAINT zipchk
+        SQL
+      end
+    end
+
+    add_column :users, :home_page_url, :string
+    rename_column :users, :email, :email_address
+  end
+end
+">Copy</button>
+</div>
+<p>使用 <code>reversible</code> 將確保指令在
+順序也對。如果恢復之前的示例遷移，
+在刪除 <code>home_page_url</code> 列後，將執行 <code>down</code> 塊並且
+就在表 <code>distributors</code> 被刪除之前。</p><p>有時您的遷移會做一些完全不可逆轉的事情；為了
+例如，它可能會破壞一些資料。在這種情況下，您可以提高
+在你的 <code>down</code> 塊中的 <code>ActiveRecord::IrreversibleMigration</code>。如果有人嘗試
+要恢復您的遷移，將顯示一條錯誤訊息，指出它
+做不到。</p><p>[<code>可逆</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/migration.html#method-i-reversible">https://api.Rubyonrails.org/classes/activerecord/migration.html#method-i-reversible</a></p><h4 id="up-down"><a class="anchorlink" href="#up-down">3.10 使用 <code>up</code>/<code>down</code> 方法</a></h4><p>您還可以使用 <code>up</code> 和 <code>down</code> 方法使用舊式遷移
+而不是 <code>change</code> 方法。
+<code>up</code> 方法應該描述你想對你的
+模式，遷移的 <code>down</code> 方法應該恢復
+由 <code>up</code> 方法完成的轉​​換。換句話說，資料庫模式
+如果您先執行“向上”，然後再執行“向下”，則應該保持不變。例如，如果你
+在 <code>up</code> 方法中建立一個表，你應該在 <code>down</code> 方法中刪除它。它
+以與它們相反的順序執行轉換是明智的
+用 <code>up</code> 方法制作。 <code>reversible</code> 部分中的示例等效於：</p><div class="code_container">
+<pre><code class="highlight plaintext">class ExampleMigration &lt; ActiveRecord::Migration[7.0]
+  def up
+    create_table :distributors do |t|
+      t.string :zipcode
+    end
+
+    # add a CHECK constraint
+    execute &lt;&lt;-SQL
+      ALTER TABLE distributors
+        ADD CONSTRAINT zipchk
+        CHECK (char_length(zipcode) = 5);
+    SQL
+
+    add_column :users, :home_page_url, :string
+    rename_column :users, :email, :email_address
+  end
+
+  def down
+    rename_column :users, :email_address, :email
+    remove_column :users, :home_page_url
+
+    execute &lt;&lt;-SQL
+      ALTER TABLE distributors
+        DROP CONSTRAINT zipchk
+    SQL
+
+    drop_table :distributors
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ExampleMigration &lt; ActiveRecord::Migration[7.0]
+  def up
+    create_table :distributors do |t|
+      t.string :zipcode
+    end
+
+    # add a CHECK constraint
+    execute &lt;&lt;-SQL
+      ALTER TABLE distributors
+        ADD CONSTRAINT zipchk
+        CHECK (char_length(zipcode) = 5);
+    SQL
+
+    add_column :users, :home_page_url, :string
+    rename_column :users, :email, :email_address
+  end
+
+  def down
+    rename_column :users, :email_address, :email
+    remove_column :users, :home_page_url
+
+    execute &lt;&lt;-SQL
+      ALTER TABLE distributors
+        DROP CONSTRAINT zipchk
+    SQL
+
+    drop_table :distributors
+  end
+end
+">Copy</button>
+</div>
+<p>如果您的遷移是不可逆轉的，您應該提出
+<code>ActiveRecord::IrreversibleMigration</code> 來自你的 <code>down</code> 方法。如果有人嘗試
+要恢復您的遷移，將顯示一條錯誤訊息，指出它
+做不到。</p><h4 id="migrations"><a class="anchorlink" href="#migrations">3.11 恢復以前的Migrations</a></h4><p>您可以使用 active record 的 [<code>revert</code>][] 方法回滾 Migrations 的能力：</p><div class="code_container">
+<pre><code class="highlight plaintext">require_relative "20121212123456_example_migration"
+
+class FixupExampleMigration &lt; ActiveRecord::Migration[7.0]
+  def change
+    revert ExampleMigration
+
+    create_table(:apples) do |t|
+      t.string :variety
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require_relative "20121212123456_example_migration"
+
+class FixupExampleMigration &lt; ActiveRecord::Migration[7.0]
+  def change
+    revert ExampleMigration
+
+    create_table(:apples) do |t|
+      t.string :variety
+    end
+  end
+end
+'>Copy</button>
+</div>
+<p><code>revert</code> 方法也接受一個指令塊來反轉。
+這對於恢復以前Migrations 的選定部分可能很有用。
+例如，讓我們想象一下 <code>ExampleMigration</code> 已提交併且它
+後來決定最好使用Active Record 驗證，
+代替 <code>CHECK</code> 約束，以驗證郵政編碼。</p><div class="code_container">
+<pre><code class="highlight plaintext">class DontUseConstraintForZipcodeValidationMigration &lt; ActiveRecord::Migration[7.0]
+  def change
+    revert do
+      # copy-pasted code from ExampleMigration
+      reversible do |dir|
+        dir.up do
+          # add a CHECK constraint
+          execute &lt;&lt;-SQL
+            ALTER TABLE distributors
+              ADD CONSTRAINT zipchk
+                CHECK (char_length(zipcode) = 5);
+          SQL
+        end
+        dir.down do
+          execute &lt;&lt;-SQL
+            ALTER TABLE distributors
+              DROP CONSTRAINT zipchk
+          SQL
+        end
+      end
+
+      # The rest of the migration was ok
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class DontUseConstraintForZipcodeValidationMigration &lt; ActiveRecord::Migration[7.0]
+  def change
+    revert do
+      # copy-pasted code from ExampleMigration
+      reversible do |dir|
+        dir.up do
+          # add a CHECK constraint
+          execute &lt;&lt;-SQL
+            ALTER TABLE distributors
+              ADD CONSTRAINT zipchk
+                CHECK (char_length(zipcode) = 5);
+          SQL
+        end
+        dir.down do
+          execute &lt;&lt;-SQL
+            ALTER TABLE distributors
+              DROP CONSTRAINT zipchk
+          SQL
+        end
+      end
+
+      # The rest of the migration was ok
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>也可以在不使用 <code>revert</code> 的情況下編寫相同的遷移
+但這將涉及更多步驟：顛倒順序
+<code>create_table</code> 和 <code>reversible</code>，替換 <code>create_table</code>
+通過<code>drop_table</code>，最後用<code>down</code>替換<code>up</code>，反之亦然。
+這一切都由 <code>revert</code> 處理。</p><p>[<code>revert</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/migration.html#method-i-revert">https://api.Rubyonrails.org/classes/activerecord/migration.html#method-i-revert</a></p><h3 id="migrations"><a class="anchorlink" href="#migrations">4 執行Migrations</a></h3><p>rails 提供了一組 rails 命令來執行特定的Migrations 組。</p><p>您將使用的第一個與遷移相關的 rails 命令可能是
+<code>bin/rails db:migrate</code>。在最基本的形式中，它只執行 <code>change</code> 或 <code>up</code>
+所有尚未執行的Migrations 的方法。如果有
+沒有這樣的Migrations，它退出。它將按順序執行這些Migrations
+在遷移之日。</p><p>請注意，執行 <code>db:migrate</code> 命令也會呼叫 <code>db:schema:dump</code> 命令，該命令
+將更新您的 <code>db/schema.rb</code> 檔案以匹配您的資料庫結構。</p><p>如果您指定目標版本，active record 將執行所需的 Migrations
+(change, up, down) 直到達到指定的版本。版本
+是遷移檔名的數字字首。例如，要遷移
+到版本 20080906120000 執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:migrate <span class="nv">VERSION</span><span class="o">=</span>20080906120000
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails db:migrate VERSION=20080906120000
+">Copy</button>
+</div>
+<p>如果版本 20080906120000 大於當前版本（即
+向上遷移），這將執行 <code>change</code>（或 <code>up</code>）方法
+在所有Migrations 直到和
+包括 20080906120000，以後不會再執行Migrations。如果
+向下遷移，這將在所有 Migrations
+低至但不包括 20080906120000。</p><p>＃＃＃ 滾回來</p><p>一個常見的任務是回滾上次遷移。例如，如果你做了一個
+錯誤並希望改正。而不是追蹤版本
+與您可以執行的先前遷移相關聯的編號：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:rollback
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails db:rollback
+">Copy</button>
+</div>
+<p>這將通過恢復“更改”來回滾最新的遷移
+方法或通過執行<code>down</code>方法。如果您需要撤消
+幾個Migrations 你可以提供一個<code>step</code>引數：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:rollback <span class="nv">STEP</span><span class="o">=</span>3
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails db:rollback STEP=3
+">Copy</button>
+</div>
+<p>將恢復最後 3 Migrations。</p><p><code>db:migrate:redo</code> 命令是執行回滾然後遷移的快捷方式
+再次備份。與 <code>db:rollback</code> 命令一樣，您可以使用 <code>STEP</code> 引數
+如果您需要返回多個版本，例如：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:migrate:redo <span class="nv">STEP</span><span class="o">=</span>3
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails db:migrate:redo STEP=3
+">Copy</button>
+</div>
+<p>這些 rails 命令都沒有做任何你用 <code>db:migrate</code> 做不到的事情。他們
+是為了方便起見，因為您不需要明確指定
+要遷移到的版本。</p><h4 id=""><a class="anchorlink" href="#">4.1 設定資料庫</a></h4><p><code>bin/rails db:setup</code> 命令將建立資料庫、載入模式和初始化
+它與種子資料。</p><h4 id=""><a class="anchorlink" href="#">4.2 重置資料庫</a></h4><p><code>bin/rails db:reset</code> 命令將刪除資料庫並重新設定它。這是
+在功能上等同於<code>bin/rails db:drop db:setup</code>。</p><p>注意：這與執行所有Migrations 不同。它只會使用
+當前 <code>db/schema.rb</code> 或 <code>db/structure.sql</code> 檔案的內容。如果無法回滾遷移，
+<code>bin/rails db:reset</code> 可能幫不了你。要了解有關轉儲架構的更多資訊，請參閱
+<a href="#schema-dumping-and-you">Schema Dumping and You</a> 部分。</p><h4 id="migrations"><a class="anchorlink" href="#migrations">4.3 執行特定的Migrations</a></h4><p>如果您需要向上或向下執行特定的遷移，<code>db:migrate:up</code> 和
+<code>db:migrate:down</code> 命令會做到這一點。只需指定適當的版本和
+相應的遷移將有它的 <code>change</code>、<code>up</code> 或 <code>down</code> 方法
+呼叫，例如：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:migrate:up <span class="nv">VERSION</span><span class="o">=</span>20080906120000
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails db:migrate:up VERSION=20080906120000
+">Copy</button>
+</div>
+<p>將通過執行 <code>change</code> 方法（或
+<code>up</code> 方法）。該命令將
+首先檢查遷移是否已經執行，如果
+Active Record 認為它已經運行了。</p><h4 id="migrations"><a class="anchorlink" href="#migrations">4.4 在不同環境中執行Migrations</a></h4><p>預設情況下，執行 <code>bin/rails db:migrate</code> 將在 <code>development</code> 環境中執行。
+要針對另一個環境執行 Migrations，您可以使用
+<code>RAILS_ENV</code> 執行命令時的環境變數。例如執行
+Migrations 針對您可以執行的 <code>test</code> 環境：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:migrate <span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails db:migrate RAILS_ENV=test
+">Copy</button>
+</div>
+<h4 id="migrations"><a class="anchorlink" href="#migrations">4.5 改變執行Migrations 的輸出</a></h4><p>預設情況下Migrations 會準確地告訴您他們在做什麼以及花了多長時間。
+建立表並新增索引的遷移可能會產生這樣的輸出</p><div class="code_container">
+<pre><code class="highlight plaintext">==  CreateProducts: migrating =================================================
+-- create_table(:products)
+   -&gt; 0.0028s
+==  CreateProducts: migrated (0.0028s) ========================================
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="==  CreateProducts: migrating =================================================
+-- create_table(:products)
+   -&gt; 0.0028s
+==  CreateProducts: migrated (0.0028s) ========================================
+">Copy</button>
+</div>
+<p>Migrations 中提供了幾種方法，允許您控制所有這些：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[<code>suppress_messages</code>][]</td>
+<td>將一個塊作為引數並抑制該塊生成的任何輸出。</td>
+</tr>
+<tr>
+<td>[<code>說</code>][]</td>
+<td>接受一個訊息引數並按原樣輸出它。可以傳遞第二個布林引數來指定是否縮排。</td>
+</tr>
+<tr>
+<td>[<code>say_with_time</code>][]</td>
+<td>輸出文字以及執行其塊所需的時間。如果塊返回一個整數，則假定它是受影響的行數。</td>
+</tr>
+</tbody>
+</table>
+<p>例如，這個遷移：</p><div class="code_container">
+<pre><code class="highlight plaintext">class CreateProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    suppress_messages do
+      create_table :products do |t|
+        t.string :name
+        t.text :description
+        t.timestamps
+      end
+    end
+
+    say "Created a table"
+
+    suppress_messages {add_index :products, :name}
+    say "and an index!", true
+
+    say_with_time 'Waiting for a while' do
+      sleep 10
+      250
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CreateProducts &lt; ActiveRecord::Migration[7.0]
+  def change
+    suppress_messages do
+      create_table :products do |t|
+        t.string :name
+        t.text :description
+        t.timestamps
+      end
+    end
+
+    say &quot;Created a table&quot;
+
+    suppress_messages {add_index :products, :name}
+    say &quot;and an index!&quot;, true
+
+    say_with_time 'Waiting for a while' do
+      sleep 10
+      250
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>生成以下輸出</p><div class="code_container">
+<pre><code class="highlight plaintext">==  CreateProducts: migrating =================================================
+-- Created a table
+   -&gt; and an index!
+-- Waiting for a while
+   -&gt; 10.0013s
+   -&gt; 250 rows
+==  CreateProducts: migrated (10.0054s) =======================================
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="==  CreateProducts: migrating =================================================
+-- Created a table
+   -&gt; and an index!
+-- Waiting for a while
+   -&gt; 10.0013s
+   -&gt; 250 rows
+==  CreateProducts: migrated (10.0054s) =======================================
+">Copy</button>
+</div>
+<p>如果您希望 Active Record 不輸出任何內容，則執行 <code>bin/rails db:migrate
+VERBOSE=false</code> 將抑制所有輸出。</p><p>[<code>say</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/migration.html#method-i-say">https://api.Rubyonrails.org/classes/activerecord/migration.html#method-i-say</a>
+[<code>say_with_time</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/migration.html#method-i-say_with_time">https://api.Rubyonrails.org/classes/activerecord/migration.html#method-i-say_with_time</a>
+[<code>suppress_messages</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/migration.html#method-i-suppress_messages">https://api.Rubyonrails.org/classes/activerecord/migration.html#method-i-suppress_messages</a></p><h3 id="migrations"><a class="anchorlink" href="#migrations">5 更改現有Migrations</a></h3><p>有時您會在編寫遷移時出錯。如果你有
+已經執行遷移，那麼您不能只編輯遷移並執行
+再次遷移：Rails 認為它​​已經運行了遷移，所以會這樣做
+當你執行 <code>bin/rails db:migrate</code> 時什麼也沒有。您必須回滾遷移（對於
+以<code>bin/rails db:rollback</code>為例），編輯你的遷移，然後執行
+<code>bin/rails db:migrate</code> 以執行更正後的版本。</p><p>一般來說，編輯現有的Migrations 不是一個好主意。你將會
+為你自己和你的同事創造額外的工作，並導致嚴重的頭痛
+如果現有版本的遷移已在生產中執行
+機器。相反，您應該編寫一個執行更改的新遷移
+你需要。編輯尚未生成的新生成的遷移
+致力於原始碼控制（或更一般地說，尚未傳播
+超出您的開發機器）相對無害。</p><p>在編寫新的遷移以撤消時，<code>revert</code> 方法會很有幫助
+以前的Migrations 全部或部分
+（請參閱上面的<a href="#reverting-previous-Migrations">恢復以前的Migrations</a>）。</p><h3 id=""><a class="anchorlink" href="#">6 模式傾銷和你</a></h3><h4 id=""><a class="anchorlink" href="#">6.1 架構檔案的用途是什麼？</a></h4><p>Migrations，儘管它們可能很強大，但並不是您的權威來源
+資料庫架構。您的資料庫仍然是權威來源。預設情況下，
+Rails 生成 <code>db/schema.rb</code> 試圖捕獲當前狀態
+您的資料庫架構。</p><p>建立您的新例項往往更快，更不容易出錯
+通過<code>bin/rails db:schema:load</code>載入模式檔案來載入應用程式的資料庫
+而不是重播整個遷移歷史。
+<a href="#old-Migrations">old Migrations</a> 可能無法正確應用，如果這些
+Migrations 使用不斷變化的外部依賴項或依賴應用程式程式碼
+與您的Migrations 分開發展。</p><p>如果您想快速檢視什麼屬性，架構檔案也很有用
+active record 物件有。此資訊不在Model 的程式碼中，而是
+經常分佈在幾個Migrations，但資訊很好
+總結在模式檔案中。</p><h4 id=""><a class="anchorlink" href="#">6.2 模式轉儲的型別</a></h4><p>Rails 生成的模式轉儲的格式由
+<code>config/application.rb</code> 中的 <code>config.active_record.schema_format</code> 設定。經過
+預設格式為<code>:Ruby</code>，但也可以設定為<code>:sql</code>。</p><p>如果選擇了<code>:Ruby</code>，則模式儲存在<code>db/schema.rb</code> 中。如果你看
+在這個檔案中，您會發現它看起來非常像一次非常大的遷移：</p><div class="code_container">
+<pre><code class="highlight plaintext">ActiveRecord::Schema.define(version: 2008_09_06_171750) do
+  create_table "authors", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "products", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "part_number"
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='ActiveRecord::Schema.define(version: 2008_09_06_171750) do
+  create_table "authors", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "products", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "part_number"
+  end
+end
+'>Copy</button>
+</div>
+<p>在許多方面，這正是事實。該檔案是通過檢查
+資料庫並使用<code>create_table</code>、<code>add_index</code>等表示其結構
+在。</p><p><code>db/schema.rb</code> 無法表達您的資料庫可能支援的所有內容，例如
+觸發器、序列、儲存過程等，而Migrations
+可以使用<code>execute</code>來建立不受支援的資料庫結構
+Ruby 遷移 dsl，這些構造可能無法由
+模式轉儲器。如果您正在使用這些功能，您應該設定架構
+格式為 <code>:sql</code> 以獲得準確的模式檔案，這對以下內容有用
+建立新的資料庫例項。</p><p>當schema格式設定為<code>:sql</code>時，資料庫結構將被轉儲
+使用特定於資料庫的工具進入<code>db/structure.sql</code>。例如，對於
+PostgreSQL，使用<code>pg_dump</code> 實用程式。對於 MySQL 和 MariaDB，此檔案將
+包含各種表的“SHOW CREATE TABLE”的輸出。</p><p>要從 <code>db/structure.sql</code> 載入模式，請執行 <code>bin/rails db:schema:load</code>。
+載入這個檔案是通過執行它包含的 SQL 語句來完成的。經過
+定義，這將建立資料庫結構的完美副本。</p><h4 id=""><a class="anchorlink" href="#">6.3 模式轉儲和原始碼控制</a></h4><p>因為模式檔案通常用於建立新的資料庫，所以它強烈
+建議您將架構檔案簽入原始碼管理。</p><p>當兩個分支修改架構時，架構檔案中可能會發生合併衝突。
+要解決這些衝突，請執行 <code>bin/rails db:migrate</code> 以重新生成模式檔案。</p><h3 id="active-record"><a class="anchorlink" href="#active-record">7 Active Record 和參照完整性</a></h3><p>active record 的方式聲稱智慧屬於你的Model，而不是
+資料庫。因此，觸發器或約束等功能，
+將其中一些情報推回資料庫中，並不是很嚴重
+用過的。</p><p>諸如“validates :foreign_key, uniqueness: true”之類的驗證是一種方式
+哪些Model 可以強制執行資料完整性。 <code>:dependent</code> 選項
+associations 允許 Models 自動銷燬子物件，當
+父級被銷燬。就像在應用程式級別執行的任何東西一樣，
+這些不能保證參照完整性，所以有些人會增加它們
+在資料庫中使用 <a href="#foreign-keys">外來鍵約束</a>。</p><p>儘管Active Record 沒有提供直接使用的所有工具
+這樣的特性，<code>execute</code> 方法可以用來執行任意 SQL。</p><h3 id="migrations"><a class="anchorlink" href="#migrations">8 Migrations 和種子資料</a></h3><p>Rails 遷移功能的主要目的是發出修改
+模式使用一致的過程。 Migrations 也可以使用
+新增或修改資料。這在無法銷燬的現有資料庫中很有用
+並重新建立，例如生產資料庫。</p><div class="code_container">
+<pre><code class="highlight plaintext">class AddInitialProducts &lt; ActiveRecord::Migration[7.0]
+  def up
+    5.times do |i|
+      Product.create(name: "Product ##{i}", description: "A product.")
+    end
+  end
+
+  def down
+    Product.delete_all
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class AddInitialProducts &lt; ActiveRecord::Migration[7.0]
+  def up
+    5.times do |i|
+      Product.create(name: "Product ##{i}", description: "A product.")
+    end
+  end
+
+  def down
+    Product.delete_all
+  end
+end
+'>Copy</button>
+</div>
+<p>為了在建立資料庫後新增初始資料，Rails 有一個內建的
+“種子”功能可加快程序。這是特別
+在開發和測試環境中頻繁重新載入資料庫時很有用。
+要開始使用此功能，請在 <code>db/seeds.rb</code> 中填寫一些
+Ruby 程式碼，然後執行<code>bin/rails db:seed</code>：</p><div class="code_container">
+<pre><code class="highlight plaintext">5.times do |i|
+  Product.create(name: "Product ##{i}", description: "A product.")
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='5.times do |i|
+  Product.create(name: "Product ##{i}", description: "A product.")
+end
+'>Copy</button>
+</div>
+<p>這通常是設定空白資料庫的更簡潔的方法
+應用。</p><h3 id="migrations"><a class="anchorlink" href="#migrations">9 老Migrations</a></h3><p><code>db/schema.rb</code> 或 <code>db/structure.sql</code> 是當前狀態的快照
+資料庫，並且是重建該資料庫的權威來源。這個
+可以刪除舊的遷移檔案。</p><p>當你刪除 <code>db/migrate/</code> 目錄下的遷移檔案時，任何環境
+當這些檔案仍然存在時執行 <code>bin/rails db:migrate</code> 將儲存一個引用
+到內部 Rails 資料庫中特定於它們的遷移時間戳
+名為“schema_Migrations”的表。此表用於跟蹤是否
+Migrations 已在特定環境中執行。</p><p>如果你執行 <code>bin/rails db:migrate:status</code> 命令，它會顯示狀態
+（向上或向下）每次遷移，您應該看到 <code>************ NO FILE **********</code>
+顯示在任何已刪除的遷移檔案旁邊，這些檔案曾經在
+特定環境，但在 <code>db/migrate/</code> 目錄中已找不到。</p><p>不過有一個警告。從引擎安裝Migrations 的 rake 任務是冪等的。 Migrations 由於先前的安裝而出現在父應用程式中，將被跳過，並使用新的前導時間戳複製丟失的。如果您刪除舊引擎Migrations 並再次執行安裝任務，您將獲得帶有新時間戳的新檔案，<code>db:migrate</code> 將嘗試再次執行它們。</p><p>因此，您通常希望保留來自引擎的 Migrations。他們有這樣的特殊評論：</p><div class="code_container">
+<pre><code class="highlight plaintext"># This migration comes from blorgh (originally 20210621082949)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# This migration comes from blorgh (originally 20210621082949)
+">Copy</button>
+</div>
+
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

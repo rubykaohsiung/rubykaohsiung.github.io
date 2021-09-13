@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ruby on Rails 7.0 發行說明 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Ruby on Rails 7.0 發行說明 — Ruby on Rails Guides" />
+  <meta name="description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Ruby on Rails 7.0 發行說明Rails 7.0 的亮點： 需要 Ruby 2.7.0+，首選 Ruby 3.0+" />
+  <meta property="og:description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Ruby on Rails 7.0 發行說明Rails 7.0 的亮點： 需要 Ruby 2.7.0+，首選 Ruby 3.0+" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>不要在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>Ruby on Rails 7.0 發行說明</h2><p>Rails 7.0 的亮點：</p>
+<ul>
+<li>需要 Ruby 2.7.0+，首選 Ruby 3.0+</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#rails-7-0">升級到 Rails 7.0</a></li>
+<li><a href="#">主要特點</a></li>
+<li>
+<a href="#">鐵軌</a>
+
+<ul>
+<li><a href="#-">刪除</a></li>
+<li><a href="#-">棄用</a></li>
+<li><a href="#-">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#action-cable">Action Cable</a>
+
+<ul>
+<li><a href="#action-cable">刪除</a></li>
+<li><a href="#action-cable">棄用</a></li>
+<li><a href="#action-cable">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#action">Action 包</a>
+
+<ul>
+<li><a href="#action-">刪除</a></li>
+<li><a href="#action-">棄用</a></li>
+<li><a href="#action-">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#action-view">Action View</a>
+
+<ul>
+<li><a href="#action-view">刪除</a></li>
+<li><a href="#action-view">棄用</a></li>
+<li><a href="#action-view">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#action">Action 郵寄者</a>
+
+<ul>
+<li><a href="#action-">刪除</a></li>
+<li><a href="#action-">棄用</a></li>
+<li><a href="#action-">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#active-record">Active Record</a>
+
+<ul>
+<li><a href="#active-record">刪除</a></li>
+<li><a href="#active-record">棄用</a></li>
+<li><a href="#active-record">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#active-storage">Active Storage</a>
+
+<ul>
+<li><a href="#active-storage-">刪除</a></li>
+<li><a href="#active-storage-">棄用</a></li>
+<li><a href="#active-storage-">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#active-model">Active Model</a>
+
+<ul>
+<li><a href="#active-model">刪除</a></li>
+<li><a href="#active-model">棄用</a></li>
+<li><a href="#active-model">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#active-support">Active Support</a>
+
+<ul>
+<li><a href="#active-support-">刪除</a></li>
+<li><a href="#active-support-">棄用</a></li>
+<li><a href="#active-support-">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#">在職工作</a>
+
+<ul>
+<li><a href="#">刪除</a></li>
+<li><a href="#">棄用</a></li>
+<li><a href="#">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#action">Action 文字</a>
+
+<ul>
+<li><a href="#action-">刪除</a></li>
+<li><a href="#action-">棄用</a></li>
+<li><a href="#action-">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#action">Action 郵箱</a>
+
+<ul>
+<li><a href="#action">刪除</a></li>
+<li><a href="#action">棄用</a></li>
+<li><a href="#action">顯著變化</a></li>
+</ul>
+</li>
+<li>
+<a href="#ruby-on-rails">Ruby on Rails 指南</a>
+
+<ul>
+<li><a href="#">顯著變化</a></li>
+</ul>
+</li>
+<li><a href="#">學分</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="rails-7-0"><a class="anchorlink" href="#rails-7-0">1 升級到 Rails 7.0</a></h3><p>如果您要升級現有應用程式，最好進行良好的測試
+在進入之前，您還應該先升級到 Rails 6.1，以防萬一
+在嘗試之前沒有並確保您的應用程式仍按預期執行
+Rails 7.0 的更新。升級時要注意的事項列表是
+可在
+<a href="upgrading_ruby_on_rails.html#upgrading-from-rails-6-1-to-rails-7-0">升級 Ruby on Rails</a>
+指導。</p><h3 id=""><a class="anchorlink" href="#">2 主要特點</a></h3><h3 id=""><a class="anchorlink" href="#">3 鐵軌</a></h3><p>請參閱 [Changelog][railties] 以瞭解詳細更改。</p><h4 id="-"><a class="anchorlink" href="#-">3.1 刪除</a></h4><h4 id="-"><a class="anchorlink" href="#-">3.2 棄用</a></h4><h4 id="-"><a class="anchorlink" href="#-">3.3 顯著變化</a></h4><h3 id="action-cable"><a class="anchorlink" href="#action-cable">4 Action Cable</a></h3><p>詳細改動請參考[Changelog][action-cable]。</p><h4 id="action-cable"><a class="anchorlink" href="#action-cable">4.1 刪除</a></h4><h4 id="action-cable"><a class="anchorlink" href="#action-cable">4.2 棄用</a></h4><h4 id="action-cable"><a class="anchorlink" href="#action-cable">4.3 顯著變化</a></h4><h3 id="action"><a class="anchorlink" href="#action">5 Action 包</a></h3><p>請參閱 [Changelog][action-pack] 瞭解詳細更改。</p><h4 id="action-"><a class="anchorlink" href="#action-">5.1 刪除</a></h4><h4 id="action-"><a class="anchorlink" href="#action-">5.2 棄用</a></h4><h4 id="action-"><a class="anchorlink" href="#action-">5.3 顯著變化</a></h4><h3 id="action-view"><a class="anchorlink" href="#action-view">6 Action View</a></h3><p>詳細變化請參考[Changelog][action-view]。</p><h4 id="action-view"><a class="anchorlink" href="#action-view">6.1 刪除</a></h4><h4 id="action-view"><a class="anchorlink" href="#action-view">6.2 棄用</a></h4><h4 id="action-view"><a class="anchorlink" href="#action-view">6.3 顯著變化</a></h4><h3 id="action"><a class="anchorlink" href="#action">7 Action 郵寄者</a></h3><p>請參閱 [Changelog][action-mailer] 以瞭解詳細更改。</p><h4 id="action-"><a class="anchorlink" href="#action-">7.1 刪除</a></h4><h4 id="action-"><a class="anchorlink" href="#action-">7.2 棄用</a></h4><h4 id="action-"><a class="anchorlink" href="#action-">7.3 顯著變化</a></h4><h3 id="active-record"><a class="anchorlink" href="#active-record">8 Active Record</a></h3><p>詳細變化請參考[Changelog][active-record]。</p><h4 id="active-record"><a class="anchorlink" href="#active-record">8.1 刪除</a></h4>
+<ul>
+<li>從 <code>connected_to</code> 中刪除不推薦使用的 <code>database</code> kwarg。</li>
+</ul>
+<h4 id="active-record"><a class="anchorlink" href="#active-record">8.2 棄用</a></h4><h4 id="active-record"><a class="anchorlink" href="#active-record">8.3 顯著變化</a></h4><h3 id="active-storage"><a class="anchorlink" href="#active-storage">9 Active Storage</a></h3><p>詳細變化請參考[Changelog][active-storage]。</p><h4 id="active-storage-"><a class="anchorlink" href="#active-storage-">9.1 刪除</a></h4><h4 id="active-storage-"><a class="anchorlink" href="#active-storage-">9.2 棄用</a></h4><h4 id="active-storage-"><a class="anchorlink" href="#active-storage-">9.3 顯著變化</a></h4><h3 id="active-model"><a class="anchorlink" href="#active-model">10 Active Model</a></h3><p>請參閱 [Changelog][active-model] 瞭解詳細更改。</p><h4 id="active-model"><a class="anchorlink" href="#active-model">10.1 刪除</a></h4><h4 id="active-model"><a class="anchorlink" href="#active-model">10.2 棄用</a></h4><h4 id="active-model"><a class="anchorlink" href="#active-model">10.3 顯著變化</a></h4><h3 id="active-support"><a class="anchorlink" href="#active-support">11 Active Support</a></h3><p>請參閱 [Changelog][active-support] 以瞭解詳細更改。</p><h4 id="active-support-"><a class="anchorlink" href="#active-support-">11.1 刪除</a></h4><h4 id="active-support-"><a class="anchorlink" href="#active-support-">11.2 棄用</a></h4><h4 id="active-support-"><a class="anchorlink" href="#active-support-">11.3 顯著變化</a></h4><h3 id=""><a class="anchorlink" href="#">12 在職工作</a></h3><p>詳細變化請參考[Changelog][active-job]。</p><h4 id=""><a class="anchorlink" href="#">12.1 刪除</a></h4><h4 id=""><a class="anchorlink" href="#">12.2 棄用</a></h4><h4 id=""><a class="anchorlink" href="#">12.3 顯著變化</a></h4><h3 id="action"><a class="anchorlink" href="#action">13 Action 文字</a></h3><p>請參閱 [Changelog][action-text] 以瞭解詳細更改。</p><h4 id="action-"><a class="anchorlink" href="#action-">13.1 刪除</a></h4><h4 id="action-"><a class="anchorlink" href="#action-">13.2 棄用</a></h4><h4 id="action-"><a class="anchorlink" href="#action-">13.3 顯著變化</a></h4><h3 id="action"><a class="anchorlink" href="#action">14 Action 郵箱</a></h3><p>詳細更改請參考[Changelog][action-mailbox]。</p><h4 id="action"><a class="anchorlink" href="#action">14.1 刪除</a></h4><h4 id="action"><a class="anchorlink" href="#action">14.2 棄用</a></h4><h4 id="action"><a class="anchorlink" href="#action">14.3 顯著變化</a></h4><h3 id="ruby-on-rails"><a class="anchorlink" href="#ruby-on-rails">15 Ruby on Rails 指南</a></h3><p>請參閱 [Changelog][guides] 瞭解詳細更改。</p><h4 id=""><a class="anchorlink" href="#">15.1 顯著變化</a></h4><h3 id=""><a class="anchorlink" href="#">16 學分</a></h3><p>見
+<a href="https://contributors.rubyonrails.org/">Rails 貢獻者的完整列表</a>
+對於那些花了很多時間製作 Rails 的人來說，穩定和健壯
+框架是。向他們所有人致敬。</p><p>[railties]：<a href="https://github.com/rails/rails/blob/main/railties/CHANGELOG.md">https://github.com/rails/rails/blob/main/railties/CHANGELOG.md</a>
+[actionpack]：<a href="https://github.com/rails/rails/blob/main/actionpack/CHANGELOG.md">https://github.com/rails/rails/blob/main/actionpack/CHANGELOG.md</a>
+[actionview]：<a href="https://github.com/rails/rails/blob/main/actionview/CHANGELOG.md">https://github.com/rails/rails/blob/main/actionview/CHANGELOG.md</a>
+[actionmailer]：<a href="https://github.com/rails/rails/blob/main/actionmailer/CHANGELOG.md">https://github.com/rails/rails/blob/main/actionmailer/CHANGELOG.md</a>
+[actioncable]：<a href="https://github.com/rails/rails/blob/main/actioncable/CHANGELOG.md">https://github.com/rails/rails/blob/main/actioncable/CHANGELOG.md</a>
+[activerecord]：<a href="https://github.com/rails/rails/blob/main/activerecord/CHANGELOG.md">https://github.com/rails/rails/blob/main/activerecord/CHANGELOG.md</a>
+[activestorage]：<a href="https://github.com/rails/rails/blob/main/activestorage/CHANGELOG.md">https://github.com/rails/rails/blob/main/activestorage/CHANGELOG.md</a>
+[activemodel]：<a href="https://github.com/rails/rails/blob/main/activemodel/CHANGELOG.md">https://github.com/rails/rails/blob/main/activemodel/CHANGELOG.md</a>
+[activesupport]：<a href="https://github.com/rails/rails/blob/main/activesupport/CHANGELOG.md">https://github.com/rails/rails/blob/main/activesupport/CHANGELOG.md</a>
+[activejob]：<a href="https://github.com/rails/rails/blob/main/activejob/CHANGELOG.md">https://github.com/rails/rails/blob/main/activejob/CHANGELOG.md</a>
+[actiontext]：<a href="https://github.com/rails/rails/blob/main/actiontext/CHANGELOG.md">https://github.com/rails/rails/blob/main/actiontext/CHANGELOG.md</a>
+[actionmailbox]：<a href="https://github.com/rails/rails/blob/main/actionmailbox/CHANGELOG.md">https://github.com/rails/rails/blob/main/actionmailbox/CHANGELOG.md</a>
+[guides]：<a href="https://github.com/rails/rails/blob/main/guides/CHANGELOG.md">https://github.com/rails/rails/blob/main/guides/CHANGELOG.md</a></p>
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

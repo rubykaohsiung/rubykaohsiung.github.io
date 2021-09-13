@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>配置 Rails 應用程式 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="配置 Rails 應用程式 — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.配置 Rails 應用程式本指南涵蓋了 Rails 應用程式可用的配置和初始化功能。閱讀本指南後，您將瞭解： 如何調整您的 Rails 應用程式的行為。 如何新增要在應用程式啟動時執行的附加程式碼。" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.配置 Rails 應用程式本指南涵蓋了 Rails 應用程式可用的配置和初始化功能。閱讀本指南後，您將瞭解： 如何調整您的 Rails 應用程式的行為。 如何新增要在應用程式啟動時執行的附加程式碼。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>配置 Rails 應用程式</h2><p>本指南涵蓋了 Rails 應用程式可用的配置和初始化功能。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何調整您的 Rails 應用程式的行為。</li>
+<li>如何新增要在應用程式啟動時執行的附加程式碼。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#">初始化程式碼的位置</a></li>
+<li><a href="#rails">在 Rails 之前執行程式碼</a></li>
+<li>
+<a href="#rails">配置 Rails 元件</a>
+
+<ul>
+<li><a href="#rails">Rails 通用配置</a></li>
+<li><a href="#">配置資產</a></li>
+<li><a href="#">配置生成器</a></li>
+<li><a href="#">配置中介軟體</a></li>
+<li><a href="#i18n">配置 i18n</a></li>
+<li><a href="#active-model">配置Active Model</a></li>
+<li><a href="#active-record">配置Active Record</a></li>
+<li><a href="#action-controller">配置Action Controller</a></li>
+<li><a href="#action">配置 Action 排程</a></li>
+<li><a href="#action-view">配置Action View</a></li>
+<li><a href="#action-mailbox">配置Action Mailbox</a></li>
+<li><a href="#action-mailer">配置Action Mailer</a></li>
+<li><a href="#active-support">配置 Active Support</a></li>
+<li><a href="#">配置活動作業</a></li>
+<li><a href="#action-cable">配置 Action Cable</a></li>
+<li><a href="#active-storage">配置Active Storage</a></li>
+<li><a href="#action-text">配置Action Text</a></li>
+<li><a href="#config-load-defaults"><code>config.load_defaults</code> 的結果</a></li>
+<li><a href="#">配置資料庫</a></li>
+<li><a href="#">連線偏好</a></li>
+<li><a href="#rails">建立 Rails 環境</a></li>
+<li><a href="#url">部署到子目錄（相對 URL 根）</a></li>
+</ul>
+</li>
+<li><a href="#rails">Rails 環境設定</a></li>
+<li><a href="#">使用初始化檔案</a></li>
+<li>
+<a href="#">初始化事件</a>
+
+<ul>
+<li><a href="#rails-railtie-initializer"><code>Rails::Railtie#initializer</code></a></li>
+<li><a href="#">初始化器</a></li>
+</ul>
+</li>
+<li><a href="#">資料庫池</a></li>
+<li><a href="#">自定義配置</a></li>
+<li><a href="#">搜尋引擎索引</a></li>
+<li><a href="#">事件檔案系統監視器</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 初始化程式碼的位置</a></h3><p>Rails 提供了四個標準位置來放置初始化程式碼：</p>
+<ul>
+<li><code>config/application.rb</code></li>
+<li>特定於環境的配置檔案</li>
+<li>初始化程式</li>
+<li>後初始化器</li>
+</ul>
+<h3 id="rails"><a class="anchorlink" href="#rails">2 在 Rails 之前執行程式碼</a></h3><p>在罕見的情況下，您的應用程式需要在載入 Rails 之前執行一些程式碼，請將其放在 <code>config/application.rb</code> 中對 <code>require "rails/all"</code> 的呼叫之上。</p><h3 id="rails"><a class="anchorlink" href="#rails">3 配置 Rails 元件</a></h3><p>一般來說，配置Rails 的工作就是配置Rails 的元件，也就是配置Rails 本身。配置檔案<code>config/application.rb</code> 和特定於環境的配置檔案（例如<code>config/environments/production.rb</code>）允許您指定要傳遞給所有元件的各種設定。</p><p>例如，您可以將此設定新增到 <code>config/application.rb</code> 檔案：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">time_zone</span> <span class="o">=</span> <span class="s1">'Central Time (US &amp; Canada)'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.time_zone = 'Central Time (US &amp; Canada)'
+">Copy</button>
+</div>
+<p>這是 Rails 本身的設定。如果您想將設定傳遞給各個 Rails 元件，您可以透過 <code>config/application.rb</code> 中的同一個 <code>config</code> 物件來實現：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">schema_format</span> <span class="o">=</span> <span class="ss">:ruby</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.schema_format = :ruby
+">Copy</button>
+</div>
+<p>Rails 將使用該特定設定來配置Active Record。</p><p>警告：使用公共配置方法而不是直接呼叫關聯的類。例如<code>Rails.application.config.action_mailer.options</code> 而不是 <code>ActionMailer::Base.options</code>。</p><p>注意：如果您需要將配置直接應用於類，請在初始化程式中使用 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveSupport/LazyLoadHooks.html">延遲載入鉤子</a> 以避免在初始化完成之前自動載入類。這會中斷，因為在應用重新載入時無法安全地重複初始化期間的自動載入。</p><h4 id="rails"><a class="anchorlink" href="#rails">3.1 Rails 通用配置</a></h4><p>以下配置方法將在<code>Rails::Railtie</code> 物件上呼叫，例如<code>Rails::Engine</code> 或<code>Rails::Application</code> 的子類。</p><h5 id="config-after-initialize"><a class="anchorlink" href="#config-after-initialize">3.1.1 <code>config.after_initialize</code></a></h5><p>獲取將在 Rails 完成應用程式初始化之後執行的塊。這包括框架本身、引擎和<code>config/initializers</code> 中所有應用程式初始化程式的初始化。請注意，此塊<em>將</em>為 rake 任務執行。用於配置由其他初始化程式設定的values：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">after_initialize</span> <span class="k">do</span>
+  <span class="no">ActionView</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">sanitized_allowed_tags</span><span class="p">.</span><span class="nf">delete</span> <span class="s1">'div'</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.after_initialize do
+  ActionView::Base.sanitized_allowed_tags.delete 'div'
+end
+">Copy</button>
+</div>
+<h5 id="config-asset-host"><a class="anchorlink" href="#config-asset-host">3.1.2 <code>config.asset_host</code></a></h5><p>設定資產的主機。當 CDN 用於託管資產時，或者當您想要使用不同的域別名解決瀏覽器中內建的併發約束時很有用。 <code>config.action_controller.asset_host</code> 的較短版本。</p><h5 id="config-autoload-once-paths"><a class="anchorlink" href="#config-autoload-once-paths">3.1.3 <code>config.autoload_once_paths</code></a></h5><p>接受一個路徑陣列，Rails 將從這些路徑中自動載入不會被每個請求擦除的常量。如果<code>config.cache_classes</code> 是<code>false</code> 則相關，這是開發環境中的預設值。否則，所有自動載入只發生一次。此陣列的所有元素也必須在<code>autoload_paths</code> 中。預設是一個空陣列。</p><h5 id="config-autoload-paths"><a class="anchorlink" href="#config-autoload-paths">3.1.4 <code>config.autoload_paths</code></a></h5><p>接受 Rails 將自動載入常量的路徑陣列。預設是一個空陣列。由於<a href="upgrading_ruby_on_rails.html#autoloading">Rails 6</a>，不建議調整此項。請參閱<a href="autoloading_and_reloading_constants.html#autoload-paths">自動載入和重新載入常量</a>。</p><h5 id="config-add-autoload-paths-to-load-path"><a class="anchorlink" href="#config-add-autoload-paths-to-load-path">3.1.5 <code>config.add_autoload_paths_to_load_path</code></a></h5><p>表示是否必須將自動載入路徑新增到@{<em>0}。該標誌預設為<code>true</code>，但建議在@{<em>3} 模式下儘早設定為@{<em>2}，在<code>config/application.rb</code> 中。 Zeitwerk 內部使用絕對路徑，@{</em>3} 模式下執行的應用程式不需要`require</em>dependency`，所以models、controllers、jobs 等不需要在@{</em>0} 中。將此設定為@{_2} 可以避免Ruby 在使用相對路徑解析<code>require</code> 呼叫時檢查這些目錄，並節省Bootsnap 工作和RAM，因為它不需要為它們構建索引。</p><h5 id="config-cache-classes"><a class="anchorlink" href="#config-cache-classes">3.1.6 <code>config.cache_classes</code></a></h5><p>控制應用程式類和modules 是否在更改時重新載入。開發環境預設為@{<em>0}，生產環境預設為@{_1}。在測試環境中，如果安裝了Spring，則預設為@{</em>0}，否則為@{_1}。</p><h5 id="config-beginning-of-week"><a class="anchorlink" href="#config-beginning-of-week">3.1.7 <code>config.beginning_of_week</code></a></h5><p>設定預設的一週開始時間
+應用。接受有效的星期幾作為 symbol（例如 <code>:monday</code>）。</p><h5 id="config-cache-store"><a class="anchorlink" href="#config-cache-store">3.1.8 <code>config.cache_store</code></a></h5><p>配置用於 Rails 快取的快取儲存。選項包括symbols <code>:memory_store</code>、@{<em>1}、<code>:mem_cache_store</code>、<code>:null_store</code>、<code>:redis_cache_store</code> 之一，或實現快取 API 的物件。預設為@{</em>1}。請參閱 <a href="caching_with_rails.html#cache-stores">快取儲存</a> 瞭解每個儲存的配置選項。</p><h5 id="config-colorize-logging"><a class="anchorlink" href="#config-colorize-logging">3.1.9 <code>config.colorize_logging</code></a></h5><p>指定在記錄資訊時是否使用 ANSI 顏色程式碼。預設為<code>true</code>。</p><h5 id="config-consider-all-requests-local"><a class="anchorlink" href="#config-consider-all-requests-local">3.1.10 <code>config.consider_all_requests_local</code></a></h5><p>是一面旗幟。如果@{<em>0} 那麼任何錯誤都會導致詳細的除錯資訊被轉儲到 HTTP 響應中，<code>Rails::Info</code> 控制器將在<code>/rails/info/properties</code> 中顯示應用程式執行時上下文。 @{_0} 預設在開發和測試環境中，@{</em>4} 在生產環境中。對於更細粒度的控制，將此設定為@{_4} 並在controllers 中實現<code>show_detailed_exceptions?</code> 以指定哪些請求應提供有關錯誤的除錯資訊。</p><h5 id="config-console"><a class="anchorlink" href="#config-console">3.1.11 <code>config.console</code></a></h5><p>允許您設定執行<code>bin/rails console</code> 時將用作控制檯的類。最好在<code>console</code> 塊中執行它：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">console</span> <span class="k">do</span>
+  <span class="c1"># this block is called only when running console,</span>
+  <span class="c1"># so we can safely require pry here</span>
+  <span class="nb">require</span> <span class="s2">"pry"</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">console</span> <span class="o">=</span> <span class="no">Pry</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='console do
+  # this block is called only when running console,
+  # so we can safely require pry here
+  require "pry"
+  config.console = Pry
+end
+'>Copy</button>
+</div>
+<h5 id="config-disable-sandbox"><a class="anchorlink" href="#config-disable-sandbox">3.1.12 <code>config.disable_sandbox</code></a></h5><p>控制是否有人可以在沙盒模式下啟動控制檯。這有助於避免長時間執行session 的沙箱控制檯，這可能導致資料庫伺服器記憶體不足。預設為假。</p><h5 id="config-eager-load"><a class="anchorlink" href="#config-eager-load">3.1.13 <code>config.eager_load</code></a></h5><p>當<code>true</code> 時，立即載入所有已註冊的<code>config.eager_load_namespaces</code>。這包括您的應用程式、引擎、Rails 框架和任何其他註冊的名稱空間。</p><h5 id="config-eager-load-namespaces"><a class="anchorlink" href="#config-eager-load-namespaces">3.1.14 <code>config.eager_load_namespaces</code></a></h5><p>註冊在<code>config.eager_load</code> 設定為<code>true</code> 時預先載入的名稱空間。列表中的所有名稱空間都必須響應 <code>eager_load!</code> 方法。</p><h5 id="config-eager-load-paths"><a class="anchorlink" href="#config-eager-load-paths">3.1.15 <code>config.eager_load_paths</code></a></h5><p>如果<code>config.cache_classes</code> 設定為<code>true</code>，則接受Rails 將在啟動時急切載入的路徑陣列。預設為應用程式<code>app</code> 目錄中的每個資料夾。</p><h5 id="config-enable-dependency-loading"><a class="anchorlink" href="#config-enable-dependency-loading">3.1.16 <code>config.enable_dependency_loading</code></a></h5><p>如果為 true，則啟用自動載入，即使應用程式已預先載入並且 <code>config.cache_classes</code> 設定為 <code>true</code>。預設為假。</p><h5 id="config-encoding"><a class="anchorlink" href="#config-encoding">3.1.17 <code>config.encoding</code></a></h5><p>設定應用程式範圍的編碼。預設為 UTF-8。</p><h5 id="config-exceptions-app"><a class="anchorlink" href="#config-exceptions-app">3.1.18 <code>config.exceptions_app</code></a></h5><p>設定發生異常時<code>ShowException</code> 中介軟體呼叫的異常應用程式。預設為<code>ActionDispatch::PublicExceptions.new(Rails.public_path)</code>。</p><h5 id="config-debug-exception-response-format"><a class="anchorlink" href="#config-debug-exception-response-format">3.1.19 <code>config.debug_exception_response_format</code></a></h5><p>設定在開發環境中發生錯誤時響應中使用的格式。對於僅 API 的應用程式預設為 <code>:api</code>，對於普通應用程式預設為 <code>:default</code>。</p><h5 id="config-file-watcher"><a class="anchorlink" href="#config-file-watcher">3.1.20 <code>config.file_watcher</code></a></h5><p>當<code>config.reload_classes_only_on_change</code> 為<code>true</code> 時，用於檢測檔案系統中檔案更新的類。 Rails 附帶 @{<em>2}（預設值）和 <code>ActiveSupport::EventedFileUpdateChecker</code>（這個取決於 <a href="https://github.com/guard/listen">listen</a> gem）。自定義類必須符合@{</em>2} API。</p><h5 id="config-filter-parameters"><a class="anchorlink" href="#config-filter-parameters">3.1.21 <code>config.filter_parameters</code></a></h5><p>用於過濾掉不想在日誌中顯示的引數，例如密碼或信用卡
+數字。在Active Record 物件上呼叫<code>#inspect</code> 時，它還過濾掉敏感的values 資料庫列。預設情況下，Rails 透過在<code>config/initializers/filter_parameter_logging.rb</code> 中新增<code>Rails.application.config.filter_parameters += [:password]</code> 來過濾密碼。引數過濾器透過部分匹配正則表示式工作。</p><h5 id="config-force-ssl"><a class="anchorlink" href="#config-force-ssl">3.1.22 <code>config.force_ssl</code></a></h5><p>強制所有請求都透過 HTTPS 提供服務，並在生成 URL 時將“https://”設定為預設協議。 HTTPS 的強制執行由 <code>ActionDispatch::SSL</code> 中介軟體處理，該中介軟體可以透過 <code>config.ssl_options</code> 進行配置 - 請參閱其 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch%20/SSL.html">文件</a> 瞭解詳情。</p><h5 id="config-javascript-path"><a class="anchorlink" href="#config-javascript-path">3.1.23 <code>config.javascript_path</code></a></h5><p>設定您的應用程式的 JavaScript 相對於 <code>app</code> 目錄所在的路徑。預設為<code>javascript</code>，由 <a href="https://github.com/rails/webpacker">webpacker</a> 使用。應用配置的<code>javascript_path</code> 將從<code>autoload_paths</code> 中排除。</p><h5 id="config-log-formatter"><a class="anchorlink" href="#config-log-formatter">3.1.24 <code>config.log_formatter</code></a></h5><p>定義 Rails 記錄器的格式化程式。對於所有環境，此選項預設為 <code>ActiveSupport::Logger::SimpleFormatter</code> 的例項。如果您為<code>config.logger</code> 設定value，則必須在將格式化程式的value 包裝在<code>ActiveSupport::TaggedLogging</code> 例項中之前手動將其傳遞給記錄器，Rails 不會為您執行此操作。</p><h5 id="config-log-level"><a class="anchorlink" href="#config-log-level">3.1.25 <code>config.log_level</code></a></h5><p>定義 Rails 記錄器的詳細程度。對於除生產環境之外的所有環境，此選項預設為 @{<em>0}，生產環境預設為 @{_1}。可用的日誌級別有：@{</em>0}、@{_1}、<code>:warn</code>、<code>:error</code>、<code>:fatal</code> 和<code>:unknown</code>。</p><h5 id="config-log-tags"><a class="anchorlink" href="#config-log-tags">3.1.26 <code>config.log_tags</code></a></h5><p>接受@{_0} 物件響應的方法列表、接受@{_0} 物件的<code>Proc</code> 或響應<code>to_s</code> 的東西。這使得使用子域和請求 id 等除錯資訊標記日誌行變得容易——這兩者都非常有助於除錯多使用者生產應用程式。</p><h5 id="config-logger"><a class="anchorlink" href="#config-logger">3.1.27 <code>config.logger</code></a></h5><p>是將用於<code>Rails.logger</code> 和任何相關 Rails 日誌記錄（例如 <code>ActiveRecord::Base.logger</code>）的記錄器。它預設為 <code>ActiveSupport::TaggedLogging</code> 的一個例項，它包裝了一個 <code>ActiveSupport::Logger</code> 的例項，將日誌輸出到 <code>log/</code> 目錄。您可以提供自定義記錄器，要獲得完全相容性，您必須遵循以下準則：</p>
+<ul>
+<li>要支援格式化程式，您必須手動將<code>config.log_formatter</code> value 中的格式化程式分配給記錄器。</li>
+<li>要支援標記日誌，日誌例項必須用<code>ActiveSupport::TaggedLogging</code> 包裹。</li>
+<li>為了支援靜音，記錄器必須包含<code>ActiveSupport::LoggerSilence</code> 模組。 <code>ActiveSupport::Logger</code> 類已經包含這些modules。</li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">MyLogger</span> <span class="o">&lt;</span> <span class="o">::</span><span class="no">Logger</span>
+  <span class="kp">include</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">LoggerSilence</span>
+<span class="k">end</span>
+
+<span class="n">mylogger</span>           <span class="o">=</span> <span class="no">MyLogger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+<span class="n">mylogger</span><span class="p">.</span><span class="nf">formatter</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="nf">log_formatter</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">logger</span>      <span class="o">=</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TaggedLogging</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">mylogger</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class MyLogger &lt; ::Logger
+  include ActiveSupport::LoggerSilence
+end
+
+mylogger           = MyLogger.new(STDOUT)
+mylogger.formatter = config.log_formatter
+config.logger      = ActiveSupport::TaggedLogging.new(mylogger)
+">Copy</button>
+</div>
+<h5 id="config-middleware"><a class="anchorlink" href="#config-middleware">3.1.28 <code>config.middleware</code></a></h5><p>允許您配置應用程式的中介軟體。下面的 <a href="#configuring-middleware">配置中介軟體</a> 部分對此進行了深入介紹。</p><h5 id="config-rake-eager-load"><a class="anchorlink" href="#config-rake-eager-load">3.1.29 <code>config.rake_eager_load</code></a></h5><p>當<code>true</code> 時，在執行 Rake 任務時預先載入應用程式。預設為<code>false</code>。</p><h5 id="config-reload-classes-only-on-change"><a class="anchorlink" href="#config-reload-classes-only-on-change">3.1.30 <code>config.reload_classes_only_on_change</code></a></h5><p>僅在跟蹤檔案更改時啟用或禁用類的重新載入。預設情況下跟蹤自動載入路徑上的所有內容並設定為@{<em>0}。如果<code>config.cache_classes</code> 是@{</em>0}，則忽略此選項。</p><h5 id="config-credentials-content-path"><a class="anchorlink" href="#config-credentials-content-path">3.1.31 <code>config.credentials.content_path</code></a></h5><p>配置加密憑據的查詢路徑。</p><h5 id="config-credentials-key-path"><a class="anchorlink" href="#config-credentials-key-path">3.1.32 <code>config.credentials.key_path</code></a></h5><p>配置加密key 的查詢路徑。</p><h5 id="secret-key-base"><a class="anchorlink" href="#secret-key-base">3.1.33 <code>secret_key_base</code>`</a></h5><p>用於指定key，該key 允許針對已知安全key 驗證應用程式的sessions 以防止篡改。應用程式在測試和開發環境中隨機生成一個key，其他環境應該在<code>config/credentials.yml.enc</code> 中設定一個。</p><h5 id="config-require-master-key"><a class="anchorlink" href="#config-require-master-key">3.1.34 <code>config.require_master_key</code></a></h5><p>如果尚未透過 <code>ENV["RAILS_MASTER_KEY"]</code> 或 <code>config/master.key</code> 檔案使主 key 可用，則導致應用程式無法啟動。</p><h5 id="config-public-file-server-enabled"><a class="anchorlink" href="#config-public-file-server-enabled">3.1.35 <code>config.public_file_server.enabled</code></a></h5><p>配置 Rails 以提供公共目錄中的靜態檔案。此選項預設為@{<em>0}，但在生產環境中設定為<code>false</code>，因為用於執行應用程式的伺服器軟體（例如 NGINX 或 Apache）應改為提供靜態檔案。如果您正在使用 WEBrick（不建議在生產中使用 WEBrick）在生產中執行或測試您的應用程式，請將選項設定為 @{</em>0}。否則，您將無法使用頁面快取和請求公共目錄下存在的檔案。</p><h5 id="config-session-store"><a class="anchorlink" href="#config-session-store">3.1.36 <code>config.session_store</code></a></h5><p>指定用於儲存會話的類。可能的values 是預設的<code>:cookie_store</code>、<code>:mem_cache_store</code> 和<code>:disabled</code>。最後一個告訴 Rails 不要處理sessions。預設為cookie 儲存，應用程式名稱為會話key。還可以指定自定義會話儲存：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">session_store</span> <span class="ss">:my_custom_store</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.session_store :my_custom_store
+">Copy</button>
+</div>
+<p>此自定義儲存必須定義為 <code>ActionDispatch::Session::MyCustomStore</code>。</p><h5 id="config-time-zone"><a class="anchorlink" href="#config-time-zone">3.1.37 <code>config.time_zone</code></a></h5><p>設定應用程式的預設時區併為Active Record 啟用時區感知。</p><h4 id=""><a class="anchorlink" href="#">3.2 配置資產</a></h4><h5 id="config-assets-enabled"><a class="anchorlink" href="#config-assets-enabled">3.2.1 <code>config.assets.enabled</code></a></h5><p>控制是否啟用asset pipeline 的標誌。它設定為<code>true</code>
+預設情況下。</p><h5 id="config-assets-css-compressor"><a class="anchorlink" href="#config-assets-css-compressor">3.2.2 <code>config.assets.css_compressor</code></a></h5><p>定義要使用的 CSS 壓縮器。預設情況下由<code>sass-rails</code> 設定。目前唯一的替代品value 是<code>:yui</code>，它使用<code>yui-compressor</code> gem。</p><h5 id="config-assets-js-compressor"><a class="anchorlink" href="#config-assets-js-compressor">3.2.3 <code>config.assets.js_compressor</code></a></h5><p>定義要使用的 JavaScript 壓縮器。可能的values 是<code>:terser</code>、<code>:closure</code>、<code>:uglifier</code> 和<code>:yui</code>，它們需要使用<code>terser</code>、<code>closure-compiler</code>、<code>uglifier</code> 或<code>yui-compressor</code>分別是寶石。</p><h5 id="config-assets-gzip"><a class="anchorlink" href="#config-assets-gzip">3.2.4 <code>config.assets.gzip</code></a></h5><p>允許建立已編譯資產的 gzip 版本以及非 gzip 資產的標誌。預設設定為<code>true</code>。</p><h5 id="config-assets-paths"><a class="anchorlink" href="#config-assets-paths">3.2.5 <code>config.assets.paths</code></a></h5><p>包含用於查詢資產的路徑。將路徑附加到此配置選項將導致在搜尋資產時使用這些路徑。</p><h5 id="config-assets-precompile"><a class="anchorlink" href="#config-assets-precompile">3.2.6 <code>config.assets.precompile</code></a></h5><p>允許您指定在執行 <code>rake assets:precompile</code> 時要預編譯的其他資產（<code>application.css</code> 和 <code>application.js</code> 除外）。</p><h5 id="config-assets-unknown-asset-fallback"><a class="anchorlink" href="#config-assets-unknown-asset-fallback">3.2.7 <code>config.assets.unknown_asset_fallback</code></a></h5><p>如果您使用 sprockets-rails 3.2.0 或更高版本，則允許您在資產不在管道中時修改 asset pipeline 的行為。預設為<code>false</code>。</p><h5 id="config-assets-prefix"><a class="anchorlink" href="#config-assets-prefix">3.2.8 <code>config.assets.prefix</code></a></h5><p>定義提供資產的字首。預設為<code>/assets</code>。</p><h5 id="config-assets-manifest"><a class="anchorlink" href="#config-assets-manifest">3.2.9 <code>config.assets.manifest</code></a></h5><p>定義用於資產預編譯器清單檔案的完整路徑。預設為公共資料夾內<code>config.assets.prefix</code> 目錄中名為<code>manifest-&lt;random&gt;.json</code> 的檔案。</p><h5 id="config-assets-digest"><a class="anchorlink" href="#config-assets-digest">3.2.10 <code>config.assets.digest</code></a></h5><p>允許在資產名稱中使用 SHA256 指紋。預設設定為<code>true</code>。</p><h5 id="config-assets-debug"><a class="anchorlink" href="#config-assets-debug">3.2.11 <code>config.assets.debug</code></a></h5><p>禁用資產的串聯和壓縮。在<code>development.rb</code> 中預設設定為<code>true</code>。</p><h5 id="config-assets-version"><a class="anchorlink" href="#config-assets-version">3.2.12 <code>config.assets.version</code></a></h5><p>是在 SHA256 雜湊生成中使用的選項字串。這可以更改為強制重新編譯所有檔案。</p><h5 id="config-assets-compile"><a class="anchorlink" href="#config-assets-compile">3.2.13 <code>config.assets.compile</code></a></h5><p>是一個布林值，可用於在生產中開啟實時鏈輪編譯。</p><h5 id="config-assets-logger"><a class="anchorlink" href="#config-assets-logger">3.2.14 <code>config.assets.logger</code></a></h5><p>接受符合 Log4r 介面或預設 Ruby <code>Logger</code> 類的記錄器。預設與<code>config.logger</code> 中的配置相同。將<code>config.assets.logger</code> 設定為<code>false</code> 將關閉服務資產日誌記錄。</p><h5 id="config-assets-quiet"><a class="anchorlink" href="#config-assets-quiet">3.2.15 <code>config.assets.quiet</code></a></h5><p>禁用資產請求的日誌記錄。在<code>development.rb</code> 中預設設定為<code>true</code>。</p><h4 id=""><a class="anchorlink" href="#">3.3 配置生成器</a></h4><p>Rails 允許您更改 <code>config.generators</code> 方法使用的生成器。這個方法需要一個塊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">generators</span> <span class="k">do</span> <span class="o">|</span><span class="n">g</span><span class="o">|</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">orm</span> <span class="ss">:active_record</span>
+  <span class="n">g</span><span class="p">.</span><span class="nf">test_framework</span> <span class="ss">:test_unit</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.generators do |g|
+  g.orm :active_record
+  g.test_framework :test_unit
+end
+">Copy</button>
+</div>
+<p>可以在這個塊中使用的全套方法如下：</p>
+<ul>
+<li>
+<code>force_plural</code> 允許複數的model 名稱。預設為<code>false</code>。</li>
+<li>
+<code>helper</code> 定義是否生成helpers。預設為<code>true</code>。</li>
+<li>
+<code>integration_tool</code> 定義用於生成整合測試的整合工具。預設為<code>:test_unit</code>。</li>
+<li>
+<code>system_tests</code> 定義使用哪個整合工具來生成系統測試。預設為<code>:test_unit</code>。</li>
+<li>
+<code>orm</code> 定義使用哪個 orm。預設為<code>false</code>，預設使用Active Record。</li>
+<li>
+<code>resource_controller</code> 定義在使用<code>bin/rails generate resource</code> 時使用哪個生成器來生成controller。預設為<code>:controller</code>。</li>
+<li>
+<code>resource_route</code> 定義是否應該生成資源路由定義
+或不。預設為<code>true</code>。</li>
+<li>
+<code>scaffold_controller</code> 與<code>resource_controller</code> 不同，定義了在使用<code>bin/rails generate scaffold</code> 時使用哪個生成器來生成<em>scaffolded</em> controller。預設為<code>:scaffold_controller</code>。</li>
+<li>
+<code>test_framework</code> 定義要使用的測試框架。預設為 <code>false</code> 並且預設使用 minitest。</li>
+<li>
+<code>template_engine</code> 定義使用哪個模板引擎，例如 ERB 或 Haml。預設為<code>:erb</code>。</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">3.4 配置中介軟體</a></h4><p>每個 Rails 應用程式都帶有一組標準的中介軟體，它在開發環境中按以下順序使用：</p><h5 id="actiondispatch-hostauthorization"><a class="anchorlink" href="#actiondispatch-hostauthorization">3.4.1 <code>ActionDispatch::HostAuthorization</code></a></h5><p>防止 DNS 重新繫結和其他 <code>Host</code> 標頭攻擊。
+預設包含在開發環境中，配置如下：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">hosts</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"0.0.0.0/0"</span><span class="p">),</span>        <span class="c1"># All IPv4 addresses.</span>
+  <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"::/0"</span><span class="p">),</span>             <span class="c1"># All IPv6 addresses.</span>
+  <span class="s2">"localhost"</span><span class="p">,</span>                    <span class="c1"># The localhost reserved domain.</span>
+  <span class="no">ENV</span><span class="p">[</span><span class="s2">"RAILS_DEVELOPMENT_HOSTS"</span><span class="p">]</span>  <span class="c1"># Additional comma-separated hosts for development.</span>
+<span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Rails.application.config.hosts = [
+  IPAddr.new("0.0.0.0/0"),        # All IPv4 addresses.
+  IPAddr.new("::/0"),             # All IPv6 addresses.
+  "localhost",                    # The localhost reserved domain.
+  ENV["RAILS_DEVELOPMENT_HOSTS"]  # Additional comma-separated hosts for development.
+]
+'>Copy</button>
+</div>
+<p>在其他環境中<code>Rails.application.config.hosts</code> 為空且沒有
+將完成<code>Host</code> 標頭檢查。如果你想防範header
+對生產的攻擊，您必須手動允許允許的主機
+和：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">hosts</span> <span class="o">&lt;&lt;</span> <span class="s2">"product.com"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Rails.application.config.hosts &lt;&lt; "product.com"
+'>Copy</button>
+</div>
+<p>請求的主機根據<code>hosts</code> 條目與案例進行檢查
+運算子 (<code>#===</code>)，它讓 <code>hosts</code> 支援 <code>Regexp</code> 型別的條目，
+<code>Proc</code> 和 <code>IPAddr</code> 僅舉幾例。這是一個帶有正則表示式的示例。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Allow requests from subdomains like `www.product.com` and</span>
+<span class="c1"># `beta1.product.com`.</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">hosts</span> <span class="o">&lt;&lt;</span> <span class="sr">/.*\.product\.com/</span><span class="err">
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="# Allow requests from subdomains like `www.product.com` and
+# `beta1.product.com`.
+Rails.application.config.hosts &lt;&lt; /.*\.product\.com/
+">Copy</button>
+</div>
+<p>提供的正則表示式將被兩個錨點（<code>\A</code> 和<code>\z</code>）包裹，因此它
+必須匹配整個主機名。 <code>/product.com/</code>，例如，一旦錨定，
+將無法匹配<code>www.product.com</code>。</p><p>支援一種特殊情況，允許您允許所有子域：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Allow requests from subdomains like `www.product.com` and</span>
+<span class="c1"># `beta1.product.com`.</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">hosts</span> <span class="o">&lt;&lt;</span> <span class="s2">".product.com"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# Allow requests from subdomains like `www.product.com` and
+# `beta1.product.com`.
+Rails.application.config.hosts &lt;&lt; ".product.com"
+'>Copy</button>
+</div>
+<p>您可以透過設定從主機授權檢查中排除某些請求
+<code>config.host_configuration.exclude</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Exclude requests for the /healthcheck/ path from host checking</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">host_configuration</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">exclude: </span><span class="o">-&gt;</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="p">{</span> <span class="n">request</span><span class="p">.</span><span class="nf">path</span> <span class="o">=~</span> <span class="sr">/healthcheck/</span><span class="err"> }
+}
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="# Exclude requests for the /healthcheck/ path from host checking
+Rails.application.config.host_configuration = {
+  exclude: -&gt;(request) { request.path =~ /healthcheck/ }
+}
+">Copy</button>
+</div>
+<p>當請求到達未經授權的主機時，預設的 Rack 應用程式
+將執行並以<code>403 Forbidden</code> 響應。這可以透過設定自定義
+<code>config.host_configuration.response_app</code>。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">host_configuration</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">response_app: </span><span class="o">-&gt;</span> <span class="n">env</span> <span class="k">do</span>
+    <span class="p">[</span><span class="mi">400</span><span class="p">,</span> <span class="p">{</span> <span class="s2">"Content-Type"</span> <span class="o">=&gt;</span> <span class="s2">"text/plain"</span> <span class="p">},</span> <span class="p">[</span><span class="s2">"Bad Request"</span><span class="p">]]</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Rails.application.config.host_configuration = {
+  response_app: -&gt; env do
+    [400, { "Content-Type" =&gt; "text/plain" }, ["Bad Request"]]
+  end
+}
+'>Copy</button>
+</div>
+<h5 id="actiondispatch-ssl"><a class="anchorlink" href="#actiondispatch-ssl">3.4.2 <code>ActionDispatch::SSL</code></a></h5><p>強制使用 HTTPS 處理每個請求。如果<code>config.force_ssl</code> 設定為<code>true</code>，則啟用。傳遞給它的選項可以透過設定<code>config.ssl_options</code> 來配置。</p><h5 id="actiondispatch-static"><a class="anchorlink" href="#actiondispatch-static">3.4.3 <code>ActionDispatch::Static</code></a></h5><p>用於服務靜態資產。如果<code>config.public_file_server.enabled</code> 是<code>false</code>，則禁用。如果您需要提供未命名為<code>index</code> 的靜態目錄索引檔案，請設定@{<em>2}。例如，要為目錄請求提供<code>main.html</code> 而不是<code>index.html</code>，請將@{</em>2} 設定為<code>"main"</code>。</p><h5 id="actiondispatch-executor"><a class="anchorlink" href="#actiondispatch-executor">3.4.4 <code>ActionDispatch::Executor</code></a></h5><p>允許執行緒安全程式碼重新載入。如果<code>config.allow_concurrency</code> 是<code>false</code> 則禁用，這會導致載入@{_2}。 @{_2} 將應用程式包裝在互斥鎖中，因此一次只能由一個執行緒呼叫。</p><h5 id="activesupport-cache-strategy-localcache"><a class="anchorlink" href="#activesupport-cache-strategy-localcache">3.4.5 <code>ActiveSupport::Cache::Strategy::LocalCache</code></a></h5><p>用作基本的記憶體支援快取。此快取不是執行緒安全的，僅用作單個執行緒的臨時記憶體快取。</p><h5 id="rails-rack-logger"><a class="anchorlink" href="#rails-rack-logger">3.4.6 <code>Rails::Rack::Logger</code></a></h5><p>通知日誌請求已經開始。請求完成後，重新整理所有日誌。</p><h5 id="actiondispatch-showexceptions"><a class="anchorlink" href="#actiondispatch-showexceptions">3.4.7 <code>ActionDispatch::ShowExceptions</code></a></h5><p>如果請求是本地的或者<code>config.consider_all_requests_local</code> 設定為<code>true</code>，則拯救應用程式返回的任何異常並呈現漂亮的異常頁面。如果<code>config.action_dispatch.show_exceptions</code> 設定為<code>false</code>，則無論如何都會引發異常。</p><h5 id="actiondispatch-requestid"><a class="anchorlink" href="#actiondispatch-requestid">3.4.8 <code>ActionDispatch::RequestId</code></a></h5><p>為響應提供唯一的 X-Request-Id 標頭並啟用 <code>ActionDispatch::Request#uuid</code> 方法。可使用<code>config.action_dispatch.request_id_header</code> 進行配置。</p><h5 id="actiondispatch-remoteip"><a class="anchorlink" href="#actiondispatch-remoteip">3.4.9 <code>ActionDispatch::RemoteIp</code></a></h5><p>檢查 IP 欺騙攻擊並從請求標頭中獲取有效的 <code>client_ip</code>。可使用<code>config.action_dispatch.ip_spoofing_check</code> 和<code>config.action_dispatch.trusted_proxies</code> 選項進行配置。</p><h5 id="rack-sendfile"><a class="anchorlink" href="#rack-sendfile">3.4.10 <code>Rack::Sendfile</code></a></h5><p>攔截響應其正文是從檔案提供的，並將其替換為特定於伺服器的 X-Sendfile 標頭。可使用<code>config.action_dispatch.x_sendfile_header</code> 進行配置。</p><h5 id="actiondispatch-callbacks"><a class="anchorlink" href="#actiondispatch-callbacks">3.4.11 <code>ActionDispatch::Callbacks</code></a></h5><p>在處理請求之前執行 prepare callbacks。</p><h5 id="actiondispatch-cookies"><a class="anchorlink" href="#actiondispatch-cookies">3.4.12 <code>ActionDispatch::Cookies</code></a></h5><p>為請求設定cookies。</p><h5 id="actiondispatch-session-cookiestore"><a class="anchorlink" href="#actiondispatch-session-cookiestore">3.4.13 <code>ActionDispatch::Session::CookieStore</code></a></h5><p>負責將session 儲存在cookies 中。透過將<code>config.action_controller.session_store</code> 更改為備用value，可以為此使用備用中介軟體。此外，可以使用<code>config.action_controller.session_options</code> 配置傳遞給它的選項。</p><h5 id="actiondispatch-flash"><a class="anchorlink" href="#actiondispatch-flash">3.4.14 <code>ActionDispatch::Flash</code></a></h5><p>設定<code>flash</code> keys。僅當<code>config.action_controller.session_store</code> 設定為value 時才可用。</p><h5 id="rack-methodoverride"><a class="anchorlink" href="#rack-methodoverride">3.4.15 <code>Rack::MethodOverride</code></a></h5><p>如果設定了<code>params[:_method]</code>，則允許覆蓋該方法。這是支援 PATCH、PUT 和 DELETE HTTP 方法型別的中介軟體。</p><h5 id="rack-head"><a class="anchorlink" href="#rack-head">3.4.16 <code>Rack::Head</code></a></h5><p>將 HEAD 請求轉換為 GET 請求併為它們提供服務。</p><h5 id=""><a class="anchorlink" href="#">3.4.17 新增自定義中介軟體</a></h5><p>除了這些常用的中介軟體，您還可以使用 <code>config.middleware.use</code> 方法新增自己的中介軟體：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">use</span> <span class="no">Magical</span><span class="o">::</span><span class="no">Unicorns</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.use Magical::Unicorns
+">Copy</button>
+</div>
+<p>這會將 <code>Magical::Unicorns</code> 中介軟體放在堆疊的末尾。如果您希望在另一箇中間件之前新增中介軟體，則可以使用 <code>insert_before</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">insert_before</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Head</span><span class="p">,</span> <span class="no">Magical</span><span class="o">::</span><span class="no">Unicorns</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.insert_before Rack::Head, Magical::Unicorns
+">Copy</button>
+</div>
+<p>或者您可以使用索引將中介軟體插入到精確位置。例如，如果你想在棧頂插入 <code>Magical::Unicorns</code> 中介軟體，你可以這樣做，像這樣：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">insert_before</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Magical</span><span class="o">::</span><span class="no">Unicorns</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.insert_before 0, Magical::Unicorns
+">Copy</button>
+</div>
+<p>還有 <code>insert_after</code> 會一個接一個地插入中介軟體：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">insert_after</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Head</span><span class="p">,</span> <span class="no">Magical</span><span class="o">::</span><span class="no">Unicorns</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.insert_after Rack::Head, Magical::Unicorns
+">Copy</button>
+</div>
+<p>中介軟體也可以完全換出並替換為其他：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">swap</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Failsafe</span><span class="p">,</span> <span class="no">Lifo</span><span class="o">::</span><span class="no">Failsafe</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.swap ActionController::Failsafe, Lifo::Failsafe
+">Copy</button>
+</div>
+<p>中介軟體可以從一個地方移動到另一個地方：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">move_before</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Flash</span><span class="p">,</span> <span class="no">Magical</span><span class="o">::</span><span class="no">Unicorns</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.move_before ActionDispatch::Flash, Magical::Unicorns
+">Copy</button>
+</div>
+<p>這將移動<code>Magical::Unicorns</code> 中介軟體之前
+<code>ActionDispatch::Flash</code>。您也可以在以下之後移動它：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">move_after</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Flash</span><span class="p">,</span> <span class="no">Magical</span><span class="o">::</span><span class="no">Unicorns</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.move_after ActionDispatch::Flash, Magical::Unicorns
+">Copy</button>
+</div>
+<p>它們也可以完全從堆疊中刪除：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">delete</span> <span class="no">Rack</span><span class="o">::</span><span class="no">MethodOverride</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.delete Rack::MethodOverride
+">Copy</button>
+</div>
+<h4 id="i18n"><a class="anchorlink" href="#i18n">3.5 配置 i18n</a></h4><p>所有這些配置選項都委託給<code>I18n</code> 庫。</p><h5 id="config-i18n-available-locales"><a class="anchorlink" href="#config-i18n-available-locales">3.5.1 <code>config.i18n.available_locales</code></a></h5><p>定義應用程式允許的可用區域設定。預設為在區域設定檔案中找到的所有區域設定 keys，通常在新應用程式中僅使用 <code>:en</code>。</p><h5 id="config-i18n-default-locale"><a class="anchorlink" href="#config-i18n-default-locale">3.5.2 <code>config.i18n.default_locale</code></a></h5><p>設定用於 i18n 的應用程式的預設語言環境。預設為<code>:en</code>。</p><h5 id="config-i18n-enforce-available-locales"><a class="anchorlink" href="#config-i18n-enforce-available-locales">3.5.3 <code>config.i18n.enforce_available_locales</code></a></h5><p>確保所有透過 i18n 傳遞的語言環境都必須在 <code>available_locales</code> 列表中宣告，在設定不可用的語言環境時引發 <code>I18n::InvalidLocale</code> 異常。預設為<code>true</code>。除非強烈要求，否則建議不要禁用此選項，因為這可以作為防止從使用者輸入設定任何無效區域設定的安全措施。</p><h5 id="config-i18n-load-path"><a class="anchorlink" href="#config-i18n-load-path">3.5.4 <code>config.i18n.load_path</code></a></h5><p>設定 Rails 用於查詢語言環境檔案的路徑。預設為<code>config/locales/**/*.{yml,rb}</code>。</p><h5 id="config-i18n-raise-on-missing-translations"><a class="anchorlink" href="#config-i18n-raise-on-missing-translations">3.5.5 <code>config.i18n.raise_on_missing_translations</code></a></h5><p>確定是否應為丟失的翻譯引發錯誤
+在controllers 和views 中。預設為<code>false</code>。</p><h5 id="config-i18n-fallbacks"><a class="anchorlink" href="#config-i18n-fallbacks">3.5.6 <code>config.i18n.fallbacks</code></a></h5><p>為丟失的翻譯設定回退行為。以下是此選項的 3 個用法示例：</p>
+<ul>
+<li>
+<p>您可以將選項設定為 <code>true</code> 以使用預設語言環境作為後備，如下所示：</p>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">i18n</span><span class="p">.</span><span class="nf">fallbacks</span> <span class="o">=</span> <span class="err">真</span>
+<span class="sb">``</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.i18n.fallbacks = 真
+``
+">Copy</button>
+</div>
+</li>
+</ul>
+
+<ul>
+<li>
+<p>或者您可以將一組語言環境設定為後備，如下所示：</p>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">i18n</span><span class="p">.</span><span class="nf">fallbacks</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:tr</span><span class="p">,</span> <span class="ss">:en</span><span class="p">]</span>
+<span class="sb">``</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.i18n.fallbacks = [:tr, :en]
+``
+">Copy</button>
+</div>
+</li>
+</ul>
+
+<ul>
+<li>
+<p>或者您可以單獨為語言環境設定不同的回退。例如，如果您想將<code>:tr</code> 用於<code>:az</code> 和<code>:de</code>、<code>:en</code> 用於<code>:da</code> 作為後備，您可以這樣做，如下所示：</p>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">i18n</span><span class="p">.</span><span class="nf">fallbacks</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">az: :tr</span><span class="p">,</span> <span class="ss">da: </span><span class="p">[</span><span class="ss">:de</span><span class="p">,</span> <span class="ss">:en</span><span class="p">]</span> <span class="p">}</span>
+<span class="err">＃或者</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">i18n</span><span class="p">.</span><span class="nf">fallbacks</span><span class="p">.</span><span class="nf">map</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">az: :tr</span><span class="p">,</span> <span class="ss">da: </span><span class="p">[</span><span class="ss">:de</span><span class="p">,</span> <span class="ss">:en</span><span class="p">]</span> <span class="p">}</span>
+<span class="sb">``</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.i18n.fallbacks = { az: :tr, da: [:de, :en] }
+＃或者
+config.i18n.fallbacks.map = { az: :tr, da: [:de, :en] }
+``
+">Copy</button>
+</div>
+</li>
+</ul>
+<h4 id="active-model"><a class="anchorlink" href="#active-model">3.6 配置Active Model</a></h4><h5 id="config-active-model-i18n-customize-full-message"><a class="anchorlink" href="#config-active-model-i18n-customize-full-message">3.6.1 <code>config.active_model.i18n_customize_full_message</code></a></h5><p>是一個布林值 value，它控制是否可以在語言環境檔案中的屬性或 model 級別覆蓋 <code>full_message</code> 錯誤格式。預設情況下這是<code>false</code>。</p><h4 id="active-record"><a class="anchorlink" href="#active-record">3.7 配置Active Record</a></h4><p><code>config.active_record</code> 包含多種配置選項：</p><h5 id="config-active-record-logger"><a class="anchorlink" href="#config-active-record-logger">3.7.1 <code>config.active_record.logger</code></a></h5><p>接受符合 Log4r 介面或預設 Ruby Logger 類的記錄器，然後將其傳遞給任何新的資料庫連線。您可以透過在 Active Record model 類或 Active Record model 例項上呼叫 <code>logger</code> 來檢索此記錄器。設定為<code>nil</code> 以禁用日誌記錄。</p><h5 id="config-active-record-primary-key-prefix-type"><a class="anchorlink" href="#config-active-record-primary-key-prefix-type">3.7.2 <code>config.active_record.primary_key_prefix_type</code></a></h5><p>允許您調整主 key 列的命名。預設情況下，Rails 假定主要的key 列被命名為<code>id</code>（並且不需要設定這個配置選項）。還有另外兩個選擇：</p>
+<ul>
+<li>
+<code>:table_name</code> 將成為 Customer 類 <code>customerid</code> 的主要 key。</li>
+<li>
+<code>:table_name_with_underscore</code> 將成為 Customer 類 <code>customer_id</code> 的主要 key。</li>
+</ul>
+<h5 id="config-active-record-table-name-prefix"><a class="anchorlink" href="#config-active-record-table-name-prefix">3.7.3 <code>config.active_record.table_name_prefix</code></a></h5><p>允許您設定要附加到表名的全域性字串。如果將其設定為<code>northwest_</code>，則 Customer 類將查詢 <code>northwest_customers</code> 作為其表。預設值為空字串。</p><h5 id="config-active-record-table-name-suffix"><a class="anchorlink" href="#config-active-record-table-name-suffix">3.7.4 <code>config.active_record.table_name_suffix</code></a></h5><p>允許您設定要附加到表名的全域性字串。如果將其設定為<code>_northwest</code>，則 Customer 類將查詢 <code>customers_northwest</code> 作為其表。預設值為空字串。</p><h5 id="config-active-record-schema-migrations-table-name"><a class="anchorlink" href="#config-active-record-schema-migrations-table-name">3.7.5 <code>config.active_record.schema_migrations_table_name</code></a></h5><p>允許您設定一個字串以用作模式migrations 表的名稱。</p><h5 id="config-active-record-internal-metadata-table-name"><a class="anchorlink" href="#config-active-record-internal-metadata-table-name">3.7.6 <code>config.active_record.internal_metadata_table_name</code></a></h5><p>允許您設定用作內部元資料表名稱的字串。</p><h5 id="config-active-record-protected-environments"><a class="anchorlink" href="#config-active-record-protected-environments">3.7.7 <code>config.active_record.protected_environments</code></a></h5><p>允許您設定一系列環境名稱，其中應禁止破壞性 actions。</p><h5 id="config-active-record-pluralize-table-names"><a class="anchorlink" href="#config-active-record-pluralize-table-names">3.7.8 <code>config.active_record.pluralize_table_names</code></a></h5><p>指定 Rails 將在資料庫中查詢單數還是複數表名。如果設定為 <code>true</code>（預設值），則 Customer 類將使用 <code>customers</code> 表。如果設定為 false，則 Customer 類將使用 <code>customer</code> 表。</p><h5 id="config-active-record-default-timezone"><a class="anchorlink" href="#config-active-record-default-timezone">3.7.9 <code>config.active_record.default_timezone</code></a></h5><p>確定從資料庫中提取日期和時間時是使用<code>Time.local</code>（如果設定為<code>:local</code>）還是<code>Time.utc</code>（如果設定為@{<em>3}）。預設值為@{</em>3}。</p><h5 id="config-active-record-schema-format"><a class="anchorlink" href="#config-active-record-schema-format">3.7.10 <code>config.active_record.schema_format</code></a></h5><p>控制將資料庫模式轉儲到檔案的格式。對於依賴於migrations 的資料庫獨立版本，選項是<code>:ruby</code>（預設值），對於一組（可能依賴於資料庫的）SQL 語句，選項是<code>:sql</code>。</p><h5 id="config-active-record-error-on-ignored-order"><a class="anchorlink" href="#config-active-record-error-on-ignored-order">3.7.11 <code>config.active_record.error_on_ignored_order</code></a></h5><p>指定在批處理查詢期間忽略查詢順序時是否應引發錯誤。選項是<code>true</code>（引發錯誤）或@{<em>1}（警告）。預設為@{</em>1}。</p><h5 id="config-active-record-timestamped-migrations"><a class="anchorlink" href="#config-active-record-timestamped-migrations">3.7.12 <code>config.active_record.timestamped_migrations</code></a></h5><p>控制migrations 是用序列整數編號還是用時間戳編號。預設為<code>true</code>，使用時間戳，如果有多個開發人員在同一個應用程式上工作，則首選使用時間戳。</p><h5 id="config-active-record-lock-optimistically"><a class="anchorlink" href="#config-active-record-lock-optimistically">3.7.13 <code>config.active_record.lock_optimistically</code></a></h5><p>控制Active Record 是否使用樂觀鎖，預設為<code>true</code>。</p><h5 id="config-active-record-cache-timestamp-format"><a class="anchorlink" href="#config-active-record-cache-timestamp-format">3.7.14 <code>config.active_record.cache_timestamp_format</code></a></h5><p>控制快取key 中時間戳value 的格式。預設為<code>:usec</code>。</p><h5 id="config-active-record-record-timestamps"><a class="anchorlink" href="#config-active-record-record-timestamps">3.7.15 <code>config.active_record.record_timestamps</code></a></h5><p>是一個布林值 value，它控制 model 上的 <code>create</code> 和 <code>update</code> 操作的時間戳是否發生。預設value 是<code>true</code>。</p><h5 id="config-active-record-partial-inserts"><a class="anchorlink" href="#config-active-record-partial-inserts">3.7.16 <code>config.active_record.partial_inserts</code></a></h5><p>是一個布林值 value 並控制在建立新記錄時是否使用部分寫入（即是否僅插入與預設值不同的設定屬性）。預設value 是<code>true</code>。</p><h5 id="config-active-record-partial-updates"><a class="anchorlink" href="#config-active-record-partial-updates">3.7.17 <code>config.active_record.partial_updates</code></a></h5><p>是一個布林值 value 並控制在更新現有記錄時是否使用部分寫入（即是否只更新設定的髒屬性）。請注意，在使用部分更新時，您還應該使用樂觀鎖定 <code>config.active_record.lock_optimistically</code>，因為併發更新可能會根據可能過時的讀取狀態寫入屬性。預設value 是<code>true</code>。</p><h5 id="config-active-record-maintain-test-schema"><a class="anchorlink" href="#config-active-record-maintain-test-schema">3.7.18 <code>config.active_record.maintain_test_schema</code></a></h5><p>是一個布林值value，它控制Active Record 在您執行測試時是否應該嘗試使用<code>db/schema.rb</code>（或<code>db/structure.sql</code>）使您的測試資料庫架構保持最新。預設值為<code>true</code>。</p><h5 id="config-active-record-dump-schema-after-migration"><a class="anchorlink" href="#config-active-record-dump-schema-after-migration">3.7.19 <code>config.active_record.dump_schema_after_migration</code></a></h5><p>是控制是否應該發生模式轉儲的標誌
+（<code>db/schema.rb</code> 或 <code>db/structure.sql</code>）當您執行 migrations 時。這設定為
+<code>config/environments/production.rb</code> 中的 <code>false</code> 由 Rails 生成。這
+如果未設定此配置，則預設 value 為 <code>true</code>。</p><h5 id="config-active-record-dump-schemas"><a class="anchorlink" href="#config-active-record-dump-schemas">3.7.20 <code>config.active_record.dump_schemas</code></a></h5><p>控制呼叫<code>db:schema:dump</code> 時將轉儲哪些資料庫模式。
+選項是<code>:schema_search_path</code>（預設），它轉儲<code>schema_search_path</code> 中列出的任何模式，
+<code>:all</code> 總是轉儲所有模式，而不管 <code>schema_search_path</code>，
+或一串逗號分隔的模式。</p><h5 id="config-active-record-belongs-to-required-by-default"><a class="anchorlink" href="#config-active-record-belongs-to-required-by-default">3.7.21 <code>config.active_record.belongs_to_required_by_default</code></a></h5><p>是一個布林值 value 並控制記錄是否未能透過驗證，如果
+<code>belongs_to</code> association 不存在。</p><h5 id="config-active-record-action-on-strict-loading-violation"><a class="anchorlink" href="#config-active-record-action-on-strict-loading-violation">3.7.22 <code>config.active_record.action_on_strict_loading_violation</code></a></h5><p>如果strict_loading 被設定在一個
+association。所有環境中的預設value 都是<code>:raise</code>。有可能
+更改為 <code>:log</code> 以將違規傳送到記錄器而不是引發。</p><h5 id="config-active-record-strict-loading-by-default"><a class="anchorlink" href="#config-active-record-strict-loading-by-default">3.7.23 <code>config.active_record.strict_loading_by_default</code></a></h5><p>是一個布林值value，它透過以下方式啟用或禁用嚴格載入模式
+預設。預設為<code>false</code>。</p><h5 id="config-active-record-warn-on-records-fetched-greater-than"><a class="anchorlink" href="#config-active-record-warn-on-records-fetched-greater-than">3.7.24 <code>config.active_record.warn_on_records_fetched_greater_than</code></a></h5><p>允許為查詢結果大小設定警告閾值。如果數量
+查詢返回的記錄超過閾值，將記錄警告。這個
+可用於識別可能導致記憶體膨脹的查詢。</p><h5 id="config-active-record-index-nested-attribute-errors"><a class="anchorlink" href="#config-active-record-index-nested-attribute-errors">3.7.25 <code>config.active_record.index_nested_attribute_errors</code></a></h5><p>允許使用索引顯示巢狀 <code>has_many</code> 關係的錯誤
+以及錯誤。預設為<code>false</code>。</p><h5 id="config-active-record-use-schema-cache-dump"><a class="anchorlink" href="#config-active-record-use-schema-cache-dump">3.7.26 <code>config.active_record.use_schema_cache_dump</code></a></h5><p>使使用者能夠從<code>db/schema_cache.yml</code> 獲取架構快取資訊
+（由<code>bin/rails db:schema:cache:dump</code> 生成），而不必傳送
+查詢資料庫以獲取此資訊。預設為<code>true</code>。</p><h5 id="config-active-record-cache-versioning"><a class="anchorlink" href="#config-active-record-cache-versioning">3.7.27 <code>config.active_record.cache_versioning</code></a></h5><p>指示是否使用穩定的<code>#cache_key</code> 方法，並伴隨
+在<code>#cache_version</code> 方法中更改版本。</p><h5 id="config-active-record-collection-cache-versioning"><a class="anchorlink" href="#config-active-record-collection-cache-versioning">3.7.28 <code>config.active_record.collection_cache_versioning</code></a></h5><p>當物件被快取的型別時啟用相同的快取key
+<code>ActiveRecord::Relation</code> 透過移動易失性資訊（最大
+將關係的快取 key 的更新時間和計數更新到快取版本中
+支援回收快取key。</p><h5 id="config-active-record-has-many-inversing"><a class="anchorlink" href="#config-active-record-has-many-inversing">3.7.29 <code>config.active_record.has_many_inversing</code></a></h5><p>啟用在遍歷<code>belongs_to</code> 到<code>has_many</code> 時設定反向記錄
+associations。</p><h5 id="config-active-record-legacy-connection-handling"><a class="anchorlink" href="#config-active-record-legacy-connection-handling">3.7.30 <code>config.active_record.legacy_connection_handling</code></a></h5><p>允許啟用新的連線處理 API。對於使用多個
+資料庫，這個新的 API 提供了對細粒度連線交換的支援。</p><h5 id="config-active-record-destroy-association-async-job"><a class="anchorlink" href="#config-active-record-destroy-association-async-job">3.7.31 <code>config.active_record.destroy_association_async_job</code></a></h5><p>允許指定將用於在後臺銷燬關聯記錄的作業。預設為<code>ActiveRecord::DestroyAssociationAsyncJob</code>。</p><h5 id="config-active-record-queues-destroy"><a class="anchorlink" href="#config-active-record-queues-destroy">3.7.32 <code>config.active_record.queues.destroy</code></a></h5><p>允許指定用於銷燬作業的活動作業佇列。當此選項為@{<em>0} 時，清除作業將傳送到預設的活動作業佇列（請參閱`config.active</em>job.default_queue_name`）。預設為@{_0}。</p><h5 id="config-active-record-enumerate-columns-in-select-statements"><a class="anchorlink" href="#config-active-record-enumerate-columns-in-select-statements">3.7.33 <code>config.active_record.enumerate_columns_in_select_statements</code></a></h5><p>當為 true 時，將始終在 <code>SELECT</code> 語句中包含列名，並避免萬用字元 <code>SELECT * FROM ...</code> 查詢。例如，這可以避免在將列新增到 PostgreSQL 資料庫時出現準備好的語句快取錯誤。預設為<code>false</code>。</p><h5 id="config-active-record-destroy-all-in-batches"><a class="anchorlink" href="#config-active-record-destroy-all-in-batches">3.7.34 <code>config.active_record.destroy_all_in_batches</code></a></h5><p>確保<code>ActiveRecord::Relation#destroy_all</code> 執行記錄的刪除
+批次。 <code>ActiveRecord::Relation#destroy_all</code> 將不再返回集合
+啟用此選項後刪除的記錄。</p><h5 id="config-active-record-verify-foreign-keys-for-fixtures"><a class="anchorlink" href="#config-active-record-verify-foreign-keys-for-fixtures">3.7.35 <code>config.active_record.verify_foreign_keys_for_fixtures</code></a></h5><p>在測試中載入夾具後，確保所有外部 key 約束都有效。僅受 PostgreSQL 和 SQLite 支援。預設為<code>false</code>。</p><h5 id="config-active-record-query-log-tags-enabled"><a class="anchorlink" href="#config-active-record-query-log-tags-enabled">3.7.36 <code>config.active_record.query_log_tags_enabled</code></a></h5><p>指定是否啟用介面卡級查詢註釋。預設為
+<code>false</code>。</p><h5 id="config-active-record-query-log-tags"><a class="anchorlink" href="#config-active-record-query-log-tags">3.7.37 <code>config.active_record.query_log_tags</code></a></h5><p>定義一個<code>Array</code> 指定要插入到 SQL 中的 key/value 標籤
+評論。預設為<code>[ :application ]</code>，一個預定義的標籤返回
+應用名稱。</p><h5 id="config-active-record-cache-query-log-tags"><a class="anchorlink" href="#config-active-record-cache-query-log-tags">3.7.38 <code>config.active_record.cache_query_log_tags</code></a></h5><p>指定是否啟用查詢日誌標籤的快取。對於應用
+有大量查詢，快取查詢日誌標籤可以提供一個
+當上下文在生命週期內沒有改變時的效能優勢
+請求或作業執行。預設為<code>false</code>。</p><h5 id="config-active-record-schema-cache-ignored-tables"><a class="anchorlink" href="#config-active-record-schema-cache-ignored-tables">3.7.39 <code>config.active_record.schema_cache_ignored_tables</code></a></h5><p>定義生成模式時應忽略的表列表
+快取。它接受一個<code>Array</code> 的字串，代表表名，或者
+常用表達。</p><h5 id="activerecord-connectionadapters-mysql2adapter-emulate-booleans"><a class="anchorlink" href="#activerecord-connectionadapters-mysql2adapter-emulate-booleans">3.7.40 <code>ActiveRecord::ConnectionAdapters::Mysql2Adapter.emulate_booleans</code></a></h5><p>控制Active Record MySQL 介面卡是否將所有<code>tinyint(1)</code> 列視為布林值。預設為<code>true</code>。</p><h5 id="activerecord-connectionadapters-postgresqladapter-create-unlogged-table"><a class="anchorlink" href="#activerecord-connectionadapters-postgresqladapter-create-unlogged-table">3.7.41 <code>ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.create_unlogged_table</code></a></h5><p>控制 PostgreSQL 建立的資料庫表是否應該“unlogged”，這可以加快
+提高效能，但如果資料庫崩潰會增加資料丟失的風險。這是
+強烈建議您不要在生產環境中啟用此功能。
+在所有環境中預設為 <code>false</code>。</p><h5 id="activerecord-connectionadapters-postgresqladapter-datetime-type"><a class="anchorlink" href="#activerecord-connectionadapters-postgresqladapter-datetime-type">3.7.42 <code>ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.datetime_type</code></a></h5><p>控制 Active Record PostgreSQL 介面卡在呼叫 <code>datetime</code> 時應使用的本機型別
+migration 或模式。它需要一個symbol，它必須對應於
+配置<code>NATIVE_DATABASE_TYPES</code>。預設是<code>:timestamp</code>，意思是
+migration 中的<code>t.datetime</code> 將建立一個“沒有時區的時間戳”列。
+要使用“帶時區的時間戳”，請將其更改為 <code>:timestamptz</code>
+初始化程式。您應該執行 <code>bin/rails db:migrate</code> 來重建您的 schema.rb
+如果你改變這一點。</p><h5 id="activerecord-schemadumper-ignore-tables"><a class="anchorlink" href="#activerecord-schemadumper-ignore-tables">3.7.43 <code>ActiveRecord::SchemaDumper.ignore_tables</code></a></h5><p>接受不應_包含在任何生成的架構檔案中的表陣列。</p><h5 id="activerecord-schemadumper-fk-ignore-pattern"><a class="anchorlink" href="#activerecord-schemadumper-fk-ignore-pattern">3.7.44 <code>ActiveRecord::SchemaDumper.fk_ignore_pattern</code></a></h5><p>允許設定一個不同的正則表示式，用於決定
+是否應將外部key 的名稱轉儲到 db/schema.rb。經過
+預設情況下，以<code>fk_rails_</code> 開頭的外部key 名稱不會匯出到
+資料庫模式轉儲。預設為<code>/^fk_rails_[0-9a-f]{10}$/</code>。</p><h4 id="action-controller"><a class="anchorlink" href="#action-controller">3.8 配置Action Controller</a></h4><p><code>config.action_controller</code> 包括許多配置設定：</p><h5 id="config-action-controller-asset-host"><a class="anchorlink" href="#config-action-controller-asset-host">3.8.1 <code>config.action_controller.asset_host</code></a></h5><p>設定資產的主機。當 CDN 用於託管資產而不是應用程式伺服器本身時很有用。只有在Action Mailer 的配置不同時才應該使用它，否則使用<code>config.asset_host</code>。</p><h5 id="config-action-controller-perform-caching"><a class="anchorlink" href="#config-action-controller-perform-caching">3.8.2 <code>config.action_controller.perform_caching</code></a></h5><p>配置應用程式是否應執行Action Controller 元件提供的快取功能。在開發環境中設定為<code>false</code>，在生產環境中設定為@{<em>1}。如果未指定，則預設為@{</em>1}。</p><h5 id="config-action-controller-default-static-extension"><a class="anchorlink" href="#config-action-controller-default-static-extension">3.8.3 <code>config.action_controller.default_static_extension</code></a></h5><p>配置用於快取頁面的擴充套件。預設為<code>.html</code>。</p><h5 id="config-action-controller-include-all-helpers"><a class="anchorlink" href="#config-action-controller-include-all-helpers">3.8.4 <code>config.action_controller.include_all_helpers</code></a></h5><p>配置所有檢視helpers 是在任何地方都可用還是範圍為相應的controller。如果設定為@{<em>0}，則@{<em>1} 方法僅可用於作為<code>UsersController</code> 一部分呈現的views。如果@{_3}，@{</em>1} 方法隨處可用。預設配置行為（當此選項未明確設定為@{</em>3} 或@{_0} 時）是所有檢視helpers 對每個controller 都可用。</p><h5 id="config-action-controller-logger"><a class="anchorlink" href="#config-action-controller-logger">3.8.5 <code>config.action_controller.logger</code></a></h5><p>接受符合 Log4r 介面或預設Ruby Logger 類的記錄器，然後用於記錄來自Action Controller 的資訊。設定為<code>nil</code> 以禁用日誌記錄。</p><h5 id="config-action-controller-request-forgery-protection-token"><a class="anchorlink" href="#config-action-controller-request-forgery-protection-token">3.8.6 <code>config.action_controller.request_forgery_protection_token</code></a></h5><p>為 RequestForgery 設定 token 引數名稱。預設情況下，呼叫<code>protect_from_forgery</code> 會將其設定為<code>:authenticity_token</code>。</p><h5 id="config-action-controller-allow-forgery-protection"><a class="anchorlink" href="#config-action-controller-allow-forgery-protection">3.8.7 <code>config.action_controller.allow_forgery_protection</code></a></h5><p>啟用或禁用 CSRF 保護。預設情況下，這是測試環境中的 <code>false</code> 和所有其他環境中的 <code>true</code>。</p><h5 id="config-action-controller-forgery-protection-origin-check"><a class="anchorlink" href="#config-action-controller-forgery-protection-origin-check">3.8.8 <code>config.action_controller.forgery_protection_origin_check</code></a></h5><p>配置是否應根據站點的來源檢查 HTTP <code>Origin</code> 標頭作為額外的 CSRF 防禦。</p><h5 id="config-action-controller-per-form-csrf-tokens"><a class="anchorlink" href="#config-action-controller-per-form-csrf-tokens">3.8.9 <code>config.action_controller.per_form_csrf_tokens</code></a></h5><p>配置 CSRF tokens 是否僅對它們生成的方法/action 有效。</p><h5 id="config-action-controller-default-protect-from-forgery"><a class="anchorlink" href="#config-action-controller-default-protect-from-forgery">3.8.10 <code>config.action_controller.default_protect_from_forgery</code></a></h5><p>確定是否在<code>ActionController::Base</code> 上添加了偽造保護。</p><h5 id="config-action-controller-urlsafe-csrf-tokens"><a class="anchorlink" href="#config-action-controller-urlsafe-csrf-tokens">3.8.11 <code>config.action_controller.urlsafe_csrf_tokens</code></a></h5><p>配置生成的 CSRF tokens 是否是 URL 安全的。</p><h5 id="config-action-controller-relative-url-root"><a class="anchorlink" href="#config-action-controller-relative-url-root">3.8.12 <code>config.action_controller.relative_url_root</code></a></h5><p>可用於告訴 Rails 您正在<a href="configuring.html#deploy-to-a-subdirectory-relative-url-root">部署到子目錄</a>。預設值為<code>ENV['RAILS_RELATIVE_URL_ROOT']</code>。</p><h5 id="config-action-controller-permit-all-parameters"><a class="anchorlink" href="#config-action-controller-permit-all-parameters">3.8.13 <code>config.action_controller.permit_all_parameters</code></a></h5><p>將所有的質量分配引數設定為預設允許。預設value 是<code>false</code>。</p><h5 id="config-action-controller-action-on-unpermitted-parameters"><a class="anchorlink" href="#config-action-controller-action-on-unpermitted-parameters">3.8.14 <code>config.action_controller.action_on_unpermitted_parameters</code></a></h5><p>控制發現未明確允許的引數時的行為。在測試和開發環境中預設值為<code>:log</code>，否則為<code>false</code>。 values 可以是：</p>
+<ul>
+<li>
+<code>false</code> 不帶action</li>
+<li>
+<code>:log</code> 在<code>unpermitted_parameters.action_controller</code> 主題上發出<code>ActiveSupport::Notifications.instrument</code> 事件並在除錯級別記錄</li>
+<li>
+<code>:raise</code> 引發<code>ActionController::UnpermittedParameters</code> 異常</li>
+</ul>
+<h5 id="config-action-controller-always-permitted-parameters"><a class="anchorlink" href="#config-action-controller-always-permitted-parameters">3.8.15 <code>config.action_controller.always_permitted_parameters</code></a></h5><p>設定預設允許的允許引數列表。預設values 是<code>['controller', 'action']</code>。</p><h5 id="config-action-controller-enable-fragment-cache-logging"><a class="anchorlink" href="#config-action-controller-enable-fragment-cache-logging">3.8.16 <code>config.action_controller.enable_fragment_cache_logging</code></a></h5><p>確定是否以詳細格式記錄片段快取讀取和寫入，如下所示：</p><div class="code_container">
+<pre><code class="highlight plaintext">Read fragment views/v1/2914079/v1/2914079/recordings/70182313-20160225015037000000/d0bdf2974e1ef6d31685c3b392ad0b74 (0.6ms)
+Rendered messages/_message.html.erb in 1.2 ms [cache hit]
+Write fragment views/v1/2914079/v1/2914079/recordings/70182313-20160225015037000000/3b4e249ac9d168c617e32e84b99218b5 (1.1ms)
+Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Read fragment views/v1/2914079/v1/2914079/recordings/70182313-20160225015037000000/d0bdf2974e1ef6d31685c3b392ad0b74 (0.6ms)
+Rendered messages/_message.html.erb in 1.2 ms [cache hit]
+Write fragment views/v1/2914079/v1/2914079/recordings/70182313-20160225015037000000/3b4e249ac9d168c617e32e84b99218b5 (1.1ms)
+Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
+">Copy</button>
+</div>
+<p>預設情況下，它被設定為 <code>false</code> 這會導致以下輸出：</p><div class="code_container">
+<pre><code class="highlight plaintext">Rendered messages/_message.html.erb in 1.2 ms [cache hit]
+Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rendered messages/_message.html.erb in 1.2 ms [cache hit]
+Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
+">Copy</button>
+</div>
+<h5 id="config-action-controller-raise-on-open-redirects"><a class="anchorlink" href="#config-action-controller-raise-on-open-redirects">3.8.17 <code>config.action_controller.raise_on_open_redirects</code></a></h5><p>發生未經許可的開放重定向時引發 <code>ArgumentError</code>。預設value 是<code>false</code>。</p><h5 id="config-action-controller-log-query-tags-around-actions"><a class="anchorlink" href="#config-action-controller-log-query-tags-around-actions">3.8.18 <code>config.action_controller.log_query_tags_around_actions</code></a></h5><p>確定查詢標籤的controller 上下文是否會自動
+透過<code>around_filter</code> 更新。預設value 是<code>true</code>。</p><h4 id="action"><a class="anchorlink" href="#action">3.9 配置 Action 排程</a></h4><h5 id="config-action-dispatch-session-store"><a class="anchorlink" href="#config-action-dispatch-session-store">3.9.1 <code>config.action_dispatch.session_store</code></a></h5><p>設定session 資料的儲存名稱。預設為<code>:cookie_store</code>；其他有效選項包括<code>:active_record_store</code>、<code>:mem_cache_store</code> 或您自己的自定義類的名稱。</p><h5 id="config-action-dispatch-default-headers"><a class="anchorlink" href="#config-action-dispatch-default-headers">3.9.2 <code>config.action_dispatch.default_headers</code></a></h5><p>是帶有 HTTP 標頭的雜湊，預設情況下在每個響應中設定。預設情況下，這被定義為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_dispatch</span><span class="p">.</span><span class="nf">default_headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'X-Frame-Options'</span> <span class="o">=&gt;</span> <span class="s1">'SAMEORIGIN'</span><span class="p">,</span>
+  <span class="s1">'X-XSS-Protection'</span> <span class="o">=&gt;</span> <span class="s1">'1; mode=block'</span><span class="p">,</span>
+  <span class="s1">'X-Content-Type-Options'</span> <span class="o">=&gt;</span> <span class="s1">'nosniff'</span><span class="p">,</span>
+  <span class="s1">'X-Download-Options'</span> <span class="o">=&gt;</span> <span class="s1">'noopen'</span><span class="p">,</span>
+  <span class="s1">'X-Permitted-Cross-Domain-Policies'</span> <span class="o">=&gt;</span> <span class="s1">'none'</span><span class="p">,</span>
+  <span class="s1">'Referrer-Policy'</span> <span class="o">=&gt;</span> <span class="s1">'strict-origin-when-cross-origin'</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_dispatch.default_headers = {
+  'X-Frame-Options' =&gt; 'SAMEORIGIN',
+  'X-XSS-Protection' =&gt; '1; mode=block',
+  'X-Content-Type-Options' =&gt; 'nosniff',
+  'X-Download-Options' =&gt; 'noopen',
+  'X-Permitted-Cross-Domain-Policies' =&gt; 'none',
+  'Referrer-Policy' =&gt; 'strict-origin-when-cross-origin'
+}
+">Copy</button>
+</div>
+<h5 id="config-action-dispatch-default-charset"><a class="anchorlink" href="#config-action-dispatch-default-charset">3.9.3 <code>config.action_dispatch.default_charset</code></a></h5><p>指定所有渲染的預設字符集。預設為<code>nil</code>。</p><h5 id="config-action-dispatch-tld-length"><a class="anchorlink" href="#config-action-dispatch-tld-length">3.9.4 <code>config.action_dispatch.tld_length</code></a></h5><p>設定應用程式的 TLD（頂級域）長度。預設為<code>1</code>。</p><h5 id="config-action-dispatch-ignore-accept-header"><a class="anchorlink" href="#config-action-dispatch-ignore-accept-header">3.9.5 <code>config.action_dispatch.ignore_accept_header</code></a></h5><p>用於確定是否忽略來自請求的接受標頭。預設為<code>false</code>。</p><h5 id="config-action-dispatch-x-sendfile-header"><a class="anchorlink" href="#config-action-dispatch-x-sendfile-header">3.9.6 <code>config.action_dispatch.x_sendfile_header</code></a></h5><p>指定伺服器特定的 X-Sendfile 標頭。這對於從伺服器傳送加速檔案很有用。例如，它可以設定為 Apache 的“X-Sendfile”。</p><h5 id="config-action-dispatch-http-auth-salt"><a class="anchorlink" href="#config-action-dispatch-http-auth-salt">3.9.7 <code>config.action_dispatch.http_auth_salt</code></a></h5><p>設定 HTTP Auth salt value。預設值
+到<code>'http authentication'</code>。</p><h5 id="config-action-dispatch-signed-cookie-salt"><a class="anchorlink" href="#config-action-dispatch-signed-cookie-salt">3.9.8 <code>config.action_dispatch.signed_cookie_salt</code></a></h5><p>設定簽名的cookies 鹽value。
+預設為<code>'signed cookie'</code>。</p><h5 id="config-action-dispatch-encrypted-cookie-salt"><a class="anchorlink" href="#config-action-dispatch-encrypted-cookie-salt">3.9.9 <code>config.action_dispatch.encrypted_cookie_salt</code></a></h5><p>設定加密的cookies salt value。預設為<code>'encrypted cookie'</code>。</p><h5 id="config-action-dispatch-encrypted-signed-cookie-salt"><a class="anchorlink" href="#config-action-dispatch-encrypted-signed-cookie-salt">3.9.10 <code>config.action_dispatch.encrypted_signed_cookie_salt</code></a></h5><p>設定簽名加密cookies salt value。預設為“簽名加密”
+cookie'`。</p><h5 id="config-action-dispatch-authenticated-encrypted-cookie-salt"><a class="anchorlink" href="#config-action-dispatch-authenticated-encrypted-cookie-salt">3.9.11 <code>config.action_dispatch.authenticated_encrypted_cookie_salt</code></a></h5><p>設定經過身份驗證的加密cookie 鹽。預設為“已認證”
+加密cookie'`。</p><h5 id="config-action-dispatch-encrypted-cookie-cipher"><a class="anchorlink" href="#config-action-dispatch-encrypted-cookie-cipher">3.9.12 <code>config.action_dispatch.encrypted_cookie_cipher</code></a></h5><p>設定用於加密cookies 的密碼。這預設為
+<code>"aes-256-gcm"</code>。</p><h5 id="config-action-dispatch-signed-cookie-digest"><a class="anchorlink" href="#config-action-dispatch-signed-cookie-digest">3.9.13 <code>config.action_dispatch.signed_cookie_digest</code></a></h5><p>設定用於簽名cookies 的摘要。預設為<code>"SHA1"</code>。</p><h5 id="config-action-dispatch-cookies-rotations"><a class="anchorlink" href="#config-action-dispatch-cookies-rotations">3.9.14 <code>config.action_dispatch.cookies_rotations</code></a></h5><p>允許輪換加密和簽名cookies 的秘密、密碼和摘要。</p><h5 id="config-action-dispatch-use-authenticated-cookie-encryption"><a class="anchorlink" href="#config-action-dispatch-use-authenticated-cookie-encryption">3.9.15 <code>config.action_dispatch.use_authenticated_cookie_encryption</code></a></h5><p>控制簽名和加密的cookies 是使用 AES-256-GCM 密碼還是
+較舊的 AES-256-CBC 密碼。預設為<code>true</code>。</p><h5 id="config-action-dispatch-use-cookies-with-metadata"><a class="anchorlink" href="#config-action-dispatch-use-cookies-with-metadata">3.9.16 <code>config.action_dispatch.use_cookies_with_metadata</code></a></h5><p>啟用嵌入目的元資料的寫入cookies。它預設為
+<code>true</code>。</p><h5 id="config-action-dispatch-perform-deep-munge"><a class="anchorlink" href="#config-action-dispatch-perform-deep-munge">3.9.17 <code>config.action_dispatch.perform_deep_munge</code></a></h5><p>配置是否應對引數執行<code>deep_munge</code> 方法。
+更多資訊請參見<a href="security.html#unsafe-query-generation">安全指南</a>
+資訊。預設為<code>true</code>。</p><h5 id="config-action-dispatch-rescue-responses"><a class="anchorlink" href="#config-action-dispatch-rescue-responses">3.9.18 <code>config.action_dispatch.rescue_responses</code></a></h5><p>配置分配給 HTTP 狀態的異常。它接受一個雜湊，您可以指定成對的異常/狀態。預設情況下，這被定義為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_dispatch</span><span class="p">.</span><span class="nf">rescue_responses</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'ActionController::RoutingError'</span>
+    <span class="o">=&gt;</span> <span class="ss">:not_found</span><span class="p">,</span>
+  <span class="s1">'AbstractController::ActionNotFound'</span>
+    <span class="o">=&gt;</span> <span class="ss">:not_found</span><span class="p">,</span>
+  <span class="s1">'ActionController::MethodNotAllowed'</span>
+    <span class="o">=&gt;</span> <span class="ss">:method_not_allowed</span><span class="p">,</span>
+  <span class="s1">'ActionController::UnknownHttpMethod'</span>
+    <span class="o">=&gt;</span> <span class="ss">:method_not_allowed</span><span class="p">,</span>
+  <span class="s1">'ActionController::NotImplemented'</span>
+    <span class="o">=&gt;</span> <span class="ss">:not_implemented</span><span class="p">,</span>
+  <span class="s1">'ActionController::UnknownFormat'</span>
+    <span class="o">=&gt;</span> <span class="ss">:not_acceptable</span><span class="p">,</span>
+  <span class="s1">'ActionController::InvalidAuthenticityToken'</span>
+    <span class="o">=&gt;</span> <span class="ss">:unprocessable_entity</span><span class="p">,</span>
+  <span class="s1">'ActionController::InvalidCrossOriginRequest'</span>
+    <span class="o">=&gt;</span> <span class="ss">:unprocessable_entity</span><span class="p">,</span>
+  <span class="s1">'ActionDispatch::Http::Parameters::ParseError'</span>
+    <span class="o">=&gt;</span> <span class="ss">:bad_request</span><span class="p">,</span>
+  <span class="s1">'ActionController::BadRequest'</span>
+    <span class="o">=&gt;</span> <span class="ss">:bad_request</span><span class="p">,</span>
+  <span class="s1">'ActionController::ParameterMissing'</span>
+    <span class="o">=&gt;</span> <span class="ss">:bad_request</span><span class="p">,</span>
+  <span class="s1">'Rack::QueryParser::ParameterTypeError'</span>
+    <span class="o">=&gt;</span> <span class="ss">:bad_request</span><span class="p">,</span>
+  <span class="s1">'Rack::QueryParser::InvalidParameterError'</span>
+    <span class="o">=&gt;</span> <span class="ss">:bad_request</span><span class="p">,</span>
+  <span class="s1">'ActiveRecord::RecordNotFound'</span>
+    <span class="o">=&gt;</span> <span class="ss">:not_found</span><span class="p">,</span>
+  <span class="s1">'ActiveRecord::StaleObjectError'</span>
+    <span class="o">=&gt;</span> <span class="ss">:conflict</span><span class="p">,</span>
+  <span class="s1">'ActiveRecord::RecordInvalid'</span>
+    <span class="o">=&gt;</span> <span class="ss">:unprocessable_entity</span><span class="p">,</span>
+  <span class="s1">'ActiveRecord::RecordNotSaved'</span>
+    <span class="o">=&gt;</span> <span class="ss">:unprocessable_entity</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_dispatch.rescue_responses = {
+  'ActionController::RoutingError'
+    =&gt; :not_found,
+  'AbstractController::ActionNotFound'
+    =&gt; :not_found,
+  'ActionController::MethodNotAllowed'
+    =&gt; :method_not_allowed,
+  'ActionController::UnknownHttpMethod'
+    =&gt; :method_not_allowed,
+  'ActionController::NotImplemented'
+    =&gt; :not_implemented,
+  'ActionController::UnknownFormat'
+    =&gt; :not_acceptable,
+  'ActionController::InvalidAuthenticityToken'
+    =&gt; :unprocessable_entity,
+  'ActionController::InvalidCrossOriginRequest'
+    =&gt; :unprocessable_entity,
+  'ActionDispatch::Http::Parameters::ParseError'
+    =&gt; :bad_request,
+  'ActionController::BadRequest'
+    =&gt; :bad_request,
+  'ActionController::ParameterMissing'
+    =&gt; :bad_request,
+  'Rack::QueryParser::ParameterTypeError'
+    =&gt; :bad_request,
+  'Rack::QueryParser::InvalidParameterError'
+    =&gt; :bad_request,
+  'ActiveRecord::RecordNotFound'
+    =&gt; :not_found,
+  'ActiveRecord::StaleObjectError'
+    =&gt; :conflict,
+  'ActiveRecord::RecordInvalid'
+    =&gt; :unprocessable_entity,
+  'ActiveRecord::RecordNotSaved'
+    =&gt; :unprocessable_entity
+}
+">Copy</button>
+</div>
+<p>任何未配置的異常都將對映到 500 Internal Server Error。</p><h5 id="config-action-dispatch-return-only-request-media-type-on-content-type"><a class="anchorlink" href="#config-action-dispatch-return-only-request-media-type-on-content-type">3.9.19 <code>config.action_dispatch.return_only_request_media_type_on_content_type</code></a></h5><p>將<code>ActionDispatch::Request#content_type</code> 的返回value 更改為
+未經修改的 Content-Type 標頭。</p><h5 id="config-action-dispatch-cookies-same-site-protection"><a class="anchorlink" href="#config-action-dispatch-cookies-same-site-protection">3.9.20 <code>config.action_dispatch.cookies_same_site_protection</code></a></h5><p>設定cookies 時配置<code>SameSite</code> 屬性的預設value。
+設定為<code>nil</code> 時，不會新增<code>SameSite</code> 屬性。為了允許value
+根據請求動態配置的<code>SameSite</code> 屬性，一個
+可以指定proc。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_dispatch</span><span class="p">.</span><span class="nf">cookies_same_site_protection</span> <span class="o">=</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="k">do</span>
+  <span class="ss">:strict</span> <span class="k">unless</span> <span class="n">request</span><span class="p">.</span><span class="nf">user_agent</span> <span class="o">==</span> <span class="s2">"TestAgent"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.action_dispatch.cookies_same_site_protection = -&gt;(request) do
+  :strict unless request.user_agent == "TestAgent"
+end
+'>Copy</button>
+</div>
+<h5 id="config-action-dispatch-ssl-default-redirect-status"><a class="anchorlink" href="#config-action-dispatch-ssl-default-redirect-status">3.9.21 <code>config.action_dispatch.ssl_default_redirect_status</code></a></h5><p>配置重定向非 GET/HEAD 時使用的預設 HTTP 狀態程式碼
+<code>ActionDispatch::SSL</code> 中介軟體中從 HTTP 到 HTTPS 的請求。預設值
+到 <a href="https://tools.ietf.org/html/rfc7538">https://tools.ietf.org/html/rfc7538</a> 中定義的<code>308</code>。</p><h5 id="config-action-dispatch-log-rescued-responses"><a class="anchorlink" href="#config-action-dispatch-log-rescued-responses">3.9.22 <code>config.action_dispatch.log_rescued_responses</code></a></h5><p>啟用記錄<code>rescue_responses</code> 中配置的那些未處理的異常。它
+預設為<code>true</code>。</p><h5 id="actiondispatch-callbacks-before"><a class="anchorlink" href="#actiondispatch-callbacks-before">3.9.23 <code>ActionDispatch::Callbacks.before</code></a></h5><p>在請求之前執行一段程式碼。</p><h5 id="actiondispatch-callbacks-after"><a class="anchorlink" href="#actiondispatch-callbacks-after">3.9.24 <code>ActionDispatch::Callbacks.after</code></a></h5><p>在請求之後執行一段程式碼。</p><h4 id="action-view"><a class="anchorlink" href="#action-view">3.10 配置Action View</a></h4><p><code>config.action_view</code> 包含少量配置設定：</p><h5 id="config-action-view-cache-template-loading"><a class="anchorlink" href="#config-action-view-cache-template-loading">3.10.1 <code>config.action_view.cache_template_loading</code></a></h5><p>控制是否應在每個請求上重新載入模板。預設為<code>config.cache_classes</code> 的任何設定。</p><h5 id="config-action-view-field-error-proc"><a class="anchorlink" href="#config-action-view-field-error-proc">3.10.2 <code>config.action_view.field_error_proc</code></a></h5><p>提供用於顯示來自Active Model 的錯誤的 HTML 生成器。預設是</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">html_tag</span><span class="p">,</span> <span class="n">instance</span><span class="o">|</span>
+  <span class="sx">%Q(&lt;div class="field_with_errors"&gt;</span><span class="si">#{</span><span class="n">html_tag</span><span class="si">}</span><span class="sx">&lt;/div&gt;)</span><span class="p">.</span><span class="nf">html_safe</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Proc.new do |html_tag, instance|
+  %Q(&lt;div class="field_with_errors"&gt;#{html_tag}&lt;/div&gt;).html_safe
+end
+'>Copy</button>
+</div>
+<h5 id="config-action-view-default-form-builder"><a class="anchorlink" href="#config-action-view-default-form-builder">3.10.3 <code>config.action_view.default_form_builder</code></a></h5><p>告訴 Rails 預設使用哪個表單構建器。預設是
+<code>ActionView::Helpers::FormBuilder</code>。如果您希望表單生成器類是
+初始化後加載（因此在開發中的每個請求都會重新載入），
+您可以將其作為<code>String</code> 傳遞。</p><h5 id="config-action-view-logger"><a class="anchorlink" href="#config-action-view-logger">3.10.4 <code>config.action_view.logger</code></a></h5><p>接受符合 Log4r 介面或預設Ruby Logger 類的記錄器，然後用於記錄來自Action View 的資訊。設定為<code>nil</code> 以禁用日誌記錄。</p><h5 id="config-action-view-erb-trim-mode"><a class="anchorlink" href="#config-action-view-erb-trim-mode">3.10.5 <code>config.action_view.erb_trim_mode</code></a></h5><p>給出 ERB 使用的修剪模式。它預設為<code>'-'</code>，在使用<code>&lt;%= -%&gt;</code> 或<code>&lt;%= =%&gt;</code> 時開啟尾空格和換行的修剪。有關詳細資訊，請參閱 <a href="http://www.kuwata-lab.com/erubis/users-guide.06.html#topics-trimspaces">Erubis 文件</a>。</p><h5 id="config-action-view-embed-authenticity-token-in-remote-forms"><a class="anchorlink" href="#config-action-view-embed-authenticity-token-in-remote-forms">3.10.6 <code>config.action_view.embed_authenticity_token_in_remote_forms</code></a></h5><p>允許您在表單中為 <code>authenticity_token</code> 設定預設行為
+<code>remote: true</code>。預設設定為<code>false</code>，這意味著遠端表單
+不會包含<code>authenticity_token</code>，這在您
+片段快取表單。遠端表單從<code>meta</code> 獲取真實性
+標籤，所以嵌入是不必要的，除非你支援沒有
+JavaScript。在這種情況下，您可以將 <code>authenticity_token: true</code> 作為
+表單選項或將此配置設定設定為<code>true</code>。</p><h5 id="config-action-view-prefix-partial-path-with-controller-namespace"><a class="anchorlink" href="#config-action-view-prefix-partial-path-with-controller-namespace">3.10.7 <code>config.action_view.prefix_partial_path_with_controller_namespace</code></a></h5><p>確定是否從名稱空間controllers 呈現的模板中的子目錄中查詢部分。例如，考慮一個名為 <code>Admin::ArticlesController</code> 的控制器，它呈現此模板：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="vi">@article</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= render @article %&gt;
+">Copy</button>
+</div>
+<p>預設設定是<code>true</code>，它使用<code>/admin/articles/_article.erb</code> 處的部分。將value 設定為<code>false</code> 將呈現<code>/articles/_article.erb</code>，這與從非名稱空間controller（例如<code>ArticlesController</code>）呈現的行為相同。</p><h5 id="config-action-view-automatically-disable-submit-tag"><a class="anchorlink" href="#config-action-view-automatically-disable-submit-tag">3.10.8 <code>config.action_view.automatically_disable_submit_tag</code></a></h5><p>確定<code>submit_tag</code> 是否應在點選時自動禁用，這
+預設為<code>true</code>。</p><h5 id="config-action-view-debug-missing-translation"><a class="anchorlink" href="#config-action-view-debug-missing-translation">3.10.9 <code>config.action_view.debug_missing_translation</code></a></h5><p>確定是否將缺少的翻譯 key 包裝在 <code>&lt;span&gt;</code> 標籤中。預設為<code>true</code>。</p><h5 id="config-action-view-form-with-generates-remote-forms"><a class="anchorlink" href="#config-action-view-form-with-generates-remote-forms">3.10.10 <code>config.action_view.form_with_generates_remote_forms</code></a></h5><p>確定<code>form_with</code> 是否生成遠端表單。</p><h5 id="config-action-view-form-with-generates-ids"><a class="anchorlink" href="#config-action-view-form-with-generates-ids">3.10.11 <code>config.action_view.form_with_generates_ids</code></a></h5><p>確定 <code>form_with</code> 是否在輸入上生成 id。</p><h5 id="config-action-view-default-enforce-utf8"><a class="anchorlink" href="#config-action-view-default-enforce-utf8">3.10.12 <code>config.action_view.default_enforce_utf8</code></a></h5><p>確定是否生成帶有隱藏標記的表單，該標記強制舊版本的 Internet Explorer 提交以 UTF-8 編碼的表單。預設為<code>false</code>。</p><h5 id="config-action-view-image-loading"><a class="anchorlink" href="#config-action-view-image-loading">3.10.13 <code>config.action_view.image_loading</code></a></h5><p>為@{<em>2} helper 呈現的@{_1} 標記的<code>loading</code> 屬性指定預設value。例如，當設定為<code>"lazy"</code>時，@{_2}渲染的@{_1}標籤會包含<code>loading="lazy"</code>，它[指示瀏覽器等待圖片靠近view埠時載入它]（<a href="https://html.spec.whatwg.org/#lazy-loading-attributes%EF%BC%89%E3%80%82">https://html.spec.whatwg.org/#lazy-loading-attributes）。</a> （這個value 仍然可以透過傳遞例如<code>loading: "eager"</code> 到@{</em>2} 來覆蓋每個影象。）預設為<code>nil</code>。</p><h5 id="config-action-view-image-decoding"><a class="anchorlink" href="#config-action-view-image-decoding">3.10.14 <code>config.action_view.image_decoding</code></a></h5><p>為<code>image_tag</code> helper 呈現的<code>&lt;img&gt;</code> 標記的<code>decoding</code> 屬性指定預設value。預設為<code>nil</code>。</p><h5 id="config-action-view-annotate-rendered-view-with-filenames"><a class="anchorlink" href="#config-action-view-annotate-rendered-view-with-filenames">3.10.15 <code>config.action_view.annotate_rendered_view_with_filenames</code></a></h5><p>確定是否使用模板檔名註釋呈現的view。預設為<code>false</code>。</p><h5 id="config-action-view-preload-links-header"><a class="anchorlink" href="#config-action-view-preload-links-header">3.10.16 <code>config.action_view.preload_links_header</code></a></h5><p>確定<code>javascript_include_tag</code> 和<code>stylesheet_link_tag</code> 是否會生成預載入資產的<code>Link</code> 標頭。</p><h5 id="config-action-view-button-to-generates-button-tag"><a class="anchorlink" href="#config-action-view-button-to-generates-button-tag">3.10.17 <code>config.action_view.button_to_generates_button_tag</code></a></h5><p>確定<code>button_to</code> 是否將呈現<code>&lt;button&gt;</code> 元素，無論內容是作為第一個引數傳遞還是作為塊傳遞。</p><h5 id="config-action-view-apply-stylesheet-media-default"><a class="anchorlink" href="#config-action-view-apply-stylesheet-media-default">3.10.18 <code>config.action_view.apply_stylesheet_media_default</code></a></h5><p>確定<code>stylesheet_link_tag</code> 是否將<code>screen</code> 呈現為屬性<code>media</code> 未提供時的預設value。</p><h4 id="action-mailbox"><a class="anchorlink" href="#action-mailbox">3.11 配置Action Mailbox</a></h4><p><code>config.action_mailbox</code> 提供以下配置選項：</p><h5 id="config-action-mailbox-logger"><a class="anchorlink" href="#config-action-mailbox-logger">3.11.1 <code>config.action_mailbox.logger</code></a></h5><p>包含Action Mailbox 使用的記錄器。它接受符合 Log4r 介面或預設 Ruby Logger 類的記錄器。預設值為<code>Rails.logger</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailbox</span><span class="p">.</span><span class="nf">logger</span> <span class="o">=</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_mailbox.logger = ActiveSupport::Logger.new(STDOUT)
+">Copy</button>
+</div>
+<h5 id="config-action-mailbox-incinerate-after"><a class="anchorlink" href="#config-action-mailbox-incinerate-after">3.11.2 <code>config.action_mailbox.incinerate_after</code></a></h5><p>接受<code>ActiveSupport::Duration</code> 指示處理<code>ActionMailbox::InboundEmail</code> 記錄後應銷燬多長時間。預設為<code>30.days</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Incinerate inbound emails 14 days after processing.</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailbox</span><span class="p">.</span><span class="nf">incinerate_after</span> <span class="o">=</span> <span class="mi">14</span><span class="p">.</span><span class="nf">days</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Incinerate inbound emails 14 days after processing.
+config.action_mailbox.incinerate_after = 14.days
+">Copy</button>
+</div>
+<h5 id="config-action-mailbox-queues-incineration"><a class="anchorlink" href="#config-action-mailbox-queues-incineration">3.11.3 <code>config.action_mailbox.queues.incineration</code></a></h5><p>接受symbol 指示用於焚化作業的活動作業佇列。當此選項為<code>nil</code> 時，焚燒作業將傳送到預設的活動作業佇列（請參閱<code>config.active_job.default_queue_name</code>）。</p><h5 id="config-action-mailbox-queues-routing"><a class="anchorlink" href="#config-action-mailbox-queues-routing">3.11.4 <code>config.action_mailbox.queues.routing</code></a></h5><p>接受 symbol 指示用於路由作業的活動作業佇列。當此選項為<code>nil</code> 時，路由作業將傳送到預設的活動作業佇列（請參閱<code>config.active_job.default_queue_name</code>）。</p><h5 id="config-action-mailbox-storage-service"><a class="anchorlink" href="#config-action-mailbox-storage-service">3.11.5 <code>config.action_mailbox.storage_service</code></a></h5><p>接受symbol 指示用於上傳電子郵件的Active Storage 服務。當此選項為<code>nil</code> 時，電子郵件將上傳到預設的Active Storage 服務（請參閱<code>config.active_storage.service</code>）。</p><h4 id="action-mailer"><a class="anchorlink" href="#action-mailer">3.12 配置Action Mailer</a></h4><p><code>config.action_mailer</code> 上有許多可用的設定：</p><h5 id="config-action-mailer-asset-host"><a class="anchorlink" href="#config-action-mailer-asset-host">3.12.1 <code>config.action_mailer.asset_host</code></a></h5><p>設定資產的主機。當 CDN 用於託管資產而不是應用程式伺服器本身時很有用。只有在Action Controller 的配置不同時才應該使用它，否則使用<code>config.asset_host</code>。</p><h5 id="config-action-mailer-logger"><a class="anchorlink" href="#config-action-mailer-logger">3.12.2 <code>config.action_mailer.logger</code></a></h5><p>接受符合 Log4r 介面或預設Ruby Logger 類的記錄器，然後用於記錄來自Action Mailer 的資訊。設定為<code>nil</code> 以禁用日誌記錄。</p><h5 id="config-action-mailer-smtp-settings"><a class="anchorlink" href="#config-action-mailer-smtp-settings">3.12.3 <code>config.action_mailer.smtp_settings</code></a></h5><p>允許對<code>:smtp</code> 傳遞方法進行詳細配置。它接受選項的雜湊，其中可以包括以下任何選項：</p>
+<ul>
+<li>
+<code>:address</code> - 允許您使用遠端郵件伺服器。只需將其從預設的“localhost”設定更改即可。</li>
+<li>
+<code>:port</code> - 如果您的郵件伺服器不在埠 25 上執行，您可以更改它。</li>
+<li>
+<code>:domain</code> - 如果您需要指定 HELO 域，可以在此處進行。</li>
+<li>
+<code>:user_name</code> - 如果您的郵件伺服器需要身份驗證，請在此設定中設定使用者名稱。</li>
+<li>
+<code>:password</code> - 如果您的郵件伺服器需要身份驗證，請在此設定中設定密碼。</li>
+<li>
+<code>:authentication</code> - 如果您的郵件伺服器需要身份驗證，則需要在此處指定身份驗證型別。這是symbol 和<code>:plain</code>、<code>:login</code>、<code>:cram_md5</code> 之一。</li>
+<li>
+<code>:enable_starttls_auto</code> - 檢測您的 SMTP 伺服器中是否啟用了 STARTTLS 並開始使用它。預設為<code>true</code>。</li>
+<li>
+<code>:openssl_verify_mode</code> - 使用 TLS 時，您可以設定 OpenSSL 檢查證書的方式。如果您需要驗證自簽名和/或萬用字元證書，這將非常有用。這可以是 OpenSSL 驗證常量之一，<code>:none</code> 或 <code>:peer</code> -- 或直接分別為 <code>OpenSSL::SSL::VERIFY_NONE</code> 或 <code>OpenSSL::SSL::VERIFY_PEER</code> 的常量。</li>
+<li>
+<code>:ssl/:tls</code> - 啟用 SMTP 連線以使用 SMTP/TLS（SMTPS：透過直接 TLS 連線的 SMTP）。</li>
+<li>
+<code>:open_timeout</code> - 嘗試開啟連線時等待的秒數。</li>
+<li>
+<code>:read_timeout</code> - 等待 read(2) 呼叫超時的秒數。</li>
+</ul>
+<h5 id="config-action-mailer-smtp-timeout"><a class="anchorlink" href="#config-action-mailer-smtp-timeout">3.12.4 <code>config.action_mailer.smtp_timeout</code></a></h5><p>允許同時配置<code>:open_timeout</code> 和<code>:read_timeout</code>
+values 用於<code>:smtp</code> 交付方式。</p><h5 id="config-action-mailer-sendmail-settings"><a class="anchorlink" href="#config-action-mailer-sendmail-settings">3.12.5 <code>config.action_mailer.sendmail_settings</code></a></h5><p>允許對<code>sendmail</code> 傳遞方法進行詳細配置。它接受選項的雜湊，其中可以包括以下任何選項：</p>
+<ul>
+<li>
+<code>:location</code> - sendmail 可執行檔案的位置。預設為<code>/usr/sbin/sendmail</code>。</li>
+<li>
+<code>:arguments</code> - 命令列引數。預設為<code>-i</code>。</li>
+</ul>
+<h5 id="config-action-mailer-raise-delivery-errors"><a class="anchorlink" href="#config-action-mailer-raise-delivery-errors">3.12.6 <code>config.action_mailer.raise_delivery_errors</code></a></h5><p>指定在無法完成電子郵件傳遞時是否引發錯誤。預設為<code>true</code>。</p><h5 id="config-action-mailer-delivery-method"><a class="anchorlink" href="#config-action-mailer-delivery-method">3.12.7 <code>config.action_mailer.delivery_method</code></a></h5><p>定義交付方式，預設為<code>:smtp</code>。有關詳細資訊，請參閱Action Mailer 指南中的 <a href="action_mailer_basics.html#action-mailer-configuration">配置部分</a>。</p><h5 id="config-action-mailer-perform-deliveries"><a class="anchorlink" href="#config-action-mailer-perform-deliveries">3.12.8 <code>config.action_mailer.perform_deliveries</code></a></h5><p>指定郵件是否將被實際傳送，預設情況下為 true。可以方便地將其設定為<code>false</code> 進行測試。</p><h5 id="config-action-mailer-default-options"><a class="anchorlink" href="#config-action-mailer-default-options">3.12.9 <code>config.action_mailer.default_options</code></a></h5><p>配置Action Mailer 預設值。用於為每個郵件程式設定 <code>from</code> 或 <code>reply_to</code> 等選項。這些預設為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="ss">mime_version:  </span><span class="s2">"1.0"</span><span class="p">,</span>
+<span class="ss">charset:       </span><span class="s2">"UTF-8"</span><span class="p">,</span>
+<span class="ss">content_type: </span><span class="s2">"text/plain"</span><span class="p">,</span>
+<span class="ss">parts_order:  </span><span class="p">[</span><span class="s2">"text/plain"</span><span class="p">,</span> <span class="s2">"text/enriched"</span><span class="p">,</span> <span class="s2">"text/html"</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='mime_version:  "1.0",
+charset:       "UTF-8",
+content_type: "text/plain",
+parts_order:  ["text/plain", "text/enriched", "text/html"]
+'>Copy</button>
+</div>
+<p>分配雜湊以設定其他選項：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">default_options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">from: </span><span class="s2">"noreply@example.com"</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.action_mailer.default_options = {
+  from: "noreply@example.com"
+}
+'>Copy</button>
+</div>
+<h5 id="config-action-mailer-observers"><a class="anchorlink" href="#config-action-mailer-observers">3.12.10 <code>config.action_mailer.observers</code></a></h5><p>註冊觀察者，郵件送達時將收到通知。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">observers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"MailObserver"</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.action_mailer.observers = ["MailObserver"]
+'>Copy</button>
+</div>
+<h5 id="config-action-mailer-interceptors"><a class="anchorlink" href="#config-action-mailer-interceptors">3.12.11 <code>config.action_mailer.interceptors</code></a></h5><p>註冊將在傳送郵件之前呼叫的攔截器。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">interceptors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"MailInterceptor"</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.action_mailer.interceptors = ["MailInterceptor"]
+'>Copy</button>
+</div>
+<h5 id="config-action-mailer-preview-interceptors"><a class="anchorlink" href="#config-action-mailer-preview-interceptors">3.12.12 <code>config.action_mailer.preview_interceptors</code></a></h5><p>註冊將在郵件預view之前呼叫的攔截器。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">preview_interceptors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"MyPreviewMailInterceptor"</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.action_mailer.preview_interceptors = ["MyPreviewMailInterceptor"]
+'>Copy</button>
+</div>
+<h5 id="config-action-mailer-preview-path"><a class="anchorlink" href="#config-action-mailer-preview-path">3.12.13 <code>config.action_mailer.preview_path</code></a></h5><p>指定郵件程式 previews 的位置。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">preview_path</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="s2">/lib/mailer_previews"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.action_mailer.preview_path = "#{Rails.root}/lib/mailer_previews"
+'>Copy</button>
+</div>
+<h5 id="config-action-mailer-show-previews"><a class="anchorlink" href="#config-action-mailer-show-previews">3.12.14 <code>config.action_mailer.show_previews</code></a></h5><p>啟用或禁用郵件程式 previews。預設情況下，這是開發中的<code>true</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_mailer</span><span class="p">.</span><span class="nf">show_previews</span> <span class="o">=</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_mailer.show_previews = false
+">Copy</button>
+</div>
+<h5 id="config-action-mailer-deliver-later-queue-name"><a class="anchorlink" href="#config-action-mailer-deliver-later-queue-name">3.12.15 <code>config.action_mailer.deliver_later_queue_name</code></a></h5><p>指定用於傳送作業的活動作業佇列。當此選項設定為<code>nil</code> 時，交付作業將傳送到預設的活動作業佇列（請參閱<code>config.active_job.default_queue_name</code>）。確保您的 Active Job 介面卡也配置為處理指定的佇列，否則交付作業可能會被靜默忽略。</p><h5 id="config-action-mailer-perform-caching"><a class="anchorlink" href="#config-action-mailer-perform-caching">3.12.16 <code>config.action_mailer.perform_caching</code></a></h5><p>指定郵件程式模板是否應執行片段快取。如果未指定，則預設為<code>true</code>。</p><h5 id="config-action-mailer-delivery-job"><a class="anchorlink" href="#config-action-mailer-delivery-job">3.12.17 <code>config.action_mailer.delivery_job</code></a></h5><p>指定郵件的傳遞作業。</p><h4 id="active-support"><a class="anchorlink" href="#active-support">3.13 配置 Active Support</a></h4><p>Active Support 中有幾個可用的配置選項：</p><h5 id="config-active-support-bare"><a class="anchorlink" href="#config-active-support-bare">3.13.1 <code>config.active_support.bare</code></a></h5><p>在引導 Rails 時啟用或禁用 @{<em>0} 的載入。預設為<code>nil</code>，這意味著@{</em>0} 已載入。</p><h5 id="config-active-support-test-order"><a class="anchorlink" href="#config-active-support-test-order">3.13.2 <code>config.active_support.test_order</code></a></h5><p>設定測試用例的執行順序。可能的values 是@{<em>0} 和<code>:sorted</code>。預設為@{</em>0}。</p><h5 id="config-active-support-escape-html-entities-in-json"><a class="anchorlink" href="#config-active-support-escape-html-entities-in-json">3.13.3 <code>config.active_support.escape_html_entities_in_json</code></a></h5><p>啟用或禁用 JSON 序列化中 HTML 實體的轉義。預設為<code>true</code>。</p><h5 id="config-active-support-use-standard-json-time-format"><a class="anchorlink" href="#config-active-support-use-standard-json-time-format">3.13.4 <code>config.active_support.use_standard_json_time_format</code></a></h5><p>啟用或禁用將日期序列化為 ISO 8601 格式。預設為<code>true</code>。</p><h5 id="config-active-support-time-precision"><a class="anchorlink" href="#config-active-support-time-precision">3.13.5 <code>config.active_support.time_precision</code></a></h5><p>設定 JSON 編碼時間 values 的精度。預設為<code>3</code>。</p><h5 id="config-active-support-hash-digest-class"><a class="anchorlink" href="#config-active-support-hash-digest-class">3.13.6 <code>config.active_support.hash_digest_class</code></a></h5><p>允許配置摘要類以用於生成非敏感摘要，例如 ETag 標頭。</p><h5 id="config-active-support-key-generator-hash-digest-class"><a class="anchorlink" href="#config-active-support-key-generator-hash-digest-class">3.13.7 <code>config.active_support.key_generator_hash_digest_class</code></a></h5><p>允許配置摘要類以用於從配置的秘密庫派生秘密，例如加密cookies。</p><h5 id="config-active-support-use-authenticated-message-encryption"><a class="anchorlink" href="#config-active-support-use-authenticated-message-encryption">3.13.8 <code>config.active_support.use_authenticated_message_encryption</code></a></h5><p>指定是否使用 AES-256-GCM 認證加密作為預設密碼來加密訊息而不是 AES-256-CBC。</p><h5 id="config-active-support-cache-format-version"><a class="anchorlink" href="#config-active-support-cache-format-version">3.13.9 <code>config.active_support.cache_format_version</code></a></h5><p>指定要使用的快取序列化程式的版本。可能的values 是<code>6.1</code> 和<code>7.0</code>。</p><h5 id="config-active-support-deprecation"><a class="anchorlink" href="#config-active-support-deprecation">3.13.10 <code>config.active_support.deprecation</code></a></h5><p>配置棄用警告的行為。選項為<code>:raise</code>、@{_1}、<code>:log</code>、<code>:notify</code> 或<code>:silence</code>。預設值為@{_1}。或者，您可以設定<code>ActiveSupport::Deprecation.behavior</code>。</p><h5 id="config-active-support-disallowed-deprecation"><a class="anchorlink" href="#config-active-support-disallowed-deprecation">3.13.11 <code>config.active_support.disallowed_deprecation</code></a></h5><p>配置不允許的棄用警告的行為。選項為@{<em>0}、<code>:stderr</code>、<code>:log</code>、<code>:notify</code> 或<code>:silence</code>。預設值為@{_0}。或者，您可以設定`ActiveSupport::Deprecation.disallowed</em>behavior`。</p><h5 id="config-active-support-disallowed-deprecation-warnings"><a class="anchorlink" href="#config-active-support-disallowed-deprecation-warnings">3.13.12 <code>config.active_support.disallowed_deprecation_warnings</code></a></h5><p>配置應用程式認為不允許的棄用警告。例如，這允許將特定的棄用視為硬故障。或者，您可以設定<code>ActiveSupport::Deprecation.disallowed_warnings</code>。</p><h5 id="config-active-support-report-deprecations"><a class="anchorlink" href="#config-active-support-report-deprecations">3.13.13 <code>config.active_support.report_deprecations</code></a></h5><p>允許您禁用所有棄用警告（包括不允許的棄用）；它使<code>ActiveSupport::Deprecation.warn</code> 成為空操作。這在生產中預設啟用。</p><h5 id="activesupport-logger-silencer"><a class="anchorlink" href="#activesupport-logger-silencer">3.13.14 <code>ActiveSupport::Logger.silencer</code></a></h5><p>設定為<code>false</code> 以禁用在塊中靜音記錄的功能。預設值為<code>true</code>。</p><h5 id="activesupport-cache-store-logger"><a class="anchorlink" href="#activesupport-cache-store-logger">3.13.15 <code>ActiveSupport::Cache::Store.logger</code></a></h5><p>指定要在快取儲存操作中使用的記錄器。</p><h5 id="activesupport-utc-to-local-returns-utc-offset-times"><a class="anchorlink" href="#activesupport-utc-to-local-returns-utc-offset-times">3.13.16 <code>ActiveSupport.utc_to_local_returns_utc_offset_times</code></a></h5><p>配置<code>ActiveSupport::TimeZone.utc_to_local</code> 以返回一個 UTC 時間
+偏移量而不是包含該偏移量的 UTC 時間。</p><h4 id=""><a class="anchorlink" href="#">3.14 配置活動作業</a></h4><p><code>config.active_job</code> 提供以下配置選項：</p><h5 id="config-active-job-queue-adapter"><a class="anchorlink" href="#config-active-job-queue-adapter">3.14.1 <code>config.active_job.queue_adapter</code></a></h5><p>設定佇列後端的介面卡。預設介面卡是<code>:async</code>。有關內建介面卡的最新列表，請參閱 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveJob/QueueAdapters.html">ActiveJob::QueueAdapters API 文件</a>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Be sure to have the adapter's gem in your Gemfile</span>
+<span class="c1"># and follow the adapter's specific installation</span>
+<span class="c1"># and deployment instructions.</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_job</span><span class="p">.</span><span class="nf">queue_adapter</span> <span class="o">=</span> <span class="ss">:sidekiq</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Be sure to have the adapter's gem in your Gemfile
+# and follow the adapter's specific installation
+# and deployment instructions.
+config.active_job.queue_adapter = :sidekiq
+">Copy</button>
+</div>
+<h5 id="config-active-job-default-queue-name"><a class="anchorlink" href="#config-active-job-default-queue-name">3.14.2 <code>config.active_job.default_queue_name</code></a></h5><p>可用於更改預設佇列名稱。預設情況下這是<code>"default"</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_job</span><span class="p">.</span><span class="nf">default_queue_name</span> <span class="o">=</span> <span class="ss">:medium_priority</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_job.default_queue_name = :medium_priority
+">Copy</button>
+</div>
+<h5 id="config-active-job-queue-name-prefix"><a class="anchorlink" href="#config-active-job-queue-name-prefix">3.14.3 <code>config.active_job.queue_name_prefix</code></a></h5><p>允許您為所有作業設定可選的非空佇列名稱字首。預設情況下它是空白的，不使用。</p><p>在生產中執行時，以下配置會將給定的作業排隊到 <code>production_high_priority</code> 佇列中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_job</span><span class="p">.</span><span class="nf">queue_name_prefix</span> <span class="o">=</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">env</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_job.queue_name_prefix = Rails.env
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">GuestsCleanupJob</span> <span class="o">&lt;</span> <span class="no">ActiveJob</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">queue_as</span> <span class="ss">:high_priority</span>
+  <span class="c1">#....</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class GuestsCleanupJob &lt; ActiveJob::Base
+  queue_as :high_priority
+  #....
+end
+">Copy</button>
+</div>
+<h5 id="config-active-job-queue-name-delimiter"><a class="anchorlink" href="#config-active-job-queue-name-delimiter">3.14.4 <code>config.active_job.queue_name_delimiter</code></a></h5><p>預設value 為<code>'_'</code>。如果設定了<code>queue_name_prefix</code>，則<code>queue_name_delimiter</code> 連線字首和非字首佇列名稱。</p><p>以下配置將在<code>video_server.low_priority</code> 佇列中對提供的作業進行排隊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># prefix must be set for delimiter to be used</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_job</span><span class="p">.</span><span class="nf">queue_name_prefix</span> <span class="o">=</span> <span class="s1">'video_server'</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_job</span><span class="p">.</span><span class="nf">queue_name_delimiter</span> <span class="o">=</span> <span class="s1">'.'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# prefix must be set for delimiter to be used
+config.active_job.queue_name_prefix = 'video_server'
+config.active_job.queue_name_delimiter = '.'
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">EncoderJob</span> <span class="o">&lt;</span> <span class="no">ActiveJob</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">queue_as</span> <span class="ss">:low_priority</span>
+  <span class="c1">#....</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class EncoderJob &lt; ActiveJob::Base
+  queue_as :low_priority
+  #....
+end
+">Copy</button>
+</div>
+<h5 id="config-active-job-logger"><a class="anchorlink" href="#config-active-job-logger">3.14.5 <code>config.active_job.logger</code></a></h5><p>接受符合 Log4r 介面或預設 Ruby Logger 類的記錄器，然後用於記錄來自 Active Job 的資訊。您可以透過在 Active Job 類或 Active Job 例項上呼叫 <code>logger</code> 來檢索此記錄器。設定為<code>nil</code> 以禁用日誌記錄。</p><h5 id="config-active-job-custom-serializers"><a class="anchorlink" href="#config-active-job-custom-serializers">3.14.6 <code>config.active_job.custom_serializers</code></a></h5><p>允許設定自定義引數序列化程式。預設為<code>[]</code>。</p><h5 id="config-active-job-log-arguments"><a class="anchorlink" href="#config-active-job-log-arguments">3.14.7 <code>config.active_job.log_arguments</code></a></h5><p>控制是否記錄作業的引數。預設為<code>true</code>。</p><h5 id="config-active-job-retry-jitter"><a class="anchorlink" href="#config-active-job-retry-jitter">3.14.8 <code>config.active_job.retry_jitter</code></a></h5><p>控制應用於重試失敗作業時計算的延遲時間的“抖動”（隨機變化）量。</p><h5 id="config-active-job-skip-after-callbacks-if-terminated"><a class="anchorlink" href="#config-active-job-skip-after-callbacks-if-terminated">3.14.9 <code>config.active_job.skip_after_callbacks_if_terminated</code></a></h5><p>控制<code>after_enqueue</code> / <code>after_perform</code> callbacks 是否在
+<code>before_enqueue</code> / <code>before_perform</code> callback 以<code>throw :abort</code> 停止。</p><h5 id="config-active-job-log-query-tags-around-perform"><a class="anchorlink" href="#config-active-job-log-query-tags-around-perform">3.14.10 <code>config.active_job.log_query_tags_around_perform</code></a></h5><p>確定查詢標籤的作業上下文是否將透過以下方式自動更新
+一個<code>around_perform</code>。預設value 是<code>true</code>。</p><h4 id="action-cable"><a class="anchorlink" href="#action-cable">3.15 配置 Action Cable</a></h4><h5 id="config-action-cable-url"><a class="anchorlink" href="#config-action-cable-url">3.15.1 <code>config.action_cable.url</code></a></h5><p>接受您託管 Action Cable 的 URL 的字串
+伺服器。如果您正在執行 Action Cable 伺服器，您可以使用此選項
+與您的主應用程式分開。</p><h5 id="config-action-cable-mount-path"><a class="anchorlink" href="#config-action-cable-mount-path">3.15.2 <code>config.action_cable.mount_path</code></a></h5><p>接受作為主伺服器一部分的 Action Cable 掛載位置的字串
+過程。預設為<code>/cable</code>。您可以將其設定為 nil 以不掛載 Action
+電纜作為普通 Rails 伺服器的一部分。</p><p>您可以在
+<a href="action_cable_overview.html#configuration">Action Cable Overview</a>。</p><h4 id="active-storage"><a class="anchorlink" href="#active-storage">3.16 配置Active Storage</a></h4><p><code>config.active_storage</code> 提供以下配置選項：</p><h5 id="config-active-storage-variant-processor"><a class="anchorlink" href="#config-active-storage-variant-processor">3.16.1 <code>config.active_storage.variant_processor</code></a></h5><p>接受symbol @{<em>0} 或<code>:vips</code>，指定是使用MiniMagick 還是ruby-vips 執行變體轉換和blob 分析。預設值為@{</em>0}。</p><h5 id="config-active-storage-analyzers"><a class="anchorlink" href="#config-active-storage-analyzers">3.16.2 <code>config.active_storage.analyzers</code></a></h5><p>接受指示可用於Active Storage blob 的分析器的類陣列。
+預設情況下，這被定義為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">analyzers</span> <span class="o">=</span> <span class="p">[</span><span class="no">ActiveStorage</span><span class="o">::</span><span class="no">Analyzer</span><span class="o">::</span><span class="no">ImageAnalyzer</span><span class="o">::</span><span class="no">Vips</span><span class="p">,</span> <span class="no">ActiveStorage</span><span class="o">::</span><span class="no">Analyzer</span><span class="o">::</span><span class="no">ImageAnalyzer</span><span class="o">::</span><span class="no">ImageMagick</span><span class="p">,</span> <span class="no">ActiveStorage</span><span class="o">::</span><span class="no">Analyzer</span><span class="o">::</span><span class="no">VideoAnalyzer</span><span class="p">,</span> <span class="no">ActiveStorage</span><span class="o">::</span><span class="no">Analyzer</span><span class="o">::</span><span class="no">AudioAnalyzer</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.analyzers = [ActiveStorage::Analyzer::ImageAnalyzer::Vips, ActiveStorage::Analyzer::ImageAnalyzer::ImageMagick, ActiveStorage::Analyzer::VideoAnalyzer, ActiveStorage::Analyzer::AudioAnalyzer]
+">Copy</button>
+</div>
+<p>影象分析器可以提取影象 blob 的寬度和高度；影片分析器可以提取影片塊的影片/音訊通道的寬度、高度、持續時間、角度、縱橫比和存在/不存在；音訊分析器可以提取音訊 blob 的持續時間和位元率。</p><h5 id="config-active-storage-previewers"><a class="anchorlink" href="#config-active-storage-previewers">3.16.3 <code>config.active_storage.previewers</code></a></h5><p>接受一組類，指示Active Storage blob 中可用的影象預view。
+預設情況下，這被定義為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">previewers</span> <span class="o">=</span> <span class="p">[</span><span class="no">ActiveStorage</span><span class="o">::</span><span class="no">Previewer</span><span class="o">::</span><span class="no">PopplerPDFPreviewer</span><span class="p">,</span> <span class="no">ActiveStorage</span><span class="o">::</span><span class="no">Previewer</span><span class="o">::</span><span class="no">MuPDFPreviewer</span><span class="p">,</span> <span class="no">ActiveStorage</span><span class="o">::</span><span class="no">Previewer</span><span class="o">::</span><span class="no">VideoPreviewer</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.previewers = [ActiveStorage::Previewer::PopplerPDFPreviewer, ActiveStorage::Previewer::MuPDFPreviewer, ActiveStorage::Previewer::VideoPreviewer]
+">Copy</button>
+</div>
+<p><code>PopplerPDFPreviewer</code> 和<code>MuPDFPreviewer</code> 可以從PDF blob 的第一頁生成縮圖； <code>VideoPreviewer</code> 來自影片 blob 的相關幀。</p><h5 id="config-active-storage-paths"><a class="anchorlink" href="#config-active-storage-paths">3.16.4 <code>config.active_storage.paths</code></a></h5><p>接受指示 previewer/analyzer 命令位置的選項雜湊。預設值為<code>{}</code>，表示將在預設路徑中查詢命令。可以包括以下任何選項：</p>
+<ul>
+<li>
+<code>:ffprobe</code> - ffprobe 可執行檔案的位置。</li>
+<li>
+<code>:mutool</code> - mutool 可執行檔案的位置。</li>
+<li>
+<code>:ffmpeg</code> - ffmpeg 可執行檔案的位置。</li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">paths</span><span class="p">[</span><span class="ss">:ffprobe</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'/usr/local/bin/ffprobe'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.paths[:ffprobe] = '/usr/local/bin/ffprobe'
+">Copy</button>
+</div>
+<h5 id="config-active-storage-variable-content-types"><a class="anchorlink" href="#config-active-storage-variable-content-types">3.16.5 <code>config.active_storage.variable_content_types</code></a></h5><p>接受指示Active Storage 的內容型別的字串陣列
+可以透過 ImageMagick 進行轉換。
+預設情況下，這被定義為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">variable_content_types</span> <span class="o">=</span> <span class="sx">%w(image/png image/gif image/jpg image/jpeg image/pjpeg image/tiff image/bmp image/vnd.adobe.photoshop image/vnd.microsoft.icon image/webp image/avif image/heic image/heif)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.variable_content_types = %w(image/png image/gif image/jpg image/jpeg image/pjpeg image/tiff image/bmp image/vnd.adobe.photoshop image/vnd.microsoft.icon image/webp image/avif image/heic image/heif)
+">Copy</button>
+</div>
+<h5 id="config-active-storage-web-image-content-types"><a class="anchorlink" href="#config-active-storage-web-image-content-types">3.16.6 <code>config.active_storage.web_image_content_types</code></a></h5><p>接受被視為網路影象內容型別的字串陣列，其中
+可以在不轉換為備用 PNG 格式的情況下處理變體。
+如果您想在應用程式中使用 <code>WebP</code> 或 <code>AVIF</code> 變體，您可以新增
+<code>image/webp</code> 或 <code>image/avif</code> 到這個陣列。
+預設情況下，這被定義為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">web_image_content_types</span> <span class="o">=</span> <span class="sx">%w(image/png image/jpeg image/jpg image/gif)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.web_image_content_types = %w(image/png image/jpeg image/jpg image/gif)
+">Copy</button>
+</div>
+<h5 id="config-active-storage-content-types-to-serve-as-binary"><a class="anchorlink" href="#config-active-storage-content-types-to-serve-as-binary">3.16.7 <code>config.active_storage.content_types_to_serve_as_binary</code></a></h5><p>接受一個字串陣列，指示Active Storage 將始終作為附件而不是內聯的內容型別。
+預設情況下，這被定義為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">content_types_to_serve_as_binary</span> <span class="o">=</span> <span class="sx">%w(text/html text/javascript image/svg+xml application/postscript application/x-shockwave-flash text/xml application/xml application/xhtml+xml application/mathml+xml text/cache-manifest)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.content_types_to_serve_as_binary = %w(text/html text/javascript image/svg+xml application/postscript application/x-shockwave-flash text/xml application/xml application/xhtml+xml application/mathml+xml text/cache-manifest)
+">Copy</button>
+</div>
+<h5 id="config-active-storage-content-types-allowed-inline"><a class="anchorlink" href="#config-active-storage-content-types-allowed-inline">3.16.8 <code>config.active_storage.content_types_allowed_inline</code></a></h5><p>接受一個字串陣列，指示Active Storage 允許用作內聯的內容型別。
+預設情況下，這被定義為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">content_types_allowed_inline</span><span class="sb">` = %w(image/png image/gif image/jpg image/jpeg image/tiff image/bmp image/vnd.adobe.photoshop image/vnd.microsoft.icon application/pdf)
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.content_types_allowed_inline` = %w(image/png image/gif image/jpg image/jpeg image/tiff image/bmp image/vnd.adobe.photoshop image/vnd.microsoft.icon application/pdf)
+">Copy</button>
+</div>
+<h5 id="config-active-storage-queues-analysis"><a class="anchorlink" href="#config-active-storage-queues-analysis">3.16.9 <code>config.active_storage.queues.analysis</code></a></h5><p>接受symbol 指示用於分析作業的活動作業佇列。當此選項為<code>nil</code> 時，分析作業將傳送到預設的活動作業佇列（請參閱<code>config.active_job.default_queue_name</code>）。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">queues</span><span class="p">.</span><span class="nf">analysis</span> <span class="o">=</span> <span class="ss">:low_priority</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.queues.analysis = :low_priority
+">Copy</button>
+</div>
+<h5 id="config-active-storage-queues-purge"><a class="anchorlink" href="#config-active-storage-queues-purge">3.16.10 <code>config.active_storage.queues.purge</code></a></h5><p>接受symbol 指示用於清除作業的活動作業佇列。當此選項為<code>nil</code> 時，清除作業將傳送到預設的活動作業佇列（請參閱<code>config.active_job.default_queue_name</code>）。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">queues</span><span class="p">.</span><span class="nf">purge</span> <span class="o">=</span> <span class="ss">:low_priority</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.queues.purge = :low_priority
+">Copy</button>
+</div>
+<h5 id="config-active-storage-queues-mirror"><a class="anchorlink" href="#config-active-storage-queues-mirror">3.16.11 <code>config.active_storage.queues.mirror</code></a></h5><p>接受symbol 指示用於直接上傳映象作業的活動作業佇列。當此選項為@{<em>0} 時，映象作業將傳送到預設的活動作業佇列（請參閱`config.active</em>job.default_queue_name`）。預設值為@{_0}。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">queues</span><span class="p">.</span><span class="nf">mirror</span> <span class="o">=</span> <span class="ss">:low_priority</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.queues.mirror = :low_priority
+">Copy</button>
+</div>
+<h5 id="config-active-storage-logger"><a class="anchorlink" href="#config-active-storage-logger">3.16.12 <code>config.active_storage.logger</code></a></h5><p>可用於設定Active Storage 使用的記錄器。接受符合 Log4r 介面或預設 Ruby Logger 類的記錄器。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">logger</span> <span class="o">=</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.logger = ActiveSupport::Logger.new(STDOUT)
+">Copy</button>
+</div>
+<h5 id="config-active-storage-service-urls-expire-in"><a class="anchorlink" href="#config-active-storage-service-urls-expire-in">3.16.13 <code>config.active_storage.service_urls_expire_in</code></a></h5><p>確定透過以下方式生成的 URL 的預設到期時間：</p>
+<ul>
+<li><code>ActiveStorage::Blob#url</code></li>
+<li><code>ActiveStorage::Blob#service_url_for_direct_upload</code></li>
+<li><code>ActiveStorage::Variant#url</code></li>
+</ul>
+<p>預設值為 5 分鐘。</p><h5 id="config-active-storage-urls-expire-in"><a class="anchorlink" href="#config-active-storage-urls-expire-in">3.16.14 <code>config.active_storage.urls_expire_in</code></a></h5><p>確定 Active Storage 生成​​的 Rails 應用程式中 URL 的預設到期時間。預設值為 nil。</p><h5 id="config-active-storage-routes-prefix"><a class="anchorlink" href="#config-active-storage-routes-prefix">3.16.15 <code>config.active_storage.routes_prefix</code></a></h5><p>可用於為Active Storage 服務的路由設定路由字首。接受將附加到生成的路由的字串。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">routes_prefix</span> <span class="o">=</span> <span class="s1">'/files'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.routes_prefix = '/files'
+">Copy</button>
+</div>
+<p>預設值為<code>/rails/active_storage</code>。</p><h5 id="config-active-storage-replace-on-assign-to-many"><a class="anchorlink" href="#config-active-storage-replace-on-assign-to-many">3.16.16 <code>config.active_storage.replace_on_assign_to_many</code></a></h5><p>確定分配給用<code>has_many_attached</code> 宣告的附件集合是否替換任何現有附件或附加到它們。預設值為<code>true</code>。</p><h5 id="config-active-storage-track-variants"><a class="anchorlink" href="#config-active-storage-track-variants">3.16.17 <code>config.active_storage.track_variants</code></a></h5><p>確定變體是否記錄在資料庫中。預設值為<code>true</code>。</p><h5 id="config-active-storage-draw-routes"><a class="anchorlink" href="#config-active-storage-draw-routes">3.16.18 <code>config.active_storage.draw_routes</code></a></h5><p>可用於切換Active Storage 路由生成。預設值為<code>true</code>。</p><h5 id="config-active-storage-resolve-model-to-route"><a class="anchorlink" href="#config-active-storage-resolve-model-to-route">3.16.19 <code>config.active_storage.resolve_model_to_route</code></a></h5><p>可用於全域性更改Active Storage 檔案的傳送方式。</p><p>允許的values 是：</p>
+<ul>
+<li>
+<code>:rails_storage_redirect</code>：重定向到簽名的短期服務 URL。</li>
+<li>
+<code>:rails_storage_proxy</code>：透過下載代理檔案。</li>
+</ul>
+<p>預設值為<code>:rails_storage_redirect</code>。</p><h5 id="config-active-storage-video-preview-arguments"><a class="anchorlink" href="#config-active-storage-video-preview-arguments">3.16.20 <code>config.active_storage.video_preview_arguments</code></a></h5><p>可用於改變 ffmpeg 生成影片 preview 影象的方式。</p><p>預設情況下，這被定義為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_storage</span><span class="p">.</span><span class="nf">video_preview_arguments</span> <span class="o">=</span> <span class="s2">"-vf 'select=eq(n</span><span class="se">\\</span><span class="s2">,0)+eq(key</span><span class="se">\\</span><span class="s2">,1)+gt(scene</span><span class="se">\\</span><span class="s2">,0.015),loop=loop=-1:size=2,trim=start_frame=1' -frames:v 1 -f image2"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_storage.video_preview_arguments = &quot;-vf 'select=eq(n\\,0)+eq(key\\,1)+gt(scene\\,0.015),loop=loop=-1:size=2,trim=start_frame=1' -frames:v 1 -f image2&quot;
+">Copy</button>
+</div>
+<p>1.<code>select=eq(n\,0)+eq(key\,1)+gt(scene\,0.015)</code>：選擇第一個影片幀，加上key幀，加上滿足場景變化閾值的幀。
+2. <code>loop=loop=-1:size=2,trim=start_frame=1</code>：要在沒有其他幀符合條件時將第一個影片幀用作回退，請迴圈播放第一個（一個或）兩個選定的幀，然後丟棄第一個迴圈的幀。</p><h4 id="action-text"><a class="anchorlink" href="#action-text">3.17 配置Action Text</a></h4><h5 id="config-action-text-attachment-tag-name"><a class="anchorlink" href="#config-action-text-attachment-tag-name">3.17.1 <code>config.action_text.attachment_tag_name</code></a></h5><p>接受用於包裝附件的 HTML 標記的字串。預設為<code>"action-text-attachment"</code>。</p><h4 id="config-load-defaults"><a class="anchorlink" href="#config-load-defaults">3.18 <code>config.load_defaults</code> 的結果</a></h4><p><code>config.load_defaults</code> 設定新的預設值，包括傳遞的版本。這樣傳遞，比如說，<code>6.0</code> 也會從它之前的每個版本中獲得新的預設值。</p><h5 id="7-0"><a class="anchorlink" href="#7-0">3.18.1 對於“7.0”，以下為先前版本的預設值以及：</a></h5>
+<ul>
+<li>
+<code>config.action_controller.raise_on_open_redirects</code>：<code>true</code>
+</li>
+<li>
+<code>config.action_view.button_to_generates_button_tag</code>：<code>true</code>
+</li>
+<li>
+<code>config.action_view.apply_stylesheet_media_default</code>：<code>false</code>
+</li>
+<li>
+<code>config.active_support.key_generator_hash_digest_class</code>：<code>OpenSSL::Digest::SHA256</code>
+</li>
+<li>
+<code>config.active_support.hash_digest_class</code>：<code>OpenSSL::Digest::SHA256</code>
+</li>
+<li>
+<code>config.active_support.cache_format_version</code>：<code>7.0</code>
+</li>
+<li>
+<code>config.active_support.remove_deprecated_time_with_zone_name</code>：<code>true</code>
+</li>
+<li>
+<code>config.action_dispatch.return_only_request_media_type_on_content_type</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_controller.silence_disabled_session_errors</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_mailer.smtp_timeout</code>：<code>5</code>
+</li>
+<li>
+<code>config.active_storage.video_preview_arguments</code>：<code>"-vf 'select=eq(n\,0)+eq(key\,1)+gt(scene\,0.015),loop=loop=-1:size=2,trim=start_frame=1' -frames:v 1 -f image2"</code>
+</li>
+<li>
+<code>config.active_record.verify_foreign_keys_for_fixtures</code>：<code>true</code>
+</li>
+<li>
+<code>config.active_storage.variant_processor</code>：<code>:vips</code>
+</li>
+</ul>
+<h5 id="6-1"><a class="anchorlink" href="#6-1">3.18.2 對於“6.1”，以下為先前版本的預設值以及：</a></h5>
+<ul>
+<li>
+<code>config.active_record.has_many_inversing</code>：<code>true</code>
+</li>
+<li>
+<code>config.active_record.legacy_connection_handling</code>：<code>false</code>
+</li>
+<li>
+<code>config.active_storage.track_variants</code>：<code>true</code>
+</li>
+<li>
+<code>config.active_storage.queues.analysis</code>：<code>nil</code>
+</li>
+<li>
+<code>config.active_storage.queues.purge</code>：<code>nil</code>
+</li>
+<li>
+<code>config.action_mailbox.queues.incineration</code>：<code>nil</code>
+</li>
+<li>
+<code>config.action_mailbox.queues.routing</code>：<code>nil</code>
+</li>
+<li>
+<code>config.action_mailer.deliver_later_queue_name</code>：<code>nil</code>
+</li>
+<li>
+<code>config.active_job.retry_jitter</code>：<code>0.15</code>
+</li>
+<li>
+<code>config.active_job.skip_after_callbacks_if_terminated</code>：<code>true</code>
+</li>
+<li>
+<code>config.action_dispatch.cookies_same_site_protection</code>：<code>:lax</code>
+</li>
+<li>
+<code>config.action_dispatch.ssl_default_redirect_status</code> = <code>308</code>
+</li>
+<li>
+<code>ActiveSupport.utc_to_local_returns_utc_offset_times</code>：<code>true</code>
+</li>
+<li>
+<code>config.action_controller.urlsafe_csrf_tokens</code>：<code>true</code>
+</li>
+<li>
+<code>config.action_view.form_with_generates_remote_forms</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_view.preload_links_header</code>：<code>true</code>
+</li>
+</ul>
+<h5 id="6-0"><a class="anchorlink" href="#6-0">3.18.3 對於“6.0”，以下為先前版本的預設值以及：</a></h5>
+<ul>
+<li>
+<code>config.autoloader</code>：<code>:zeitwerk</code>
+</li>
+<li>
+<code>config.action_view.default_enforce_utf8</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_dispatch.use_cookies_with_metadata</code>：<code>true</code>
+</li>
+<li>
+<code>config.action_mailer.delivery_job</code>：<code>"ActionMailer::MailDeliveryJob"</code>
+</li>
+<li>
+<code>config.active_storage.queues.analysis</code>：<code>:active_storage_analysis</code>
+</li>
+<li>
+<code>config.active_storage.queues.purge</code>：<code>:active_storage_purge</code>
+</li>
+<li>
+<code>config.active_storage.replace_on_assign_to_many</code>：<code>true</code>
+</li>
+<li>
+<code>config.active_record.collection_cache_versioning</code>：<code>true</code>
+</li>
+</ul>
+<h5 id="5-2"><a class="anchorlink" href="#5-2">3.18.4 對於“5.2”，以下為先前版本的預設值以及：</a></h5>
+<ul>
+<li>
+<code>config.active_record.cache_versioning</code>：<code>true</code>
+</li>
+<li>
+<code>config.action_dispatch.use_authenticated_cookie_encryption</code>：<code>true</code>
+</li>
+<li>
+<code>config.active_support.use_authenticated_message_encryption</code>：<code>true</code>
+</li>
+<li>
+<code>config.active_support.hash_digest_class</code>：<code>OpenSSL::Digest::SHA1</code>
+</li>
+<li>
+<code>config.action_controller.default_protect_from_forgery</code>：<code>true</code>
+</li>
+<li>
+<code>config.action_view.form_with_generates_ids</code>：<code>true</code>
+</li>
+</ul>
+<h5 id="5-1"><a class="anchorlink" href="#5-1">3.18.5 對於“5.1”，以下為先前版本的預設值以及：</a></h5>
+<ul>
+<li>
+<code>config.assets.unknown_asset_fallback</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_view.form_with_generates_remote_forms</code>：<code>true</code>
+</li>
+</ul>
+<h5 id="5-0"><a class="anchorlink" href="#5-0">3.18.6 對於“5.0”，基線預設為以下和：</a></h5>
+<ul>
+<li>
+<code>config.action_controller.per_form_csrf_tokens</code>：<code>true</code>
+</li>
+<li>
+<code>config.action_controller.forgery_protection_origin_check</code>：<code>true</code>
+</li>
+<li>
+<code>ActiveSupport.to_time_preserves_timezone</code>：<code>true</code>
+</li>
+<li>
+<code>config.active_record.belongs_to_required_by_default</code>：<code>true</code>
+</li>
+<li>
+<code>config.ssl_options</code>：<code>{ hsts: { subdomains: true } }</code>
+</li>
+</ul>
+<h5 id=""><a class="anchorlink" href="#">3.18.7 基線預設值：</a></h5>
+<ul>
+<li>
+<code>config.action_controller.default_protect_from_forgery</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_controller.raise_on_open_redirects</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_controller.urlsafe_csrf_tokens</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_dispatch.cookies_same_site_protection</code>：<code>nil</code>
+</li>
+<li>
+<code>config.action_mailer.delivery_job</code>：<code>ActionMailer::DeliveryJob</code>
+</li>
+<li>
+<code>config.action_view.form_with_generates_ids</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_view.preload_links_header</code>：<code>nil</code>
+</li>
+<li>
+<code>config.action_view.button_to_generates_button_tag</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_view.apply_stylesheet_media_default</code>：<code>true</code>
+</li>
+<li>
+<code>config.active_job.retry_jitter</code>：<code>0.0</code>
+</li>
+<li>
+<code>config.active_job.skip_after_callbacks_if_terminated</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_mailbox.queues.incineration</code>：<code>:action_mailbox_incineration</code>
+</li>
+<li>
+<code>config.action_mailbox.queues.routing</code>：<code>:action_mailbox_routing</code>
+</li>
+<li>
+<code>config.action_mailer.deliver_later_queue_name</code>：<code>:mailers</code>
+</li>
+<li>
+<code>config.active_record.collection_cache_versioning</code>：<code>false</code>
+</li>
+<li>
+<code>config.active_record.cache_versioning</code>：<code>false</code>
+</li>
+<li>
+<code>config.active_record.has_many_inversing</code>：<code>false</code>
+</li>
+<li>
+<code>config.active_record.legacy_connection_handling</code>：<code>true</code>
+</li>
+<li>
+<code>config.active_support.use_authenticated_message_encryption</code>：<code>false</code>
+</li>
+<li>
+<code>config.active_support.hash_digest_class</code>：<code>OpenSSL::Digest::MD5</code>
+</li>
+<li>
+<code>config.active_support.key_generator_hash_digest_class</code>：<code>OpenSSL::Digest::SHA1</code>
+</li>
+<li>
+<code>config.active_support.cache_format_version</code>：<code>6.1</code>
+</li>
+<li>
+<code>config.action_dispatch.return_only_request_media_type_on_content_type</code>：<code>true</code>
+</li>
+<li>
+<code>ActiveSupport.utc_to_local_returns_utc_offset_times</code>：<code>false</code>
+</li>
+<li>
+<code>config.action_mailer.smtp_timeout</code>：<code>nil</code>
+</li>
+<li>
+<code>config.active_storage.video_preview_arguments</code>：<code>"-y -vframes 1 -f image2"</code>
+</li>
+<li>
+<code>config.active_storage.variant_processor</code>：<code>:mini_magick</code>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">3.19 配置資料庫</a></h4><p>幾乎每個 Rails 應用程式都會與資料庫互動。您可以透過設定環境變數<code>ENV['DATABASE_URL']</code> 或使用名為<code>config/database.yml</code> 的配置檔案連線到資料庫。</p><p>使用<code>config/database.yml</code> 檔案，您可以指定訪問資料庫所需的所有資訊：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">postgresql</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">blog_development</span>
+  <span class="na">pool</span><span class="pi">:</span> <span class="m">5</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: postgresql
+  database: blog_development
+  pool: 5
+">Copy</button>
+</div>
+<p>這將使用<code>postgresql</code> 介面卡連線到名為<code>blog_development</code> 的資料庫。相同的資訊可以儲存在 URL 中，並透過這樣的環境變數提供：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ENV</span><span class="p">[</span><span class="s1">'DATABASE_URL'</span><span class="p">]</span> <span class="c1"># =&gt; "postgresql://localhost/blog_development?pool=5"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ENV['DATABASE_URL'] # =&gt; &quot;postgresql://localhost/blog_development?pool=5&quot;
+">Copy</button>
+</div>
+<p><code>config/database.yml</code> 檔案包含 Rails 可以在其中預設執行的三種不同環境的部分：</p>
+<ul>
+<li>當您手動與應用程式互動時，<code>development</code> 環境在您的開發/本地計算機上使用。</li>
+<li>執行自動化測試時使用<code>test</code> 環境。</li>
+<li>
+<code>production</code> 環境在您部署應用程式以供全世界使用時使用。</li>
+</ul>
+<p>如果您願意，您可以在<code>config/database.yml</code> 中手動指定一個網址</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">postgresql://localhost/blog_development?pool=5</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  url: postgresql://localhost/blog_development?pool=5
+">Copy</button>
+</div>
+<p><code>config/database.yml</code> 檔案可以包含 ERB 標籤 <code>&lt;%= %&gt;</code>。標籤中的任何內容都將被評估為Ruby 程式碼。您可以使用它從環境變數中提取資料或執行計算以生成所需的連線資訊。</p><p>提示：您不必手動更新資料庫配置。如果您檢視應用程式生成器的選項，您會看到其中一個選項名為 <code>--database</code>。此選項允許您從最常用的關係資料庫列表中選擇一個介面卡。您甚至可以重複執行生成器：<code>cd .. &amp;&amp; rails new blog --database=mysql</code>。當您確認覆蓋<code>config/database.yml</code> 檔案時，您的應用程式將配置為 MySQL 而不是 SQLite。常見資料庫連線的詳細示例如下。</p><h4 id=""><a class="anchorlink" href="#">3.20 連線偏好</a></h4><p>由於有兩種方法可以配置您的連線（使用<code>config/database.yml</code> 或使用環境變數），因此瞭解它們如何互動非常重要。</p><p>如果您有一個空的 <code>config/database.yml</code> 檔案但您的 <code>ENV['DATABASE_URL']</code> 存在，那麼 Rails 將透過您的環境變數連線到資料庫：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cat </span>config/database.yml
+<span class="go">
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="nv">$DATABASE_URL</span>
+<span class="go">postgresql://localhost/my_database
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="cat config/database.yml
+echo $DATABASE_URL
+">Copy</button>
+</div>
+<p>如果您有 <code>config/database.yml</code> 但沒有 <code>ENV['DATABASE_URL']</code> 則此檔案將用於連線到您的資料庫：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cat </span>config/database.yml
+<span class="go">development:
+  adapter: postgresql
+  database: my_database
+  host: localhost
+
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="nv">$DATABASE_URL</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cat config/database.yml
+echo $DATABASE_URL
+">Copy</button>
+</div>
+<p>如果您同時設定了 <code>config/database.yml</code> 和 <code>ENV['DATABASE_URL']</code>，那麼 Rails 會將配置合併在一起。為了更好地理解這一點，我們必須看一些例子。</p><p>當提供重複的連線資訊時，環境變數將優先：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cat </span>config/database.yml
+<span class="go">development:
+  adapter: sqlite3
+  database: NOT_my_database
+  host: localhost
+
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="nv">$DATABASE_URL</span>
+<span class="go">postgresql://localhost/my_database
+
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>runner <span class="s1">'puts ActiveRecord::Base.configurations'</span>
+<span class="gp">#</span>&lt;ActiveRecord::DatabaseConfigurations:0x00007fd50e209a28&gt;
+<span class="go">
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>runner <span class="s1">'puts ActiveRecord::Base.configurations.inspect'</span>
+<span class="gp">#</span>&lt;ActiveRecord::DatabaseConfigurations:0x00007fc8eab02880 @configurations<span class="o">=[</span>
+<span class="gp">  #</span>&lt;ActiveRecord::DatabaseConfigurations::UrlConfig:0x00007fc8eab020b0
+<span class="go">    @env_name="development", @spec_name="primary",
+</span><span class="gp">    @config={"adapter"=&gt;</span><span class="s2">"postgresql"</span>, <span class="s2">"database"</span><span class="o">=&gt;</span><span class="s2">"my_database"</span>, <span class="s2">"host"</span><span class="o">=&gt;</span><span class="s2">"localhost"</span><span class="o">}</span>
+<span class="gp">    @url="postgresql://localhost/my_database"&gt;</span><span class="w">
+</span><span class="go">  ]
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="cat config/database.yml
+echo $DATABASE_URL
+bin/rails runner 'puts ActiveRecord::Base.configurations'
+bin/rails runner 'puts ActiveRecord::Base.configurations.inspect'
+">Copy</button>
+</div>
+<p>這裡介面卡、主機和資料庫匹配<code>ENV['DATABASE_URL']</code> 中的資訊。</p><p>如果提供非重複資訊，您將獲得所有唯一的values，在發生任何衝突的情況下，環境變數仍然優先。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cat </span>config/database.yml
+<span class="go">development:
+  adapter: sqlite3
+  pool: 5
+
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="nv">$DATABASE_URL</span>
+<span class="go">postgresql://localhost/my_database
+
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>runner <span class="s1">'puts ActiveRecord::Base.configurations'</span>
+<span class="gp">#</span>&lt;ActiveRecord::DatabaseConfigurations:0x00007fd50e209a28&gt;
+<span class="go">
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>runner <span class="s1">'puts ActiveRecord::Base.configurations.inspect'</span>
+<span class="gp">#</span>&lt;ActiveRecord::DatabaseConfigurations:0x00007fc8eab02880 @configurations<span class="o">=[</span>
+<span class="gp">  #</span>&lt;ActiveRecord::DatabaseConfigurations::UrlConfig:0x00007fc8eab020b0
+<span class="go">    @env_name="development", @spec_name="primary",
+</span><span class="gp">    @config={"adapter"=&gt;</span><span class="s2">"postgresql"</span>, <span class="s2">"database"</span><span class="o">=&gt;</span><span class="s2">"my_database"</span>, <span class="s2">"host"</span><span class="o">=&gt;</span><span class="s2">"localhost"</span>, <span class="s2">"pool"</span><span class="o">=&gt;</span>5<span class="o">}</span>
+<span class="gp">    @url="postgresql://localhost/my_database"&gt;</span><span class="w">
+</span><span class="go">  ]
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="cat config/database.yml
+echo $DATABASE_URL
+bin/rails runner 'puts ActiveRecord::Base.configurations'
+bin/rails runner 'puts ActiveRecord::Base.configurations.inspect'
+">Copy</button>
+</div>
+<p>由於池不在@{<em>0} 提供的連線資訊中，它的資訊被合併。由於<code>adapter</code> 是重複的，@{</em>0} 連線資訊獲勝。</p><p>明確不使用<code>ENV['DATABASE_URL']</code> 中的連線資訊的唯一方法是使用<code>"url"</code> 子key 指定顯式URL 連線：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cat </span>config/database.yml
+<span class="go">development:
+  url: sqlite3:NOT_my_database
+
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="nv">$DATABASE_URL</span>
+<span class="go">postgresql://localhost/my_database
+
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>runner <span class="s1">'puts ActiveRecord::Base.configurations'</span>
+<span class="gp">#</span>&lt;ActiveRecord::DatabaseConfigurations:0x00007fd50e209a28&gt;
+<span class="go">
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>runner <span class="s1">'puts ActiveRecord::Base.configurations.inspect'</span>
+<span class="gp">#</span>&lt;ActiveRecord::DatabaseConfigurations:0x00007fc8eab02880 @configurations<span class="o">=[</span>
+<span class="gp">  #</span>&lt;ActiveRecord::DatabaseConfigurations::UrlConfig:0x00007fc8eab020b0
+<span class="go">    @env_name="development", @spec_name="primary",
+</span><span class="gp">    @config={"adapter"=&gt;</span><span class="s2">"sqlite3"</span>, <span class="s2">"database"</span><span class="o">=&gt;</span><span class="s2">"NOT_my_database"</span><span class="o">}</span>
+<span class="gp">    @url="sqlite3:NOT_my_database"&gt;</span><span class="w">
+</span><span class="go">  ]
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="cat config/database.yml
+echo $DATABASE_URL
+bin/rails runner 'puts ActiveRecord::Base.configurations'
+bin/rails runner 'puts ActiveRecord::Base.configurations.inspect'
+">Copy</button>
+</div>
+<p>這裡忽略<code>ENV['DATABASE_URL']</code> 中的連線資訊，注意不同的介面卡和資料庫名稱。</p><p>由於可以在 <code>config/database.yml</code> 中嵌入 ERB，因此最好明確表明您正在使用 <code>ENV['DATABASE_URL']</code> 連線到資料庫。這在生產中特別有用，因為您不應將資料庫密碼之類的機密提交到原始碼控制（例如 Git）中。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cat </span>config/database.yml
+<span class="go">production:
+</span><span class="gp">  url: &lt;%= ENV['DATABASE_URL'] %&gt;</span><span class="w">
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="cat config/database.yml
+">Copy</button>
+</div>
+<p>現在行為很清楚，我們只使用<code>ENV['DATABASE_URL']</code> 中的連線資訊。</p><h5 id="sqlite3"><a class="anchorlink" href="#sqlite3">3.20.1 配置一個 SQLite3 資料庫</a></h5><p>Rails 內建了對 <a href="http://www.sqlite.org">SQLite3</a> 的支援，這是一個輕量級的無伺服器資料庫應用程式。雖然繁忙的生產環境可能會使 SQLite 過載，但它適用於開發和測試。 Rails 在建立新專案時預設使用 SQLite 資料庫，但您可以隨時更改它。</p><p>以下是包含開發環境連線資訊的預設配置檔案 (<code>config/database.yml</code>) 部分：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">sqlite3</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">db/development.sqlite3</span>
+  <span class="na">pool</span><span class="pi">:</span> <span class="m">5</span>
+  <span class="na">timeout</span><span class="pi">:</span> <span class="m">5000</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
+">Copy</button>
+</div>
+<p>注意：Rails 預設使用 SQLite3 資料庫進行資料儲存，因為它是一個可以正常工作的零配置資料庫。 Rails 還支援 MySQL（包括 MariaDB）和 PostgreSQL“開箱即用”，併為許多資料庫系統提供外掛。如果您在生產環境中使用資料庫，Rails 很可能有一個介面卡。</p><h5 id="mysql-mariadb"><a class="anchorlink" href="#mysql-mariadb">3.20.2 配置 MySQL 或 MariaDB 資料庫</a></h5><p>如果您選擇使用 MySQL 或 MariaDB 而不是附帶的 SQLite3 資料庫，您的 <code>config/database.yml</code> 看起來會有些不同。下面是開發部分：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+  <span class="na">encoding</span><span class="pi">:</span> <span class="s">utf8mb4</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">blog_development</span>
+  <span class="na">pool</span><span class="pi">:</span> <span class="m">5</span>
+  <span class="na">username</span><span class="pi">:</span> <span class="s">root</span>
+  <span class="na">password</span><span class="pi">:</span>
+  <span class="na">socket</span><span class="pi">:</span> <span class="s">/tmp/mysql.sock</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: mysql2
+  encoding: utf8mb4
+  database: blog_development
+  pool: 5
+  username: root
+  password:
+  socket: /tmp/mysql.sock
+">Copy</button>
+</div>
+<p>如果你的開發資料庫有一個密碼為空的 root 使用者，這個配置應該適合你。否則，根據需要更改<code>development</code> 部分中的使用者名稱和密碼。</p><p>注意：如果您的 MySQL 版本是 5.5 或 5.6 並且希望預設使用 <code>utf8mb4</code> 字符集，請透過啟用 <code>innodb_large_prefix</code> 系統變數來配置您的 MySQL 伺服器以支援更長的 key 字首。</p><p>建議鎖在 MySQL 上預設啟用，用於使資料庫migrations 併發安全。您可以透過將 <code>advisory_locks</code> 設定為 <code>false</code> 來禁用諮詢鎖定：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">production</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+  <span class="na">advisory_locks</span><span class="pi">:</span> <span class="no">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="production:
+  adapter: mysql2
+  advisory_locks: false
+">Copy</button>
+</div>
+<h5 id="postgresql"><a class="anchorlink" href="#postgresql">3.20.3 配置 PostgreSQL 資料庫</a></h5><p>如果您選擇使用 PostgreSQL，您的 <code>config/database.yml</code> 將被自定義為使用 PostgreSQL 資料庫：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">postgresql</span>
+  <span class="na">encoding</span><span class="pi">:</span> <span class="s">unicode</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">blog_development</span>
+  <span class="na">pool</span><span class="pi">:</span> <span class="m">5</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: postgresql
+  encoding: unicode
+  database: blog_development
+  pool: 5
+">Copy</button>
+</div>
+<p>預設情況下Active Record 使用準備好的語句和諮詢鎖等資料庫功能。如果您使用像 PgBouncer 這樣的外部連線池，您可能需要禁用這些功能：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">production</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">postgresql</span>
+  <span class="na">prepared_statements</span><span class="pi">:</span> <span class="no">false</span>
+  <span class="na">advisory_locks</span><span class="pi">:</span> <span class="no">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="production:
+  adapter: postgresql
+  prepared_statements: false
+  advisory_locks: false
+">Copy</button>
+</div>
+<p>如果啟用，預設情況下Active Record 將為每個資料庫連線建立最多<code>1000</code> 個準備好的語句。要修改此行為，您可以將 <code>statement_limit</code> 設定為不同的 value：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">production</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">postgresql</span>
+  <span class="na">statement_limit</span><span class="pi">:</span> <span class="m">200</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="production:
+  adapter: postgresql
+  statement_limit: 200
+">Copy</button>
+</div>
+<p>使用的準備語句越多：資料庫需要的記憶體就越多。如果您的 PostgreSQL 資料庫達到記憶體限制，請嘗試降低 <code>statement_limit</code> 或禁用準備好的語句。</p><h5 id="jruby-sqlite3"><a class="anchorlink" href="#jruby-sqlite3">3.20.4 為 JRuby 平臺配置 SQLite3 資料庫</a></h5><p>如果您選擇使用 SQLite3 並使用 JRuby，您的 <code>config/database.yml</code> 看起來會有些不同。下面是開發部分：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">jdbcsqlite3</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">db/development.sqlite3</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: jdbcsqlite3
+  database: db/development.sqlite3
+">Copy</button>
+</div>
+<h5 id="jruby-mysql-mariadb"><a class="anchorlink" href="#jruby-mysql-mariadb">3.20.5 為 JRuby 平臺配置 MySQL 或 MariaDB 資料庫</a></h5><p>如果您選擇使用 MySQL 或 MariaDB 並使用 JRuby，您的 <code>config/database.yml</code> 看起來會有些不同。下面是開發部分：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">jdbcmysql</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">blog_development</span>
+  <span class="na">username</span><span class="pi">:</span> <span class="s">root</span>
+  <span class="na">password</span><span class="pi">:</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: jdbcmysql
+  database: blog_development
+  username: root
+  password:
+">Copy</button>
+</div>
+<h5 id="jruby-postgresql"><a class="anchorlink" href="#jruby-postgresql">3.20.6 為 JRuby 平臺配置 PostgreSQL 資料庫</a></h5><p>如果您選擇使用 PostgreSQL 並使用 JRuby，您的 <code>config/database.yml</code> 看起來會有些不同。下面是開發部分：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">jdbcpostgresql</span>
+  <span class="na">encoding</span><span class="pi">:</span> <span class="s">unicode</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">blog_development</span>
+  <span class="na">username</span><span class="pi">:</span> <span class="s">blog</span>
+  <span class="na">password</span><span class="pi">:</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: jdbcpostgresql
+  encoding: unicode
+  database: blog_development
+  username: blog
+  password:
+">Copy</button>
+</div>
+<p>根據需要更改<code>development</code> 部分中的使用者名稱和密碼。</p><h5 id=""><a class="anchorlink" href="#">3.20.7 配置元資料儲存</a></h5><p>預設情況下，Rails 將儲存有關您的 Rails 環境和架構的資訊
+在名為<code>ar_internal_metadata</code> 的內部表中。</p><p>要按連線關閉此功能，請在您的資料庫中設定 <code>use_metadata_table</code>
+配置。這在使用共享資料庫和/或
+無法建立表的資料庫使用者。</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">postgresql</span>
+  <span class="na">use_metadata_table</span><span class="pi">:</span> <span class="no">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: postgresql
+  use_metadata_table: false
+">Copy</button>
+</div>
+<h4 id="rails"><a class="anchorlink" href="#rails">3.21 建立 Rails 環境</a></h4><p>預設情況下，Rails 附帶三個環境：“開發”、“測試”和“生產”。雖然這些對於大多數用例來說已經足夠了，但在某些情況下，您需要更多環境。</p><p>假設您有一臺伺服器，它反映了生產環境但僅用於測試。這種伺服器通常稱為“登臺伺服器”。要為此伺服器定義一個名為“staging”的環境，只需建立一個名為 <code>config/environments/staging.rb</code> 的檔案。請使用<code>config/environments</code> 中任何現有檔案的內容作為起點，並從那裡進行必要的更改。</p><p>該環境與預設環境沒有什麼不同，使用<code>bin/rails server -e staging</code> 啟動伺服器，使用<code>bin/rails console -e staging</code> 的控制檯，<code>Rails.env.staging?</code> 工作等。</p><h4 id="url"><a class="anchorlink" href="#url">3.22 部署到子目錄（相對 URL 根）</a></h4><p>預設情況下，Rails 期望您的應用程式在根目錄下執行
+（例如<code>/</code>）。本節說明如何在目錄中執行您的應用程式。</p><p>假設我們要將應用程式部署到“/app1”。 Rails 需要知道
+此目錄生成適當的路由：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">relative_url_root</span> <span class="o">=</span> <span class="s2">"/app1"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.relative_url_root = "/app1"
+'>Copy</button>
+</div>
+<p>或者你可以設定<code>RAILS_RELATIVE_URL_ROOT</code> 環境
+多變的。</p><p>Rails 現在會在生成連結時新增“/app1”。</p><h5 id=""><a class="anchorlink" href="#">3.22.1 使用乘客</a></h5><p>乘客可以輕鬆地在子目錄中執行您的應用程式。相關配置可以在【乘客手冊】(<a href="https://www.phusionpassenger.com/library/deploy/apache/deploy/ruby/#deploying-an-app-to-a-sub-uri">https://www.phusionpassenger.com/library/deploy/apache/deploy/ruby/#deploying-an-app-to-a-sub-uri</a> - 或 - 子目錄）。</p><h5 id=""><a class="anchorlink" href="#">3.22.2 使用反向代理</a></h5><p>與傳統部署相比，使用反向代理部署應用程式具有明顯的優勢。它們允許您透過對應用程式所需的元件進行分層來更好地控制伺服器。</p><p>許多現代 Web 伺服器可以用作代理伺服器來平衡第三方元素，例如快取伺服器或應用程式伺服器。</p><p>您可以使用的一種此類應用程式伺服器是 <a href="https://bogomips.org/unicorn/">Unicorn</a>，它在反向代理之後執行。</p><p>在這種情況下，您需要配置代理伺服器（NGINX、Apache 等）以接受來自應用程式伺服器（Unicorn）的連線。預設情況下，Unicorn 將偵聽埠 8080 上的 TCP 連線，但您可以更改埠或將其配置為使用 sockets。</p><p>您可以在<a href="https://bogomips.org/unicorn/README.html">Unicorn readme</a> 中找到更多資訊並瞭解其背後的<a href="https://bogomips.org/unicorn/PHILOSOPHY.html">哲學</a>。</p><p>一旦您配置了應用程式伺服器，您必須透過適當地配置您的 Web 伺服器來將請求代理給它。例如，您的 NGINX 配置可能包括：</p><div class="code_container">
+<pre><code class="highlight nginx"><span class="k">upstream</span> <span class="s">application_server</span> <span class="p">{</span>
+  <span class="kn">server</span> <span class="nf">0.0.0.0</span><span class="p">:</span><span class="mi">8080</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">server</span> <span class="p">{</span>
+  <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+  <span class="kn">server_name</span> <span class="s">localhost</span><span class="p">;</span>
+
+  <span class="kn">root</span> <span class="n">/root/path/to/your_app/public</span><span class="p">;</span>
+
+  <span class="kn">try_files</span> <span class="nv">$uri</span><span class="n">/index.html</span> <span class="nv">$uri</span><span class="s">.html</span> <span class="s">@app</span><span class="p">;</span>
+
+  <span class="kn">location</span> <span class="s">@app</span> <span class="p">{</span>
+    <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+    <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$http_host</span><span class="p">;</span>
+    <span class="kn">proxy_redirect</span> <span class="no">off</span><span class="p">;</span>
+    <span class="kn">proxy_pass</span> <span class="s">http://application_server</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1"># some other configuration</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="upstream application_server {
+  server 0.0.0.0:8080;
+}
+
+server {
+  listen 80;
+  server_name localhost;
+
+  root /root/path/to/your_app/public;
+
+  try_files $uri/index.html $uri.html @app;
+
+  location @app {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_pass http://application_server;
+  }
+
+  # some other configuration
+}
+">Copy</button>
+</div>
+<p>請務必閱讀 <a href="https://nginx.org/en/docs/">NGINX 文件</a> 以獲取最新資訊。</p><h3 id="rails"><a class="anchorlink" href="#rails">4 Rails 環境設定</a></h3><p>Rails 的某些部分也可以透過提供環境變數在外部進行配置。 Rails 的各個部分可以識別以下環境變數：</p>
+<ul>
+<li><p><code>ENV["RAILS_ENV"]</code> 定義了 Rails 將在其下執行的 Rails 環境（生產、開發、測試等）。</p></li>
+<li><p><code>ENV["RAILS_RELATIVE_URL_ROOT"]</code> 由路由程式碼用於在您<a href="configuring.html#deploy-to-a-subdirectory-relative-url-root">將應用程式部署到子目錄</a> 時識別 URL。</p></li>
+<li><p><code>ENV["RAILS_CACHE_ID"]</code> 和<code>ENV["RAILS_APP_VERSION"]</code> 用於在Rails 的快取程式碼中生成擴充套件快取keys。這允許您從同一應用程式擁有多個單獨的快取。</p></li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">5 使用初始化檔案</a></h3><p>在您的應用程式中載入框架和任何 gem 之後，Rails 轉向
+載入初始化程式。初始化程式是儲存在下面的任何Ruby 檔案
+<code>config/initializers</code> 在您的應用程式中。您可以使用初始化程式來儲存
+應該在所有框架和 gems 之後進行的配置設定
+載入，例如為這些部件配置設定的選項。</p><p><code>config/initializers</code> 中的檔案（以及
+<code>config/initializers</code>) 被一一排序並載入為
+<code>load_config_initializers</code> 初始值設定項。</p><p>如果一個初始化器的程式碼依賴於另一個初始化器中的程式碼，你可以
+將它們組合成一個初始化器。這使得依賴關係更多
+明確的，並且可以幫助在您的應用程式中展示新概念。導軌也
+支援初始化檔名​​的編號，但這會導致檔名
+攪拌。不建議使用 <code>require</code> 顯式載入初始化程式，因為
+它會導致初始化程式被載入兩次。</p><p>注意：不能保證您的初始化程式會在所有 gem 之後執行
+初始化程式，因此任何依賴於給定 gem 的初始化程式碼都已
+初始化應該進入<code>config.after_initialize</code> 塊。</p><h3 id=""><a class="anchorlink" href="#">6 初始化事件</a></h3><p>Rails 有 5 個可以掛鉤的初始化事件（按執行順序列出）：</p>
+<ul>
+<li><p><code>before_configuration</code>：只要應用程式常量從<code>Rails::Application</code> 繼承就執行。 <code>config</code> 呼叫在這發生之前被評估。</p></li>
+<li><p><code>before_initialize</code>：這是在應用程式的初始化過程發生之前直接執行的，<code>:bootstrap_hook</code> 初始化器在 Rails 初始化過程的開始附近。</p></li>
+<li><p><code>to_prepare</code>：在為所有 Railties（包括應用程式本身）執行初始化程式之後，但在預先載入和構建中介軟體堆疊之前執行。更重要的是，將在<code>development</code> 中的每個程式碼重新載入時執行，但在<code>production</code> 和<code>test</code> 中僅執行一次（在啟動期間）。</p></li>
+<li><p><code>before_eager_load</code>：這是在預先載入發生之前直接執行的，這是<code>production</code> 環境的預設行為，而不是<code>development</code> 環境的預設行為。</p></li>
+<li><p><code>after_initialize</code>：在應用初始化之後直接執行，在<code>config/initializers</code>中的應用初始化器執行之後。</p></li>
+</ul>
+<p>要為這些鉤子定義事件，請在 <code>Rails::Application</code>、<code>Rails::Railtie</code> 或 <code>Rails::Engine</code> 子類中使用塊語法：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">YourApp</span>
+  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">before_initialize</span> <span class="k">do</span>
+      <span class="c1"># initialization code goes here</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="module YourApp
+  class Application &lt; Rails::Application
+    config.before_initialize do
+      # initialization code goes here
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>或者，您也可以透過 <code>Rails.application</code> 物件上的 <code>config</code> 方法來完成：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">before_initialize</span> <span class="k">do</span>
+  <span class="c1"># initialization code goes here</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.config.before_initialize do
+  # initialization code goes here
+end
+">Copy</button>
+</div>
+<p>警告：在呼叫<code>after_initialize</code> 塊時，應用程式的某些部分（特別是路由）尚未設定。</p><h4 id="rails-railtie-initializer"><a class="anchorlink" href="#rails-railtie-initializer">6.1 <code>Rails::Railtie#initializer</code></a></h4><p>Rails 有幾個在啟動時執行的初始化程式，它們都是使用<code>Rails::Railtie</code> 中的<code>initializer</code> 方法定義的。以下是來自Action Controller 的 <code>set_helpers_path</code> 初始值設定項的示例：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">initializer</span> <span class="s2">"action_controller.set_helpers_path"</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Helpers</span><span class="p">.</span><span class="nf">helpers_path</span> <span class="o">=</span> <span class="n">app</span><span class="p">.</span><span class="nf">helpers_paths</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='initializer "action_controller.set_helpers_path" do |app|
+  ActionController::Helpers.helpers_path = app.helpers_paths
+end
+'>Copy</button>
+</div>
+<p><code>initializer</code> 方法接受三個引數，第一個是初始值設定項的名稱，第二個是選項雜湊（此處未顯示），第三個是塊。選項雜湊中的<code>:before</code>key 可以被指定來指定這個新的初始化器必須在哪個初始化器之前執行，而<code>:after</code>key 將指定哪個初始化器來執行這個初始化器<em>after</em>。</p><p>使用<code>initializer</code> 方法定義的初始化程式將按照它們定義的順序執行，但使用<code>:before</code> 或<code>:after</code> 方法的初始化程式除外。</p><p>警告：你可以把你的初始化器放在鏈中任何其他初始化器之前或之後，只要它是合乎邏輯的。假設您有 4 個稱為“一”到“四”（按該順序定義）的初始化程式，並且您將“四”定義為 <em>before</em>“二”但 <em>after</em>“三”，這不合邏輯，Rails 將無法確定您的初始化順序。</p><p><code>initializer</code> 方法的塊引數是應用程式本身的例項，因此我們可以像示例中那樣使用<code>config</code> 方法訪問其上的配置。</p><p>因為<code>Rails::Application</code> 繼承自<code>Rails::Railtie</code>（間接），您可以使用<code>config/application.rb</code> 中的<code>initializer</code> 方法為應用程式定義初始值設定項。</p><h4 id=""><a class="anchorlink" href="#">6.2 初始化器</a></h4><p>以下是 Rails 中所有初始化器的完整列表，按它們定義的順序排列（因此執行，除非另有說明）。</p>
+<ul>
+<li><p><code>load_environment_hook</code>：用作佔位符，以便可以定義<code>:load_environment_config</code> 在它之前執行。</p></li>
+<li><p><code>load_active_support</code>：需要為Active Support 設定基礎的<code>active_support/dependencies</code>。如果<code>config.active_support.bare</code> 不真實，則可選地需要<code>active_support/all</code>，這是預設設定。</p></li>
+<li><p><code>initialize_logger</code>：為應用程式初始化記錄器（一個<code>ActiveSupport::Logger</code> 物件）並使其在@{<em>2} 處可訪問，前提是在此點之前沒有插入的初始化程式定義了@{</em>2}。</p></li>
+<li><p><code>initialize_cache</code>：如果@{_1} 尚未設定，則透過引用<code>config.cache_store</code> 中的value 初始化快取並將結果儲存為@{_1}。如果這個物件響應了<code>middleware</code> 方法，它的中介軟體被插入到中介軟體堆疊中的<code>ActionDispatch::Executor</code> 之後。</p></li>
+<li><p><code>set_clear_dependencies_hook</code>：這個初始化器 - 僅當<code>cache_classes</code> 設定為<code>false</code> 時才執行 - 使用<code>ActionDispatch::Callbacks.after</code> 從物件空間中刪除在請求期間被引用的常量，以便它們將在以下請求期間重新載入。</p></li>
+<li><p><code>bootstrap_hook</code>：執行所有配置的<code>before_initialize</code> 塊。</p></li>
+<li><p><code>i18n.callbacks</code>：在開發環境中，設定一個<code>to_prepare</code> callback，如果自上次請求以來任何語言環境發生更改，它將呼叫<code>I18n.reload!</code>。在生產中，這個callback 只會在第一個請求上執行。</p></li>
+<li><p><code>active_support.deprecation_behavior</code>：為環境設定棄用報告，預設為<code>:log</code> 用於開發，@{<em>2} 用於生產，<code>:stderr</code> 用於測試。可以設定為values 的陣列。這個初始化器還為不允許的棄用設定了行為，預設為<code>:raise</code> 用於開發和測試，@{</em>2} 用於生產。不允許的棄用警告預設為空陣列。</p></li>
+<li><p><code>active_support.initialize_time_zone</code>：根據<code>config.time_zone</code> 設定為應用程式設定預設時區，預設為“UTC”。</p></li>
+<li><p><code>active_support.initialize_beginning_of_week</code>：根據<code>config.beginning_of_week</code> 設定為應用程式設定預設的一週開始，預設為<code>:monday</code>。</p></li>
+<li><p><code>active_support.set_configs</code>：透過使用<code>config.active_support</code> 中的設定，透過<code>send</code> 將方法名稱作為<code>ActiveSupport</code> 的setter 並傳遞values 來設定Active Support。</p></li>
+<li><p><code>action_dispatch.configure</code>：將<code>ActionDispatch::Http::URL.tld_length</code> 配置為<code>config.action_dispatch.tld_length</code> 的value。</p></li>
+<li><p><code>action_view.set_configs</code>：使用<code>config.action_view</code> 中的設定透過<code>send</code> 將方法名稱作為<code>ActionView::Base</code> 的setter 並傳遞values 來設定Action View。</p></li>
+<li><p><code>action_controller.assets_config</code>：如果未明確配置，則將<code>config.action_controller.assets_dir</code> 初始化為應用程式的公共目錄。</p></li>
+<li><p><code>action_controller.set_helpers_path</code>：將Action Controller 的@{<em>1} 設定為應用程式的@{</em>1}。</p></li>
+<li><p><code>action_controller.parameters_config</code>：為<code>ActionController::Parameters</code> 配置強引數選項。</p></li>
+<li><p><code>action_controller.set_configs</code>：使用<code>config.action_controller</code> 中的設定透過<code>send</code> 將方法名稱作為<code>ActionController::Base</code> 的setter 並傳遞values 來設定Action Controller。</p></li>
+<li><p><code>action_controller.compile_config_methods</code>：為指定的配置設定初始化方法，以便更快地訪問它們。</p></li>
+<li><p><code>active_record.initialize_timezone</code>：將<code>ActiveRecord::Base.time_zone_aware_attributes</code> 設定為<code>true</code>，並將<code>ActiveRecord::Base.default_timezone</code> 設定為UTC。當從資料庫中讀取屬性時，它們將轉換為<code>Time.zone</code> 指定的時區。</p></li>
+<li><p><code>active_record.logger</code>：設定<code>ActiveRecord::Base.logger</code> - 如果它尚未設定 - 為<code>Rails.logger</code>。</p></li>
+<li><p><code>active_record.migration_error</code>：配置中介軟體以檢查掛起的migrations。</p></li>
+<li><p><code>active_record.check_schema_cache_dump</code>：如果已配置且可用，則載入架構快取轉儲。</p></li>
+<li><p><code>active_record.warn_on_records_fetched_greater_than</code>：當查詢返回大量記錄時啟用警告。</p></li>
+<li><p><code>active_record.set_configs</code>：使用<code>config.active_record</code> 中的設定透過<code>send</code> 將方法名稱作為<code>ActiveRecord::Base</code> 的setter 並傳遞values 來設定Active Record。</p></li>
+<li><p><code>active_record.initialize_database</code>：從<code>config/database.yml</code> 載入資料庫配置（預設）併為當前環境建立連線。</p></li>
+<li><p><code>active_record.log_runtime</code>：包括<code>ActiveRecord::Railties::ControllerRuntime</code>，它負責將Active Record 呼叫所花費的時間報告給記錄器。</p></li>
+<li><p><code>active_record.set_reloader_hooks</code>：如果<code>config.cache_classes</code> 設定為<code>false</code>，則重置與資料庫的所有可重新載入的連線。</p></li>
+<li><p><code>active_record.add_watchable_files</code>：將<code>schema.rb</code> 和<code>structure.sql</code> 檔案新增到可觀看檔案中。</p></li>
+<li><p><code>active_job.logger</code>：設定<code>ActiveJob::Base.logger</code> - 如果尚未設定 -
+到<code>Rails.logger</code>。</p></li>
+<li><p><code>active_job.set_configs</code>：透過使用<code>config.active_job</code> 中的設定透過<code>send</code> 將方法名稱作為<code>ActiveJob::Base</code> 的setter 並傳遞values 來設定Active Job。</p></li>
+<li><p><code>action_mailer.logger</code>：設定<code>ActionMailer::Base.logger</code> - 如果它尚未設定 - 為<code>Rails.logger</code>。</p></li>
+<li><p><code>action_mailer.set_configs</code>：使用<code>config.action_mailer</code> 中的設定透過<code>send</code> 將方法名稱作為<code>ActionMailer::Base</code> 的setter 並傳遞values 來設定Action Mailer。</p></li>
+<li><p><code>action_mailer.compile_config_methods</code>：為指定的配置設定初始化方法，以便更快地訪問它們。</p></li>
+<li><p><code>set_load_path</code>：這個初始化器在<code>bootstrap_hook</code> 之前執行。將<code>config.load_paths</code> 指定的路徑和所有自動載入路徑新增到<code>$LOAD_PATH</code>。</p></li>
+<li><p><code>set_autoload_paths</code>：這個初始化器在<code>bootstrap_hook</code> 之前執行。將<code>app</code> 的所有子目錄和<code>config.autoload_paths</code>、<code>config.eager_load_paths</code> 和<code>config.autoload_once_paths</code> 指定的路徑新增到<code>ActiveSupport::Dependencies.autoload_paths</code>。</p></li>
+<li><p><code>add_routing_paths</code>：載入（預設情況下）所有<code>config/routes.rb</code> 檔案（在應用程式和 railties 中，包括引擎）併為應用程式設定路由。</p></li>
+<li><p><code>add_locales</code>：將<code>config/locales</code> 中的檔案（來自應用程式、railties 和引擎）新增到<code>I18n.load_path</code>，使這些檔案中的翻譯可用。</p></li>
+<li><p><code>add_view_paths</code>：將應用程式、railties 和引擎中的目錄<code>app/views</code> 新增到應用程式的view 檔案的查詢路徑中。</p></li>
+<li><p><code>load_environment_config</code>：為當前環境載入<code>config/environments</code> 檔案。</p></li>
+<li><p><code>prepend_helpers_path</code>：將應用程式、railties 和引擎中的目錄<code>app/helpers</code> 新增到應用程式helpers 的查詢路徑中。</p></li>
+<li><p><code>load_config_initializers</code>：從應用程式、railties 和引擎中的<code>config/initializers</code> 載入所有Ruby 檔案。此目錄中的檔案可用於儲存所有框架載入後應進行的配置設定。</p></li>
+<li><p><code>engines_blank_point</code>：如果您希望在載入引擎之前執行任何操作，則提供一個初始化點以掛鉤。在此之後，將執行所有 railtie 和引擎初始化程式。</p></li>
+<li><p><code>add_generator_templates</code>：在<code>lib/templates</code> 處為應用程式、railties 和引擎查詢生成器的模板，並將它們新增到<code>config.generators.templates</code> 設定中，這將使模板可供所有生成器參考。</p></li>
+<li><p><code>ensure_autoload_once_paths_as_subset</code>：確保<code>config.autoload_once_paths</code> 只包含來自<code>config.autoload_paths</code> 的路徑。如果它包含額外的路徑，則會引發異常。</p></li>
+<li><p><code>add_to_prepare_blocks</code>：應用程式、railtie 或引擎中每個 <code>config.to_prepare</code> 呼叫的塊被新增到 <code>to_prepare</code> callbacks for Action Dispatch，它將在開發中按請求執行，或在生產中的第一個請求之前。</p></li>
+<li><p><code>add_builtin_route</code>：如果應用程式在開發環境下執行，那麼這會將<code>rails/info/properties</code> 的路由附加到應用程式路由。此路由在預設 Rails 應用程式中提供了詳細資訊，例如 Rails 和 <code>public/index.html</code> 的 Ruby 版本。</p></li>
+<li><p><code>build_middleware_stack</code>：為應用程式構建中介軟體堆疊，返回一個物件，該物件具有<code>call</code> 方法，該方法接受請求的機架環境物件。</p></li>
+<li><p>@{<em>0}：如果<code>config.eager_load</code> 是<code>true</code>，則執行<code>config.before_eager_load</code> 鉤子，然後呼叫@{</em>0} 將載入所有<code>config.eager_load_namespaces</code>。</p></li>
+<li><p><code>finisher_hook</code>：提供一個鉤子，用於在應用程式的程序初始化完成後，以及執行應用程式、railties 和引擎的所有<code>config.after_initialize</code> 塊。</p></li>
+<li><p><code>set_routes_reloader_hook</code>：配置Action Dispatch 使用<code>ActiveSupport::Callbacks.to_run</code> 重新載入路由檔案。</p></li>
+<li><p><code>disable_dependency_loading</code>：如果<code>config.eager_load</code> 設定為<code>true</code>，則禁用自動依賴載入。</p></li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">7 資料庫池</a></h3><p>Active Record 資料庫連線由<code>ActiveRecord::ConnectionAdapters::ConnectionPool</code> 管理，它確保連線池將執行緒訪問量同步到有限數量的資料庫連線。此限制預設為 5，可以在 <code>database.yml</code> 中配置。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="ss">development:
+  adapter: </span><span class="n">sqlite3</span>
+  <span class="ss">database: </span><span class="n">db</span><span class="o">/</span><span class="n">development</span><span class="p">.</span><span class="nf">sqlite3</span>
+  <span class="ss">pool: </span><span class="mi">5</span>
+  <span class="ss">timeout: </span><span class="mi">5000</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
+">Copy</button>
+</div>
+<p>由於預設情況下連線池在 Active Record 內部處理，因此所有應用程式伺服器（Thin、Puma、Unicorn 等）的行為都應該相同。資料庫連線池最初是空的。隨著連線需求的增加，它將建立它們，直到達到連線池限制。</p><p>任何一個請求都會在第一次需要訪問資料庫時檢出連線。在請求結束時，它將重新檢查連線。這意味著額外的連線槽將再次可用於佇列中的下一個請求。</p><p>如果您嘗試使用的連線數超過可用連線數，Active Record 將阻止
+你並等待來自池的連線。如果它無法獲得連線，則
+將丟擲類似於下面給出的超時錯誤。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">ConnectionTimeoutError</span> <span class="o">-</span> <span class="n">could</span> <span class="n">not</span> <span class="n">obtain</span> <span class="n">a</span> <span class="n">database</span> <span class="n">connection</span> <span class="n">within</span> <span class="mf">5.000</span> <span class="n">seconds</span> <span class="p">(</span><span class="n">waited</span> <span class="mf">5.000</span> <span class="n">seconds</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ActiveRecord::ConnectionTimeoutError - could not obtain a database connection within 5.000 seconds (waited 5.000 seconds)
+">Copy</button>
+</div>
+<p>如果出現上述錯誤，則可能需要增加
+透過增加<code>database.yml</code> 中的<code>pool</code> 選項來增加連線池</p><p>筆記。如果您在多執行緒環境中執行，則可能有多個執行緒同時訪問多個連線。因此，根據您當前的請求負載，您很可能會有多個執行緒爭用有限數量的連線。</p><h3 id=""><a class="anchorlink" href="#">8 自定義配置</a></h3><p>您可以透過 Rails 配置物件配置自己的程式碼
+<code>config.x</code> 名稱空間下的自定義配置，或直接在 <code>config</code> 下。
+這兩者之間的key 區別在於，如果您使用<code>config.x</code>
+正在定義 <em>nested</em> 配置（例如：<code>config.x.nested.hi</code>），並且只是
+<code>config</code> 用於 <em>single level</em> 配置（例如：<code>config.hello</code>）。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">x</span><span class="p">.</span><span class="nf">payment_processing</span><span class="p">.</span><span class="nf">schedule</span> <span class="o">=</span> <span class="ss">:daily</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">x</span><span class="p">.</span><span class="nf">payment_processing</span><span class="p">.</span><span class="nf">retries</span>  <span class="o">=</span> <span class="mi">3</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">super_debugger</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.x.payment_processing.schedule = :daily
+config.x.payment_processing.retries  = 3
+config.super_debugger = true
+">Copy</button>
+</div>
+<p>然後可以透過配置物件使用這些配置點：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">configuration</span><span class="p">.</span><span class="nf">x</span><span class="p">.</span><span class="nf">payment_processing</span><span class="p">.</span><span class="nf">schedule</span> <span class="c1"># =&gt; :daily</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">configuration</span><span class="p">.</span><span class="nf">x</span><span class="p">.</span><span class="nf">payment_processing</span><span class="p">.</span><span class="nf">retries</span>  <span class="c1"># =&gt; 3</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">configuration</span><span class="p">.</span><span class="nf">x</span><span class="p">.</span><span class="nf">payment_processing</span><span class="p">.</span><span class="nf">not_set</span>  <span class="c1"># =&gt; nil</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">configuration</span><span class="p">.</span><span class="nf">super_debugger</span>                <span class="c1"># =&gt; true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.configuration.x.payment_processing.schedule # =&gt; :daily
+Rails.configuration.x.payment_processing.retries  # =&gt; 3
+Rails.configuration.x.payment_processing.not_set  # =&gt; nil
+Rails.configuration.super_debugger                # =&gt; true
+">Copy</button>
+</div>
+<p>您還可以使用 <code>Rails::Application.config_for</code> 載入整個配置檔案：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/payment.yml</span>
+<span class="na">production</span><span class="pi">:</span>
+  <span class="na">environment</span><span class="pi">:</span> <span class="s">production</span>
+  <span class="na">merchant_id</span><span class="pi">:</span> <span class="s">production_merchant_id</span>
+  <span class="na">public_key</span><span class="pi">:</span>  <span class="s">production_public_key</span>
+  <span class="na">private_key</span><span class="pi">:</span> <span class="s">production_private_key</span>
+
+<span class="na">development</span><span class="pi">:</span>
+  <span class="na">environment</span><span class="pi">:</span> <span class="s">sandbox</span>
+  <span class="na">merchant_id</span><span class="pi">:</span> <span class="s">development_merchant_id</span>
+  <span class="na">public_key</span><span class="pi">:</span>  <span class="s">development_public_key</span>
+  <span class="na">private_key</span><span class="pi">:</span> <span class="s">development_private_key</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/payment.yml
+production:
+  environment: production
+  merchant_id: production_merchant_id
+  public_key:  production_public_key
+  private_key: production_private_key
+
+development:
+  environment: sandbox
+  merchant_id: development_merchant_id
+  public_key:  development_public_key
+  private_key: development_private_key
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># config/application.rb</span>
+<span class="k">module</span> <span class="nn">MyApp</span>
+  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">payment</span> <span class="o">=</span> <span class="n">config_for</span><span class="p">(</span><span class="ss">:payment</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/application.rb
+module MyApp
+  class Application &lt; Rails::Application
+    config.payment = config_for(:payment)
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">configuration</span><span class="p">.</span><span class="nf">payment</span><span class="p">[</span><span class="s1">'merchant_id'</span><span class="p">]</span> <span class="c1"># =&gt; production_merchant_id or development_merchant_id</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.configuration.payment['merchant_id'] # =&gt; production_merchant_id or development_merchant_id
+">Copy</button>
+</div>
+<p><code>Rails::Application.config_for</code> 支援一個<code>shared</code> 配置來分組common
+配置。共享配置將合併到環境中
+配置。</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/example.yml</span>
+<span class="na">shared</span><span class="pi">:</span>
+  <span class="na">foo</span><span class="pi">:</span>
+    <span class="na">bar</span><span class="pi">:</span>
+      <span class="na">baz</span><span class="pi">:</span> <span class="m">1</span>
+
+<span class="na">development</span><span class="pi">:</span>
+  <span class="na">foo</span><span class="pi">:</span>
+    <span class="na">bar</span><span class="pi">:</span>
+      <span class="na">qux</span><span class="pi">:</span> <span class="m">2</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/example.yml
+shared:
+  foo:
+    bar:
+      baz: 1
+
+development:
+  foo:
+    bar:
+      qux: 2
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># development environment</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config_for</span><span class="p">(</span><span class="ss">:example</span><span class="p">)[</span><span class="ss">:foo</span><span class="p">][</span><span class="ss">:bar</span><span class="p">]</span> <span class="c1">#=&gt; { baz: 1, qux: 2 }</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# development environment
+Rails.application.config_for(:example)[:foo][:bar] #=&gt; { baz: 1, qux: 2 }
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">9 搜尋引擎索引</a></h3><p>有時，您可能希望阻止應用程式的某些頁面可見
+在 Google、Bing、Yahoo 或 Duck Duck Go 等搜尋網站上。索引的機器人
+這些站點會首先分析<code>http://your-site.com/robots.txt</code> 檔案以
+知道允許索引哪些頁面。</p><p>Rails 在<code>/public</code> 資料夾中為您建立了這個檔案。預設情況下，它允許
+搜尋引擎來索引應用程式的所有頁面。如果你想阻止
+在應用程式的所有頁面上建立索引，請使用：</p><div class="code_container">
+<pre><code class="highlight plaintext">User-agent: *
+Disallow: /
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="User-agent: *
+Disallow: /
+">Copy</button>
+</div>
+<p>要僅阻止特定頁面，必須使用更復雜的語法。學習
+它在 <a href="https://www.robotstxt.org/robotstxt.html">官方文件</a> 上。</p><h3 id=""><a class="anchorlink" href="#">10 事件檔案系統監視器</a></h3><p>如果載入了 <a href="https://github.com/guard/listen">listen gem</a>，Rails 使用
+事件檔案系統監視器以檢測<code>config.cache_classes</code> 時的更改
+<code>false</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'listen'</span><span class="p">,</span> <span class="s1">'~&gt; 3.3'</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="group :development do
+  gem 'listen', '~&gt; 3.3'
+end
+">Copy</button>
+</div>
+<p>否則，在每個請求中，Rails 都會遍歷應用程式樹來檢查是否
+什麼都變了。</p><p>在 Linux 和 macOS 上不需要額外的 gems，但需要一些
+<a href="https://github.com/guard/listen#on-bsd">對於 *BSD</a> 和
+<a href="https://github.com/guard/listen#on-windows">適用於 Windows</a>。</p><p>請注意<a href="https://github.com/guard/listen#issues--limitations">某些設定不受支援</a>。</p>
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

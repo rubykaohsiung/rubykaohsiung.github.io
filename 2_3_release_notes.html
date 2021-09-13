@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ruby on Rails 2.3 發行說明 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Ruby on Rails 2.3 發行說明 — Ruby on Rails Guides" />
+  <meta name="description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Ruby on Rails 2.3 發行說明Rails 2.3 提供了各種新的和改進的特性，包括普遍的 Rack 整合、對 Rails 引擎的更新支援、Active Record 的巢狀事務、動態和預設範圍、統一渲染、更高效的路由、應用程式模板和安靜的回溯。此列表涵蓋了主要升級，但不包括每個小錯誤修復和更改。如果您想檢視所有內容，請檢視 GitHub 上主 Rails 儲存庫中的 提交列表 或檢視 CHANGELOG 檔案對於單個 Rails 元件。" />
+  <meta property="og:description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Ruby on Rails 2.3 發行說明Rails 2.3 提供了各種新的和改進的特性，包括普遍的 Rack 整合、對 Rails 引擎的更新支援、Active Record 的巢狀事務、動態和預設範圍、統一渲染、更高效的路由、應用程式模板和安靜的回溯。此列表涵蓋了主要升級，但不包括每個小錯誤修復和更改。如果您想檢視所有內容，請檢視 GitHub 上主 Rails 儲存庫中的 提交列表 或檢視 CHANGELOG 檔案對於單個 Rails 元件。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>不要在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>Ruby on Rails 2.3 發行說明</h2><p>Rails 2.3 提供了各種新的和改進的特性，包括普遍的 Rack 整合、對 Rails 引擎的更新支援、Active Record 的巢狀事務、動態和預設範圍、統一渲染、更高效的路由、應用程式模板和安靜的回溯。此列表涵蓋了主要升級，但不包括每個小錯誤修復和更改。如果您想檢視所有內容，請檢視 GitHub 上主 Rails 儲存庫中的 <a href="https://github.com/rails/rails/commits/2-3-stable">提交列表</a> 或檢視 <code>CHANGELOG</code> 檔案對於單個 Rails 元件。</p>
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#">應用架構</a>
+
+<ul>
+<li><a href="#rake">Rake 整合</a></li>
+<li><a href="#rails">重新支援 Rails 引擎</a></li>
+</ul>
+</li>
+<li><a href="#">文件</a></li>
+<li><a href="#1-9-1">紅寶石 1.9.1 支援</a></li>
+<li>
+<a href="#">活動記錄</a>
+
+<ul>
+<li><a href="#">巢狀屬性</a></li>
+<li><a href="#">巢狀事務</a></li>
+<li><a href="#">動態範圍</a></li>
+<li><a href="#">預設範圍</a></li>
+<li><a href="#">回撥的多個條件</a></li>
+<li><a href="#">找到有</a></li>
+<li><a href="#mysql">重新連線 MySQL 連線</a></li>
+<li><a href="#">其他活動記錄更改</a></li>
+</ul>
+</li>
+<li>
+<a href="#">動作控制器</a>
+
+<ul>
+<li><a href="#">統一渲染</a></li>
+<li><a href="#">應用程式控制器重新命名</a></li>
+<li><a href="#http">HTTP 摘要身份驗證支援</a></li>
+<li><a href="#">更高效的路由</a></li>
+<li><a href="#rake">基於 Rake 的延遲載入會話</a></li>
+<li><a href="#mime">MIME 型別處理更改</a></li>
+<li><a href="#respond-to">優化<code>respond_to</code></a></li>
+<li><a href="#">改進的快取效能</a></li>
+<li><a href="#">本地化檢視</a></li>
+<li><a href="#">翻譯的部分範圍</a></li>
+<li><a href="#">其他動作控制器更改</a></li>
+</ul>
+</li>
+<li>
+<a href="#">動作檢視</a>
+
+<ul>
+<li><a href="#">巢狀物件表單</a></li>
+<li><a href="#">部分的智慧渲染</a></li>
+<li><a href="#">提示日期選擇助手</a></li>
+<li><a href="#assettag">AssetTag 時間戳快取</a></li>
+<li><a href="#">資產主機作為物件</a></li>
+<li><a href="#grouped-options-for-select">grouped_options_for_select 輔助方法</a></li>
+<li><a href="#">禁用表單選擇助手的選項標籤</a></li>
+<li><a href="#">關於模板載入的注意事項</a></li>
+<li><a href="#">其他操作檢視更改</a></li>
+</ul>
+</li>
+<li>
+<a href="#">積極支援</a>
+
+<ul>
+<li><a href="#">物件#嘗試</a></li>
+<li><a href="#tap">物件#tap 向後移植</a></li>
+<li><a href="#xmlmini">XMLmini 的可交換解析器</a></li>
+<li><a href="#timewithzone">TimeWithZone 的小數秒</a></li>
+<li><a href="#json">JSON 鍵引用</a></li>
+<li><a href="#">其他主動支援更改</a></li>
+</ul>
+</li>
+<li>
+<a href="#">鐵軌</a>
+
+<ul>
+<li><a href="#rails">Rails 金屬</a></li>
+<li><a href="#">應用程式模板</a></li>
+<li><a href="#">更安靜的回溯</a></li>
+<li><a href="#">在開發模式下通過延遲載入/自動載入加快啟動時間</a></li>
+<li><a href="#rake-gem">rake gem 任務重寫</a></li>
+<li><a href="#railties">其他 Railties 更改</a></li>
+</ul>
+</li>
+<li><a href="#">已棄用</a></li>
+<li><a href="#">學分</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 應用架構</a></h3><p>Rails 應用程式的架構有兩個主要變化：<a href="https://rack.github.io/">Rack</a> 模組化 Web 伺服器介面的完全整合，以及對 Rails 引擎的更新支援。</p><h4 id="rake"><a class="anchorlink" href="#rake">1.1 Rake 整合</a></h4><p>Rails 現在已經打破了過去的 CGI，並且到處都在使用 Rack。這需要並導致了大量的內部更改（但如果您使用 CGI，請不要擔心；Rails 現在通過代理介面支援 CGI。）不過，這是對 Rails 內部的重大更改。升級到 2.3 後，您應該在本地環境和生產環境中進行測試。一些要測試的東西：</p>
+<ul>
+<li>會話</li>
+<li>餅乾</li>
+<li>檔案上傳</li>
+<li>JSON/XML API</li>
+</ul>
+<p>以下是與 Rake 相關的更改的摘要：</p>
+<ul>
+<li>
+<code>script/server</code> 已經切換為使用 Rack，這意味著它支援任何 Rack 相容的伺服器。 <code>script/server</code> 也會選擇一個rackup 配置檔案（如果存在的話）。預設情況下，它會尋找一個 <code>config.ru</code> 檔案，但你可以使用 <code>-c</code> 開關覆蓋它。</li>
+<li>FCGI 處理程式通過 Rack。</li>
+<li>
+<code>ActionController::Dispatcher</code> 維護自己的預設中介軟體堆疊。中介軟體可以被注入、重新排序和刪除。堆疊在啟動時被編譯成一個鏈。您可以在“environment.rb”中配置中介軟體堆疊。</li>
+<li>添加了 <code>rake middleware</code> 任務來檢查中介軟體堆疊。這對於除錯中介軟體堆疊的順序很有用。</li>
+<li>整合測試執行器已被修改為執行整個中介軟體和應用程式堆疊。這使得整合測試非常適合測試 Rack 中介軟體。</li>
+<li>
+<code>ActionController::CGIHandler</code> 是一個向後相容 Rack 的 CGI 包裝器。 <code>CGIHandler</code> 旨在採用舊的 CGI 物件並將其環境資訊轉換為 Rack 相容的形式。</li>
+<li>
+<code>CgiRequest</code> 和 <code>CgiResponse</code> 已被刪除。</li>
+<li>會話儲存現在是延遲載入的。如果您在請求期間從不訪問會話物件，它將永遠不會嘗試載入會話資料（解析 cookie、從記憶體快取載入資料或查詢 Active Record 物件）。</li>
+<li>您不再需要在測試中使用 <code>CGI::Cookie.new</code> 來設定 cookie 值。將 <code>String</code> 值分配給 request.cookies["foo"] 現在可以按預期設定 cookie。</li>
+<li>
+<code>CGI::Session::CookieStore</code> 已被替換為 <code>ActionController::Session::CookieStore</code>。</li>
+<li>
+<code>CGI::Session::MemCacheStore</code> 已被替換為 <code>ActionController::Session::MemCacheStore</code>。</li>
+<li>
+<code>CGI::Session::ActiveRecordStore</code> 已被替換為 <code>ActiveRecord::SessionStore</code>。</li>
+<li>您仍然可以使用<code>ActionController::Base.session_store = :active_record_store</code> 更改會話儲存。</li>
+<li>預設會話選項仍然使用<code>ActionController::Base.session = { :key =&gt; "..." }</code> 設定。但是，<code>:session_domain</code> 選項已重新命名為 <code>:domain</code>。</li>
+<li>通常包裝整個請求的互斥鎖已移入中介軟體<code>ActionController::Lock</code>。</li>
+<li>
+<code>ActionController::AbstractRequest</code> 和 <code>ActionController::Request</code> 已經統一。新的<code>ActionController::Request</code> 繼承自<code>Rack::Request</code>。這會影響在測試請求中訪問 <code>response.headers['type']</code>。改用<code>response.content_type</code>。</li>
+<li>如果載入了<code>ActiveRecord</code>，<code>ActiveRecord::QueryCache</code> 中介軟體會自動插入到中介軟體堆疊中。這個中介軟體設定並重新整理每個請求的 Active Record 查詢快取。</li>
+<li>Rails 路由器和控制器類遵循 Rack 規範。您可以使用<code>SomeController.call(env)</code> 直接呼叫控制器。路由器將路由引數儲存在 <code>rack.routing_args</code> 中。</li>
+<li>
+<code>ActionController::Request</code> 繼承自 <code>Rack::Request</code>。</li>
+<li>代替 <code>config.action_controller.session = { :session_key =&gt; 'foo', ...</code> 使用 <code>config.action_controller.session = { :key =&gt; 'foo', ...</code>。</li>
+<li>使用<code>ParamsParser</code> 中介軟體預處理任何XML、JSON 或YAML 請求，以便它們可以在任何<code>Rack::Request</code> 物件之後正常讀取。</li>
+</ul>
+<h4 id="rails"><a class="anchorlink" href="#rails">1.2 重新支援 Rails 引擎</a></h4><p>在一些沒有升級的版本之後，Rails 2.3 為 Rails Engines（可以嵌入其他應用程式的 Rails 應用程式）提供了一些新功能。首先，引擎中的路由檔案現在會自動載入和重新載入，就像你的 <code>routes.rb</code> 檔案一樣（這也適用於其他外掛中的路由檔案）。其次，如果您的外掛有一個 app 資料夾，那麼 app/[models|controllers|helpers] 將自動新增到 Rails 載入路徑中。引擎現在還支援新增檢視路徑，Action Mailer 和 Action View 將使用來自引擎和其他外掛的檢視。</p><h3 id=""><a class="anchorlink" href="#">2 文件</a></h3><p><a href="https://guides.rubyonrails.org/">Ruby on Rails 指南</a> 專案已經為 Rails 2.3 釋出了幾個額外的指南。此外，<a href="https://edgeguides.rubyonrails.org/">單獨的站點</a> 維護 Edge Rails 指南的更新副本。其他文件工作包括重新啟動 <a href="http://newwiki.rubyonrails.org/">Rails wiki</a> 和早期規劃 Rails Book。</p>
+<ul>
+<li>更多資訊：<a href="https://weblog.rubyonrails.org/2009/1/15/rails-documentation-projects">Rails 文件專案</a>
+</li>
+</ul>
+<h3 id="1-9-1"><a class="anchorlink" href="#1-9-1">3 紅寶石 1.9.1 支援</a></h3><p>無論您是在 Ruby 1.8 還是現在釋出的 Ruby 1.9.1 上執行，Rails 2.3 都應該通過它自己的所有測試。不過，您應該知道，遷移到 1.9.1 需要檢查所有資料介面卡、外掛和您依賴的其他程式碼以確保 Ruby 1.9.1 相容性以及 Rails 核心。</p><h3 id=""><a class="anchorlink" href="#">4 活動記錄</a></h3><p>Active Record 在 Rails 2.3 中獲得了相當多的新功能和錯誤修復。亮點包括巢狀屬性、巢狀事務、動態和預設範圍以及批處理。</p><h4 id=""><a class="anchorlink" href="#">4.1 巢狀屬性</a></h4><p>Active Record 現在可以直接更新巢狀模型的屬性，前提是您告訴它這樣做：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_one</span> <span class="ss">:author</span>
+  <span class="n">has_many</span> <span class="ss">:pages</span>
+
+  <span class="n">accepts_nested_attributes_for</span> <span class="ss">:author</span><span class="p">,</span> <span class="ss">:pages</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Book &lt; ActiveRecord::Base
+  has_one :author
+  has_many :pages
+
+  accepts_nested_attributes_for :author, :pages
+end
+">Copy</button>
+</div>
+<p>啟用巢狀屬性可以實現許多功能：自動（和原子）儲存記錄及其關聯的子項、子項感知驗證以及對巢狀表單的支援（稍後討論）。</p><p>您還可以使用 <code>:reject_if</code> 選項為通過巢狀屬性新增的任何新記錄指定要求：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">accepts_nested_attributes_for</span> <span class="ss">:author</span><span class="p">,</span>
+  <span class="ss">:reject_if</span> <span class="o">=&gt;</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span><span class="n">attributes</span><span class="o">|</span> <span class="n">attributes</span><span class="p">[</span><span class="s1">'name'</span><span class="p">].</span><span class="nf">blank?</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="accepts_nested_attributes_for :author,
+  :reject_if =&gt; proc { |attributes| attributes['name'].blank? }
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://superalloy.nl/">Eloy Duran</a>
+</li>
+<li>更多資訊：<a href="https://weblog.rubyonrails.org/2009/1/26/nested-model-forms">巢狀模型表單</a>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">4.2 巢狀事務</a></h4><p>Active Record 現在支援巢狀事務，這是一項非常受歡迎的功能。現在你可以寫這樣的程式碼：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">User</span><span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  <span class="no">User</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s1">'Admin'</span><span class="p">)</span>
+  <span class="no">User</span><span class="p">.</span><span class="nf">transaction</span><span class="p">(</span><span class="ss">:requires_new</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">User</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s1">'Regular'</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Rollback</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">User</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span>  <span class="c1"># =&gt; Returns only Admin</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="User.transaction do
+  User.create(:username =&gt; 'Admin')
+  User.transaction(:requires_new =&gt; true) do
+    User.create(:username =&gt; 'Regular')
+    raise ActiveRecord::Rollback
+  end
+end
+
+User.find(:all)  # =&gt; Returns only Admin
+">Copy</button>
+</div>
+<p>巢狀事務讓您回滾內部事務而不影響外部事務的狀態。如果要巢狀事務，則必須顯式新增<code>:requires_new</code> 選項；否則，巢狀事務只會成為父事務的一部分（就像當前在 Rails 2.2 上所做的那樣）。在幕後，巢狀事務 <a href="http://rails.lighthouseapp.com/projects/8994/tickets/383,">使用儲存點</a> 因此即使在沒有真正巢狀事務的資料庫上也支援它們。在測試期間，還有一些魔法可以使這些事務與事務性裝置很好地配合。</p>
+<ul>
+<li>主要貢獻者：<a href="http://www.workingwithrails.com/person/4985-jonathan-viney">Jonathan Viney</a> 和 <a href="http://izumi.plan99.net/blog/">Hongli Lai</a>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">4.3 動態範圍</a></h4><p>您瞭解 Rails 中的動態查詢器（它允許您即時編造諸如“find_by_color_and_flavor”之類的方法）和命名範圍（允許您將可重用的查詢條件封裝為“currently_active”之類的友好名稱）。好吧，現在您可以擁有動態範圍方法。這個想法是將允許動態過濾<em>和</em>方法鏈的語法放在一起。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Order</span><span class="p">.</span><span class="nf">scoped_by_customer_id</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="no">Order</span><span class="p">.</span><span class="nf">scoped_by_customer_id</span><span class="p">(</span><span class="mi">12</span><span class="p">).</span><span class="nf">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span>
+  <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="s2">"status = 'open'"</span><span class="p">)</span>
+<span class="no">Order</span><span class="p">.</span><span class="nf">scoped_by_customer_id</span><span class="p">(</span><span class="mi">12</span><span class="p">).</span><span class="nf">scoped_by_status</span><span class="p">(</span><span class="s2">"open"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Order.scoped_by_customer_id(12)
+Order.scoped_by_customer_id(12).find(:all,
+  :conditions =&gt; &quot;status = 'open'&quot;)
+Order.scoped_by_customer_id(12).scoped_by_status(&quot;open&quot;)
+">Copy</button>
+</div>
+<p>沒有什麼可以定義使用動態範圍：它們只是工作。</p>
+<ul>
+<li>主要貢獻者：<a href="http://evilmartians.com/">Yaroslav Markin</a>
+</li>
+<li>更多資訊：[Edge Rails 的新特性：動態範圍方法](<a href="http://archives.ryandaigle.com/articles/2008/12/29/what-s-new-in-edge-rails-dynamic-scope-%E6%96%B9%E6%B3%95%EF%BC%89">http://archives.ryandaigle.com/articles/2008/12/29/what-s-new-in-edge-rails-dynamic-scope-方法）</a>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">4.4 預設範圍</a></h4><p>Rails 2.3 將引入 <em>default scopes</em> 的概念，類似於命名範圍，但適用於模型中的所有命名範圍或 find 方法。例如，您可以編寫 <code>default_scope :order =&gt; 'name ASC'</code> 並且任何時候您從該模型中檢索記錄時，它們都會按名稱排序（當然，除非您覆蓋該選項）。</p>
+<ul>
+<li>主要貢獻者：Paweł Kondzior</li>
+<li>更多資訊：<a href="http://archives.ryandaigle.com/articles/2008/11/18/what-s-new-in-edge-rails-default-scoping">Edge Rails 的新增功能：預設範圍</a>
+</li>
+</ul>
+<p>＃＃＃ 批量處理</p><p>您現在可以使用 find_in_batches 處理來自 Active Record 模型的大量記錄，而記憶體壓力更小：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Customer</span><span class="p">.</span><span class="nf">find_in_batches</span><span class="p">(</span><span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:active</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">})</span> <span class="k">do</span> <span class="o">|</span><span class="n">customer_group</span><span class="o">|</span>
+  <span class="n">customer_group</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">customer</span><span class="o">|</span> <span class="n">customer</span><span class="p">.</span><span class="nf">update_account_balance!</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_in_batches(:conditions =&gt; {:active =&gt; true}) do |customer_group|
+  customer_group.each { |customer| customer.update_account_balance! }
+end
+">Copy</button>
+</div>
+<p>您可以將大部分 <code>find</code> 選項傳遞給 <code>find_in_batches</code>。但是，您不能指定記錄返回的順序（它們總是按主鍵的升序返回，必須是整數），或使用<code>:limit</code> 選項。相反，使用預設為 1000 的 <code>:batch_size</code> 選項來設定將在每個批次中返回的記錄數。</p><p>新的 <code>find_each</code> 方法提供了一個圍繞 <code>find_in_batches</code> 的包裝器，它返回單個記錄，查詢本身是分批完成的（預設為 1000）：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Customer</span><span class="p">.</span><span class="nf">find_each</span> <span class="k">do</span> <span class="o">|</span><span class="n">customer</span><span class="o">|</span>
+  <span class="n">customer</span><span class="p">.</span><span class="nf">update_account_balance!</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_each do |customer|
+  customer.update_account_balance!
+end
+">Copy</button>
+</div>
+<p>請注意，您應該只將此方法用於批處理：對於少量記錄（小於 1000），您應該只使用帶有自己的迴圈的常規 find 方法。</p>
+<ul>
+<li>更多資訊（當時方便的方法被稱為<code>each</code>）：
+
+<ul>
+<li><a href="http://afreshcup.com/2009/02/23/rails-23-batch-finding/">Rails 2.3：批量查詢</a></li>
+<li><a href="http://archives.ryandaigle.com/articles/2009/2/23/what-s-new-in-edge-rails-batched-find">Edge Rails 的新功能：批量查詢</a></li>
+</ul>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">4.5 回撥的多個條件</a></h4><p>使用 Active Record 回撥時，您現在可以在同一個回撥中組合 <code>:if</code> 和 <code>:unless</code> 選項，並以陣列的形式提供多個條件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">before_save</span> <span class="ss">:update_credit_rating</span><span class="p">,</span> <span class="ss">:if</span> <span class="o">=&gt;</span> <span class="ss">:active</span><span class="p">,</span>
+  <span class="ss">:unless</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:admin</span><span class="p">,</span> <span class="ss">:cash_only</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="before_save :update_credit_rating, :if =&gt; :active,
+  :unless =&gt; [:admin, :cash_only]
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：L. Caviola</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">4.6 找到有</a></h4><p>Rails 現在在 find 上有一個 <code>:have</code> 選項（以及 <code>has_many</code> 和 <code>has_and_belongs_to_many</code> 關聯），用於過濾分組查詢中的記錄。正如那些具有大量 SQL 背景的人所知，這允許基於分組結果進行過濾：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">developers</span> <span class="o">=</span> <span class="no">Developer</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span> <span class="ss">:group</span> <span class="o">=&gt;</span> <span class="s2">"salary"</span><span class="p">,</span>
+  <span class="ss">:having</span> <span class="o">=&gt;</span> <span class="s2">"sum(salary) &gt; 10000"</span><span class="p">,</span> <span class="ss">:select</span> <span class="o">=&gt;</span> <span class="s2">"salary"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='developers = Developer.find(:all, :group =&gt; "salary",
+  :having =&gt; "sum(salary) &gt; 10000", :select =&gt; "salary")
+'>Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="https://github.com/miloops">Emilio Tagua</a>
+</li>
+</ul>
+<h4 id="mysql"><a class="anchorlink" href="#mysql">4.7 重新連線 MySQL 連線</a></h4><p>MySQL 在其連線中支援重新連線標誌 - 如果設定為 true，則客戶端將嘗試重新連線到伺服器，然後在連線丟失的情況下放棄。您現在可以在“database.yml”中為您的 MySQL 連線設定“reconnect = true”，以從 Rails 應用程式中獲取此行為。預設值為 <code>false</code>，因此現有應用程式的行為不會改變。</p>
+<ul>
+<li>主要貢獻者：<a href="http://twitter.com/dubek">Dov Murik</a>
+</li>
+<li>更多資訊：
+
+<ul>
+<li><a href="http://dev.mysql.com/doc/refman/5.6/en/auto-reconnect.html">控制自動重連行為</a></li>
+<li><a href="http://groups.google.com/group/rubyonrails-core/browse_thread/thread/49d2a7e9c96cb9f4">重訪MySQL自動重連</a></li>
+</ul>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">4.8 其他活動記錄更改</a></h4>
+<ul>
+<li>從為<code>has_and_belongs_to_many</code> 預載入生成的SQL 中刪除了一個額外的<code>AS</code>，使其更適合某些資料庫。</li>
+<li>
+<code>ActiveRecord::Base#new_record?</code> 現在在遇到現有記錄時返回 <code>false</code> 而不是 <code>nil</code>。</li>
+<li>修復了在某些 <code>has_many :through</code> 關聯中引用表名的錯誤。</li>
+<li>您現在可以為 <code>updated_at</code> 時間戳指定一個特定的時間戳：<code>cust = Customer.create(:name =&gt; "ABC Industries", :updated_at =&gt; 1.day.ago)</code>
+</li>
+<li>更好的關於失敗的 <code>find_by_attribute!</code> 呼叫的錯誤訊息。</li>
+<li>Active Record 的<code>to_xml</code> 支援通過新增<code>:camelize</code> 選項變得更加靈活。</li>
+<li>修復了從 <code>before_update</code> 或 <code>before_create</code> 中取消回撥的錯誤。</li>
+<li>添加了通過 JDBC 測試資料庫的 Rake 任務。</li>
+<li>
+<code>validates_length_of</code> 將使用帶有 <code>:in</code> 或 <code>:within</code> 選項（如果提供）的自定義錯誤訊息。</li>
+<li>對作用域選擇的計數現在可以正常工作，因此您可以執行諸如<code>Account.scoped(:select =&gt; "DISTINCT credit_limit").count</code> 之類的操作。</li>
+<li>
+<code>ActiveRecord::Base#invalid?</code> 現在與 <code>ActiveRecord::Base#valid?</code> 相反。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">5 動作控制器</a></h3><p>在此版本中，Action Controller 對渲染進行了一些重大更改，並在路由和其他方面進行了改進。</p><h4 id=""><a class="anchorlink" href="#">5.1 統一渲染</a></h4><p><code>ActionController::Base#render</code> 在決定渲染什麼方面要聰明得多。現在你可以告訴它要渲染什麼並期望得到正確的結果。在舊版本的 Rails 中，你經常需要提供顯式資訊來渲染：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">render</span> <span class="ss">:file</span> <span class="o">=&gt;</span> <span class="s1">'/tmp/random_file.erb'</span>
+<span class="n">render</span> <span class="ss">:template</span> <span class="o">=&gt;</span> <span class="s1">'other_controller/action'</span>
+<span class="n">render</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s1">'show'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="render :file =&gt; '/tmp/random_file.erb'
+render :template =&gt; 'other_controller/action'
+render :action =&gt; 'show'
+">Copy</button>
+</div>
+<p>現在在 Rails 2.3 中，你可以只提供你想要渲染的內容：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">render</span> <span class="s1">'/tmp/random_file.erb'</span>
+<span class="n">render</span> <span class="s1">'other_controller/action'</span>
+<span class="n">render</span> <span class="s1">'show'</span>
+<span class="n">render</span> <span class="ss">:show</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="render '/tmp/random_file.erb'
+render 'other_controller/action'
+render 'show'
+render :show
+">Copy</button>
+</div>
+<p>Rails 根據要呈現的內容中是否有前導斜槓、嵌入斜槓或根本沒有斜槓，在檔案、模板和操作之間進行選擇。請注意，您還可以在呈現動作時使用符號而不是字串。其他渲染樣式（<code>:inline</code>、<code>:text</code>、<code>:update</code>、<code>:nothing</code>、<code>:json</code>、<code>:xml</code>、<code>:js</code>）仍然需要顯式選項。</p><h4 id=""><a class="anchorlink" href="#">5.2 應用程式控制器重新命名</a></h4><p>如果您是一直被<code>application.rb</code> 的特殊命名所困擾的人之一，那麼慶幸吧！它在 Rails 2.3 中被改寫為“application_controller.rb”。此外，還有一個新的 rake 任務，<code>rake rails:update:application_controller</code> 會自動為你執行此操作 - 它將作為正常 <code>rake rails:update</code> 程序的一部分執行。</p>
+<ul>
+<li>更多資訊：
+
+<ul>
+<li><a href="https://afreshcup.com/home/2008/11/17/rails-2x-the-death-of-applicationrb">應用之死.rb</a></li>
+<li>[Edge Rails 的新功能：Application.rb 不再是二元性](<a href="http://archives.ryandaigle.com/articles/2008/11/19/what-s-new-in-edge-rails-application-rb">http://archives.ryandaigle.com/articles/2008/11/19/what-s-new-in-edge-rails-application-rb</a> -二元性不再存在）</li>
+</ul>
+</li>
+</ul>
+<h4 id="http"><a class="anchorlink" href="#http">5.3 HTTP 摘要身份驗證支援</a></h4><p>Rails 現在內建了對 HTTP 摘要身份驗證的支援。要使用它，您可以使用返回使用者密碼的塊呼叫 <code>authenticate_or_request_with_http_digest</code>（然後將其雜湊並與傳輸的憑據進行比較）：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">PostsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="no">Users</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"dhh"</span> <span class="o">=&gt;</span> <span class="s2">"secret"</span><span class="p">}</span>
+  <span class="n">before_filter</span> <span class="ss">:authenticate</span>
+
+  <span class="k">def</span> <span class="nf">secret</span>
+    <span class="n">render</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">"Password Required!"</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+  <span class="k">def</span> <span class="nf">authenticate</span>
+    <span class="n">realm</span> <span class="o">=</span> <span class="s2">"Application"</span>
+    <span class="n">authenticate_or_request_with_http_digest</span><span class="p">(</span><span class="n">realm</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="o">|</span>
+      <span class="no">Users</span><span class="p">[</span><span class="nb">name</span><span class="p">]</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class PostsController &lt; ApplicationController
+  Users = {"dhh" =&gt; "secret"}
+  before_filter :authenticate
+
+  def secret
+    render :text =&gt; "Password Required!"
+  end
+
+  private
+  def authenticate
+    realm = "Application"
+    authenticate_or_request_with_http_digest(realm) do |name|
+      Users[name]
+    end
+  end
+end
+'>Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://www.kellogg-assoc.com/">Gregg Kellogg</a>
+</li>
+<li>更多資訊：[Edge Rails 的新特性：HTTP 摘要認證](<a href="http://archives.ryandaigle.com/articles/2009/1/30/what-s-new-in-edge-rails-http-digest-%E9%A9%97%E8%AD%89%EF%BC%89">http://archives.ryandaigle.com/articles/2009/1/30/what-s-new-in-edge-rails-http-digest-驗證）</a>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">5.4 更高效的路由</a></h4><p>Rails 2.3 中有幾個重要的路由更改。 <code>formatted_</code> 路由助手已經消失，只支援傳入 <code>:format</code> 作為選項。這將任何資源的路由生成過程減少了 50% - 並且可以節省大量記憶體（在大型應用程式上高達 100MB）。如果您的程式碼使用 <code>formatted_</code> 幫助程式，它暫時仍然可以工作 - 但這種行為已被棄用，如果您使用新標準重寫這些路由，您的應用程式將更加高​​效。另一個重大變化是 Rails 現在支援多個路由檔案，而不僅僅是 <code>routes.rb</code>。您可以隨時使用 <code>RouteSet#add_configuration_file</code> 引入更多路由 - 無需清除當前載入的路由。雖然此更改對引擎最有用，但您可以在需要批量載入路由的任何應用程式中使用它。</p>
+<ul>
+<li>主要貢獻者：<a href="http://blog.hungrymachine.com/">Aaron Batalion</a>
+</li>
+</ul>
+<h4 id="rake"><a class="anchorlink" href="#rake">5.5 基於 Rake 的延遲載入會話</a></h4><p>一項重大變化將 Action Controller 會話儲存的基礎推到了 Rack 級別。這涉及程式碼中的大量工作，儘管它應該對您的 Rails 應用程式完全透明（作為獎勵，圍繞舊 CGI 會話處理程式的一些令人討厭的補丁已被刪除）。不過，這仍然很重要，原因很簡單：非 Rails Rack 應用程式可以訪問與 Rails 應用程式相同的會話儲存處理程式（因此也是相同的會話）。此外，會話現在是延遲載入的（與框架其餘部分的載入改進一致）。這意味著如果您不想要會話，您不再需要明確禁用它們；只是不要引用它們，它們不會載入。</p><h4 id="mime"><a class="anchorlink" href="#mime">5.6 MIME 型別處理更改</a></h4><p>在 Rails 中處理 MIME 型別的程式碼有一些更改。首先，<code>MIME::Type</code> 現在實現了 <code>=~</code> 運算子，當您需要檢查是否存在具有同義詞的型別時，事情變得更加清晰：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">if</span> <span class="n">content_type</span> <span class="o">&amp;&amp;</span> <span class="no">Mime</span><span class="o">::</span><span class="no">JS</span> <span class="o">=~</span> <span class="n">content_type</span>
+  <span class="c1"># do something cool</span>
+<span class="k">end</span>
+
+<span class="no">Mime</span><span class="o">::</span><span class="no">JS</span> <span class="o">=~</span> <span class="s2">"text/javascript"</span>        <span class="o">=&gt;</span> <span class="kp">true</span>
+<span class="no">Mime</span><span class="o">::</span><span class="no">JS</span> <span class="o">=~</span> <span class="s2">"application/javascript"</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='if content_type &amp;&amp; Mime::JS =~ content_type
+  # do something cool
+end
+
+Mime::JS =~ "text/javascript"        =&gt; true
+Mime::JS =~ "application/javascript" =&gt; true
+'>Copy</button>
+</div>
+<p>另一個變化是框架現在在檢查各個位置的 JavaScript 時使用 <code>Mime::JS</code>，使其能夠乾淨地處理這些替代方案。</p>
+<ul>
+<li>主要貢獻者：<a href="http://www.workingwithrails.com/person/5510-seth-fitzsimmons">Seth Fitzsimmons</a>
+</li>
+</ul>
+<h4 id="respond-to"><a class="anchorlink" href="#respond-to">5.7 優化<code>respond_to</code></a></h4><p>在 Rails-Merb 團隊合併的一些初步成果中，Rails 2.3 包括對 <code>respond_to</code> 方法的一些優化，該方法當然在許多 Rails 應用程式中大量使用，以允許您的控制器根據 MIME 型別對結果進行不同的格式化。傳入的請求。在消除對 <code>method_missing</code> 的呼叫以及一些分析和調整後，我們看到每秒提供的請求數量提高了 8%，使用簡單的 <code>respond_to</code> 在三種格式之間切換。最好的部分？無需更改應用程式程式碼即可利用此加速。</p><h4 id=""><a class="anchorlink" href="#">5.8 改進的快取效能</a></h4><p>Rails 現在從遠端快取儲存中保留每個請求的本地讀取快取，減少不必要的讀取並提高站點效能。雖然這項工作最初僅限於“MemCacheStore”，但它可用於任何遠端儲存，而不是實現所需的方法。</p>
+<ul>
+<li>主要貢獻者：<a href="http://www.motionstandingstill.com/">Nahum Wild</a>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">5.9 本地化檢視</a></h4><p>Rails 現在可以提供本地化檢視，具體取決於您設定的語言環境。例如，假設您有一個帶有“show”動作的“Posts”控制器。預設情況下，這將呈現<code>app/views/posts/show.html.erb</code>。但是如果你設定<code>I18n.locale = :da</code>，它會渲染<code>app/views/posts/show.da.html.erb</code>。如果本地化模板不存在，則將使用未修飾的版本。 Rails 還包括<code>I18n#available_locales</code> 和<code>I18n::SimpleBackend#available_locales</code>，它們返回當前Rails 專案中可用的翻譯陣列。</p><p>此外，您可以使用相同的方案來本地化公共目錄中的救援檔案：例如，<code>public/500.da.html</code> 或 <code>public/404.en.html</code> 工作。</p><h4 id=""><a class="anchorlink" href="#">5.10 翻譯的部分範圍</a></h4><p>對翻譯 API 的更改使在部分中編寫關鍵翻譯變得更容易和更少重複。如果你從 <code>people/index.html.erb</code> 模板中呼叫 <code>translate(".foo")</code>，你實際上會呼叫 <code>I18n.translate("people.index.foo")</code> 如果你不這樣做在金鑰前面加上一個句點，那麼 API 就沒有範圍了，就像以前一樣。</p><h4 id=""><a class="anchorlink" href="#">5.11 其他動作控制器更改</a></h4>
+<ul>
+<li>對 ETag 處理進行了一些清理：當響應沒有正文或使用 <code>send_file</code> 傳送檔案時，Rails 現在將跳過傳送 ETag 標頭。</li>
+<li>Rails 檢查 IP 欺騙的事實對於使用手機進行大量流量的站點來說可能會令人討厭，因為它們的代理通常不會正確設定。如果這就是你，你現在可以設定<code>ActionController::Base.ip_spoofing_check = false</code> 來完全禁用檢查。</li>
+<li>
+<code>ActionController::Dispatcher</code> 現在實現了它自己的中介軟體堆疊，你可以通過執行 <code>rake middleware</code> 看到它。</li>
+<li>Cookie 會話現在具有持久會話識別符號，API 與伺服器端儲存區相容。</li>
+<li>您現在可以為 <code>send_file</code> 和 <code>send_data</code> 的 <code>:type</code> 選項使用符號，例如：<code>send_file("fabulous.png", :type =&gt; :png)</code>。</li>
+<li>
+<code>map.resources</code> 的 <code>:only</code> 和 <code>:except</code> 選項不再被巢狀資源繼承。</li>
+<li>捆綁的 memcached 客戶端已更新至 1.6.4.99 版。</li>
+<li>
+<code>expires_in</code>、<code>stale?</code> 和 <code>fresh_when</code> 方法現在接受一個 <code>:public</code> 選項，使它們能夠很好地與代理快取一起工作。</li>
+<li>
+<code>:requirements</code> 選項現在可以與其他 RESTful 成員路由一起正常工作。</li>
+<li>淺層路由現在正確尊重新命名空間。</li>
+<li>
+<code>polymorphic_url</code> 在處理具有不規則複數名稱的物件方面做得更好。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">6 動作檢視</a></h3><p>Rails 2.3 中的 Action View 選擇了巢狀模型表單、對 <code>render</code> 的改進、更靈活的日期選擇助手提示以及資產快取的加速等。</p><h4 id=""><a class="anchorlink" href="#">6.1 巢狀物件表單</a></h4><p>如果父模型接受子物件的巢狀屬性（如 Active Record 部分所述），您可以使用 <code>form_for</code> 和 <code>field_for</code> 建立巢狀表單。這些表單可以任意深度巢狀，允許您在單個檢視上編輯複雜的物件層次結構，而無需過多的程式碼。例如，給定這個模型：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:orders</span>
+
+  <span class="n">accepts_nested_attributes_for</span> <span class="ss">:orders</span><span class="p">,</span> <span class="ss">:allow_destroy</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Customer &lt; ActiveRecord::Base
+  has_many :orders
+
+  accepts_nested_attributes_for :orders, :allow_destroy =&gt; true
+end
+">Copy</button>
+</div>
+<p>您可以在 Rails 2.3 中編寫此檢視：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%</span> <span class="n">form_for</span> <span class="vi">@customer</span> <span class="k">do</span> <span class="o">|</span><span class="n">customer_form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">customer_form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:name</span><span class="p">,</span> <span class="s1">'Customer Name:'</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">customer_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="c">&lt;!-- Here we call fields_for on the customer_form builder instance.
+   The block is called for each member of the orders collection. --&gt;</span>
+  <span class="cp">&lt;%</span> <span class="n">customer_form</span><span class="p">.</span><span class="nf">fields_for</span> <span class="ss">:orders</span> <span class="k">do</span> <span class="o">|</span><span class="n">order_form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      <span class="nt">&lt;div&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">order_form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:number</span><span class="p">,</span> <span class="s1">'Order Number:'</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">order_form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:number</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+
+  <span class="c">&lt;!-- The allow_destroy option in the model enables deletion of
+   child records. --&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">unless</span> <span class="n">order_form</span><span class="p">.</span><span class="nf">object</span><span class="p">.</span><span class="nf">new_record?</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;div&gt;</span>
+          <span class="cp">&lt;%=</span> <span class="n">order_form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:_delete</span><span class="p">,</span> <span class="s1">'Remove:'</span> <span class="cp">%&gt;</span>
+          <span class="cp">&lt;%=</span> <span class="n">order_form</span><span class="p">.</span><span class="nf">check_box</span> <span class="ss">:_delete</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">customer_form</span><span class="p">.</span><span class="nf">submit</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;% form_for @customer do |customer_form| %&gt;
+  &lt;div&gt;
+    &lt;%= customer_form.label :name, 'Customer Name:' %&gt;
+    &lt;%= customer_form.text_field :name %&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Here we call fields_for on the customer_form builder instance.
+   The block is called for each member of the orders collection. --&gt;
+  &lt;% customer_form.fields_for :orders do |order_form| %&gt;
+    &lt;p&gt;
+      &lt;div&gt;
+        &lt;%= order_form.label :number, 'Order Number:' %&gt;
+        &lt;%= order_form.text_field :number %&gt;
+      &lt;/div&gt;
+
+  &lt;!-- The allow_destroy option in the model enables deletion of
+   child records. --&gt;
+      &lt;% unless order_form.object.new_record? %&gt;
+        &lt;div&gt;
+          &lt;%= order_form.label :_delete, 'Remove:' %&gt;
+          &lt;%= order_form.check_box :_delete %&gt;
+        &lt;/div&gt;
+      &lt;% end %&gt;
+    &lt;/p&gt;
+  &lt;% end %&gt;
+
+  &lt;%= customer_form.submit %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://superalloy.nl/">Eloy Duran</a>
+</li>
+<li>更多資訊：
+
+<ul>
+<li><a href="https://weblog.rubyonrails.org/2009/1/26/nested-model-forms">巢狀模型表單</a></li>
+<li><a href="https://github.com/alloy/complex-form-examples">complex-form-examples</a></li>
+<li><a href="http://archives.ryandaigle.com/articles/2009/2/1/what-s-new-in-edge-rails-nested-attributes">Edge Rails 的新功能：巢狀物件形式</a></li>
+</ul>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">6.2 部分的智慧渲染</a></h4><p>多年來，渲染方法變得越來越智慧，現在甚至更智慧。如果你有一個物件或一個集合和一個適當的部分，並且命名匹配，你現在可以只渲染物件並且事情會起作用。例如，在 Rails 2.3 中，這些渲染呼叫將在您的檢視中工作（假設命名合理）：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Equivalent of render :partial =&gt; 'articles/_article',</span>
+<span class="c1"># :object =&gt; @article</span>
+<span class="n">render</span> <span class="vi">@article</span>
+
+<span class="c1"># Equivalent of render :partial =&gt; 'articles/_article',</span>
+<span class="c1"># :collection =&gt; @articles</span>
+<span class="n">render</span> <span class="vi">@articles</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Equivalent of render :partial =&gt; 'articles/_article',
+# :object =&gt; @article
+render @article
+
+# Equivalent of render :partial =&gt; 'articles/_article',
+# :collection =&gt; @articles
+render @articles
+">Copy</button>
+</div>
+
+<ul>
+<li>更多資訊：[Edge Rails 的新功能：渲染不再需要高維護](<a href="http://archives.ryandaigle.com/articles/2008/11/20/what-s-new-in-edge-rails-render">http://archives.ryandaigle.com/articles/2008/11/20/what-s-new-in-edge-rails-render</a> -停止高維護）</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">6.3 提示日期選擇助手</a></h4><p>在 Rails 2.3 中，您可以為各種日期選擇助手（<code>date_select</code>、<code>time_select</code> 和 <code>datetime_select</code>）提供自定義提示，就像使用集合選擇助手一樣。您可以為各種元件提供提示字串或單個提示字串的雜湊。您也可以將 <code>:prompt</code> 設定為 <code>true</code> 以使用自定義通用提示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">select_datetime</span><span class="p">(</span><span class="no">DateTime</span><span class="p">.</span><span class="nf">now</span><span class="p">,</span> <span class="ss">:prompt</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+
+<span class="n">select_datetime</span><span class="p">(</span><span class="no">DateTime</span><span class="p">.</span><span class="nf">now</span><span class="p">,</span> <span class="ss">:prompt</span> <span class="o">=&gt;</span> <span class="s2">"Choose date and time"</span><span class="p">)</span>
+
+<span class="n">select_datetime</span><span class="p">(</span><span class="no">DateTime</span><span class="p">.</span><span class="nf">now</span><span class="p">,</span> <span class="ss">:prompt</span> <span class="o">=&gt;</span>
+  <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">'Choose day'</span><span class="p">,</span> <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="s1">'Choose month'</span><span class="p">,</span>
+   <span class="ss">:year</span> <span class="o">=&gt;</span> <span class="s1">'Choose year'</span><span class="p">,</span> <span class="ss">:hour</span> <span class="o">=&gt;</span> <span class="s1">'Choose hour'</span><span class="p">,</span>
+   <span class="ss">:minute</span> <span class="o">=&gt;</span> <span class="s1">'Choose minute'</span><span class="p">})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="select_datetime(DateTime.now, :prompt =&gt; true)
+
+select_datetime(DateTime.now, :prompt =&gt; &quot;Choose date and time&quot;)
+
+select_datetime(DateTime.now, :prompt =&gt;
+  {:day =&gt; 'Choose day', :month =&gt; 'Choose month',
+   :year =&gt; 'Choose year', :hour =&gt; 'Choose hour',
+   :minute =&gt; 'Choose minute'})
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://samoliver.com/">Sam Oliver</a>
+</li>
+</ul>
+<h4 id="assettag"><a class="anchorlink" href="#assettag">6.4 AssetTag 時間戳快取</a></h4><p>您可能熟悉 Rails 將時間戳新增到靜態資產路徑作為“快取破壞者”的做法。這有助於確保當您在伺服器上更改影象和樣式表等內容時，不會從使用者的瀏覽器快取中提供這些內容的陳舊副本。您現在可以使用 Action View 的 <code>cache_asset_timestamps</code> 配置選項修改此行為。如果啟用快取，那麼 Rails 將在首次提供資產時計算一次時間戳，並儲存該值。這意味著為靜態資產提供服務的檔案系統呼叫更少（昂貴）——但這也意味著您無法在伺服器執行時修改任何資產，並期望客戶端獲取更改。</p><h4 id=""><a class="anchorlink" href="#">6.5 資產主機作為物件</a></h4><p>資產主機在邊緣 Rails 中變得更加靈活，能夠將資產主機宣告為響應呼叫的特定物件。這允許您在資產託管中實現您需要的任何複雜邏輯。</p>
+<ul>
+<li>更多資訊：<a href="https://github.com/dhh/asset-hosting-with-minimum-ssl/tree/master">asset-hosting-with-minimum-ssl</a>
+</li>
+</ul>
+<h4 id="grouped-options-for-select"><a class="anchorlink" href="#grouped-options-for-select">6.6 grouped_options_for_select 輔助方法</a></h4><p>Action View 已經有一堆幫助器來幫助生成選擇控制元件，但現在還有一個：<code>grouped_options_for_select</code>。這個接受一個字串陣列或雜湊，並將它們轉換成一串用 <code>optgroup</code> 標籤包裹的 <code>option</code> 標籤。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">grouped_options_for_select</span><span class="p">([[</span><span class="s2">"Hats"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"Baseball Cap"</span><span class="p">,</span><span class="s2">"Cowboy Hat"</span><span class="p">]]],</span>
+  <span class="s2">"Cowboy Hat"</span><span class="p">,</span> <span class="s2">"Choose a product..."</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='grouped_options_for_select([["Hats", ["Baseball Cap","Cowboy Hat"]]],
+  "Cowboy Hat", "Choose a product...")
+'>Copy</button>
+</div>
+<p>返回</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">""</span><span class="o">&gt;</span><span class="no">Choose</span> <span class="n">a</span> <span class="n">product</span><span class="o">...&lt;</span><span class="sr">/option&gt;
+&lt;optgroup label="Hats"&gt;
+  &lt;option value="Baseball Cap"&gt;Baseball Cap&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">option</span> <span class="n">selected</span><span class="o">=</span><span class="s2">"selected"</span> <span class="n">value</span><span class="o">=</span><span class="s2">"Cowboy Hat"</span><span class="o">&gt;</span><span class="no">Cowboy</span> <span class="no">Hat</span><span class="o">&lt;</span><span class="sr">/option&gt;
+&lt;/o</span><span class="n">ptgroup</span><span class="o">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;option value=""&gt;Choose a product...&lt;/option&gt;
+&lt;optgroup label="Hats"&gt;
+  &lt;option value="Baseball Cap"&gt;Baseball Cap&lt;/option&gt;
+  &lt;option selected="selected" value="Cowboy Hat"&gt;Cowboy Hat&lt;/option&gt;
+&lt;/optgroup&gt;
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">6.7 禁用表單選擇助手的選項標籤</a></h4><p>表單選擇助手（例如<code>select</code> 和<code>options_for_select</code>）現在支援<code>:disabled</code> 選項，該選項可以在結果標籤中禁用單個值或一組值：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">select</span><span class="p">(</span><span class="ss">:post</span><span class="p">,</span> <span class="ss">:category</span><span class="p">,</span> <span class="no">Post</span><span class="o">::</span><span class="no">CATEGORIES</span><span class="p">,</span> <span class="ss">:disabled</span> <span class="o">=&gt;</span> <span class="s1">'private'</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="select(:post, :category, Post::CATEGORIES, :disabled =&gt; 'private')
+">Copy</button>
+</div>
+<p>返回</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"post[category]"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;option&gt;</span>story<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>joke<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>poem<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">disabled=</span><span class="s">"disabled"</span><span class="nt">&gt;</span>private<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;select name="post[category]"&gt;
+&lt;option&gt;story&lt;/option&gt;
+&lt;option&gt;joke&lt;/option&gt;
+&lt;option&gt;poem&lt;/option&gt;
+&lt;option disabled="disabled"&gt;private&lt;/option&gt;
+&lt;/select&gt;
+'>Copy</button>
+</div>
+<p>您還可以使用匿名函式在執行時確定將選擇和/或禁用集合中的哪些選項：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">options_from_collection_for_select</span><span class="p">(</span><span class="vi">@product</span><span class="p">.</span><span class="nf">sizes</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:disabled</span> <span class="o">=&gt;</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span><span class="n">size</span><span class="o">|</span> <span class="n">size</span><span class="p">.</span><span class="nf">out_of_stock?</span><span class="p">})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="options_from_collection_for_select(@product.sizes, :name, :id, :disabled =&gt; lambda{|size| size.out_of_stock?})
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://tekin.co.uk/">Tekin Suleyman</a>
+</li>
+<li>更多資訊：<a href="https://tekin.co.uk/2009/03/new-in-rails-23-disabled-option-%E6%A8%99%E7%B1%A4%E5%92%8C%20lambdas-for-selecting-and-disabling-options-from-collections">rails 2.3 中的新功能 - 禁用選項標籤和用於從集合中選擇和禁用選項的 lambdas</a>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">6.8 關於模板載入的注意事項</a></h4><p>Rails 2.3 包括為任何特定環境啟用或禁用快取模板的能力。快取模板為您提供了速度提升，因為它們在呈現時不會檢查新模板檔案 - 但它們也意味著您無法在不重新啟動伺服器的情況下“即時”替換模板。</p><p>在大多數情況下，您需要在生產中開啟模板快取，您可以通過在“production.rb”檔案中進行設定來實現：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">action_view</span><span class="p">.</span><span class="nf">cache_template_loading</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.action_view.cache_template_loading = true
+">Copy</button>
+</div>
+<p>預設情況下，將在新的 Rails 2.3 應用程式中為您生成這一行。如果您從舊版本的 Rails 升級，Rails 將預設在生產和測試中快取模板，而不是在開發中。</p><h4 id=""><a class="anchorlink" href="#">6.9 其他操作檢視更改</a></h4>
+<ul>
+<li>簡化了CSRF保護的令牌生成；現在 Rails 使用由<code>ActiveSupport::SecureRandom</code> 生成的簡單隨機字串，而不是使用會話 ID。</li>
+<li>
+<code>auto_link</code> 現在可以正確地將選項（例如 <code>:target</code> 和 <code>:class</code>）應用於生成的電子郵件連結。</li>
+<li>
+<code>autolink</code> 助手已經過重構，使其不那麼混亂，更直觀。</li>
+<li>
+<code>current_page?</code> 現在即使 URL 中有多個查詢引數也能正常工作。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">7 積極支援</a></h3><p>Active Support 有一些有趣的變化，包括引入<code>Object#try</code>。</p><h4 id=""><a class="anchorlink" href="#">7.1 物件#嘗試</a></h4><p>很多人都採用了使用 try() 來嘗試對物件進行操作的概念。它在檢視中特別有用，您可以通過編寫像 <code>&lt;%= @person.try(:name) %&gt;</code> 這樣的程式碼來避免空檢查。好吧，現在它已經融入到 Rails 中了。正如在 Rails 中實現的那樣，它在私有方法上引發 <code>NoMethodError</code>，並且如果物件為 nil，則總是返回 <code>nil</code>。</p>
+<ul>
+<li>更多資訊：<a href="http://ozmm.org/posts/try.html">try()</a>
+</li>
+</ul>
+<h4 id="tap"><a class="anchorlink" href="#tap">7.2 物件#tap 向後移植</a></h4><p><code>Object#tap</code> 是對 <a href="http://www.ruby-doc.org/core-1.9/classes/Object.html#M000309">Ruby 1.9</a> 和 1.8.7 的補充，類似於 <code>returning</code> Rails 有一段時間的方法：它產生一個塊，然後返回產生的物件。 Rails 現在包含程式碼，以便在舊版本的 Ruby 下也可以使用它。</p><h4 id="xmlmini"><a class="anchorlink" href="#xmlmini">7.3 XMLmini 的可交換解析器</a></h4><p>通過允許您交換不同的解析器，Active Support 中對 XML 解析的支援變得更加靈活。預設情況下，它使用標準的 REXML 實現，但您可以輕鬆地為您自己的應用程式指定更快的 LibXML 或 Nokogiri 實現，前提是您安裝了適當的 gem：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">XmlMini</span><span class="p">.</span><span class="nf">backend</span> <span class="o">=</span> <span class="s1">'LibXML'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="XmlMini.backend = 'LibXML'
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://www.movesonrails.com/">Bart 10 Brinke</a>
+</li>
+<li>主要貢獻者：<a href="http://tenderlovemaking.com/">Aaron Patterson</a>
+</li>
+</ul>
+<h4 id="timewithzone"><a class="anchorlink" href="#timewithzone">7.4 TimeWithZone 的小數秒</a></h4><p><code>Time</code> 和 <code>TimeWithZone</code> 類包含一個 <code>xmlschema</code> 方法，以 XML 友好的字串形式返回時間。從 Rails 2.3 開始，<code>TimeWithZone</code> 支援與<code>Time</code> 相同的引數，用於指定返回字串的小數第二部分中的位數：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Time</span><span class="p">.</span><span class="nf">zone</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">xmlschema</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="c1"># =&gt; "2009-01-16T13:00:06.13653Z"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Time.zone.now.xmlschema(6) # =&gt; "2009-01-16T13:00:06.13653Z"
+'>Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://www.workingwithrails.com/person/13536-nicholas-dainty">Nicholas Dainty</a>
+</li>
+</ul>
+<h4 id="json"><a class="anchorlink" href="#json">7.5 JSON 鍵引用</a></h4><p>如果您在“json.org”站點上查詢規範，您會發現 JSON 結構中的所有鍵都必須是字串，並且它們必須用雙引號引起來。從 Rails 2.3 開始，我們在這裡做了正確的事情，即使是使用數字鍵。</p><h4 id=""><a class="anchorlink" href="#">7.6 其他主動支援更改</a></h4>
+<ul>
+<li>您可以使用 <code>Enumerable#none?</code> 來檢查所有元素是否與提供的塊匹配。</li>
+<li>如果您使用 Active Support <a href="https://afreshcup.com/home/2008/10/19/coming-in-rails-22-delegate-prefixes">delegates</a> 新的 <code>:allow_nil</code> 選項讓您返回<code>nil</code> 而不是在目標物件為 nil 時引發異常。</li>
+<li>
+<code>ActiveSupport::OrderedHash</code>：現在實現 <code>each_key</code> 和 <code>each_value</code>。</li>
+<li>
+<code>ActiveSupport::MessageEncryptor</code> 提供了一種簡單的方法來加密資訊以儲存在不受信任的位置（如 cookie）。</li>
+<li>Active Support 的<code>from_xml</code> 不再依賴於 XmlSimple。相反，Rails 現在包含了它自己的 XmlMini 實現，僅具有它所需的功能。這讓 Rails 免除了它一直在搬運的 XmlSimple 的捆綁副本。</li>
+<li>如果你記住一個私有方法，結果現在將是私有的。</li>
+<li>
+<code>String#parameterize</code> 接受一個可選的分隔符：<code>"Quick Brown Fox".parameterize('_') =&gt; "quick_brown_fox"</code>。</li>
+<li>
+<code>number_to_phone</code> 現在接受 7 位電話號碼。</li>
+<li>
+<code>ActiveSupport::Json.decode</code> 現在處理 <code>\u0000</code> 風格的轉義序列。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">8 鐵軌</a></h3><p>除了上面介紹的 Rack 更改之外，Railties（Rails 本身的核心程式碼）還進行了許多重大更改，包括 Rails Metal、應用程式模板和安靜的回溯。</p><h4 id="rails"><a class="anchorlink" href="#rails">8.1 Rails 金屬</a></h4><p>Rails Metal 是一種新機制，可在您的 Rails 應用程式內部提供超快端點。 Metal 類繞過路由和 Action Controller 為您提供原始速度（當然，以 Action Controller 中的所有內容為代價）。這建立在所有最近的基礎工作之上，使 Rails 成為具有公開中介軟體堆疊的 Rack 應用程式。 Metal 端點可以從您的應用程式或外掛載入。</p>
+<ul>
+<li>更多資訊：
+
+<ul>
+<li><a href="https://weblog.rubyonrails.org/2008/12/17/introducing-rails-metal">Rails Metal 介紹</a></li>
+<li><a href="http://soylentfoo.jnewland.com/articles/2008/12/16/rails-metal-a-micro-framework-with-the-power-%E8%BB%8C%E9%81%93-m">Rails Metal：具有 Rails 強大功能的微框架</a></li>
+<li><a href="http://www.railsinside.com/deployment/180-metal-super-fast-endpoints-within-your-rails-apps.html">Metal：Rails 應用程式中的超快端點</a></li>
+<li><a href="http://archives.ryandaigle.com/articles/2008/12/18/what-s-new-in-edge-rails-rails-metal">Edge Rails 的新特性：Rails Metal</a></li>
+</ul>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">8.2 應用程式模板</a></h4><p>Rails 2.3 包含 Jeremy McAnally 的 <a href="https://github.com/jm/rg">rg</a> 應用程式生成器。這意味著我們現在在 Rails 中內建了基於模板的應用程式生成；如果您有一組包含在每個應用程式中的外掛（以及許多其他用例），您只需設定一次模板，並在執行 <code>rails</code> 命令時反覆使用它。還有一個 rake 任務可以將模板應用於現有應用程式：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">rake rails</span>:template <span class="nv">LOCATION</span><span class="o">=</span>~/template.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rake rails:template LOCATION=~/template.rb
+">Copy</button>
+</div>
+<p>這會將模板中的更改分層到專案已經包含的任何程式碼之上。</p>
+<ul>
+<li>主要貢獻者：<a href="http://www.jeremymcanally.com/">Jeremy McAnally</a>
+</li>
+<li>更多資訊：<a href="http://m.onkey.org/2008/12/4/rails-templates">Rails 模板</a>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">8.3 更安靜的回溯</a></h4><p>基於thoughtbot 的<a href="https://github.com/thoughtbot/quietbacktrace">Quiet Backtrace</a> 外掛，它允許您有選擇地從<code>Test::Unit</code> 回溯中刪除行，Rails 2.3 實現了<code>ActiveSupport::BacktraceCleaner</code> 和<code>Rails ::BacktraceCleaner 核心。這支援過濾器（在回溯行上執行基於正則表示式的替換）和消音器（完全刪除回溯行）。 Rails 會自動新增消音器以消除新應用程式中最常見的噪音，並構建一個</code>config/backtrace_silencers.rb` 檔案來儲存您自己的新增內容。此功能還可以從回溯中的任何 gem 進行更漂亮的列印。</p><h4 id=""><a class="anchorlink" href="#">8.4 在開發模式下通過延遲載入/自動載入加快啟動時間</a></h4><p>做了大量工作以確保 Rails（及其依賴項）的位只在實際需要時才被帶入記憶體。核心框架——Active Support、Active Record、Action Controller、Action Mailer 和 Action View——現在使用 <code>autoload</code> 來延遲載入它們各自的類。這項工作應該有助於減少記憶體佔用並提高 Rails 的整體效能。</p><p>您還可以指定（通過使用新的 <code>preload_frameworks</code> 選項）是否應該在啟動時自動載入核心庫。這預設為 <code>false</code>，以便 Rails 自動逐個載入自己，但在某些情況下，您仍然需要一次載入所有內容——Passenger 和 JRuby 都希望看到所有 Rails 載入在一起。</p><h4 id="rake-gem"><a class="anchorlink" href="#rake-gem">8.5 rake gem 任務重寫</a></h4><p>各種<code>rake gem</code> 任務的內部結構已經過大幅修改，以使系統在各種情況下都能更好地工作。 gem 系統現在知道開發​​依賴和執行時依賴之間的區別，有一個更強大的解包系統，在查詢 gem 狀態時提供更好的資訊，並且在你提出問題時不太容易出現“雞和蛋”依賴問題從頭開始。還有一些修復程式用於在 JRuby 下使用 gem 命令以及嘗試引入已經供應商的 gem 的外部副本的依賴項。</p>
+<ul>
+<li>主要貢獻者：<a href="http://www.workingwithrails.com/person/12240-david-dollar">David Dollar</a>
+</li>
+</ul>
+<h4 id="railties"><a class="anchorlink" href="#railties">8.6 其他 Railties 更改</a></h4>
+<ul>
+<li>更新並擴充套件了更新 CI 伺服器以構建 Rails 的說明。</li>
+<li>內部Rails 測試已經從<code>Test::Unit::TestCase</code> 切換到<code>ActiveSupport::TestCase</code>，Rails 核心需要Mocha 來測試。</li>
+<li>預設的<code>environment.rb</code> 檔案已被整理。</li>
+<li>dbconsole 指令碼現在允許您使用全數字密碼而不會崩潰。</li>
+<li>
+<code>Rails.root</code> 現在返回一個 <code>Pathname</code> 物件，這意味著你可以直接使用它和 <code>join</code> 方法來<a href="https://afreshcup.wordpress.com/2008/12/05%20/a-little-rails_root-tidiness/">清理現有程式碼</a> 使用 <code>File.join</code>。</li>
+<li>預設情況下，每個 Rails 應用程式中不再生成 /public 中處理 CGI 和 FCGI 排程的各種檔案（如果需要，您仍然可以通過在執行 <code>rails</code> 命令時新增 <code>--with-dispatchers</code> 來獲取它們，或者稍後使用 <code>rake rails:update:generate_dispatchers</code> 新增它們）。</li>
+<li>Rails 指南已從 AsciiDoc 轉換為 Textile 標記。</li>
+<li>腳手架檢視和控制器已經清理了一點。</li>
+<li>
+<code>script/server</code> 現在接受 <code>--path</code> 引數以從特定路徑掛載 Rails 應用程式。</li>
+<li>如果缺少任何配置的 gem，gem rake 任務將跳過載入大部分環境。這應該可以解決許多“先決條件”問題，其中 rake gems:install 無法執行，因為 gems 丟失。</li>
+<li>寶石現在只被開啟一次。這解決了 gems（例如 hoe）的問題，這些 gems 對檔案具有隻讀許可權。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">9 已棄用</a></h3><p>此版本中棄用了一些舊程式碼：</p>
+<ul>
+<li>如果您是以依賴檢查器、收割者和生成器指令碼的方式進行部署的（相當罕見的）Rails 開發人員之一，您需要知道這些指令碼不再包含在核心 Rails 中。如果您需要它們，您可以通過 <a href="https://github.com/rails/irs_process_scripts">irs_process_scripts</a> 外掛獲取副本。</li>
+<li>
+<code>render_component</code> 在 Rails 2.3 中從“棄用”變為“不存在”。如果還需要，可以安裝【render_component 外掛】(<a href="https://github.com/rails/render_component/tree/master)%E3%80%82">https://github.com/rails/render_component/tree/master)。</a>
+</li>
+<li>移除了對 Rails 元件的支援。</li>
+<li>如果您是習慣執行 <code>script/performance/request</code> 以根據整合測試檢視效能的人之一，那麼您需要學習一個新技巧：該指令碼現在已從核心 Rails 中刪除。您可以安裝一個新的 request_profiler 外掛來獲得完全相同的功能。</li>
+<li>
+<code>ActionController::Base#session_enabled?</code> 已被棄用，因為會話現在是延遲載入的。</li>
+<li>不推薦使用 <code>protect_from_forgery</code> 的 <code>:digest</code> 和 <code>:secret</code> 選項並且沒有效果。</li>
+<li>一些整合測試助手已被刪除。 <code>response.headers["Status"]</code> 和 <code>headers["Status"]</code> 將不再返回任何內容。 Rack 不允許在其返回標頭中包含“狀態”。但是你仍然可以使用 <code>status</code> 和 <code>status_message</code> 助手。 <code>response.headers["cookie"]</code> 和 <code>headers["cookie"]</code> 將不再返回任何 CGI cookie。您可以檢查 <code>headers["Set-Cookie"]</code> 以檢視原始 cookie 標頭或使用 <code>cookies</code> 助手獲取傳送到客戶端的 cookie 的雜湊值。</li>
+<li>不推薦使用<code>formatted_polymorphic_url</code>。使用 <code>polymorphic_url</code> 和 <code>:format</code> 代替。</li>
+<li>
+<code>ActionController::Response#set_cookie</code> 中的 <code>:http_only</code> 選項已重新命名為 <code>:httponly</code>。</li>
+<li>
+<code>to_sentence</code> 的 <code>:connector</code> 和 <code>:skip_last_comma</code> 選項已被替換為 <code>:words_connector</code>、<code>:two_words_connector</code> 和 <code>:last_word_connector</code> 選項。</li>
+<li>釋出一個帶有空<code>file_field</code> 控制元件的多部分表單，用於向控制器提交一個空字串。由於 Rack 的多部分解析器和舊的 Rails 解析器之間的差異，現在它提交了一個 nil。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">10 學分</a></h3><p><a href="http://afreshcup.com">Mike Gunderloy</a> 編譯的發行說明。此版本的 Rails 2.3 發行說明是基於 Rails 2.3 的 RC2 編譯的。</p>
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

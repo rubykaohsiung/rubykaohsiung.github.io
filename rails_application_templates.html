@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rails 應用程式模板 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Rails 應用程式模板 — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Rails 應用程式模板應用程式模板是簡單的Ruby 檔案，其中包含用於將 gem、初始化器等新增到新建立的 Rails 專案或現有 Rails 專案的 DSL。閱讀本指南後，您將瞭解： 如何使用模板生成/自定義 Rails 應用程式。 如何使用 Rails 模板 API 編寫自己的可重用應用程式模板。" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Rails 應用程式模板應用程式模板是簡單的Ruby 檔案，其中包含用於將 gem、初始化器等新增到新建立的 Rails 專案或現有 Rails 專案的 DSL。閱讀本指南後，您將瞭解： 如何使用模板生成/自定義 Rails 應用程式。 如何使用 Rails 模板 API 編寫自己的可重用應用程式模板。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>Rails 應用程式模板</h2><p>應用程式模板是簡單的Ruby 檔案，其中包含用於將 gem、初始化器等新增到新建立的 Rails 專案或現有 Rails 專案的 DSL。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何使用模板生成/自定義 Rails 應用程式。</li>
+<li>如何使用 Rails 模板 API 編寫自己的可重用應用程式模板。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#">用法</a></li>
+<li>
+<a href="#api">模板API</a>
+
+<ul>
+<li><a href="#args">寶石(*args)</a></li>
+<li><a href="#gem-group-names-block">gem_group(*names, &amp;block)</a></li>
+<li><a href="#add-source-source-options-block">add_source(source, options={}, &amp;block)</a></li>
+<li><a href="#data-nil-options-block">環境/應用程式(data=nil, options={}, &amp;block)</a></li>
+<li><a href="#vendor-lib-file-initializer-filename-data-nil-block">vendor/lib/file/initializer(filename, data = nil, &amp;block)</a></li>
+<li><a href="#rakefile-nil-block">rakefile(檔名, 資料 = nil, &amp;block)</a></li>
+<li><a href="#args">生成（什麼，*args）</a></li>
+<li><a href="#">執行（命令）</a></li>
+<li><a href="#rails-command-command-options">rails_command(command, options = {})</a></li>
+<li><a href="#routing-code">路線（routing_code）</a></li>
+<li><a href="#">裡面（目錄）</a></li>
+<li><a href="#">問（問題）</a></li>
+<li><a href="#">是嗎？（問題）還是否？（問題）</a></li>
+<li><a href="#git-command">git(:command)</a></li>
+<li><a href="#after-bundle-block">after_bundle(&amp;block)</a></li>
+</ul>
+</li>
+<li><a href="#">高階用法</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 用法</a></h3><p>要應用模板，您需要使用 <code>-m</code> 選項向 Rails 生成器提供您希望應用的模板的位置。這可以是檔案路徑或 URL。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">rails </span>new blog <span class="nt">-m</span> ~/template.rb
+<span class="gp">$</span><span class="w"> </span><span class="nb">rails </span>new blog <span class="nt">-m</span> http://example.com/template.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rails new blog -m ~/template.rb
+rails new blog -m http://example.com/template.rb
+">Copy</button>
+</div>
+<p>您可以使用<code>app:template</code> rails 命令將模板應用到現有的 Rails 應用程式。模板的位置需要透過 LOCATION 環境變數傳入。同樣，這可以是檔案的路徑或 URL。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>app:template <span class="nv">LOCATION</span><span class="o">=</span>~/template.rb
+<span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>app:template <span class="nv">LOCATION</span><span class="o">=</span>http://example.com/template.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails app:template LOCATION=~/template.rb
+bin/rails app:template LOCATION=http://example.com/template.rb
+">Copy</button>
+</div>
+<h3 id="api"><a class="anchorlink" href="#api">2 模板API</a></h3><p>Rails 模板 API 很容易理解。下面是一個典型的 Rails 模板示例：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># template.rb</span>
+<span class="n">generate</span><span class="p">(</span><span class="ss">:scaffold</span><span class="p">,</span> <span class="s2">"person name:string"</span><span class="p">)</span>
+<span class="n">route</span> <span class="s2">"root to: 'people#index'"</span>
+<span class="n">rails_command</span><span class="p">(</span><span class="s2">"db:migrate"</span><span class="p">)</span>
+
+<span class="n">after_bundle</span> <span class="k">do</span>
+  <span class="n">git</span> <span class="ss">:init</span>
+  <span class="n">git</span> <span class="ss">add: </span><span class="s2">"."</span>
+  <span class="n">git</span> <span class="ss">commit: </span><span class="sx">%Q{ -m 'Initial commit' }</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# template.rb
+generate(:scaffold, &quot;person name:string&quot;)
+route &quot;root to: 'people#index'&quot;
+rails_command(&quot;db:migrate&quot;)
+
+after_bundle do
+  git :init
+  git add: &quot;.&quot;
+  git commit: %Q{ -m 'Initial commit' }
+end
+">Copy</button>
+</div>
+<p>以下部分概述了 API 提供的主要方法：</p><h4 id="args"><a class="anchorlink" href="#args">2.1 寶石(*args)</a></h4><p>將提供的 gem 的 <code>gem</code> 條目新增到生成的應用程式的 <code>Gemfile</code>。</p><p>例如，如果您的應用程式依賴於 gems <code>bj</code> 和 <code>nokogiri</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">gem</span> <span class="s2">"bj"</span>
+<span class="n">gem</span> <span class="s2">"nokogiri"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='gem "bj"
+gem "nokogiri"
+'>Copy</button>
+</div>
+<p>請注意，這不會為您安裝 gem，您必須執行 <code>bundle install</code> 才能安裝。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bundle install</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bundle install
+">Copy</button>
+</div>
+<h4 id="gem-group-names-block"><a class="anchorlink" href="#gem-group-names-block">2.2 gem_group(*names, &amp;block)</a></h4><p>將 gem 條目包裝在一個組中。</p><p>例如，如果您只想在<code>development</code> 和<code>test</code> 組中載入<code>rspec-rails</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">gem_group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s2">"rspec-rails"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='gem_group :development, :test do
+  gem "rspec-rails"
+end
+'>Copy</button>
+</div>
+<h4 id="add-source-source-options-block"><a class="anchorlink" href="#add-source-source-options-block">2.3 add_source(source, options={}, &amp;block)</a></h4><p>將給定的源新增到生成的應用程式的 <code>Gemfile</code>。</p><p>例如，如果您需要從<code>"http://gems.github.com"</code> 獲取 gem：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">add_source</span> <span class="s2">"http://gems.github.com"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='add_source "http://gems.github.com"
+'>Copy</button>
+</div>
+<p>如果給出了塊，則塊中的 gem 條目將被包裝到源組中。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">add_source</span> <span class="s2">"http://gems.github.com/"</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s2">"rspec-rails"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='add_source "http://gems.github.com/" do
+  gem "rspec-rails"
+end
+'>Copy</button>
+</div>
+<h4 id="data-nil-options-block"><a class="anchorlink" href="#data-nil-options-block">2.4 環境/應用程式(data=nil, options={}, &amp;block)</a></h4><p>在<code>Application</code> 類中為<code>config/application.rb</code> 新增一行。</p><p>如果指定了<code>options[:env]</code>，則該行將附加到<code>config/environments</code> 中的相應檔案中。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">environment</span> <span class="s1">'config.action_mailer.default_url_options = {host: "http://yourwebsite.example.com"}'</span><span class="p">,</span> <span class="ss">env: </span><span class="s1">'production'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="environment 'config.action_mailer.default_url_options = {host: &quot;http://yourwebsite.example.com&quot;}', env: 'production'
+">Copy</button>
+</div>
+<p>可以使用塊代替<code>data</code> 引數。</p><h4 id="vendor-lib-file-initializer-filename-data-nil-block"><a class="anchorlink" href="#vendor-lib-file-initializer-filename-data-nil-block">2.5 vendor/lib/file/initializer(filename, data = nil, &amp;block)</a></h4><p>將初始化程式新增到生成的應用程式的 <code>config/initializers</code> 目錄。</p><p>假設您喜歡使用 <code>Object#not_nil?</code> 和 <code>Object#not_blank?</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">initializer</span> <span class="s1">'bloatlol.rb'</span><span class="p">,</span> <span class="o">&lt;&lt;-</span><span class="no">CODE</span><span class="sh">
+  class Object
+    def not_nil?
+      !nil?
+    end
+
+    def not_blank?
+      !blank?
+    end
+  end
+</span><span class="no">CODE</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="initializer 'bloatlol.rb', &lt;&lt;-CODE
+  class Object
+    def not_nil?
+      !nil?
+    end
+
+    def not_blank?
+      !blank?
+    end
+  end
+CODE
+">Copy</button>
+</div>
+<p>同樣，<code>lib()</code> 在<code>lib/</code> 目錄中建立一個檔案，<code>vendor()</code> 在<code>vendor/</code> 目錄中建立一個檔案。</p><p>甚至還有<code>file()</code>，它接受​​來自<code>Rails.root</code> 的相對路徑並建立所有需要的目錄/檔案：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">file</span> <span class="s1">'app/components/foo.rb'</span><span class="p">,</span> <span class="o">&lt;&lt;-</span><span class="no">CODE</span><span class="sh">
+  class Foo
+  end
+</span><span class="no">CODE</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="file 'app/components/foo.rb', &lt;&lt;-CODE
+  class Foo
+  end
+CODE
+">Copy</button>
+</div>
+<p>這將建立<code>app/components</code> 目錄並將<code>foo.rb</code> 放在那裡。</p><h4 id="rakefile-nil-block"><a class="anchorlink" href="#rakefile-nil-block">2.6 rakefile(檔名, 資料 = nil, &amp;block)</a></h4><p>使用提供的任務在<code>lib/tasks</code> 下建立一個新的 rake 檔案：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">rakefile</span><span class="p">(</span><span class="s2">"bootstrap.rake"</span><span class="p">)</span> <span class="k">do</span>
+  <span class="o">&lt;&lt;-</span><span class="no">TASK</span><span class="sh">
+    namespace :boot do
+      task :strap do
+        puts "i like boots!"
+      end
+    end
+</span><span class="no">  TASK</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='rakefile("bootstrap.rake") do
+  &lt;&lt;-TASK
+    namespace :boot do
+      task :strap do
+        puts "i like boots!"
+      end
+    end
+  TASK
+end
+'>Copy</button>
+</div>
+<p>以上建立了<code>lib/tasks/bootstrap.rake</code> 和<code>boot:strap</code> rake 任務。</p><h4 id="args"><a class="anchorlink" href="#args">2.7 生成（什麼，*args）</a></h4><p>使用給定的引數執行提供的 rails 生成器。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">generate</span><span class="p">(</span><span class="ss">:scaffold</span><span class="p">,</span> <span class="s2">"person"</span><span class="p">,</span> <span class="s2">"name:string"</span><span class="p">,</span> <span class="s2">"address:text"</span><span class="p">,</span> <span class="s2">"age:number"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='generate(:scaffold, "person", "name:string", "address:text", "age:number")
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.8 執行（命令）</a></h4><p>執行任意命令。就像反引號一樣。假設您要刪除 <code>README.rdoc</code> 檔案：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">run</span> <span class="s2">"rm README.rdoc"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='run "rm README.rdoc"
+'>Copy</button>
+</div>
+<h4 id="rails-command-command-options"><a class="anchorlink" href="#rails-command-command-options">2.9 rails_command(command, options = {})</a></h4><p>在 Rails 應用程式中執行提供的命令。假設您要遷移資料庫：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">rails_command</span> <span class="s2">"db:migrate"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='rails_command "db:migrate"
+'>Copy</button>
+</div>
+<p>您還可以使用不同的 Rails 環境執行命令：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">rails_command</span> <span class="s2">"db:migrate"</span><span class="p">,</span> <span class="ss">env: </span><span class="s1">'production'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rails_command &quot;db:migrate&quot;, env: 'production'
+">Copy</button>
+</div>
+<p>您還可以以超級使用者身份執行命令：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">rails_command</span> <span class="s2">"log:clear"</span><span class="p">,</span> <span class="ss">sudo: </span><span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='rails_command "log:clear", sudo: true
+'>Copy</button>
+</div>
+<p>如果失敗，您還可以執行應中止應用程式生成的命令：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">rails_command</span> <span class="s2">"db:migrate"</span><span class="p">,</span> <span class="ss">abort_on_failure: </span><span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='rails_command "db:migrate", abort_on_failure: true
+'>Copy</button>
+</div>
+<h4 id="routing-code"><a class="anchorlink" href="#routing-code">2.10 路線（routing_code）</a></h4><p>將路由條目新增到 <code>config/routes.rb</code> 檔案。在上面的步驟中，我們生成了一個人scaffold 並刪除了<code>README.rdoc</code>。現在，使<code>PeopleController#index</code> 成為應用程式的預設頁面：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">route</span> <span class="s2">"root to: 'person#index'"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="route &quot;root to: 'person#index'&quot;
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.11 裡面（目錄）</a></h4><p>使您能夠從給定目錄執行命令。例如，如果您希望從新應用程式符號連結邊緣導軌的副本，則可以執行以下操作：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">inside</span><span class="p">(</span><span class="s1">'vendor'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">run</span> <span class="s2">"ln -s ~/commit-rails/rails rails"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="inside('vendor') do
+  run &quot;ln -s ~/commit-rails/rails rails&quot;
+end
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.12 問（問題）</a></h4><p><code>ask()</code> 讓您有機會從使用者那裡獲得一些反饋並在您的模板中使用它。假設您希望您的使用者為您新增的新閃亮庫命名：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">lib_name</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="s2">"What do you want to call the shiny library ?"</span><span class="p">)</span>
+<span class="n">lib_name</span> <span class="o">&lt;&lt;</span> <span class="s2">".rb"</span> <span class="k">unless</span> <span class="n">lib_name</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="s2">".rb"</span><span class="p">)</span>
+
+<span class="n">lib</span> <span class="n">lib_name</span><span class="p">,</span> <span class="o">&lt;&lt;-</span><span class="no">CODE</span><span class="sh">
+  class Shiny
+  end
+</span><span class="no">CODE</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='lib_name = ask("What do you want to call the shiny library ?")
+lib_name &lt;&lt; ".rb" unless lib_name.index(".rb")
+
+lib lib_name, &lt;&lt;-CODE
+  class Shiny
+  end
+CODE
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.13 是嗎？（問題）還是否？（問題）</a></h4><p>這些方法讓您可以從模板中提問並根據使用者的回答決定流程。假設您想提示使用者執行migrations：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">rails_command</span><span class="p">(</span><span class="s2">"db:migrate"</span><span class="p">)</span> <span class="k">if</span> <span class="n">yes?</span><span class="p">(</span><span class="s2">"Run database migrations?"</span><span class="p">)</span>
+<span class="c1"># no?(question) acts just the opposite.</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='rails_command("db:migrate") if yes?("Run database migrations?")
+# no?(question) acts just the opposite.
+'>Copy</button>
+</div>
+<h4 id="git-command"><a class="anchorlink" href="#git-command">2.14 git(:command)</a></h4><p>Rails 模板讓你可以執行任何 git 命令：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">git</span> <span class="ss">:init</span>
+<span class="n">git</span> <span class="ss">add: </span><span class="s2">"."</span>
+<span class="n">git</span> <span class="ss">commit: </span><span class="s2">"-a -m 'Initial commit'"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git :init
+git add: &quot;.&quot;
+git commit: &quot;-a -m 'Initial commit'&quot;
+">Copy</button>
+</div>
+<h4 id="after-bundle-block"><a class="anchorlink" href="#after-bundle-block">2.15 after_bundle(&amp;block)</a></h4><p>註冊一個callback 以在 gems 和 binstubs 捆綁後執行
+生成。對所有生成的檔案進行版本控制很有用：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">after_bundle</span> <span class="k">do</span>
+  <span class="n">git</span> <span class="ss">:init</span>
+  <span class="n">git</span> <span class="ss">add: </span><span class="s1">'.'</span>
+  <span class="n">git</span> <span class="ss">commit: </span><span class="s2">"-a -m 'Initial commit'"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="after_bundle do
+  git :init
+  git add: '.'
+  git commit: &quot;-a -m 'Initial commit'&quot;
+end
+">Copy</button>
+</div>
+<p>即使 <code>--skip-bundle</code> 已經被傳遞，callbacks 也會被執行。</p><h3 id=""><a class="anchorlink" href="#">3 高階用法</a></h3><p>應用程式模板在以下上下文中進行評估
+<code>Rails::Generators::AppGenerator</code> 例項。它使用
+<a href="https://rdoc.info/github/wycats/thor/Thor/Actions#apply-instance_method"><code>apply</code></a>
+action 由托爾提供。</p><p>這意味著您可以擴充套件和更改例項以滿足您的需求。</p><p>例如透過覆蓋<code>source_paths</code> 方法來包含
+模板的位置。現在像<code>copy_file</code> 這樣的方法將接受
+模板位置的相對路徑。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">source_paths</span>
+  <span class="p">[</span><span class="n">__dir__</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def source_paths
+  [__dir__]
+end
+">Copy</button>
+</div>
+
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

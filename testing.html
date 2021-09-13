@@ -1,0 +1,2397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>測試 Rails 應用程式 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="測試 Rails 應用程式 — Ruby on Rails Guides" />
+  <meta name="description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.測試 Rails 應用程式本指南涵蓋了 Rails 中用於測試應用程式的內建機制。閱讀本指南後，您將瞭解： Rails 測試術語。 如何為您的應用程式編寫單元、功能、整合和系統測試。 其他流行的測試方法和外掛。" />
+  <meta property="og:description" content="請勿在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.測試 Rails 應用程式本指南涵蓋了 Rails 中用於測試應用程式的內建機制。閱讀本指南後，您將瞭解： Rails 測試術語。 如何為您的應用程式編寫單元、功能、整合和系統測試。 其他流行的測試方法和外掛。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>請勿在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>測試 Rails 應用程式</h2><p>本指南涵蓋了 Rails 中用於測試應用程式的內建機制。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>Rails 測試術語。</li>
+<li>如何為您的應用程式編寫單元、功能、整合和系統測試。</li>
+<li>其他流行的測試方法和外掛。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#rails">為什麼要為 Rails 應用程式編寫測試？</a></li>
+<li>
+<a href="#">測試簡介</a>
+
+<ul>
+<li><a href="#rails-word-go">Rails 設定用於 Word Go 的測試</a></li>
+<li><a href="#">測試環境</a></li>
+<li><a href="#rails-minitest">Rails 遇到 Minitest</a></li>
+<li><a href="#">可用斷言</a></li>
+<li><a href="#rails">特定於 Rails 的斷言</a></li>
+<li><a href="#">關於測試用例的簡要說明</a></li>
+<li><a href="#rails">Rails 測試執行器</a></li>
+</ul>
+</li>
+<li>
+<a href="#">並行測試</a>
+
+<ul>
+<li><a href="#">程序的並行測試</a></li>
+<li><a href="#">執行緒並行測試</a></li>
+<li><a href="#actions">測試並行傳輸actions</a></li>
+<li><a href="#">並行化測試的閾值</a></li>
+</ul>
+</li>
+<li>
+<a href="#">測試資料庫</a>
+
+<ul>
+<li><a href="#">維護測試資料庫架構</a></li>
+<li><a href="#">燈具的低調</a></li>
+</ul>
+</li>
+<li><a href="#model">Model 測試</a></li>
+<li>
+<a href="#">系統測試</a>
+
+<ul>
+<li><a href="#">更改預設設定</a></li>
+<li><a href="#helper">截圖 Helper</a></li>
+<li><a href="#">實施系統測試</a></li>
+</ul>
+</li>
+<li>
+<a href="#">整合測試</a>
+
+<ul>
+<li><a href="#helpers">Helpers 可用於整合測試</a></li>
+<li><a href="#">實現整合測試</a></li>
+</ul>
+</li>
+<li>
+<a href="#controller">您的Controller 的功能測試</a>
+
+<ul>
+<li><a href="#">功能測試中應包含的內容</a></li>
+<li><a href="#">功能測試的可用請求型別</a></li>
+<li><a href="#xhr-ajax">測試 XHR (AJAX) 請求</a></li>
+<li><a href="#">啟示錄的三個雜湊</a></li>
+<li><a href="#">例項變數可用</a></li>
+<li><a href="#cgi">設定標題和 CGI​​ 變數</a></li>
+<li><a href="#flash">測試 <code>flash</code> 通知</a></li>
+<li><a href="#">放在一起</a></li>
+<li><a href="#helpers">測試 helpers</a></li>
+</ul>
+</li>
+<li><a href="#">測試路線</a></li>
+<li>
+<a href="#views">測試Views</a>
+
+<ul>
+<li><a href="#view">其他基於 View 的斷言</a></li>
+</ul>
+</li>
+<li><a href="#helpers">測試Helpers</a></li>
+<li>
+<a href="#">測試您的郵件程式</a>
+
+<ul>
+<li><a href="#">控制郵遞員</a></li>
+<li><a href="#">單元測試</a></li>
+<li><a href="#">功能和系統測試</a></li>
+</ul>
+</li>
+<li>
+<a href="#">測試工作</a>
+
+<ul>
+<li><a href="#">一個基本的測試用例</a></li>
+<li><a href="#">其他元件中的自定義斷言和測試作業</a></li>
+</ul>
+</li>
+<li>
+<a href="#action-cable">測試Action Cable</a>
+
+<ul>
+<li><a href="#">連線測試用例</a></li>
+<li><a href="#">頻道測試用例</a></li>
+<li><a href="#">在其他元件中自定義斷言和測試廣播</a></li>
+</ul>
+</li>
+<li>
+<a href="#">其他測試資源</a>
+
+<ul>
+<li><a href="#">測試時間相關程式碼</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="rails"><a class="anchorlink" href="#rails">1 為什麼要為 Rails 應用程式編寫測試？</a></h3><p>Rails 使編寫測試變得非常容易。它首先在您建立models 和controllers 時生成框架測試程式碼。</p><p>透過執行 Rails 測試，即使在一些主要的程式碼重構之後，您也可以確保程式碼符合所需的功能。</p><p>Rails 測試還可以模擬瀏覽器請求，因此您可以測試應用程式的響應，而無需透過瀏覽器進行測試。</p><h3 id=""><a class="anchorlink" href="#">2 測試簡介</a></h3><p>測試支援從一開始就融入到 Rails 結構中。這不是“哦！讓我們支援執行測試，因為它們是新的和酷的”頓悟。</p><h4 id="rails-word-go"><a class="anchorlink" href="#rails-word-go">2.1 Rails 設定用於 Word Go 的測試</a></h4><p>只要您使用 <code>rails new</code> <em>application_name</em> 建立 Rails 專案，Rails 就會為您建立一個 <code>test</code> 目錄。如果您列出此目錄的內容，那麼您將看到：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">ls</span> <span class="nt">-F</span> <span class="nb">test</span>
+<span class="go">application_system_test_case.rb  controllers/                     helpers/                         mailers/                         system/
+channels/                        fixtures/                        integration/                     models/                          test_helper.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="ls -F test
+">Copy</button>
+</div>
+<p><code>helpers</code>、<code>mailers</code> 和<code>models</code> 目錄分別用於儲存檢視helpers、郵件程式和models 的測試。 <code>channels</code> 目錄用於儲存Action Cable 連線和通道的測試。 <code>controllers</code> 目錄用於儲存controllers、路由和views 的測試。 <code>integration</code> 目錄用於儲存 controllers 之間的 interactions 測試。</p><p>系統測試目錄儲存系統測試，用於全瀏覽器
+測試您的應用程式。系統測試允許您測試您的應用程式
+您的使用者體驗它的方式並幫助您測試您的 JavaScript。
+系統測試繼承自 Capybara 並在瀏覽器測試中為您執行
+應用。</p><p>Fixtures 是一種組織測試資料的方式；它們駐留在<code>fixtures</code> 目錄中。</p><p><code>jobs</code> 目錄也將在第一次生成相關測試時建立。</p><p><code>test_helper.rb</code> 檔案包含測試的預設配置。</p><p><code>application_system_test_case.rb</code> 儲存您系統的預設配置
+測試。</p><h4 id=""><a class="anchorlink" href="#">2.2 測試環境</a></h4><p>預設情況下，每個 Rails 應用程式都有三個環境：開發、測試和生產。</p><p>可以類似地修改每個環境的配置。在這種情況下，我們可以透過更改<code>config/environments/test.rb</code> 中的選項來修改我們的測試環境。</p><p>注意：您的測試在<code>RAILS_ENV=test</code> 下執行。</p><h4 id="rails-minitest"><a class="anchorlink" href="#rails-minitest">2.3 Rails 遇到 Minitest</a></h4><p>如果您還記得，我們在
+<a href="getting_started.html">Rails 入門</a> 指南。我們建立了我們的第一個
+model，除其他外，它在 <code>test</code> 目錄中建立了測試存根：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate model article title:string body:text
+<span class="c">...
+</span><span class="go">create  app/models/article.rb
+create  test/models/article_test.rb
+create  test/fixtures/articles.yml
+</span><span class="c">...
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate model article title:string body:text
+">Copy</button>
+</div>
+<p><code>test/models/article_test.rb</code> 中的預設測試存根如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">ArticleTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="c1"># test "the truth" do</span>
+  <span class="c1">#   assert true</span>
+  <span class="c1"># end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class ArticleTest &lt; ActiveSupport::TestCase
+  # test "the truth" do
+  #   assert true
+  # end
+end
+'>Copy</button>
+</div>
+<p>逐行檢查此檔案將幫助您瞭解 Rails 測試程式碼和術語。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+'>Copy</button>
+</div>
+<p>透過需要這個檔案，<code>test_helper.rb</code> 載入了執行我們測試的預設配置。我們將在我們編寫的所有測試中包含它，因此新增到此檔案的任何方法都可用於我們的所有測試。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticleTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ArticleTest &lt; ActiveSupport::TestCase
+">Copy</button>
+</div>
+<p>@{<em>0} 類定義了一個 _test case</em>，因為它繼承自 @{_1}。因此@{_0} 擁有@{_1} 提供的所有方法。在本指南的後面，我們將看到它為我們提供的一些方法。</p><p>從<code>Minitest::Test</code> 繼承的類中定義的任何方法
+（它是<code>ActiveSupport::TestCase</code> 的超類）以<code>test_</code> 開頭的簡單稱為測試。因此，定義為<code>test_password</code> 和<code>test_valid_password</code> 的方法是合法的測試名稱，並且會在測試用例執行時自動執行。</p><p>Rails 還添加了一個 <code>test</code> 方法，它接受一個測試名稱和一個塊。它生成一個普通的<code>Minitest::Unit</code> 測試，方法名稱以<code>test_</code> 為字首。因此，您不必擔心命名方法，您可以編寫如下內容：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"the truth"</span> <span class="k">do</span>
+  <span class="n">assert</span> <span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "the truth" do
+  assert true
+end
+'>Copy</button>
+</div>
+<p>這與編寫此內容大致相同：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">test_the_truth</span>
+  <span class="n">assert</span> <span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def test_the_truth
+  assert true
+end
+">Copy</button>
+</div>
+<p>儘管您仍然可以使用常規方法定義，但使用 <code>test</code> 宏可以讓測試名稱更具可讀性。</p><p>注意：方法名稱是透過用下劃線替換空格生成的。結果不需要是有效的Ruby 識別符號——名稱可能包含標點符號等。這是因為在Ruby 技術上，任何字串都可以是方法名稱。這可能需要使用 <code>define_method</code> 和 <code>send</code> 呼叫才能正常執行，但正式名稱幾乎沒有限制。</p><p>接下來，讓我們看看我們的第一個斷言：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">assert</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="assert true
+">Copy</button>
+</div>
+<p>斷言是一行程式碼，用於評估物件（或表示式）以獲得預期結果。例如，斷言可以檢查：</p>
+<ul>
+<li>這個value =那個value嗎？</li>
+<li>這個物件是 nil 嗎？</li>
+<li>這行程式碼會丟擲異常嗎？</li>
+<li>使用者的密碼是否大於 5 個字元？</li>
+</ul>
+<p>每個測試可能包含一個或多個斷言，對允許的斷言數量沒有限制。只有當所有斷言都成功時，測試才會透過。</p><h5 id=""><a class="anchorlink" href="#">2.3.1 第一次失敗的測試</a></h5><p>要檢視如何報告測試失敗，您可以向<code>article_test.rb</code> 測試用例新增一個失敗的測試。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"should not save article without title"</span> <span class="k">do</span>
+  <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span>
+  <span class="n">assert_not</span> <span class="n">article</span><span class="p">.</span><span class="nf">save</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "should not save article without title" do
+  article = Article.new
+  assert_not article.save
+end
+'>Copy</button>
+</div>
+<p>讓我們執行這個新新增的測試（其中<code>6</code> 是定義測試的行數）。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test test</span>/models/article_test.rb:6
+<span class="go">Run options: --seed 44656
+
+</span><span class="gp">#</span><span class="w"> </span>Running:
+<span class="go">
+F
+
+Failure:
+</span><span class="gp">ArticleTest#</span>test_should_not_save_article_without_title <span class="o">[</span>/path/to/blog/test/models/article_test.rb:6]:
+<span class="go">Expected true to be nil or false
+
+
+rails test test/models/article_test.rb:6
+
+
+
+Finished in 0.023918s, 41.8090 runs/s, 41.8090 assertions/s.
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test test/models/article_test.rb:6
+">Copy</button>
+</div>
+<p>在輸出中，<code>F</code> 表示失敗。您可以看到<code>Failure</code> 下顯示的相應跟蹤以及失敗測試的名稱。接下來的幾行包含堆疊跟蹤，後跟一條訊息，其中提到了斷言的實際value 和預期的value。預設斷言訊息提供了足夠的資訊來幫助查明錯誤。為了使斷言失敗訊息更具可讀性，每個斷言都提供了一個可選的訊息引數，如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"should not save article without title"</span> <span class="k">do</span>
+  <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span>
+  <span class="n">assert_not</span> <span class="n">article</span><span class="p">.</span><span class="nf">save</span><span class="p">,</span> <span class="s2">"Saved the article without a title"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "should not save article without title" do
+  article = Article.new
+  assert_not article.save, "Saved the article without a title"
+end
+'>Copy</button>
+</div>
+<p>執行此測試顯示更友好的斷言訊息：</p><div class="code_container">
+<pre><code class="highlight plaintext">Failure:
+ArticleTest#test_should_not_save_article_without_title [/path/to/blog/test/models/article_test.rb:6]:
+Saved the article without a title
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Failure:
+ArticleTest#test_should_not_save_article_without_title [/path/to/blog/test/models/article_test.rb:6]:
+Saved the article without a title
+">Copy</button>
+</div>
+<p>現在為了讓這個測試透過，我們可以為 <em>title</em> 欄位新增一個model 級別的驗證。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Article &lt; ApplicationRecord
+  validates :title, presence: true
+end
+">Copy</button>
+</div>
+<p>現在測試應該通過了。讓我們再次執行測試來驗證：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test test</span>/models/article_test.rb:6
+<span class="go">Run options: --seed 31252
+
+</span><span class="gp">#</span><span class="w"> </span>Running:
+<span class="go">
+</span><span class="c">.
+</span><span class="go">
+Finished in 0.027476s, 36.3952 runs/s, 36.3952 assertions/s.
+
+1 runs, 1 assertions, 0 failures, 0 errors, 0 skips
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test test/models/article_test.rb:6
+">Copy</button>
+</div>
+<p>現在，如果你注意到了，我們首先寫了一個測試失敗
+功能，然後我們編寫了一些新增功能的程式碼，最後
+我們確保我們的測試透過。這種軟體開發方法是
+稱為是
+<a href="http://c2.com/cgi/wiki?TestDrivenDevelopment"><em>測試驅動開發</em> (TDD)</a>。</p><h5 id=""><a class="anchorlink" href="#">2.3.2 錯誤的樣子</a></h5><p>要檢視錯誤是如何報告的，這裡有一個包含錯誤的測試：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"should report error"</span> <span class="k">do</span>
+  <span class="c1"># some_undefined_variable is not defined elsewhere in the test case</span>
+  <span class="n">some_undefined_variable</span>
+  <span class="n">assert</span> <span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "should report error" do
+  # some_undefined_variable is not defined elsewhere in the test case
+  some_undefined_variable
+  assert true
+end
+'>Copy</button>
+</div>
+<p>現在，您可以透過執行測試在控制檯中看到更多輸出：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test test</span>/models/article_test.rb
+<span class="go">Run options: --seed 1808
+
+</span><span class="gp">#</span><span class="w"> </span>Running:
+<span class="go">
+.E
+
+Error:
+</span><span class="gp">ArticleTest#</span>test_should_report_error:
+<span class="gp">NameError: undefined local variable or method 'some_undefined_variable' for #</span>&lt;ArticleTest:0x007fee3aa71798&gt;
+<span class="gp">    test/models/article_test.rb:11:in 'block in &lt;class:ArticleTest&gt;</span><span class="s1">'
+</span><span class="go">
+
+rails test test/models/article_test.rb:9
+
+
+
+Finished in 0.040609s, 49.2500 runs/s, 24.6250 assertions/s.
+
+2 runs, 1 assertions, 0 failures, 1 errors, 0 skips
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test test/models/article_test.rb
+">Copy</button>
+</div>
+<p>注意輸出中的“E”。它表示有錯誤的測試。</p><p>注意：一旦出現任何錯誤或錯誤，每個測試方法的執行就會停止
+遇到斷言失敗，測試套件繼續下一個
+方法。所有測試方法均以隨機順序執行。這
+<a href="configuring.html#configuring-active-support"><code>config.active_support.test_order</code> 選項</a>
+可用於配置測試順序。</p><p>當測試失敗時，您會看到相應的回溯。預設情況下
+Rails 過濾器回溯，只會列印與您的相關的行
+應用。這消除了框架噪音並有助於專注於您的
+程式碼。但是，在某些情況下，您想檢視完整
+回溯。設定<code>-b</code>（或<code>--backtrace</code>）引數以啟用此行為：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test</span> <span class="nt">-b</span> <span class="nb">test</span>/models/article_test.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test -b test/models/article_test.rb
+">Copy</button>
+</div>
+<p>如果我們希望這個測試透過，我們可以修改它以使用 <code>assert_raises</code> ，如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"should report error"</span> <span class="k">do</span>
+  <span class="c1"># some_undefined_variable is not defined elsewhere in the test case</span>
+  <span class="n">assert_raises</span><span class="p">(</span><span class="no">NameError</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">some_undefined_variable</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "should report error" do
+  # some_undefined_variable is not defined elsewhere in the test case
+  assert_raises(NameError) do
+    some_undefined_variable
+  end
+end
+'>Copy</button>
+</div>
+<p>這個測試現在應該通過了。</p><h4 id=""><a class="anchorlink" href="#">2.4 可用斷言</a></h4><p>到現在為止，您已經瞥見了一些可用的斷言。斷言是測試的工蜂。他們是實際執行檢查以確保事情按計劃進行的人。</p><p>這是您可以使用的斷言的摘錄
+<a href="https://github.com/seattlerb/minitest"><code>Minitest</code></a>，預設測試庫
+被 Rails 使用。 <code>[msg]</code> 引數是一個可選的字串訊息，您可以
+指定使您的測試失敗訊息更清晰。</p><p>|斷言 |目的 |
+| -------------------------------------------------- -------------- | ------- |
+| <code>assert( test, [msg] )</code> |確保<code>test</code> 為真。|
+| <code>assert_not( test, [msg] )</code> |確保<code>test</code> 為假。|
+| <code>assert_equal( expected, actual, [msg] )</code> |確保<code>expected == actual</code> 為真。|
+| <code>assert_not_equal( expected, actual, [msg] )</code> |確保<code>expected != actual</code> 為真。|
+| <code>assert_same( expected, actual, [msg] )</code> |確保<code>expected.equal?(actual)</code> 為真。|
+| <code>assert_not_same( expected, actual, [msg] )</code> |確保<code>expected.equal?(actual)</code> 為假。|
+| <code>assert_nil( obj, [msg] )</code> |確保<code>obj.nil?</code> 為真。|
+| <code>assert_not_nil( obj, [msg] )</code> |確保<code>obj.nil?</code> 為假。|
+| <code>assert_empty( obj, [msg] )</code> |確保<code>obj</code> 是<code>empty?</code>。|
+| <code>assert_not_empty( obj, [msg] )</code> |確保<code>obj</code> 不是<code>empty?</code>。|
+| <code>assert_match( regexp, string, [msg] )</code> |確保字串與正則表示式匹配。|
+| <code>assert_no_match( regexp, string, [msg] )</code> |確保字串與正則表示式不匹配。|
+| <code>assert_includes( collection, obj, [msg] )</code> |確保<code>obj</code> 在<code>collection</code> 中。|
+| <code>assert_not_includes( collection, obj, [msg] )</code> |確保<code>obj</code> 不在<code>collection</code> 中。|
+| <code>assert_in_delta( expected, actual, [delta], [msg] )</code> |確保數字<code>expected</code> 和<code>actual</code> 彼此在<code>delta</code> 之內。|
+| <code>assert_not_in_delta( expected, actual, [delta], [msg] )</code> |確保數字<code>expected</code> 和<code>actual</code> 不在<code>delta</code> 之內。|
+| <code>assert_in_epsilon ( expected, actual, [epsilon], [msg] )</code> |確保數字<code>expected</code> 和<code>actual</code> 的相對誤差小於<code>epsilon</code>。|
+| <code>assert_not_in_epsilon ( expected, actual, [epsilon], [msg] )</code> |確保數字<code>expected</code> 和<code>actual</code> 的相對誤差不小於<code>epsilon</code>。|
+| <code>assert_throws( symbol, [msg] ) { block }</code> |確保給定的塊丟擲symbol。|
+| <code>assert_raises( exception1, exception2, ... ) { block }</code> |確保給定的塊引發給定的異常之一。|
+| <code>assert_instance_of( class, obj, [msg] )</code> |確保<code>obj</code> 是<code>class</code> 的一個例項。|
+| <code>assert_not_instance_of( class, obj, [msg] )</code> |確保<code>obj</code> 不是<code>class</code> 的例項。|
+| <code>assert_kind_of( class, obj, [msg] )</code> |確保<code>obj</code> 是<code>class</code> 的一個例項或從它下降。|
+| <code>assert_not_kind_of( class, obj, [msg] )</code> |確保<code>obj</code> 不是<code>class</code> 的例項並且不是從它下降。|
+| <code>assert_respond_to( obj, symbol, [msg] )</code> |確保<code>obj</code> 響應<code>symbol</code>。|
+| <code>assert_not_respond_to( obj, symbol, [msg] )</code> |確保<code>obj</code> 不響應<code>symbol</code>。|
+| <code>assert_operator( obj1, operator, [obj2], [msg] )</code> |確保<code>obj1.operator(obj2)</code> 為真。|
+| <code>assert_not_operator( obj1, operator, [obj2], [msg] )</code> |確保<code>obj1.operator(obj2)</code> 為假。|
+| <code>assert_predicate ( obj, predicate, [msg] )</code> |確保<code>obj.predicate</code> 為真，例如<code>assert_predicate str, :empty?</code>|
+| <code>assert_not_predicate ( obj, predicate, [msg] )</code> |確保<code>obj.predicate</code> 為假，例如<code>assert_not_predicate str, :empty?</code>|
+| <code>flunk( [msg] )</code> |確保失敗。這對於顯式標記尚未完成的測試很有用。|</p><p>以上是 minitest 支援的斷言子集。對於詳盡的 &amp;
+更多最新列表，請檢視
+<a href="http://docs.seattlerb.org/minitest/">Minitest API 文件</a>，特別是
+<a href="http://docs.seattlerb.org/minitest/Minitest/Assertions.html"><code>Minitest::Assertions</code></a>。</p><p>由於測試框架的模組化特性，可以建立自己的斷言。事實上，這正是 Rails 所做的。它包括一些專門的斷言，使您的生活更輕鬆。</p><p>注意：建立您自己的斷言是一個高階主題，我們不會在本教程中介紹。</p><h4 id="rails"><a class="anchorlink" href="#rails">2.5 特定於 Rails 的斷言</a></h4><p>Rails 向 <code>minitest</code> 框架添加了一些自己的自定義斷言：</p><p>|斷言 |目的 |
+| -------------------------------------------------- ------------------------------- | ------- |
+| <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_difference"><code>assert_difference(expressions, difference = 1, message = nil) {...}</code></a> |測試表達式的 return value 之間的數字差異，作為在 yielded 塊中計算的結果。|
+| <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_difference"><code>assert_no_difference(expressions, message = nil, &amp;block)</code></a> |斷言在呼叫傳入塊之前和之後計算表示式的數值結果不會改變。|
+| <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_changes"><code>assert_changes(expressions, message = nil, from:, to:, &amp;block)</code></a> |測試在呼叫傳入的塊後計算表示式的結果是否發生變化。|
+| <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_changes"><code>assert_no_changes(expressions, message = nil, &amp;block)</code></a> |測試在呼叫傳入塊後評估表示式的結果沒有改變。|
+| <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_nothing_raised"><code>assert_nothing_raised { block }</code></a> |確保給定的塊不會引發任何異常。|
+| <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/Assertions/RoutingAssertions.html#method-i-assert_recognizes"><code>assert_recognizes(expected_options, path, extras={}, message=nil)</code></a> |斷言給定路徑的路由被正確處理並且解析的選項（在 expected_options 雜湊中給出）匹配路徑。基本上，它斷言 Rails 識別由 expected_options 給出的路由。|
+| <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/Assertions/RoutingAssertions.html#method-i-assert_generates"><code>assert_generates(expected_path, options, defaults={}, extras = {}, message=nil)</code></a> |斷言提供的選項可用於生成提供的路徑。這與 assert_recognizes 相反。 extras 引數用於告訴請求將在查詢字串中的附加請求引數的名稱和values。 message 引數允許您為斷言失敗指定自定義錯誤訊息。|
+| <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/Assertions/ResponseAssertions.html#method-i-assert_response"><code>assert_response(type, message = nil)</code></a> |斷言響應帶有特定的狀態程式碼。您可以指定<code>:success</code> 表示200-299，<code>:redirect</code> 表示300-399，<code>:missing</code> 表示404，或<code>:error</code> 以匹配500-599 範圍。您還可以傳遞顯式狀態編號或其符號等效項。有關詳細資訊，請參閱 <a href="https://rubydoc.info/github/rack/rack/master/Rack/Utils#HTTP_STATUS_CODES-constant">狀態程式碼的完整列表</a> 以及它們的 <a href="https:%20//rubydoc.info/github/rack/rack/master/Rack/Utils#SYMBOL_TO_STATUS_CODE-constant">對映</a> 有效。|
+| <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/Assertions/ResponseAssertions.html#method-i-assert_redirected_to"><code>assert_redirected_to(options = {}, message=nil)</code></a> |斷言響應是重定向到匹配給定選項的 URL。您還可以傳遞命名路由，例如<code>assert_redirected_to root_path</code> 和Active Record 物件，例如<code>assert_redirected_to @article</code>。|</p><p>您將在下一章中看到其中一些斷言的用法。</p><h4 id=""><a class="anchorlink" href="#">2.6 關於測試用例的簡要說明</a></h4><p>在<code>Minitest::Assertions</code> 中定義的<code>assert_equal</code> 等所有基本斷言也可以在我們在自己的測試用例中使用的類中使用。實際上，Rails 提供了以下類供您繼承：</p>
+<ul>
+<li><a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveSupport/TestCase.html"><code>ActiveSupport::TestCase</code></a></li>
+<li><a href="https://api.rubyonrails.org/v6.1.4/classes/ActionMailer/TestCase.html"><code>ActionMailer::TestCase</code></a></li>
+<li><a href="https://api.rubyonrails.org/v6.1.4/classes/ActionView/TestCase.html"><code>ActionView::TestCase</code></a></li>
+<li><a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveJob/TestCase.html"><code>ActiveJob::TestCase</code></a></li>
+<li><a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/IntegrationTest.html"><code>ActionDispatch::IntegrationTest</code></a></li>
+<li><a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/SystemTestCase.html"><code>ActionDispatch::SystemTestCase</code></a></li>
+<li><a href="https://api.rubyonrails.org/v6.1.4/classes/Rails/Generators/TestCase.html"><code>Rails::Generators::TestCase</code></a></li>
+</ul>
+<p>這些類中的每一個都包含<code>Minitest::Assertions</code>，允許我們在測試中使用所有基本斷言。</p><p>注意：有關<code>Minitest</code> 的更多資訊，請參閱[其
+文件]（<a href="http://docs.seattlerb.org/minitest%EF%BC%89%E3%80%82">http://docs.seattlerb.org/minitest）。</a></p><h4 id="rails"><a class="anchorlink" href="#rails">2.7 Rails 測試執行器</a></h4><p>我們可以使用<code>bin/rails test</code> 命令一次執行所有測試。</p><p>或者我們可以透過將包含測試用例的檔名傳遞給 <code>bin/rails test</code> 命令來執行單個測試檔案。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test test</span>/models/article_test.rb
+<span class="go">Run options: --seed 1559
+
+</span><span class="gp">#</span><span class="w"> </span>Running:
+<span class="go">
+</span><span class="c">..
+</span><span class="go">
+Finished in 0.027034s, 73.9810 runs/s, 110.9715 assertions/s.
+
+2 runs, 3 assertions, 0 failures, 0 errors, 0 skips
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test test/models/article_test.rb
+">Copy</button>
+</div>
+<p>這將執行測試用例中的所有測試方法。</p><p>您還可以透過提供測試用例來執行特定的測試方法
+<code>-n</code> 或 <code>--name</code> 標誌和測試的方法名稱。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test test</span>/models/article_test.rb <span class="nt">-n</span> test_the_truth
+<span class="go">Run options: -n test_the_truth --seed 43583
+
+</span><span class="gp">#</span><span class="w"> </span>Running:
+<span class="go">
+</span><span class="c">.
+</span><span class="go">
+Finished tests in 0.009064s, 110.3266 tests/s, 110.3266 assertions/s.
+
+1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test test/models/article_test.rb -n test_the_truth
+">Copy</button>
+</div>
+<p>您還可以透過提供行號在特定行執行測試。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test test</span>/models/article_test.rb:6 <span class="c"># run specific test and line</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test test/models/article_test.rb:6 # run specific test and line
+">Copy</button>
+</div>
+<p>您還可以透過提供目錄的路徑來執行整個測試目錄。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test test</span>/controllers <span class="c"># run all tests from specific directory</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test test/controllers # run all tests from specific directory
+">Copy</button>
+</div>
+<p>測試執行器還提供了許多其他功能，例如快速失敗、延遲測試輸出
+在測試執行結束時等等。檢查測試執行器的文件如下：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test</span> <span class="nt">-h</span>
+<span class="go">Usage: rails test [options] [files or directories]
+
+You can run a single test by appending a line number to a filename:
+
+    bin/rails test test/models/user_test.rb:27
+
+You can run multiple files and directories at the same time:
+
+    bin/rails test test/controllers test/integration/login_test.rb
+
+By default test failures and errors are reported inline during a run.
+
+minitest options:
+    -h, --help                       Display this help.
+</span><span class="gp">        --no-plugins                 Bypass minitest plugin auto-loading (or set $</span>MT_NO_PLUGINS<span class="o">)</span><span class="nb">.</span>
+<span class="go">    -s, --seed SEED                  Sets random seed. Also via env. Eg: SEED=n rake
+    -v, --verbose                    Verbose. Show progress processing files.
+    -n, --name PATTERN               Filter run on /regexp/ or string.
+        --exclude PATTERN            Exclude /regexp/ or string from run.
+
+Known extensions: rails, pride
+    -w, --warnings                   Run with Ruby warnings enabled
+    -e, --environment ENV            Run tests in the ENV environment
+    -b, --backtrace                  Show the complete backtrace
+    -d, --defer-output               Output test failures and errors after the test run
+    -f, --fail-fast                  Abort test run on first failure or error
+    -c, --[no-]color                 Enable color in the output
+    -p, --pride                      Pride. Show your testing pride!
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test -h
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">3 並行測試</a></h3><p>並行測試允許您並行化測試套件。雖然分叉過程是
+預設方法，也支援執行緒。並行執行測試減少了它的時間
+執行整個測試套件。</p><h4 id=""><a class="anchorlink" href="#">3.1 程序的並行測試</a></h4><p>預設的並行化方法是使用Ruby 的 DRb 系統 fork 程序。流程
+根據提供的工人數量分叉。預設數字是實際核心數
+在您所在的機器上，但可以透過傳遞給並行化方法的數字進行更改。</p><p>要啟用並行化，請將以下內容新增到您的 <code>test_helper.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ActiveSupport::TestCase</span>
+  <span class="n">parallelize</span><span class="p">(</span><span class="ss">workers: </span><span class="mi">2</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ActiveSupport::TestCase
+  parallelize(workers: 2)
+end
+">Copy</button>
+</div>
+<p>透過的工人數量是程序將被分叉的次數。你可能想要
+以不同於 CI 的方式並行化本地測試套件，因此提供了一個環境變數
+能夠輕鬆更改測試執行應使用的工作人員數量：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nv">PARALLEL_WORKERS</span><span class="o">=</span>15 <span class="nb">bin/rails test</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="PARALLEL_WORKERS=15 bin/rails test
+">Copy</button>
+</div>
+<p>並行化測試時，Active Record 自動處理建立資料庫並將模式載入到資料庫中的每個
+過程。資料庫將以與工作人員對應的編號作為字尾。例如，如果你
+有 2 個工人，測試將分別建立 <code>test-database-0</code> 和 <code>test-database-1</code>。</p><p>如果透過的工人數量為 1 或更少，則不會分叉程序並且不會進行測試
+被並行化，測試將使用原始<code>test-database</code> 資料庫。</p><p>提供了兩個鉤子，一個在程序 fork 時執行，一個在 fork 程序關閉之前執行。
+如果您的應用程式使用多個數據庫或執行其他依賴於資料庫數量的任務，這些會很有用
+工人。</p><p><code>parallelize_setup</code> 方法在程序分叉後立即呼叫。 <code>parallelize_teardown</code> 方法
+在程序關閉之前呼叫。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ActiveSupport::TestCase</span>
+  <span class="n">parallelize_setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">worker</span><span class="o">|</span>
+    <span class="c1"># setup databases</span>
+  <span class="k">end</span>
+
+  <span class="n">parallelize_teardown</span> <span class="k">do</span> <span class="o">|</span><span class="n">worker</span><span class="o">|</span>
+    <span class="c1"># cleanup databases</span>
+  <span class="k">end</span>
+
+  <span class="n">parallelize</span><span class="p">(</span><span class="ss">workers: :number_of_processors</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ActiveSupport::TestCase
+  parallelize_setup do |worker|
+    # setup databases
+  end
+
+  parallelize_teardown do |worker|
+    # cleanup databases
+  end
+
+  parallelize(workers: :number_of_processors)
+end
+">Copy</button>
+</div>
+<p>使用執行緒並行測試時，不需要或不可用這些方法。</p><h4 id=""><a class="anchorlink" href="#">3.2 執行緒並行測試</a></h4><p>如果您更喜歡使用執行緒或正在使用 JRuby，則提供了執行緒並行化選項。螺紋的
+並行器由 Minitest 的 <code>Parallel::Executor</code> 支援。</p><p>要更改並行化方法以在分叉上使用執行緒，請將以下內容放入 <code>test_helper.rb</code></p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ActiveSupport::TestCase</span>
+  <span class="n">parallelize</span><span class="p">(</span><span class="ss">workers: :number_of_processors</span><span class="p">,</span> <span class="ss">with: :threads</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ActiveSupport::TestCase
+  parallelize(workers: :number_of_processors, with: :threads)
+end
+">Copy</button>
+</div>
+<p>從 JRuby 或 TruffleRuby 生成的 Rails 應用程式將自動包含 <code>with: :threads</code> 選項。</p><p>傳遞給<code>parallelize</code> 的工作執行緒數決定了測試將使用的執行緒數。你可以
+想要以不同於 CI 的方式並行化本地測試套件，因此提供了一個環境變數
+能夠輕鬆更改測試執行應使用的工作人員數量：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nv">PARALLEL_WORKERS</span><span class="o">=</span>15 <span class="nb">bin/rails test</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="PARALLEL_WORKERS=15 bin/rails test
+">Copy</button>
+</div>
+<h4 id="actions"><a class="anchorlink" href="#actions">3.3 測試並行傳輸actions</a></h4><p>Rails 會自動將任何測試用例包裝在滾動的資料庫 transaction 中
+測試完成後返回。這使得測試用例彼此獨立
+並且對資料庫的更改僅在單個測試中可見。</p><p>當您要測試線上程中並行執行 transactions 的程式碼時，
+transactions 可以互相阻塞，因為它們已經在測試下嵌套了
+轉action。</p><p>您可以透過設定在測試用例類中禁用 transactions
+<code>self.use_transactional_tests = false</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">WorkerTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">use_transactional_tests</span> <span class="o">=</span> <span class="kp">false</span>
+
+  <span class="nb">test</span> <span class="s2">"parallel transactions"</span> <span class="k">do</span>
+    <span class="c1"># start some threads that create transactions</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class WorkerTest &lt; ActiveSupport::TestCase
+  self.use_transactional_tests = false
+
+  test "parallel transactions" do
+    # start some threads that create transactions
+  end
+end
+'>Copy</button>
+</div>
+<p>注意：如果禁用 transactional 測試，您必須清理所有資料測試
+create as 測試完成後不會自動回滾更改。</p><h4 id=""><a class="anchorlink" href="#">3.4 並行化測試的閾值</a></h4><p>並行執行測試會增加資料庫設定和
+夾具載入。因此，Rails 不會並行執行涉及
+少於 50 個測試。</p><p>您可以在<code>test.rb</code> 中配置此閾值：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_support</span><span class="p">.</span><span class="nf">test_parallelization_threshold</span> <span class="o">=</span> <span class="mi">100</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_support.test_parallelization_threshold = 100
+">Copy</button>
+</div>
+<p>並且在測試用例級別設定並行化時：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ActiveSupport::TestCase</span>
+  <span class="n">parallelize</span> <span class="ss">threshold: </span><span class="mi">100</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ActiveSupport::TestCase
+  parallelize threshold: 100
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">4 測試資料庫</a></h3><p>幾乎每個 Rails 應用程式都與資料庫進行大量互動，因此，您的測試也需要與資料庫進行互動。要編寫有效的測試，您需要了解如何設定此資料庫並使用示例資料填充它。</p><p>預設情況下，每個 Rails 應用程式都有三個環境：開發、測試和生產。他們每個人的資料庫都在<code>config/database.yml</code> 中配置。</p><p>專用的測試資料庫允許您單獨設定測試資料並與之互動。透過這種方式，您的測試可以放心地處理測試資料，而無需擔心開發或生產資料庫中的資料。</p><h4 id=""><a class="anchorlink" href="#">4.1 維護測試資料庫架構</a></h4><p>為了執行你的測試，你的測試資料庫需要有當前的
+結構體。測試helper 檢查您的測試資料庫是否有任何待處理的
+migrations。它將嘗試載入您的 <code>db/schema.rb</code> 或 <code>db/structure.sql</code>
+進入測試資料庫。如果migrations 仍處於待處理狀態，則會出現錯誤
+提高。通常這表示您的架構未完全遷移。跑步
+針對開發資料庫 (<code>bin/rails db:migrate</code>) 的 migrations 將
+更新架構。</p><p>注意：如果對現有migrations 進行了修改，則測試資料庫需要
+被重建。這可以透過執行<code>bin/rails db:test:prepare</code> 來完成。</p><h4 id=""><a class="anchorlink" href="#">4.2 燈具的低調</a></h4><p>為了進行良好的測試，您需要考慮設定測試資料。
+在 Rails 中，您可以透過定義和自定義裝置來解決這個問題。
+您可以在 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveRecord/FixtureSet.html">Fixtures API 文件</a> 中找到全面的文件。</p><h5 id=""><a class="anchorlink" href="#">4.2.1 什麼是燈具？</a></h5><p><em>Fixtures</em> 是樣本資料的一個花哨詞。 Fixtures 允許您在測試執行之前用預定義的資料填充測試資料庫。 Fixtures 獨立於資料庫並用 YAML 編寫。每個model 有一個檔案。</p><p>注意：Fixtures 並非旨在建立您的測試所需的每個物件，並且在僅用於可應用於常見情況的預設資料時得到最佳管理。</p><p>您將在<code>test/fixtures</code> 目錄下找到燈具。當你執行<code>bin/rails generate model</code> 來建立一個新的model 時，Rails 會自動在這個目錄中建立夾具存根。</p><h5 id="yaml"><a class="anchorlink" href="#yaml">4.2.2 YAML</a></h5><p>YAML 格式的裝置是描述示例資料的一種人性化的方式。這些型別的裝置具有 <strong>.yml</strong> 副檔名（如<code>users.yml</code>）。</p><p>這是一個示例 YAML 夾具檔案：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># lo &amp; behold! I am a YAML comment!</span>
+<span class="na">david</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">David Heinemeier Hansson</span>
+  <span class="na">birthday</span><span class="pi">:</span> <span class="s">1979-10-15</span>
+  <span class="na">profession</span><span class="pi">:</span> <span class="s">Systems development</span>
+
+<span class="na">steve</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">Steve Ross Kellock</span>
+  <span class="na">birthday</span><span class="pi">:</span> <span class="s">1974-09-27</span>
+  <span class="na">profession</span><span class="pi">:</span> <span class="s">guy with keyboard</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# lo &amp; behold! I am a YAML comment!
+david:
+  name: David Heinemeier Hansson
+  birthday: 1979-10-15
+  profession: Systems development
+
+steve:
+  name: Steve Ross Kellock
+  birthday: 1974-09-27
+  profession: guy with keyboard
+">Copy</button>
+</div>
+<p>每個裝置都有一個名稱，後跟以冒號分隔的 key/value 對的縮排列表。記錄通常由空行分隔。您可以透過在第一列中使用 # 字元將註釋放置在夾具檔案中。</p><p>如果您正在使用 <a href="/association_basics.html">associations</a>，您可以
+在兩個不同的裝置之間定義一個參考節點。這是一個例子
+<code>belongs_to</code>/<code>has_many</code> association：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># test/fixtures/categories.yml</span>
+<span class="na">about</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">About</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# test/fixtures/categories.yml
+about:
+  name: About
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># test/fixtures/articles.yml</span>
+<span class="na">first</span><span class="pi">:</span>
+  <span class="na">title</span><span class="pi">:</span> <span class="s">Welcome to Rails!</span>
+  <span class="na">category</span><span class="pi">:</span> <span class="s">about</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# test/fixtures/articles.yml
+first:
+  title: Welcome to Rails!
+  category: about
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># test/fixtures/action_text/rich_texts.yml</span>
+<span class="na">first_content</span><span class="pi">:</span>
+  <span class="na">record</span><span class="pi">:</span> <span class="s">first (Article)</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">content</span>
+  <span class="na">body</span><span class="pi">:</span> <span class="s">&lt;div&gt;Hello, from &lt;strong&gt;a fixture&lt;/strong&gt;&lt;/div&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# test/fixtures/action_text/rich_texts.yml
+first_content:
+  record: first (Article)
+  name: content
+  body: &lt;div&gt;Hello, from &lt;strong&gt;a fixture&lt;/strong&gt;&lt;/div&gt;
+">Copy</button>
+</div>
+<p>請注意@{<em>2} 中的@{_1} 文章的<code>category</code> key 的value 為@{_3}，而<code>record</code> 的key 為@{在<code>fixtures/action_text/rich_texts.yml</code> 中找到的_5} 條目的value 為<code>first (Article)</code>。這提示Active Record 為前者載入在<code>fixtures/categories.yml</code> 中找到的類別@{</em>3}，而Action Text 為後者載入在@{<em>2} 中找到的文章@{</em>1}。</p><p>注意：對於透過名稱相互引用的associations，您可以使用夾具名稱而不是在關聯的夾具上指定<code>id:</code> 屬性。 Rails 會自動分配一個主要的 key 以在執行之間保持一致。有關此關聯行為的更多資訊，請閱讀 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveRecord/FixtureSet.html">Fixtures API 文件</a>。</p><h5 id=""><a class="anchorlink" href="#">4.2.3 檔案附件夾具</a></h5><p>與其他Active Record 支援的models、Active Storage 附件記錄一樣
+從ActiveRecord::Base 例項繼承，因此可以由
+固定裝置。</p><p>考慮一個<code>Article</code> model，它有一個關聯影象作為<code>thumbnail</code>
+附件，以及夾具資料 YAML：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span>
+  <span class="n">has_one_attached</span> <span class="ss">:thumbnail</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Article
+  has_one_attached :thumbnail
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># test/fixtures/articles.yml</span>
+<span class="na">first</span><span class="pi">:</span>
+  <span class="na">title</span><span class="pi">:</span> <span class="s">An Article</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# test/fixtures/articles.yml
+first:
+  title: An Article
+">Copy</button>
+</div>
+<p>假設有一個 [image/png][] 編碼檔案在
+<code>test/fixtures/files/first.png</code>，以下 YAML 裝置條目將
+生成相關的<code>ActiveStorage::Blob</code> 和<code>ActiveStorage::Attachment</code>
+記錄：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># test/fixtures/active_storage/blobs.yml</span>
+<span class="na">first_thumbnail_blob</span><span class="pi">:</span> <span class="s">&lt;%= ActiveStorage::FixtureSet.blob filename</span><span class="pi">:</span> <span class="s2">"</span><span class="s">first.png"</span> <span class="err">%</span><span class="pi">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# test/fixtures/active_storage/blobs.yml
+first_thumbnail_blob: &lt;%= ActiveStorage::FixtureSet.blob filename: "first.png" %&gt;
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># test/fixtures/active_storage/attachments.yml</span>
+<span class="na">first_thumbnail_attachment</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">thumbnail</span>
+  <span class="na">record</span><span class="pi">:</span> <span class="s">first (Article)</span>
+  <span class="na">blob</span><span class="pi">:</span> <span class="s">first_thumbnail_blob</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# test/fixtures/active_storage/attachments.yml
+first_thumbnail_attachment:
+  name: thumbnail
+  record: first (Article)
+  blob: first_thumbnail_blob
+">Copy</button>
+</div>
+<p>[影象/png]：<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#image_types">https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#image_types</a></p><h5 id="erb-in-it-up"><a class="anchorlink" href="#erb-in-it-up">4.2.4 ERB'in It Up</a></h5><p>ERB 允許您在模板中嵌入Ruby 程式碼。當 Rails 載入裝置時，YAML 裝置格式會使用 ERB 進行預處理。這允許您使用Ruby 來幫助您生成一些示例資料。例如，以下程式碼生成一千個使用者：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%</span> <span class="mi">1000</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="cp">%&gt;</span>
+user_<span class="cp">&lt;%=</span> <span class="n">n</span> <span class="cp">%&gt;</span>:
+  username: <span class="cp">&lt;%=</span> <span class="s2">"user</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span> <span class="cp">%&gt;</span>
+  email: <span class="cp">&lt;%=</span> <span class="s2">"user</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">@example.com"</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;% 1000.times do |n| %&gt;
+user_&lt;%= n %&gt;:
+  username: &lt;%= "user#{n}" %&gt;
+  email: &lt;%= "user#{n}@example.com" %&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<h5 id="action"><a class="anchorlink" href="#action">4.2.5 Action 中的固定裝置</a></h5><p>Rails 透過以下方式自動載入<code>test/fixtures</code> 目錄中的所有裝置
+預設。載入包括三個步驟：</p><p>1.從表中刪除與夾具對應的任何現有資料
+2. 將夾具資料載入到表格中
+3. 將夾具資料轉儲到方法中，以防您想直接訪問它</p><p>提示：為了從資料庫中刪除現有資料，Rails 嘗試禁用參照完整性觸發器（如外部 keys 和檢查約束）。如果您在執行測試時遇到令人討厭的許可權錯誤，請確保資料庫使用者有權在測試環境中禁用這些觸發器。 （在 PostgreSQL 中，只有超級使用者才能禁用所有觸發器。閱讀有關 PostgreSQL 許可權的更多資訊 <a href="http://blog.endpoint.com/2012/10/postgres-system-triggers-error.html">此處</a>）。</p><h5 id="active-record"><a class="anchorlink" href="#active-record">4.2.6 燈具是 Active Record 物件</a></h5><p>夾具是Active Record 的例項。正如上面第 3 點中提到的，您可以直接訪問該物件，因為它可以自動作為範圍在測試用例本地的方法使用。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># this will return the User object for the fixture named david</span>
+<span class="n">users</span><span class="p">(</span><span class="ss">:david</span><span class="p">)</span>
+
+<span class="c1"># this will return the property for david called id</span>
+<span class="n">users</span><span class="p">(</span><span class="ss">:david</span><span class="p">).</span><span class="nf">id</span>
+
+<span class="c1"># one can also access methods available on the User class</span>
+<span class="n">david</span> <span class="o">=</span> <span class="n">users</span><span class="p">(</span><span class="ss">:david</span><span class="p">)</span>
+<span class="n">david</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="n">david</span><span class="p">.</span><span class="nf">partner</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# this will return the User object for the fixture named david
+users(:david)
+
+# this will return the property for david called id
+users(:david).id
+
+# one can also access methods available on the User class
+david = users(:david)
+david.call(david.partner)
+">Copy</button>
+</div>
+<p>要一次獲取多個燈具，您可以傳入燈具名稱列表。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># this will return an array containing the fixtures david and steve</span>
+<span class="n">users</span><span class="p">(</span><span class="ss">:david</span><span class="p">,</span> <span class="ss">:steve</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# this will return an array containing the fixtures david and steve
+users(:david, :steve)
+">Copy</button>
+</div>
+<h3 id="model"><a class="anchorlink" href="#model">5 Model 測試</a></h3><p>Model 測試用於測試應用程式的各種模型。</p><p>Rails model 測試儲存在<code>test/models</code> 目錄下。 Rails 提供
+一個生成器來為你建立一個model 測試框架。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate test_unit:model article title:string body:text
+<span class="go">create  test/models/article_test.rb
+create  test/fixtures/articles.yml
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate test_unit:model article title:string body:text
+">Copy</button>
+</div>
+<p>Model 測試沒有像 <code>ActionMailer::TestCase</code> 這樣的自己的超類。相反，它們繼承自 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveSupport/TestCase.html"><code>ActiveSupport::TestCase</code></a>。</p><h3 id=""><a class="anchorlink" href="#">6 系統測試</a></h3><p>系統測試允許您使用您的應用程式測試使用者 interactions，執行測試
+在真實或無頭瀏覽器中。系統測試在幕後使用 Capybara。</p><p>要建立 Rails 系統測試，您可以使用 <code>test/system</code> 目錄
+應用。 Rails 提供了一個生成器來為您建立系統測試框架。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate system_test <span class="nb">users</span>
+<span class="go">      invoke test_unit
+      create test/system/users_test.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate system_test users
+">Copy</button>
+</div>
+<p>新生成的系統測試如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"application_system_test_case"</span>
+
+<span class="k">class</span> <span class="nc">UsersTest</span> <span class="o">&lt;</span> <span class="no">ApplicationSystemTestCase</span>
+  <span class="c1"># test "visiting the index" do</span>
+  <span class="c1">#   visit users_url</span>
+  <span class="c1">#</span>
+  <span class="c1">#   assert_selector "h1", text: "Users"</span>
+  <span class="c1"># end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "application_system_test_case"
+
+class UsersTest &lt; ApplicationSystemTestCase
+  # test "visiting the index" do
+  #   visit users_url
+  #
+  #   assert_selector "h1", text: "Users"
+  # end
+end
+'>Copy</button>
+</div>
+<p>預設情況下，系統測試使用 Selenium 驅動程式執行，使用 Chrome
+瀏覽器，螢幕尺寸為 1400x1400。下一節將解釋如何
+更改預設設定。</p><h4 id=""><a class="anchorlink" href="#">6.1 更改預設設定</a></h4><p>Rails 使更改系統測試的預設設定變得非常簡單。全部
+設定被抽象出來，因此您可以專注於編寫測試。</p><p>當您生成新應用程式或scaffold 時，<code>application_system_test_case.rb</code> 檔案
+在 test 目錄中建立。這是您的所有配置的地方
+系統測試應該有效。</p><p>如果您想更改預設設定，您可以更改系統的內容
+測試是“由”驅動的。假設您要將驅動程式從 Selenium 更改為
+赤銅礦。首先將<code>cuprite</code> gem 新增到您的<code>Gemfile</code>。然後在你的
+<code>application_system_test_case.rb</code> 檔案執行以下操作：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+<span class="nb">require</span> <span class="s2">"capybara/cuprite"</span>
+
+<span class="k">class</span> <span class="nc">ApplicationSystemTestCase</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">SystemTestCase</span>
+  <span class="n">driven_by</span> <span class="ss">:cuprite</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+require "capybara/cuprite"
+
+class ApplicationSystemTestCase &lt; ActionDispatch::SystemTestCase
+  driven_by :cuprite
+end
+'>Copy</button>
+</div>
+<p>驅動程式名稱是<code>driven_by</code> 的必需引數。可選引數
+可以傳遞給<code>driven_by</code> 的是瀏覽器的<code>:using</code>（這隻會
+Selenium 使用），<code>:screen_size</code> 來改變螢幕的大小
+螢幕截圖和<code>:options</code> 可用於設定支援的選項
+司機。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">ApplicationSystemTestCase</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">SystemTestCase</span>
+  <span class="n">driven_by</span> <span class="ss">:selenium</span><span class="p">,</span> <span class="ss">using: :firefox</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class ApplicationSystemTestCase &lt; ActionDispatch::SystemTestCase
+  driven_by :selenium, using: :firefox
+end
+'>Copy</button>
+</div>
+<p>如果你想使用無頭瀏覽器，你可以使用 Headless Chrome 或 Headless Firefox 透過新增
+<code>:using</code> 引數中的 <code>headless_chrome</code> 或 <code>headless_firefox</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">ApplicationSystemTestCase</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">SystemTestCase</span>
+  <span class="n">driven_by</span> <span class="ss">:selenium</span><span class="p">,</span> <span class="ss">using: :headless_chrome</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class ApplicationSystemTestCase &lt; ActionDispatch::SystemTestCase
+  driven_by :selenium, using: :headless_chrome
+end
+'>Copy</button>
+</div>
+<p>如果你的 Capybara 配置需要比 Rails 提供的更多的設定，這個
+額外的配置可以新增到<code>application_system_test_case.rb</code>
+檔案。</p><p>請參閱<a href="https://github.com/teamcapybara/capybara#setup">Capybara 的文件</a>
+用於其他設定。</p><h4 id="helper"><a class="anchorlink" href="#helper">6.2 截圖 Helper</a></h4><p><code>ScreenshotHelper</code> 是一個 helper，旨在捕獲測試的螢幕截圖。
+這有助於在測試失敗時view瀏覽器，或者
+到view 截圖稍後進行除錯。</p><p>提供了兩種方法：<code>take_screenshot</code> 和<code>take_failed_screenshot</code>。
+<code>take_failed_screenshot</code> 自動包含在<code>before_teardown</code> 裡面
+導軌。</p><p><code>take_screenshot</code> helper 方法可以包含在測試中的任何地方
+擷取瀏覽器的螢幕截圖。</p><h4 id=""><a class="anchorlink" href="#">6.3 實施系統測試</a></h4><p>現在我們要向我們的部落格應用程式新增一個系統測試。我們將演示
+透過訪問索引頁面並建立新的部落格文章來編寫系統測試。</p><p>如果您使用scaffold 生成器，系統測試框架會自動生成
+為您建立。如果您沒有使用scaffold 生成器，請先建立一個
+系統測試骨架。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate system_test articles
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate system_test articles
+">Copy</button>
+</div>
+<p>它應該為我們建立了一個測試檔案佔位符。隨著輸出
+您應該看到上一個命令：</p><div class="code_container">
+<pre><code class="highlight plaintext">      invoke  test_unit
+      create    test/system/articles_test.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="      invoke  test_unit
+      create    test/system/articles_test.rb
+">Copy</button>
+</div>
+<p>現在讓我們開啟該檔案並編寫我們的第一個斷言：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"application_system_test_case"</span>
+
+<span class="k">class</span> <span class="nc">ArticlesTest</span> <span class="o">&lt;</span> <span class="no">ApplicationSystemTestCase</span>
+  <span class="nb">test</span> <span class="s2">"viewing the index"</span> <span class="k">do</span>
+    <span class="n">visit</span> <span class="n">articles_path</span>
+    <span class="n">assert_selector</span> <span class="s2">"h1"</span><span class="p">,</span> <span class="ss">text: </span><span class="s2">"Articles"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "application_system_test_case"
+
+class ArticlesTest &lt; ApplicationSystemTestCase
+  test "viewing the index" do
+    visit articles_path
+    assert_selector "h1", text: "Articles"
+  end
+end
+'>Copy</button>
+</div>
+<p>測試應該看到文章索引頁上有<code>h1</code> 並透過。</p><p>執行系統測試。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test</span>:system
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test:system
+">Copy</button>
+</div>
+<p>注意：預設情況下，執行 <code>bin/rails test</code> 不會執行您的系統測試。
+確保執行<code>bin/rails test:system</code> 來實際執行它們。
+您還可以執行<code>bin/rails test:all</code> 來執行所有測試，包括系統測試。</p><h5 id=""><a class="anchorlink" href="#">6.3.1 建立文章系統測試</a></h5><p>現在讓我們測試在我們的部落格中建立新文章的流程。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"should create Article"</span> <span class="k">do</span>
+  <span class="n">visit</span> <span class="n">articles_path</span>
+
+  <span class="n">click_on</span> <span class="s2">"New Article"</span>
+
+  <span class="n">fill_in</span> <span class="s2">"Title"</span><span class="p">,</span> <span class="ss">with: </span><span class="s2">"Creating an Article"</span>
+  <span class="n">fill_in</span> <span class="s2">"Body"</span><span class="p">,</span> <span class="ss">with: </span><span class="s2">"Created this article successfully!"</span>
+
+  <span class="n">click_on</span> <span class="s2">"Create Article"</span>
+
+  <span class="n">assert_text</span> <span class="s2">"Creating an Article"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "should create Article" do
+  visit articles_path
+
+  click_on "New Article"
+
+  fill_in "Title", with: "Creating an Article"
+  fill_in "Body", with: "Created this article successfully!"
+
+  click_on "Create Article"
+
+  assert_text "Creating an Article"
+end
+'>Copy</button>
+</div>
+<p>第一步是呼叫<code>visit articles_path</code>。這將把測試帶到
+文章索引頁。</p><p>然後<code>click_on "New Article"</code> 會在頁面上找到“新文章”按鈕
+索引頁。這會將瀏覽器重定向到<code>/articles/new</code>。</p><p>然後測試會在文章的標題和正文中填寫指定的
+文字。填寫欄位後，單擊“建立文章”
+傳送 POST 請求以在資料庫中建立新文章。</p><p>我們將被重定向迴文章索引頁面，並在那裡斷言
+新文章標題中的文字位於文章索引頁面上。</p><h5 id=""><a class="anchorlink" href="#">6.3.2 測試多種螢幕尺寸</a></h5><p>如果您想在測試桌面的基礎上測試移動尺寸，
+您可以建立另一個繼承自 SystemTestCase 的類並在您的
+測試套件。在這個例子中，建立了一個名為 <code>mobile_system_test_case.rb</code> 的檔案
+在<code>/test</code> 目錄中，配置如下。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">MobileSystemTestCase</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">SystemTestCase</span>
+  <span class="n">driven_by</span> <span class="ss">:selenium</span><span class="p">,</span> <span class="ss">using: :chrome</span><span class="p">,</span> <span class="ss">screen_size: </span><span class="p">[</span><span class="mi">375</span><span class="p">,</span> <span class="mi">667</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class MobileSystemTestCase &lt; ActionDispatch::SystemTestCase
+  driven_by :selenium, using: :chrome, screen_size: [375, 667]
+end
+'>Copy</button>
+</div>
+<p>要使用此配置，請在從<code>MobileSystemTestCase</code> 繼承的<code>test/system</code> 內部建立一個測試。
+現在，您可以使用多種不同的配置來測試您的應用程式。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"mobile_system_test_case"</span>
+
+<span class="k">class</span> <span class="nc">PostsTest</span> <span class="o">&lt;</span> <span class="no">MobileSystemTestCase</span>
+
+  <span class="nb">test</span> <span class="s2">"visiting the index"</span> <span class="k">do</span>
+    <span class="n">visit</span> <span class="n">posts_url</span>
+    <span class="n">assert_selector</span> <span class="s2">"h1"</span><span class="p">,</span> <span class="ss">text: </span><span class="s2">"Posts"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "mobile_system_test_case"
+
+class PostsTest &lt; MobileSystemTestCase
+
+  test "visiting the index" do
+    visit posts_url
+    assert_selector "h1", text: "Posts"
+  end
+end
+'>Copy</button>
+</div>
+<h5 id="-"><a class="anchorlink" href="#-">6.3.3 更進一步</a></h5><p>系統測試的美妙之處在於它類似於整合測試
+它使用您的controller、model 和view 測試使用者的interaction，但是
+系統測試更加健壯，並且實際上測試您的應用程式就好像
+一個真正的使用者正在使用它。展望未來，您可以測試任何使用者
+他們自己會在您的應用程式中進行評論，刪除文章，
+發表文章草稿等。</p><h3 id=""><a class="anchorlink" href="#">7 整合測試</a></h3><p>整合測試用於測試我們應用程式的各個部分如何互動。它們通常用於測試我們應用程式中的重要工作流程。</p><p>為了建立 Rails 整合測試，我們為我們的應用程式使用 <code>test/integration</code> 目錄。 Rails 提供了一個生成器來為我們建立整合測試框架。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate integration_test user_flows
+<span class="go">      exists  test/integration/
+      create  test/integration/user_flows_test.rb
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate integration_test user_flows
+">Copy</button>
+</div>
+<p>這是一個新生成的整合測試的樣子：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">UserFlowsTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+  <span class="c1"># test "the truth" do</span>
+  <span class="c1">#   assert true</span>
+  <span class="c1"># end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class UserFlowsTest &lt; ActionDispatch::IntegrationTest
+  # test "the truth" do
+  #   assert true
+  # end
+end
+'>Copy</button>
+</div>
+<p>這裡的測試繼承自<code>ActionDispatch::IntegrationTest</code>。這使我們可以在整合測試中使用一些額外的 helpers。</p><h4 id="helpers"><a class="anchorlink" href="#helpers">7.1 Helpers 可用於整合測試</a></h4><p>除了標準測試helpers，從<code>ActionDispatch::IntegrationTest</code> 繼承還有一些額外的helpers 在編寫整合測試時可用。讓我們簡要介紹一下我們可以選擇的三類helpers。</p><p>有關處理整合測試執行器的資訊，請參閱 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/Integration/Runner.html"><code>ActionDispatch::Integration::Runner</code></a>。</p><p>在執行請求時，我們將有 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/Integration/RequestHelpers.html"><code>ActionDispatch::Integration::RequestHelpers</code></a> 可用於我們的用。</p><p>如果我們需要修改會話或整合測試的狀態，請檢視 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/Integration/%20Session.html"><code>ActionDispatch::Integration::Session</code></a> 提供幫助。</p><h4 id=""><a class="anchorlink" href="#">7.2 實現整合測試</a></h4><p>讓我們向我們的部落格應用程式新增一個整合測試。我們將從建立新部落格文章的基本工作流程開始，以驗證一切是否正常工作。</p><p>我們將從生成整合測試框架開始：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate integration_test blog_flow
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate integration_test blog_flow
+">Copy</button>
+</div>
+<p>它應該為我們建立了一個測試檔案佔位符。隨著輸出
+我們應該看到之前的命令：</p><div class="code_container">
+<pre><code class="highlight plaintext">      invoke  test_unit
+      create    test/integration/blog_flow_test.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="      invoke  test_unit
+      create    test/integration/blog_flow_test.rb
+">Copy</button>
+</div>
+<p>現在讓我們開啟該檔案並編寫我們的第一個斷言：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">BlogFlowTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+  <span class="nb">test</span> <span class="s2">"can see the welcome page"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="s2">"/"</span>
+    <span class="n">assert_select</span> <span class="s2">"h1"</span><span class="p">,</span> <span class="s2">"Welcome#index"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class BlogFlowTest &lt; ActionDispatch::IntegrationTest
+  test "can see the welcome page" do
+    get "/"
+    assert_select "h1", "Welcome#index"
+  end
+end
+'>Copy</button>
+</div>
+<p>我們將在下面的“測試Views”部分中檢視<code>assert_select</code> 以查詢請求的結果 HTML。它用於透過斷言key HTML 元素及其內容的存在來測試我們請求的響應。</p><p>當我們訪問我們的根路徑時，我們應該看到為 view 渲染的 <code>welcome/index.html.erb</code>。所以這個斷言應該透過。</p><h5 id=""><a class="anchorlink" href="#">7.2.1 建立文章整合</a></h5><p>測試我們在部落格中建立新文章並檢視生成的文章的能力如何。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"can create an article"</span> <span class="k">do</span>
+  <span class="n">get</span> <span class="s2">"/articles/new"</span>
+  <span class="n">assert_response</span> <span class="ss">:success</span>
+
+  <span class="n">post</span> <span class="s2">"/articles"</span><span class="p">,</span>
+    <span class="ss">params: </span><span class="p">{</span> <span class="ss">article: </span><span class="p">{</span> <span class="ss">title: </span><span class="s2">"can create"</span><span class="p">,</span> <span class="ss">body: </span><span class="s2">"article successfully."</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="n">assert_response</span> <span class="ss">:redirect</span>
+  <span class="n">follow_redirect!</span>
+  <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="n">assert_select</span> <span class="s2">"p"</span><span class="p">,</span> <span class="s2">"Title:</span><span class="se">\n</span><span class="s2">  can create"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "can create an article" do
+  get "/articles/new"
+  assert_response :success
+
+  post "/articles",
+    params: { article: { title: "can create", body: "article successfully." } }
+  assert_response :redirect
+  follow_redirect!
+  assert_response :success
+  assert_select "p", "Title:\n  can create"
+end
+'>Copy</button>
+</div>
+<p>讓我們分解這個測試，以便我們能夠理解它。</p><p>我們首先在文章controller 上呼叫<code>:new</code> action。這個響應應該是成功的。</p><p>在此之後，我們向文章controller 的<code>:create</code> action 發出釋出請求：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">post</span> <span class="s2">"/articles"</span><span class="p">,</span>
+  <span class="ss">params: </span><span class="p">{</span> <span class="ss">article: </span><span class="p">{</span> <span class="ss">title: </span><span class="s2">"can create"</span><span class="p">,</span> <span class="ss">body: </span><span class="s2">"article successfully."</span> <span class="p">}</span> <span class="p">}</span>
+<span class="n">assert_response</span> <span class="ss">:redirect</span>
+<span class="n">follow_redirect!</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='post "/articles",
+  params: { article: { title: "can create", body: "article successfully." } }
+assert_response :redirect
+follow_redirect!
+'>Copy</button>
+</div>
+<p>請求後面的兩行是處理我們在建立新文章時設定的重定向。</p><p>注意：如果您計劃在進行重定向後進行後續請求，請不要忘記呼叫 <code>follow_redirect!</code>。</p><p>最後，我們可以斷言我們的響應是成功的，我們的新文章在頁面上是可讀的。</p><h5 id=""><a class="anchorlink" href="#">7.2.2 更進一步</a></h5><p>我們能夠成功測試一個非常小的工作流程，用於訪問我們的部落格和建立新文章。如果我們想更進一步，我們可以新增用於評論、刪除文章或編輯評論的測試。整合測試是為我們的應用程式試驗各種用例的好地方。</p><h3 id="controller"><a class="anchorlink" href="#controller">8 您的Controller 的功能測試</a></h3><p>在 Rails 中，測試控制器的各種 actions 是編寫功能測試的一種形式。請記住，您的controllers 會處理對您的應用程式的傳入 Web 請求，並最終以呈現的 view 進行響應。在編寫功能測試時，您正在測試 actions 如何處理請求和預期結果或響應，在某些情況下是 HTML view。</p><h4 id=""><a class="anchorlink" href="#">8.1 功能測試中應包含的內容</a></h4><p>您應該測試以下內容：</p>
+<ul>
+<li>網路請求是否成功？</li>
+<li>使用者是否被重定向到正確的頁面？</li>
+<li>使用者是否成功透過身份驗證？</li>
+<li>是否在view 中向用戶顯示了適當的訊息？</li>
+<li>響應中顯示的資訊是否正確？</li>
+</ul>
+<p>在action 中檢視功能測試的最簡單方法是使用scaffold 生成器生成controller：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate scaffold_controller article title:string body:text
+<span class="c">...
+</span><span class="go">create  app/controllers/articles_controller.rb
+</span><span class="c">...
+</span><span class="go">invoke  test_unit
+create    test/controllers/articles_controller_test.rb
+</span><span class="c">...
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate scaffold_controller article title:string body:text
+">Copy</button>
+</div>
+<p>這將為<code>Article</code> 資源生成controller 程式碼和測試。
+您可以檢視<code>test/controllers</code> 目錄中的檔案<code>articles_controller_test.rb</code>。</p><p>如果您已經有了controller 並且只想為以下內容生成測試scaffold 程式碼
+7個預設actions中的每一個，可以使用如下命令：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate test_unit:scaffold article
+<span class="c">...
+</span><span class="go">invoke  test_unit
+create    test/controllers/articles_controller_test.rb
+</span><span class="c">...
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate test_unit:scaffold article
+">Copy</button>
+</div>
+<p>讓我們來看看一個這樣的測試，來自檔案<code>articles_controller_test.rb</code> 的<code>test_should_get_index</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># articles_controller_test.rb</span>
+<span class="k">class</span> <span class="nc">ArticlesControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+  <span class="nb">test</span> <span class="s2">"should get index"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">articles_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# articles_controller_test.rb
+class ArticlesControllerTest &lt; ActionDispatch::IntegrationTest
+  test "should get index" do
+    get articles_url
+    assert_response :success
+  end
+end
+'>Copy</button>
+</div>
+<p>在<code>test_should_get_index</code> 測試中，Rails 在action 上模擬了一個名為<code>index</code> 的請求，確保請求成功
+並確保已生成正確的響應機構。</p><p><code>get</code> 方法啟動 Web 請求並將結果填充到 <code>@response</code> 中。它最多可以接受 6 個引數：</p>
+<ul>
+<li>您請求的controller action 的 URI。
+這可以是字串或路由helper（例如<code>articles_url</code>）的形式。</li>
+<li>
+<code>params</code>：帶有要傳遞到action 的請求引數雜湊的選項
+（例如查詢字串引數或文章變數）。</li>
+<li>
+<code>headers</code>：用於設定將隨請求傳遞的標頭。</li>
+<li>
+<code>env</code>：用於根據需要自定義請求環境。</li>
+<li>
+<code>xhr</code>：請求是否是ajax請求。可以設定為 true 以將請求標記為 Ajax。</li>
+<li>
+<code>as</code>：用於對不同內容型別的請求進行編碼。</li>
+</ul>
+<p>所有這些keyword 引數都是可選的。</p><p>示例：為第一個<code>Article</code> 呼叫<code>:show</code> action，傳入<code>HTTP_REFERER</code> 標頭：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">get</span> <span class="n">article_url</span><span class="p">(</span><span class="no">Article</span><span class="p">.</span><span class="nf">first</span><span class="p">),</span> <span class="ss">headers: </span><span class="p">{</span> <span class="s2">"HTTP_REFERER"</span> <span class="o">=&gt;</span> <span class="s2">"http://example.com/home"</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='get article_url(Article.first), headers: { "HTTP_REFERER" =&gt; "http://example.com/home" }
+'>Copy</button>
+</div>
+<p>另一個示例：為最後一個<code>Article</code> 呼叫<code>:update</code> action，為<code>params</code> 中的<code>title</code> 傳入新文字，作為Ajax 請求：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">patch</span> <span class="n">article_url</span><span class="p">(</span><span class="no">Article</span><span class="p">.</span><span class="nf">last</span><span class="p">),</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">article: </span><span class="p">{</span> <span class="ss">title: </span><span class="s2">"updated"</span> <span class="p">}</span> <span class="p">},</span> <span class="ss">xhr: </span><span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='patch article_url(Article.last), params: { article: { title: "updated" } }, xhr: true
+'>Copy</button>
+</div>
+<p>再舉一個例子：呼叫<code>:create</code>action新建一篇文章，傳入
+<code>params</code> 中 <code>title</code> 的文字，作為 JSON 請求：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">post</span> <span class="n">articles_path</span><span class="p">,</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">article: </span><span class="p">{</span> <span class="ss">title: </span><span class="s2">"Ahoy!"</span> <span class="p">}</span> <span class="p">},</span> <span class="ss">as: :json</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='post articles_path, params: { article: { title: "Ahoy!" } }, as: :json
+'>Copy</button>
+</div>
+<p>注意：如果您嘗試從 <code>articles_controller_test.rb</code> 執行 <code>test_should_create_article</code> 測試，由於新新增的 model 級別驗證，它將失敗，這是正確的。</p><p>讓我們修改<code>articles_controller_test.rb</code> 中的<code>test_should_create_article</code> 測試，讓我們所有的測試都透過：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"should create article"</span> <span class="k">do</span>
+  <span class="n">assert_difference</span><span class="p">(</span><span class="s2">"Article.count"</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">post</span> <span class="n">articles_url</span><span class="p">,</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">article: </span><span class="p">{</span> <span class="ss">body: </span><span class="s2">"Rails is awesome!"</span><span class="p">,</span> <span class="ss">title: </span><span class="s2">"Hello Rails"</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">assert_redirected_to</span> <span class="n">article_path</span><span class="p">(</span><span class="no">Article</span><span class="p">.</span><span class="nf">last</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "should create article" do
+  assert_difference("Article.count") do
+    post articles_url, params: { article: { body: "Rails is awesome!", title: "Hello Rails" } }
+  end
+
+  assert_redirected_to article_path(Article.last)
+end
+'>Copy</button>
+</div>
+<p>現在您可以嘗試執行所有測試，它們應該會透過。</p><p>注意：如果您按照 <a href="getting_started.html#basic-authentication">Basic Authentication</a> 部分中的步驟進行操作，則需要為每個請求標頭新增授權以使所有測試都透過：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">post</span> <span class="n">articles_url</span><span class="p">,</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">article: </span><span class="p">{</span> <span class="ss">body: </span><span class="s2">"Rails is awesome!"</span><span class="p">,</span> <span class="ss">title: </span><span class="s2">"Hello Rails"</span> <span class="p">}</span> <span class="p">},</span> <span class="ss">headers: </span><span class="p">{</span> <span class="no">Authorization</span><span class="p">:</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">HttpAuthentication</span><span class="o">::</span><span class="no">Basic</span><span class="p">.</span><span class="nf">encode_credentials</span><span class="p">(</span><span class="s2">"dhh"</span><span class="p">,</span> <span class="s2">"secret"</span><span class="p">)</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='post articles_url, params: { article: { body: "Rails is awesome!", title: "Hello Rails" } }, headers: { Authorization: ActionController::HttpAuthentication::Basic.encode_credentials("dhh", "secret") }
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">8.2 功能測試的可用請求型別</a></h4><p>如果您熟悉 HTTP 協議，就會知道 <code>get</code> 是一種請求。 Rails 功能測試支援 6 種請求型別：</p>
+<ul>
+<li><code>get</code></li>
+<li><code>post</code></li>
+<li><code>patch</code></li>
+<li><code>put</code></li>
+<li><code>head</code></li>
+<li><code>delete</code></li>
+</ul>
+<p>所有請求型別都有您可以使用的等效方法。在典型的 C.R.U.D.您將更頻繁地使用<code>get</code>、<code>post</code>、<code>put</code> 和<code>delete</code> 的應用程式。</p><p>注意：功能測試不驗證action 是否接受指定的請求型別，我們更關心結果。此用例存在請求測試，以使您的測試更有目的性。</p><h4 id="xhr-ajax"><a class="anchorlink" href="#xhr-ajax">8.3 測試 XHR (AJAX) 請求</a></h4><p>要測試 AJAX 請求，您可以將 <code>xhr: true</code> 選項指定給 <code>get</code>、<code>post</code>、
+<code>patch</code>、<code>put</code> 和 <code>delete</code> 方法。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"ajax request"</span> <span class="k">do</span>
+  <span class="n">article</span> <span class="o">=</span> <span class="n">articles</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+  <span class="n">get</span> <span class="n">article_url</span><span class="p">(</span><span class="n">article</span><span class="p">),</span> <span class="ss">xhr: </span><span class="kp">true</span>
+
+  <span class="n">assert_equal</span> <span class="s2">"hello world"</span><span class="p">,</span> <span class="vi">@response</span><span class="p">.</span><span class="nf">body</span>
+  <span class="n">assert_equal</span> <span class="s2">"text/javascript"</span><span class="p">,</span> <span class="vi">@response</span><span class="p">.</span><span class="nf">media_type</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "ajax request" do
+  article = articles(:one)
+  get article_url(article), xhr: true
+
+  assert_equal "hello world", @response.body
+  assert_equal "text/javascript", @response.media_type
+end
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">8.4 啟示錄的三個雜湊</a></h4><p>發出並處理請求後，您將有 3 個可供使用的 Hash 物件：</p>
+<ul>
+<li>
+<code>cookies</code> - 設定的任何cookies</li>
+<li>
+<code>flash</code> - 任何生活在快閃記憶體中的物體</li>
+<li>
+<code>session</code> - 存在於session 變數中的任何物件</li>
+</ul>
+<p>與普通 Hash 物件的情況一樣，您可以透過字串引用 keys 來訪問 values。您也可以透過symbol 名稱引用它們。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">flash</span><span class="p">[</span><span class="s2">"gordon"</span><span class="p">]</span>               <span class="n">flash</span><span class="p">[</span><span class="ss">:gordon</span><span class="p">]</span>
+<span class="n">session</span><span class="p">[</span><span class="s2">"shmession"</span><span class="p">]</span>          <span class="n">session</span><span class="p">[</span><span class="ss">:shmession</span><span class="p">]</span>
+<span class="n">cookies</span><span class="p">[</span><span class="s2">"are_good_for_u"</span><span class="p">]</span>     <span class="n">cookies</span><span class="p">[</span><span class="ss">:are_good_for_u</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='flash["gordon"]               flash[:gordon]
+session["shmession"]          session[:shmession]
+cookies["are_good_for_u"]     cookies[:are_good_for_u]
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">8.5 例項變數可用</a></h4><p>在發出請求後，您還可以訪問功能測試中的三個例項變數：</p>
+<ul>
+<li>
+<code>@controller</code> - 處理請求的controller</li>
+<li>
+<code>@request</code> - 請求物件</li>
+<li>
+<code>@response</code> - 響應物件</li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+  <span class="nb">test</span> <span class="s2">"should get index"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">articles_url</span>
+
+    <span class="n">assert_equal</span> <span class="s2">"index"</span><span class="p">,</span> <span class="vi">@controller</span><span class="p">.</span><span class="nf">action_name</span>
+    <span class="n">assert_equal</span> <span class="s2">"application/x-www-form-urlencoded"</span><span class="p">,</span> <span class="vi">@request</span><span class="p">.</span><span class="nf">media_type</span>
+    <span class="n">assert_match</span> <span class="s2">"Articles"</span><span class="p">,</span> <span class="vi">@response</span><span class="p">.</span><span class="nf">body</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ArticlesControllerTest &lt; ActionDispatch::IntegrationTest
+  test "should get index" do
+    get articles_url
+
+    assert_equal "index", @controller.action_name
+    assert_equal "application/x-www-form-urlencoded", @request.media_type
+    assert_match "Articles", @response.body
+  end
+end
+'>Copy</button>
+</div>
+<h4 id="cgi"><a class="anchorlink" href="#cgi">8.6 設定標題和 CGI​​ 變數</a></h4><p><a href="https://tools.ietf.org/search/rfc2616#section-5.3">HTTP 標頭</a>
+和
+<a href="https://tools.ietf.org/search/rfc3875#section-4.1">CGI 變數</a>
+可以作為標題傳遞：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># setting an HTTP Header</span>
+<span class="n">get</span> <span class="n">articles_url</span><span class="p">,</span> <span class="ss">headers: </span><span class="p">{</span> <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"text/plain"</span> <span class="p">}</span> <span class="c1"># simulate the request with custom header</span>
+
+<span class="c1"># setting a CGI variable</span>
+<span class="n">get</span> <span class="n">articles_url</span><span class="p">,</span> <span class="ss">headers: </span><span class="p">{</span> <span class="s2">"HTTP_REFERER"</span><span class="p">:</span> <span class="s2">"http://example.com/home"</span> <span class="p">}</span> <span class="c1"># simulate the request with custom env variable</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# setting an HTTP Header
+get articles_url, headers: { "Content-Type": "text/plain" } # simulate the request with custom header
+
+# setting a CGI variable
+get articles_url, headers: { "HTTP_REFERER": "http://example.com/home" } # simulate the request with custom env variable
+'>Copy</button>
+</div>
+<h4 id="flash"><a class="anchorlink" href="#flash">8.7 測試 <code>flash</code> 通知</a></h4><p>如果您還記得早些時候，啟示錄的三個雜湊之一是<code>flash</code>。</p><p>我們想在有人時向我們的部落格應用程式新增<code>flash</code> 訊息
+成功建立新文章。</p><p>讓我們首先將此斷言新增到我們的 <code>test_should_create_article</code> 測試中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"should create article"</span> <span class="k">do</span>
+  <span class="n">assert_difference</span><span class="p">(</span><span class="s2">"Article.count"</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">post</span> <span class="n">articles_url</span><span class="p">,</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">article: </span><span class="p">{</span> <span class="ss">title: </span><span class="s2">"Some title"</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">assert_redirected_to</span> <span class="n">article_path</span><span class="p">(</span><span class="no">Article</span><span class="p">.</span><span class="nf">last</span><span class="p">)</span>
+  <span class="n">assert_equal</span> <span class="s2">"Article was successfully created."</span><span class="p">,</span> <span class="n">flash</span><span class="p">[</span><span class="ss">:notice</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "should create article" do
+  assert_difference("Article.count") do
+    post articles_url, params: { article: { title: "Some title" } }
+  end
+
+  assert_redirected_to article_path(Article.last)
+  assert_equal "Article was successfully created.", flash[:notice]
+end
+'>Copy</button>
+</div>
+<p>如果我們現在執行我們的測試，我們應該看到一個失敗：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test test</span>/controllers/articles_controller_test.rb <span class="nt">-n</span> test_should_create_article
+<span class="go">Run options: -n test_should_create_article --seed 32266
+
+</span><span class="gp">#</span><span class="w"> </span>Running:
+<span class="go">
+F
+
+Finished in 0.114870s, 8.7055 runs/s, 34.8220 assertions/s.
+
+  1) Failure:
+</span><span class="gp">ArticlesControllerTest#</span>test_should_create_article <span class="o">[</span>/test/controllers/articles_controller_test.rb:16]:
+<span class="go">--- expected
++++ actual
+@@ -1 +1 @@
+-"Article was successfully created."
++nil
+
+1 runs, 4 assertions, 1 failures, 0 errors, 0 skips
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test test/controllers/articles_controller_test.rb -n test_should_create_article
+">Copy</button>
+</div>
+<p>現在讓我們在controller 中實現 flash 訊息。我們的<code>:create</code> action 現在應該是這樣的：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">create</span>
+  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">save</span>
+    <span class="n">flash</span><span class="p">[</span><span class="ss">:notice</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Article was successfully created."</span>
+    <span class="n">redirect_to</span> <span class="vi">@article</span>
+  <span class="k">else</span>
+    <span class="n">render</span> <span class="s2">"new"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='def create
+  @article = Article.new(article_params)
+
+  if @article.save
+    flash[:notice] = "Article was successfully created."
+    redirect_to @article
+  else
+    render "new"
+  end
+end
+'>Copy</button>
+</div>
+<p>現在，如果我們執行我們的測試，我們應該會看到它透過：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails test test</span>/controllers/articles_controller_test.rb <span class="nt">-n</span> test_should_create_article
+<span class="go">Run options: -n test_should_create_article --seed 18981
+
+</span><span class="gp">#</span><span class="w"> </span>Running:
+<span class="go">
+</span><span class="c">.
+</span><span class="go">
+Finished in 0.081972s, 12.1993 runs/s, 48.7972 assertions/s.
+
+1 runs, 4 assertions, 0 failures, 0 errors, 0 skips
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails test test/controllers/articles_controller_test.rb -n test_should_create_article
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">8.8 放在一起</a></h4><p>此時我們的文章controller 測試了<code>:index</code> 以及<code>:new</code> 和<code>:create</code> actions。如何處理現有資料？</p><p>讓我們為<code>:show</code> action 編寫一個測試：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"should show article"</span> <span class="k">do</span>
+  <span class="n">article</span> <span class="o">=</span> <span class="n">articles</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+  <span class="n">get</span> <span class="n">article_url</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+  <span class="n">assert_response</span> <span class="ss">:success</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "should show article" do
+  article = articles(:one)
+  get article_url(article)
+  assert_response :success
+end
+'>Copy</button>
+</div>
+<p>記住我們之前關於裝置的討論，<code>articles()</code> 方法將讓我們訪問我們的文章裝置。</p><p>刪除現有文章怎麼樣？</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"should destroy article"</span> <span class="k">do</span>
+  <span class="n">article</span> <span class="o">=</span> <span class="n">articles</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+  <span class="n">assert_difference</span><span class="p">(</span><span class="s2">"Article.count"</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">delete</span> <span class="n">article_url</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">assert_redirected_to</span> <span class="n">articles_path</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "should destroy article" do
+  article = articles(:one)
+  assert_difference("Article.count", -1) do
+    delete article_url(article)
+  end
+
+  assert_redirected_to articles_path
+end
+'>Copy</button>
+</div>
+<p>我們還可以新增一個測試來更新現有文章。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"should update article"</span> <span class="k">do</span>
+  <span class="n">article</span> <span class="o">=</span> <span class="n">articles</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+
+  <span class="n">patch</span> <span class="n">article_url</span><span class="p">(</span><span class="n">article</span><span class="p">),</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">article: </span><span class="p">{</span> <span class="ss">title: </span><span class="s2">"updated"</span> <span class="p">}</span> <span class="p">}</span>
+
+  <span class="n">assert_redirected_to</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+  <span class="c1"># Reload association to fetch updated data and assert that title is updated.</span>
+  <span class="n">article</span><span class="p">.</span><span class="nf">reload</span>
+  <span class="n">assert_equal</span> <span class="s2">"updated"</span><span class="p">,</span> <span class="n">article</span><span class="p">.</span><span class="nf">title</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "should update article" do
+  article = articles(:one)
+
+  patch article_url(article), params: { article: { title: "updated" } }
+
+  assert_redirected_to article_path(article)
+  # Reload association to fetch updated data and assert that title is updated.
+  article.reload
+  assert_equal "updated", article.title
+end
+'>Copy</button>
+</div>
+<p>請注意，我們開始在這三個測試中看到一些重複，它們都訪問相同的 Article 夾具資料。我們可以 D.R.Y.透過使用<code>ActiveSupport::Callbacks</code> 提供的<code>setup</code> 和<code>teardown</code> 方法來解決這個問題。</p><p>我們的測試現在應該如下所示。暫時先忽略其他測試，為了簡潔起見，我們將它們排除在外。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">ArticlesControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+  <span class="c1"># called before every single test</span>
+  <span class="n">setup</span> <span class="k">do</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="n">articles</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="c1"># called after every single test</span>
+  <span class="n">teardown</span> <span class="k">do</span>
+    <span class="c1"># when controller is using cache it may be a good idea to reset it afterwards</span>
+    <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">clear</span>
+  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should show article"</span> <span class="k">do</span>
+    <span class="c1"># Reuse the @article instance variable from setup</span>
+    <span class="n">get</span> <span class="n">article_url</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should destroy article"</span> <span class="k">do</span>
+    <span class="n">assert_difference</span><span class="p">(</span><span class="s2">"Article.count"</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">delete</span> <span class="n">article_url</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="n">assert_redirected_to</span> <span class="n">articles_path</span>
+  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should update article"</span> <span class="k">do</span>
+    <span class="n">patch</span> <span class="n">article_url</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">article: </span><span class="p">{</span> <span class="ss">title: </span><span class="s2">"updated"</span> <span class="p">}</span> <span class="p">}</span>
+
+    <span class="n">assert_redirected_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+    <span class="c1"># Reload association to fetch updated data and assert that title is updated.</span>
+    <span class="vi">@article</span><span class="p">.</span><span class="nf">reload</span>
+    <span class="n">assert_equal</span> <span class="s2">"updated"</span><span class="p">,</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class ArticlesControllerTest &lt; ActionDispatch::IntegrationTest
+  # called before every single test
+  setup do
+    @article = articles(:one)
+  end
+
+  # called after every single test
+  teardown do
+    # when controller is using cache it may be a good idea to reset it afterwards
+    Rails.cache.clear
+  end
+
+  test "should show article" do
+    # Reuse the @article instance variable from setup
+    get article_url(@article)
+    assert_response :success
+  end
+
+  test "should destroy article" do
+    assert_difference("Article.count", -1) do
+      delete article_url(@article)
+    end
+
+    assert_redirected_to articles_path
+  end
+
+  test "should update article" do
+    patch article_url(@article), params: { article: { title: "updated" } }
+
+    assert_redirected_to article_path(@article)
+    # Reload association to fetch updated data and assert that title is updated.
+    @article.reload
+    assert_equal "updated", @article.title
+  end
+end
+'>Copy</button>
+</div>
+<p>與Rails 中的其他callbacks 類似，<code>setup</code> 和<code>teardown</code> 方法也可以透過傳遞塊、lambda 或方法名稱作為symbol 來呼叫。</p><h4 id="helpers"><a class="anchorlink" href="#helpers">8.9 測試 helpers</a></h4><p>為避免程式碼重複，您可以新增自己的測試helpers。
+登入helper 就是一個很好的例子：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># test/test_helper.rb</span>
+
+<span class="k">module</span> <span class="nn">SignInHelper</span>
+  <span class="k">def</span> <span class="nf">sign_in_as</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">post</span> <span class="n">sign_in_url</span><span class="p">(</span><span class="ss">email: </span><span class="n">user</span><span class="p">.</span><span class="nf">email</span><span class="p">,</span> <span class="ss">password: </span><span class="n">user</span><span class="p">.</span><span class="nf">password</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">ActionDispatch::IntegrationTest</span>
+  <span class="kp">include</span> <span class="no">SignInHelper</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# test/test_helper.rb
+
+module SignInHelper
+  def sign_in_as(user)
+    post sign_in_url(email: user.email, password: user.password)
+  end
+end
+
+class ActionDispatch::IntegrationTest
+  include SignInHelper
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">ProfileControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+
+  <span class="nb">test</span> <span class="s2">"should show profile"</span> <span class="k">do</span>
+    <span class="c1"># helper is now reusable from any controller test case</span>
+    <span class="n">sign_in_as</span> <span class="n">users</span><span class="p">(</span><span class="ss">:david</span><span class="p">)</span>
+
+    <span class="n">get</span> <span class="n">profile_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class ProfileControllerTest &lt; ActionDispatch::IntegrationTest
+
+  test "should show profile" do
+    # helper is now reusable from any controller test case
+    sign_in_as users(:david)
+
+    get profile_url
+    assert_response :success
+  end
+end
+'>Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">8.9.1 使用單獨的檔案</a></h5><p>如果您發現 helpers 使 <code>test_helper.rb</code> 雜亂無章，您可以將它們提取到單獨的檔案中。
+儲存它們的一個好地方是<code>test/lib</code> 或<code>test/test_helpers</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># test/test_helpers/multiple_assertions.rb</span>
+<span class="k">module</span> <span class="nn">MultipleAssertions</span>
+  <span class="k">def</span> <span class="nf">assert_multiple_of_forty_two</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">assert</span> <span class="p">(</span><span class="n">number</span> <span class="o">%</span> <span class="mi">42</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">'expected #{number} to be a multiple of 42'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# test/test_helpers/multiple_assertions.rb
+module MultipleAssertions
+  def assert_multiple_of_forty_two(number)
+    assert (number % 42 == 0), 'expected #{number} to be a multiple of 42'
+  end
+end
+">Copy</button>
+</div>
+<p>然後可以根據需要明確要求並根據需要包含這些helpers</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+<span class="nb">require</span> <span class="s2">"test_helpers/multiple_assertions"</span>
+
+<span class="k">class</span> <span class="nc">NumberTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="kp">include</span> <span class="no">MultipleAssertions</span>
+
+  <span class="nb">test</span> <span class="s2">"420 is a multiple of forty two"</span> <span class="k">do</span>
+    <span class="n">assert_multiple_of_forty_two</span> <span class="mi">420</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+require "test_helpers/multiple_assertions"
+
+class NumberTest &lt; ActiveSupport::TestCase
+  include MultipleAssertions
+
+  test "420 is a multiple of forty two" do
+    assert_multiple_of_forty_two 420
+  end
+end
+'>Copy</button>
+</div>
+<p>或者它們可以繼續直接包含在相關的父類中</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># test/test_helper.rb</span>
+<span class="nb">require</span> <span class="s2">"test_helpers/sign_in_helper"</span>
+
+<span class="k">class</span> <span class="nc">ActionDispatch::IntegrationTest</span>
+  <span class="kp">include</span> <span class="no">SignInHelper</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# test/test_helper.rb
+require "test_helpers/sign_in_helper"
+
+class ActionDispatch::IntegrationTest
+  include SignInHelper
+end
+'>Copy</button>
+</div>
+<h5 id="helper"><a class="anchorlink" href="#helper">8.9.2 迫切需要 Helper</a></h5><p>您可能會發現在<code>test_helper.rb</code> 中急切地要求helpers 很方便，這樣您的測試檔案就可以隱式訪問它們。這可以使用萬用字元來完成，如下所示</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># test/test_helper.rb</span>
+<span class="no">Dir</span><span class="p">[</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"test"</span><span class="p">,</span> <span class="s2">"test_helpers"</span><span class="p">,</span> <span class="s2">"**"</span><span class="p">,</span> <span class="s2">"*.rb"</span><span class="p">)].</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span> <span class="nb">require</span> <span class="n">file</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# test/test_helper.rb
+Dir[Rails.root.join("test", "test_helpers", "**", "*.rb")].each { |file| require file }
+'>Copy</button>
+</div>
+<p>這樣做的缺點是增加了啟動時間，而不是在您的個人測試中手動僅需要必要的檔案。</p><h3 id=""><a class="anchorlink" href="#">9 測試路線</a></h3><p>與 Rails 應用程式中的其他所有內容一樣，您可以測試路由。路由測試駐留在<code>test/controllers/</code> 中或者是controller 測試的一部分。</p><p>注意：如果您的應用程式有複雜的路由，Rails 提供了許多有用的 helpers 來測試它們。</p><p>有關 Rails 中可用的路由斷言的詳細資訊，請參閱 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionDispatch/Assertions/RoutingAssertions.html"><code>ActionDispatch::Assertions::RoutingAssertions</code></a> 的 API 文件.</p><h3 id="views"><a class="anchorlink" href="#views">10 測試Views</a></h3><p>透過斷言key HTML 元素及其內容的存在來測試對您的請求的響應是測試應用程式views 的常用方法。與路由測試一樣，檢視測試駐留在<code>test/controllers/</code> 中或者是controller 測試的一部分。 <code>assert_select</code> 方法允許您使用簡單而強大的語法查詢響應的 HTML 元素。</p><p><code>assert_select</code> 有兩種形式：</p><p><code>assert_select(selector, [equality], [message])</code> 確保透過選擇器在所選元素上滿足相等條件。選擇器可以是 CSS 選擇器表示式（字串）或帶有替換 values 的表示式。</p><p><code>assert_select(element, selector, [equality], [message])</code> 確保透過選擇器從 <em>element</em>（<code>Nokogiri::XML::Node</code> 或<code>Nokogiri::XML::NodeSet</code> 的例項）及其後代開始的所有選定元素都滿足相等條件。</p><p>例如，您可以使用以下命令驗證響應中標題元素的內容：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">assert_select</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"Welcome to Rails Testing Guide"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='assert_select "title", "Welcome to Rails Testing Guide"
+'>Copy</button>
+</div>
+<p>您還可以使用巢狀的 <code>assert_select</code> 塊進行更深入的調查。</p><p>在以下示例中，<code>li.menu_item</code> 的內部 <code>assert_select</code> 執行
+在外部塊選擇的元素集合中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">assert_select</span> <span class="s2">"ul.navigation"</span> <span class="k">do</span>
+  <span class="n">assert_select</span> <span class="s2">"li.menu_item"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='assert_select "ul.navigation" do
+  assert_select "li.menu_item"
+end
+'>Copy</button>
+</div>
+<p>可以迭代選定元素的集合，以便可以為每個元素單獨呼叫 <code>assert_select</code>。</p><p>例如，如果響應包含兩個有序列表，每個列表都有四個巢狀的列表元素，那麼以下測試都將透過。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">assert_select</span> <span class="s2">"ol"</span> <span class="k">do</span> <span class="o">|</span><span class="n">elements</span><span class="o">|</span>
+  <span class="n">elements</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">element</span><span class="o">|</span>
+    <span class="n">assert_select</span> <span class="n">element</span><span class="p">,</span> <span class="s2">"li"</span><span class="p">,</span> <span class="mi">4</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">assert_select</span> <span class="s2">"ol"</span> <span class="k">do</span>
+  <span class="n">assert_select</span> <span class="s2">"li"</span><span class="p">,</span> <span class="mi">8</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='assert_select "ol" do |elements|
+  elements.each do |element|
+    assert_select element, "li", 4
+  end
+end
+
+assert_select "ol" do
+  assert_select "li", 8
+end
+'>Copy</button>
+</div>
+<p>這個說法非常有力。更高階的用法請參考其<a href="https://github.com/rails/rails-dom-testing/blob/master/lib/rails/dom/testing/assertions/selector_assertions.rb">文件</a>。</p><h4 id="view"><a class="anchorlink" href="#view">10.1 其他基於 View 的斷言</a></h4><p>還有更多斷言主要用於測試views：</p><p>|斷言 |目的 |
+| -------------------------------------------------- ------- | ------- |
+| <code>assert_select_email</code> |允許您對電子郵件正文進行斷言。 |
+| <code>assert_select_encoded</code> |允許您對編碼的 HTML 進行斷言。它透過取消編碼每個元素的內容然後呼叫具有所有未編碼元素的塊來實現此目的。
+| <code>css_select(selector)</code> 或 <code>css_select(element, selector)</code> |返回由 <em>selector</em> 選擇的所有元素的陣列。在第二個變體中，它首先匹配基礎 <em>element</em> 並嘗試匹配其任何子項上的 <em>selector</em> 表示式。如果沒有匹配項，則兩個變體都返回一個空陣列。|</p><p>這是使用<code>assert_select_email</code> 的示例：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">assert_select_email</span> <span class="k">do</span>
+  <span class="n">assert_select</span> <span class="s2">"small"</span><span class="p">,</span> <span class="s2">"Please click the 'Unsubscribe' link if you want to opt-out."</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="assert_select_email do
+  assert_select &quot;small&quot;, &quot;Please click the 'Unsubscribe' link if you want to opt-out.&quot;
+end
+">Copy</button>
+</div>
+<h3 id="helpers"><a class="anchorlink" href="#helpers">11 測試Helpers</a></h3><p>helper 只是一個簡單的 module，您可以在其中定義方法
+在您的views 中可用。</p><p>為了測試helpers，您需要做的就是檢查
+helper 方法符合您的期望。與helpers 相關的測試是
+位於<code>test/helpers</code> 目錄下。</p><p>鑑於我們有以下helper：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">UsersHelper</span>
+  <span class="k">def</span> <span class="nf">link_to_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">link_to</span> <span class="s2">"</span><span class="si">#{</span><span class="n">user</span><span class="p">.</span><span class="nf">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">user</span><span class="p">.</span><span class="nf">last_name</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">user</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='module UsersHelper
+  def link_to_user(user)
+    link_to "#{user.first_name} #{user.last_name}", user
+  end
+end
+'>Copy</button>
+</div>
+<p>我們可以像這樣測試這個方法的輸出：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UsersHelperTest</span> <span class="o">&lt;</span> <span class="no">ActionView</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s2">"should return the user's full name"</span> <span class="k">do</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">users</span><span class="p">(</span><span class="ss">:david</span><span class="p">)</span>
+
+    <span class="n">assert_dom_equal</span> <span class="sx">%{&lt;a href="/user/#{user.id}"&gt;David Heinemeier Hansson&lt;/a&gt;}</span><span class="p">,</span> <span class="n">link_to_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UsersHelperTest &lt; ActionView::TestCase
+  test &quot;should return the user's full name&quot; do
+    user = users(:david)
+
+    assert_dom_equal %{&lt;a href=&quot;/user/#{user.id}&quot;&gt;David Heinemeier Hansson&lt;/a&gt;}, link_to_user(user)
+  end
+end
+">Copy</button>
+</div>
+<p>此外，由於測試類從<code>ActionView::TestCase</code> 擴充套件，你有
+訪問 Rails 的 helper 方法，例如 <code>link_to</code> 或 <code>pluralize</code>。</p><h3 id=""><a class="anchorlink" href="#">12 測試您的郵件程式</a></h3><p>測試郵件程式類需要一些特定的工具來完成一項徹底的工作。</p><h4 id=""><a class="anchorlink" href="#">12.1 控制郵遞員</a></h4><p>您的郵件程式類 - 就像 Rails 應用程式的其他部分一樣 - 應該進行測試以確保它們按預期工作。</p><p>測試郵件程式類的目標是確保：</p>
+<ul>
+<li>正在處理電子郵件（建立和傳送）</li>
+<li>郵件內容正確（主題、發件人、正文等）</li>
+<li>在正確的時間傳送正確的電子郵件</li>
+</ul>
+<h5 id=""><a class="anchorlink" href="#">12.1.1 來自四面八方</a></h5><p>測試郵件程式有兩個方面，單元測試和功能測試。在單元測試中，您使用嚴格控制的輸入單獨執行郵件程式，並將輸出與已知的value（一個裝置）進行比較。在功能測試中，您不會過多地測試郵件程式生成的微小細節；相反，我們測試我們的controllers 和models 是否以正確的方式使用郵件程式。您測試以證明正確的電子郵件是在正確的時間傳送的。</p><h4 id=""><a class="anchorlink" href="#">12.2 單元測試</a></h4><p>為了測試您的郵件程式是否按預期工作，您可以使用單元測試將郵件程式的實際結果與應該生成的預先編寫的示例進行比較。</p><h5 id=""><a class="anchorlink" href="#">12.2.1 燈具的復仇</a></h5><p>出於對郵件程式進行單元測試的目的，fixtures 用於提供輸出 <em>should</em> 外觀的示例。因為這些是示例電子郵件，而不是像其他裝置那樣Active Record 資料，所以它們與其他裝置分開儲存在自己的子目錄中。 <code>test/fixtures</code> 內的目錄名稱直接對應郵件程式的名稱。因此，對於名為<code>UserMailer</code> 的郵件程式，fixture 應位於<code>test/fixtures/user_mailer</code> 目錄中。</p><p>如果您生成了郵件程式，則生成器不會為郵件程式 actions 建立存根裝置。您必須如上所述自己建立這些檔案。</p><h5 id=""><a class="anchorlink" href="#">12.2.2 基本測試用例</a></h5><p>這是一個單元測試，用於測試名為<code>UserMailer</code> 的郵件程式，該郵件程式的action @{<em>1} 用於向朋友傳送邀請。它是由生成器為 @{</em>1} action 建立的基礎測試的改編版本。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">UserMailerTest</span> <span class="o">&lt;</span> <span class="no">ActionMailer</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s2">"invite"</span> <span class="k">do</span>
+    <span class="c1"># Create the email and store it for further assertions</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="no">UserMailer</span><span class="p">.</span><span class="nf">create_invite</span><span class="p">(</span><span class="s2">"me@example.com"</span><span class="p">,</span>
+                                     <span class="s2">"friend@example.com"</span><span class="p">,</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">)</span>
+
+    <span class="c1"># Send the email, then test that it got queued</span>
+    <span class="n">assert_emails</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="n">email</span><span class="p">.</span><span class="nf">deliver_now</span>
+    <span class="k">end</span>
+
+    <span class="c1"># Test the body of the sent email contains what we expect it to</span>
+    <span class="n">assert_equal</span> <span class="p">[</span><span class="s2">"me@example.com"</span><span class="p">],</span> <span class="n">email</span><span class="p">.</span><span class="nf">from</span>
+    <span class="n">assert_equal</span> <span class="p">[</span><span class="s2">"friend@example.com"</span><span class="p">],</span> <span class="n">email</span><span class="p">.</span><span class="nf">to</span>
+    <span class="n">assert_equal</span> <span class="s2">"You have been invited by me@example.com"</span><span class="p">,</span> <span class="n">email</span><span class="p">.</span><span class="nf">subject</span>
+    <span class="n">assert_equal</span> <span class="n">read_fixture</span><span class="p">(</span><span class="s2">"invite"</span><span class="p">).</span><span class="nf">join</span><span class="p">,</span> <span class="n">email</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">to_s</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class UserMailerTest &lt; ActionMailer::TestCase
+  test "invite" do
+    # Create the email and store it for further assertions
+    email = UserMailer.create_invite("me@example.com",
+                                     "friend@example.com", Time.now)
+
+    # Send the email, then test that it got queued
+    assert_emails 1 do
+      email.deliver_now
+    end
+
+    # Test the body of the sent email contains what we expect it to
+    assert_equal ["me@example.com"], email.from
+    assert_equal ["friend@example.com"], email.to
+    assert_equal "You have been invited by me@example.com", email.subject
+    assert_equal read_fixture("invite").join, email.body.to_s
+  end
+end
+'>Copy</button>
+</div>
+<p>在測試中，我們建立電子郵件並將返回的物件儲存在<code>email</code>
+多變的。然後我們確保它被髮送（第一個斷言），然後，在
+第二批斷言，我們確保電子郵件確實包含我們
+預計。 helper <code>read_fixture</code> 用於從該檔案中讀取內容。</p><p>注意：<code>email.body.to_s</code> 當只有一個（HTML 或文字）部分時出現。
+如果郵件提供了兩者，您可以針對特定部件測試您的夾具
+與<code>email.text_part.body.to_s</code> 或<code>email.html_part.body.to_s</code>。</p><p>這是<code>invite</code> 夾具的內容：</p><div class="code_container">
+<pre><code class="highlight plaintext">Hi friend@example.com,
+
+You have been invited.
+
+Cheers!
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Hi friend@example.com,
+
+You have been invited.
+
+Cheers!
+">Copy</button>
+</div>
+<p>現在是瞭解更多有關為您的測試編寫測試的合適時機
+郵遞員。行<code>ActionMailer::Base.delivery_method = :test</code> 中
+<code>config/environments/test.rb</code> 將交付方式設定為測試模式，以便
+電子郵件實際上不會發送（有助於避免在傳送垃圾郵件時向用戶傳送垃圾郵件）
+測試），但它會被附加到一個數組中
+(<code>ActionMailer::Base.deliveries</code>)。</p><p>注意：<code>ActionMailer::Base.deliveries</code> 陣列僅在
+<code>ActionMailer::TestCase</code> 和 <code>ActionDispatch::IntegrationTest</code> 測試。
+如果你想在這些測試用例之外有一個乾淨的石板，你可以重置它
+手動使用：<code>ActionMailer::Base.deliveries.clear</code></p><h4 id=""><a class="anchorlink" href="#">12.3 功能和系統測試</a></h4><p>單元測試允許我們測試電子郵件的屬性，而功能和系統測試允許我們測試使用者 interactions 是否適當地觸發要傳送的電子郵件。例如，您可以檢查邀請好友操作是否正確傳送電子郵件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Integration Test</span>
+<span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">UsersControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+  <span class="nb">test</span> <span class="s2">"invite friend"</span> <span class="k">do</span>
+    <span class="c1"># Asserts the difference in the ActionMailer::Base.deliveries</span>
+    <span class="n">assert_emails</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="n">post</span> <span class="n">invite_friend_url</span><span class="p">,</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">email: </span><span class="s2">"friend@example.com"</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# Integration Test
+require "test_helper"
+
+class UsersControllerTest &lt; ActionDispatch::IntegrationTest
+  test "invite friend" do
+    # Asserts the difference in the ActionMailer::Base.deliveries
+    assert_emails 1 do
+      post invite_friend_url, params: { email: "friend@example.com" }
+    end
+  end
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># System Test</span>
+<span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">UsersTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">SystemTestCase</span>
+  <span class="n">driven_by</span> <span class="ss">:selenium</span><span class="p">,</span> <span class="ss">using: :headless_chrome</span>
+
+  <span class="nb">test</span> <span class="s2">"inviting a friend"</span> <span class="k">do</span>
+    <span class="n">visit</span> <span class="n">invite_users_url</span>
+    <span class="n">fill_in</span> <span class="s2">"Email"</span><span class="p">,</span> <span class="ss">with: </span><span class="s2">"friend@example.com"</span>
+    <span class="n">assert_emails</span> <span class="mi">1</span> <span class="k">do</span>
+      <span class="n">click_on</span> <span class="s2">"Invite"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# System Test
+require "test_helper"
+
+class UsersTest &lt; ActionDispatch::SystemTestCase
+  driven_by :selenium, using: :headless_chrome
+
+  test "inviting a friend" do
+    visit invite_users_url
+    fill_in "Email", with: "friend@example.com"
+    assert_emails 1 do
+      click_on "Invite"
+    end
+  end
+end
+'>Copy</button>
+</div>
+<p>注意：<code>assert_emails</code> 方法不依賴於特定的傳遞方法，並且可以處理使用 <code>deliver_now</code> 或 <code>deliver_later</code> 方法傳遞的電子郵件。如果我們明確想斷言電子郵件已入隊，我們可以使用 <code>assert_enqueued_emails</code> 方法。更多資訊可以在 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionMailer/TestHelper.html">此處的文件</a> 中找到。</p><h3 id=""><a class="anchorlink" href="#">13 測試工作</a></h3><p>由於您的自定義作業可以在應用程式內的不同級別排隊，
+你需要測試這兩個工作本身（他們排隊時的行為）
+並且其他實體正確地將它們排入佇列。</p><h4 id=""><a class="anchorlink" href="#">13.1 一個基本的測試用例</a></h4><p>預設情況下，當您生成作業時，也會生成相關的測試
+在<code>test/jobs</code> 目錄下。以下是計費作業的示例測試：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">BillingJobTest</span> <span class="o">&lt;</span> <span class="no">ActiveJob</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s2">"that account is charged"</span> <span class="k">do</span>
+    <span class="no">BillingJob</span><span class="p">.</span><span class="nf">perform_now</span><span class="p">(</span><span class="n">account</span><span class="p">,</span> <span class="n">product</span><span class="p">)</span>
+    <span class="n">assert</span> <span class="n">account</span><span class="p">.</span><span class="nf">reload</span><span class="p">.</span><span class="nf">charged_for?</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class BillingJobTest &lt; ActiveJob::TestCase
+  test "that account is charged" do
+    BillingJob.perform_now(account, product)
+    assert account.reload.charged_for?(product)
+  end
+end
+'>Copy</button>
+</div>
+<p>這個測試非常簡單，只斷言工作完成了
+正如預期的那樣。</p><p>預設情況下，<code>ActiveJob::TestCase</code> 會將佇列介面卡設定為 <code>:test</code> 以便
+您的工作是內聯執行的。它還將確保之前執行的所有操作
+和排隊的作業在任何測試執行之前被清除，因此您可以安全地假設
+在每個測試的範圍內還沒有執行任何作業。</p><h4 id=""><a class="anchorlink" href="#">13.2 其他元件中的自定義斷言和測試作業</a></h4><p>Active Job 附帶了一堆自定義斷言，可用於減少測試的冗長。有關可用斷言的完整列表，請參閱 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveJob/TestHelper.html"><code>ActiveJob::TestHelper</code></a> 的 API 文件。</p><p>確保您的作業正確排隊或執行是一種很好的做法
+無論您在何處呼叫它們（例如在您的 controllers 中）。這正是
+Active Job 提供的自定義斷言非常有用。例如，
+在model 中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">ProductTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="kp">include</span> <span class="no">ActiveJob</span><span class="o">::</span><span class="no">TestHelper</span>
+
+  <span class="nb">test</span> <span class="s2">"billing job scheduling"</span> <span class="k">do</span>
+    <span class="n">assert_enqueued_with</span><span class="p">(</span><span class="ss">job: </span><span class="no">BillingJob</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">product</span><span class="p">.</span><span class="nf">charge</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class ProductTest &lt; ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
+  test "billing job scheduling" do
+    assert_enqueued_with(job: BillingJob) do
+      product.charge(account)
+    end
+  end
+end
+'>Copy</button>
+</div>
+<h3 id="action-cable"><a class="anchorlink" href="#action-cable">14 測試Action Cable</a></h3><p>由於 Action Cable 在您的應用程式中的不同級別使用，
+您需要測試通道、連線類本身以及其他
+實體廣播正確的訊息。</p><h4 id=""><a class="anchorlink" href="#">14.1 連線測試用例</a></h4><p>預設情況下，當您使用Action Cable 生成新的 Rails 應用程式時，還會在 <code>test/channels/application_cable</code> 目錄下生成對基連線類 (<code>ApplicationCable::Connection</code>) 的測試。</p><p>連線測試旨在檢查連線的識別符號是否被正確分配
+或拒絕任何不正確的連線請求。下面是一個例子：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationCable::ConnectionTest</span> <span class="o">&lt;</span> <span class="no">ActionCable</span><span class="o">::</span><span class="no">Connection</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s2">"connects with params"</span> <span class="k">do</span>
+    <span class="c1"># Simulate a connection opening by calling the `connect` method</span>
+    <span class="n">connect</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">user_id: </span><span class="mi">42</span> <span class="p">}</span>
+
+    <span class="c1"># You can access the Connection object via `connection` in tests</span>
+    <span class="n">assert_equal</span> <span class="n">connection</span><span class="p">.</span><span class="nf">user_id</span><span class="p">,</span> <span class="s2">"42"</span>
+  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"rejects connection without params"</span> <span class="k">do</span>
+    <span class="c1"># Use `assert_reject_connection` matcher to verify that</span>
+    <span class="c1"># connection is rejected</span>
+    <span class="n">assert_reject_connection</span> <span class="p">{</span> <span class="n">connect</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ApplicationCable::ConnectionTest &lt; ActionCable::Connection::TestCase
+  test "connects with params" do
+    # Simulate a connection opening by calling the `connect` method
+    connect params: { user_id: 42 }
+
+    # You can access the Connection object via `connection` in tests
+    assert_equal connection.user_id, "42"
+  end
+
+  test "rejects connection without params" do
+    # Use `assert_reject_connection` matcher to verify that
+    # connection is rejected
+    assert_reject_connection { connect }
+  end
+end
+'>Copy</button>
+</div>
+<p>您還可以像在整合測試中一樣指定 request cookies：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">test</span> <span class="s2">"connects with cookies"</span> <span class="k">do</span>
+  <span class="n">cookies</span><span class="p">.</span><span class="nf">signed</span><span class="p">[</span><span class="ss">:user_id</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"42"</span>
+
+  <span class="n">connect</span>
+
+  <span class="n">assert_equal</span> <span class="n">connection</span><span class="p">.</span><span class="nf">user_id</span><span class="p">,</span> <span class="s2">"42"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='test "connects with cookies" do
+  cookies.signed[:user_id] = "42"
+
+  connect
+
+  assert_equal connection.user_id, "42"
+end
+'>Copy</button>
+</div>
+<p>有關詳細資訊，請參閱 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionCable/Connection/TestCase.html"><code>ActionCable::Connection::TestCase</code></a> 的 API 文件。</p><h4 id=""><a class="anchorlink" href="#">14.2 頻道測試用例</a></h4><p>預設情況下，當您生成頻道時，也會生成關聯的測試
+在<code>test/channels</code> 目錄下。這是一個使用聊天頻道的示例測試：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">ChatChannelTest</span> <span class="o">&lt;</span> <span class="no">ActionCable</span><span class="o">::</span><span class="no">Channel</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s2">"subscribes and stream for room"</span> <span class="k">do</span>
+    <span class="c1"># Simulate a subscription creation by calling `subscribe`</span>
+    <span class="n">subscribe</span> <span class="ss">room: </span><span class="s2">"15"</span>
+
+    <span class="c1"># You can access the Channel object via `subscription` in tests</span>
+    <span class="n">assert</span> <span class="n">subscription</span><span class="p">.</span><span class="nf">confirmed?</span>
+    <span class="n">assert_has_stream</span> <span class="s2">"chat_15"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class ChatChannelTest &lt; ActionCable::Channel::TestCase
+  test "subscribes and stream for room" do
+    # Simulate a subscription creation by calling `subscribe`
+    subscribe room: "15"
+
+    # You can access the Channel object via `subscription` in tests
+    assert subscription.confirmed?
+    assert_has_stream "chat_15"
+  end
+end
+'>Copy</button>
+</div>
+<p>這個測試非常簡單，只斷言通道訂閱了特定流的連線。</p><p>您還可以指定基礎連線識別符號。這是一個使用網路通知頻道的示例測試：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">WebNotificationsChannelTest</span> <span class="o">&lt;</span> <span class="no">ActionCable</span><span class="o">::</span><span class="no">Channel</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s2">"subscribes and stream for user"</span> <span class="k">do</span>
+    <span class="n">stub_connection</span> <span class="ss">current_user: </span><span class="n">users</span><span class="p">(</span><span class="ss">:john</span><span class="p">)</span>
+
+    <span class="n">subscribe</span>
+
+    <span class="n">assert_has_stream_for</span> <span class="n">users</span><span class="p">(</span><span class="ss">:john</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class WebNotificationsChannelTest &lt; ActionCable::Channel::TestCase
+  test "subscribes and stream for user" do
+    stub_connection current_user: users(:john)
+
+    subscribe
+
+    assert_has_stream_for users(:john)
+  end
+end
+'>Copy</button>
+</div>
+<p>有關詳細資訊，請參閱 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionCable/Channel/TestCase.html"><code>ActionCable::Channel::TestCase</code></a> 的 API 文件。</p><h4 id=""><a class="anchorlink" href="#">14.3 在其他元件中自定義斷言和測試廣播</a></h4><p>Action Cable 附帶了一堆自定義斷言，可用於減少測試的冗長。有關可用斷言的完整列表，請參閱 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActionCable/TestHelper.html"><code>ActionCable::TestHelper</code></a> 的 API 文件。</p><p>確保在其他元件內（例如在您的 controllers 內）廣播了正確的訊息是一種很好的做法。這正是
+Action Cable 提供的自定義斷言非常有用。例如，
+在model 中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">ProductTest</span> <span class="o">&lt;</span> <span class="no">ActionCable</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s2">"broadcast status after charge"</span> <span class="k">do</span>
+    <span class="n">assert_broadcast_on</span><span class="p">(</span><span class="s2">"products:</span><span class="si">#{</span><span class="n">product</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">type: </span><span class="s2">"charged"</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">product</span><span class="p">.</span><span class="nf">charge</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "test_helper"
+
+class ProductTest &lt; ActionCable::TestCase
+  test "broadcast status after charge" do
+    assert_broadcast_on("products:#{product.id}", type: "charged") do
+      product.charge(account)
+    end
+  end
+end
+'>Copy</button>
+</div>
+<p>如果你想測試用<code>Channel.broadcast_to</code> 進行的廣播，你應該使用
+<code>Channel.broadcasting_for</code> 生成底層流名稱：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/jobs/chat_relay_job.rb</span>
+<span class="k">class</span> <span class="nc">ChatRelayJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="k">def</span> <span class="nf">perform_later</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="no">ChatChannel</span><span class="p">.</span><span class="nf">broadcast_to</span> <span class="n">room</span><span class="p">,</span> <span class="ss">text: </span><span class="n">message</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/jobs/chat_relay_job.rb
+class ChatRelayJob &lt; ApplicationJob
+  def perform_later(room, message)
+    ChatChannel.broadcast_to room, text: message
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># test/jobs/chat_relay_job_test.rb</span>
+<span class="nb">require</span> <span class="s2">"test_helper"</span>
+
+<span class="k">class</span> <span class="nc">ChatRelayJobTest</span> <span class="o">&lt;</span> <span class="no">ActiveJob</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="kp">include</span> <span class="no">ActionCable</span><span class="o">::</span><span class="no">TestHelper</span>
+
+  <span class="nb">test</span> <span class="s2">"broadcast message to room"</span> <span class="k">do</span>
+    <span class="n">room</span> <span class="o">=</span> <span class="n">rooms</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span>
+
+    <span class="n">assert_broadcast_on</span><span class="p">(</span><span class="no">ChatChannel</span><span class="p">.</span><span class="nf">broadcasting_for</span><span class="p">(</span><span class="n">room</span><span class="p">),</span> <span class="ss">text: </span><span class="s2">"Hi!"</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">ChatRelayJob</span><span class="p">.</span><span class="nf">perform_now</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="s2">"Hi!"</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# test/jobs/chat_relay_job_test.rb
+require "test_helper"
+
+class ChatRelayJobTest &lt; ActiveJob::TestCase
+  include ActionCable::TestHelper
+
+  test "broadcast message to room" do
+    room = rooms(:all)
+
+    assert_broadcast_on(ChatChannel.broadcasting_for(room), text: "Hi!") do
+      ChatRelayJob.perform_now(room, "Hi!")
+    end
+  end
+end
+'>Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">15 其他測試資源</a></h3><h4 id=""><a class="anchorlink" href="#">15.1 測試時間相關程式碼</a></h4><p>Rails 提供了內建的 helper 方法，使您能夠斷言您的時間敏感程式碼按預期工作。</p><p>這是一個使用 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveSupport/Testing/TimeHelpers.html#method-i-travel_to"><code>travel_to</code></a> 幫手：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Lets say that a user is eligible for gifting a month after they register.</span>
+<span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"Gaurish"</span><span class="p">,</span> <span class="ss">activation_date: </span><span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2004</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">24</span><span class="p">))</span>
+<span class="n">assert_not</span> <span class="n">user</span><span class="p">.</span><span class="nf">applicable_for_gifting?</span>
+<span class="n">travel_to</span> <span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2004</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">assert_equal</span> <span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2004</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="n">user</span><span class="p">.</span><span class="nf">activation_date</span> <span class="c1"># inside the `travel_to` block `Date.current` is mocked</span>
+  <span class="n">assert</span> <span class="n">user</span><span class="p">.</span><span class="nf">applicable_for_gifting?</span>
+<span class="k">end</span>
+<span class="n">assert_equal</span> <span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2004</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="n">user</span><span class="p">.</span><span class="nf">activation_date</span> <span class="c1"># The change was visible only inside the `travel_to` block.</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# Lets say that a user is eligible for gifting a month after they register.
+user = User.create(name: "Gaurish", activation_date: Date.new(2004, 10, 24))
+assert_not user.applicable_for_gifting?
+travel_to Date.new(2004, 11, 24) do
+  assert_equal Date.new(2004, 10, 24), user.activation_date # inside the `travel_to` block `Date.current` is mocked
+  assert user.applicable_for_gifting?
+end
+assert_equal Date.new(2004, 10, 24), user.activation_date # The change was visible only inside the `travel_to` block.
+'>Copy</button>
+</div>
+<p>請參閱 <a href="https://api.rubyonrails.org/v6.1.4/classes/ActiveSupport/Testing/TimeHelpers.html"><code>ActiveSupport::Testing::TimeHelpers</code> API 文件</a>
+有關可用時間helpers 的深入資訊。</p>
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

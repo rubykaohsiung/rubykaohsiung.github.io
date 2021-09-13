@@ -1,0 +1,2665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Active Record 查詢介面 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Active Record 查詢介面 — Ruby on Rails Guides" />
+  <meta name="description" content="Active Record 查詢介面本指南介紹了使用Active Record 從資料庫中檢索資料的不同方法。閱讀本指南後，您將瞭解： 如何使用各種方法和條件查詢記錄。 如何指定找到的記錄的順序、檢索屬性、分組和其他屬性。 如何使用預先載入來減少資料檢索所需的資料庫查詢次數。 如何使用動態查詢器方法。 如何使用方法鏈將多個Active Record 方法一起使用。 如何檢查特定記錄的存在。 如何對active recordModels 進行各種計算。 如何在關係上執行 EXPLAIN。" />
+  <meta property="og:description" content="Active Record 查詢介面本指南介紹了使用Active Record 從資料庫中檢索資料的不同方法。閱讀本指南後，您將瞭解： 如何使用各種方法和條件查詢記錄。 如何指定找到的記錄的順序、檢索屬性、分組和其他屬性。 如何使用預先載入來減少資料檢索所需的資料庫查詢次數。 如何使用動態查詢器方法。 如何使用方法鏈將多個Active Record 方法一起使用。 如何檢查特定記錄的存在。 如何對active recordModels 進行各種計算。 如何在關係上執行 EXPLAIN。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v6.1.4</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多訊息請訪問 <a href="https://rubyonrails.org/">rubyonrails.org：</a> </strong>
+      <span class="red-button more-info-button">
+        更多 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">指南索引</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎知識</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record Migrations</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record Callbacks</a></dd>
+                  <dd><a href="association_basics.html">Active Record Associations</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller結束view</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">現役工作基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 結束view</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 結束 view</a></dd>
+                  <dd><a href="webpacker.html">打包機</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深層發掘</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">配置 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取：結束view</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>延伸導軌</dt>
+                  <dd><a href="rails_on_rack.html">機架上的導軌</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 生成器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">指南索引</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎知識</option>
+                  <option value="active_record_migrations.html">Active Record Migrations</option>
+                  <option value="active_record_validations.html">Active Record 驗證</option>
+                  <option value="active_record_callbacks.html">Active Record Callbacks</option>
+                  <option value="association_basics.html">Active Record Associations</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的佈局和渲染</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller結束view</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">現役工作基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 結束view</option>
+                  <option value="action_cable_overview.html">Action Cable 結束 view</option>
+                  <option value="webpacker.html">打包機</option>
+              </optgroup>
+              <optgroup label="深層發掘">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">配置 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取：結束view</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="延伸導軌">
+                  <option value="rails_on_rack.html">機架上的導軌</option>
+                  <option value="generators.html">建立和自定義 Rails 生成器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">版本 6.1 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Active Record 查詢介面</h2><p>本指南介紹了使用Active Record 從資料庫中檢索資料的不同方法。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何使用各種方法和條件查詢記錄。</li>
+<li>如何指定找到的記錄的順序、檢索屬性、分組和其他屬性。</li>
+<li>如何使用預先載入來減少資料檢索所需的資料庫查詢次數。</li>
+<li>如何使用動態查詢器方法。</li>
+<li>如何使用方法鏈將多個Active Record 方法一起使用。</li>
+<li>如何檢查特定記錄的存在。</li>
+<li>如何對active recordModels 進行各種計算。</li>
+<li>如何在關係上執行 EXPLAIN。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#active-record">Active Record 查詢介面是什麼？</a></li>
+<li>
+<a href="#">從資料庫中檢索物件</a>
+
+<ul>
+<li><a href="#">檢索單個物件</a></li>
+<li><a href="#">批量檢索多個物件</a></li>
+</ul>
+</li>
+<li>
+<a href="#">狀況</a>
+
+<ul>
+<li><a href="#">純字串條件</a></li>
+<li><a href="#">陣列條件</a></li>
+<li><a href="#">雜湊條件</a></li>
+<li><a href="#">不是條件</a></li>
+<li><a href="#">或條件</a></li>
+<li><a href="#">和條件</a></li>
+</ul>
+</li>
+<li><a href="#">訂購</a></li>
+<li><a href="#">選擇特定欄位</a></li>
+<li><a href="#">限制和偏移</a></li>
+<li>
+<a href="#">團體</a>
+
+<ul>
+<li><a href="#">個分組專案總數</a></li>
+</ul>
+</li>
+<li><a href="#">擁有</a></li>
+<li>
+<a href="#">覆蓋條件</a>
+
+<ul>
+<li><a href="#"><code>取消作用域</code></a></li>
+<li><a href="#"><code>只有</code></a></li>
+<li><a href="#"><code>重新選擇</code></a></li>
+<li><a href="#"><code>重新排序</code></a></li>
+<li><a href="#reverse-order"><code>reverse_order</code></a></li>
+<li><a href="#"><code>去處</code></a></li>
+</ul>
+</li>
+<li><a href="#">空關係</a></li>
+<li><a href="#">只讀物件</a></li>
+<li>
+<a href="#">鎖定更新記錄</a>
+
+<ul>
+<li><a href="#">樂觀鎖</a></li>
+<li><a href="#">悲觀鎖</a></li>
+</ul>
+</li>
+<li>
+<a href="#">連線表</a>
+
+<ul>
+<li><a href="#"><code>加入</code></a></li>
+<li><a href="#left-outer-joins"><code>left_outer_joins</code></a></li>
+</ul>
+</li>
+<li>
+<a href="#associations">急切載入Associations</a>
+
+<ul>
+<li><a href="#">包括</a></li>
+<li><a href="#">預載入</a></li>
+<li><a href="#eager-load">eager_load</a></li>
+</ul>
+</li>
+<li>
+<a href="#">範圍</a>
+
+<ul>
+<li><a href="#">傳入引數</a></li>
+<li><a href="#">使用條件</a></li>
+<li><a href="#">應用預設範圍</a></li>
+<li><a href="#">合併範圍</a></li>
+<li><a href="#">刪除所有範圍</a></li>
+</ul>
+</li>
+<li><a href="#">動態查詢器</a></li>
+<li><a href="#">列舉</a></li>
+<li>
+<a href="#">理解方法鏈</a>
+
+<ul>
+<li><a href="#">從多個表中檢索過濾資料</a></li>
+<li><a href="#">從多個表中檢索特定資料</a></li>
+</ul>
+</li>
+<li>
+<a href="#">查詢或構建新物件</a>
+
+<ul>
+<li><a href="#find-or-create-by"><code>find_or_create_by</code></a></li>
+<li><a href="#find-or-create-by"><code>find_or_create_by！</code></a></li>
+<li><a href="#find-or-initialize-by"><code>find_or_initialize_by</code></a></li>
+</ul>
+</li>
+<li>
+<a href="#sql">透過 SQL 查詢</a>
+
+<ul>
+<li><a href="#select-all"><code>select_all</code></a></li>
+<li><a href="#"><code>採摘</code></a></li>
+<li><a href="#ids"><code>ids</code></a></li>
+</ul>
+</li>
+<li><a href="#">物件的存在</a></li>
+<li>
+<a href="#">計算</a>
+
+<ul>
+<li><a href="#">計數</a></li>
+<li><a href="#">平均</a></li>
+<li><a href="#">最低</a></li>
+<li><a href="#">最大值</a></li>
+<li><a href="#">總和</a></li>
+</ul>
+</li>
+<li>
+<a href="#">執行解釋</a>
+
+<ul>
+<li><a href="#">口譯解釋</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="active-record"><a class="anchorlink" href="#active-record">1 Active Record 查詢介面是什麼？</a></h3><p>如果你習慣於使用raw sql來查詢資料庫記錄，那麼你通常會發現在rails中有更好的方法來執行相同的操作。 Active Record 使您無需在大多數情況下使用 sql。</p><p>Active Record 會為你執行資料庫查詢，相容大部分資料庫系統，包括mysql、mariadb、postgresql、sqlite。無論您使用哪種資料庫系統，Active Record 方法格式將始終相同。</p><p>本指南中的程式碼示例將引用以下一個或多個Model：</p><p>提示：以下所有Model 都使用 <code>id</code> 作為主鍵，除非另有說明。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Author &lt; ApplicationRecord
+  has_many :books, -&gt; { order(year_published: :desc) }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Author &lt; ApplicationRecord
+  has_many :books, -&gt; { order(year_published: :desc) }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  belongs_to :supplier
+  belongs_to :author
+  has_many :reViews
+  has_and_belongs_to_many :orders, join_table: 'books_orders'
+
+  scope :in_print, -&gt; { where(out_of_print: false) }
+  scope :out_of_print, -&gt; { where(out_of_print: true) }
+  scope :old, -&gt; { where('year_published &lt; ?', 50.years.ago )}
+  scope :out_of_print_and_expensive, -&gt; { out_of_print.where('price &gt; 500') }
+  scope :costs_more_than, -&gt;(amount) { where('price &gt; ?', amount) }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Book &lt; ApplicationRecord
+  belongs_to :supplier
+  belongs_to :author
+  has_many :reViews
+  has_and_belongs_to_many :orders, join_table: 'books_orders'
+
+  scope :in_print, -&gt; { where(out_of_print: false) }
+  scope :out_of_print, -&gt; { where(out_of_print: true) }
+  scope :old, -&gt; { where('year_published &lt; ?', 50.years.ago )}
+  scope :out_of_print_and_expensive, -&gt; { out_of_print.where('price &gt; 500') }
+  scope :costs_more_than, -&gt;(amount) { where('price &gt; ?', amount) }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight plaintext">class Customer &lt; ApplicationRecord
+  has_many :orders
+  has_many :reViews
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Customer &lt; ApplicationRecord
+  has_many :orders
+  has_many :reViews
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight plaintext">class Order &lt; ApplicationRecord
+  belongs_to :customer
+  has_and_belongs_to_many :books, join_table: 'books_orders'
+
+  enum :status, [:shipped, :being_packed, :complete, :cancelled]
+
+  scope :created_before, -&gt;(time) { where('created_at &lt; ?', time) }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Order &lt; ApplicationRecord
+  belongs_to :customer
+  has_and_belongs_to_many :books, join_table: 'books_orders'
+
+  enum :status, [:shipped, :being_packed, :complete, :cancelled]
+
+  scope :created_before, -&gt;(time) { where('created_at &lt; ?', time) }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight plaintext">class reView &lt; applicationrecord
+  belongs_to :customer
+  belongs_to :book
+
+  enum :state, [:not_reViewed, :published, :hidden]
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class reView &lt; applicationrecord
+  belongs_to :customer
+  belongs_to :book
+
+  enum :state, [:not_reViewed, :published, :hidden]
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight plaintext">class Supplier &lt; ApplicationRecord
+  has_many :books
+  has_many :authors, through: :books
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Supplier &lt; ApplicationRecord
+  has_many :books
+  has_many :authors, through: :books
+end
+">Copy</button>
+</div>
+<p><img src="images/active_record_querying/bookstore_Models.png" alt="所有書店Models的圖表"></p><h3 id=""><a class="anchorlink" href="#">2 從資料庫中檢索物件</a></h3><p>為了從資料庫中檢索物件，Active Record 提供了幾種查詢器方法。每個 finder 方法都允許您將引數傳遞給它，以便在不編寫原始 sql 的情況下對資料庫執行某些查詢。</p><p>方法是：</p>
+<ul>
+<li>[<code>註釋</code>][​​]</li>
+<li>[<code>查詢</code>][]</li>
+<li>[<code>create_with</code>][]</li>
+<li>[<code>不同的</code>][]</li>
+<li>[<code>eager_load</code>][]</li>
+<li>[<code>擴充套件</code>][]</li>
+<li>[<code>extract_related</code>][]</li>
+<li>[<code>來自</code>][]</li>
+<li>[<code>組</code>][]</li>
+<li>[<code>有</code>][]</li>
+<li>[<code>包括</code>][]</li>
+<li>[<code>加入</code>][]</li>
+<li>[<code>left_outer_joins</code>][]</li>
+<li>[<code>限制</code>][]</li>
+<li>[<code>鎖</code>][]</li>
+<li>[<code>無</code>][]</li>
+<li>[<code>偏移量</code>][]</li>
+<li>[<code>optimizer_hints</code>][]</li>
+<li>[<code>訂單</code>][]</li>
+<li>[<code>預載入</code>][]</li>
+<li>[<code>只讀</code>][]</li>
+<li>[<code>參考文獻</code>][]</li>
+<li>[<code>重新排序</code>][]</li>
+<li>[<code>重新選擇</code>][]</li>
+<li>[<code>reverse_order</code>][]</li>
+<li>[<code>選擇</code>][]</li>
+<li>[<code>哪裡</code>][]</li>
+</ul>
+<p>返回集合的 finder 方法，例如 <code>where</code> 和 <code>group</code>，返回 [<code>activerecord::relation</code>][] 的例項。查詢單個實體的方法，例如<code>find</code> 和<code>first</code>，返回Model 的單個例項。</p><p><code>Model.find(options)</code> 的主要操作可以概括為：</p>
+<ul>
+<li>將提供的選項轉換為等效的 SQL 查詢。</li>
+<li>觸發 SQL 查詢並從資料庫中檢索相應的結果。</li>
+<li>為每個結果行例項化相應 model 的等效 Ruby 物件。</li>
+<li>執行 <code>after_find</code> 和 <code>after_initialize</code> 回撥，如果有的話。</li>
+</ul>
+<p>[<code>activerecord::relation</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/relation.html">https://api.Rubyonrails.org/classes/activerecord/relation.html</a>
+[<code>annotate</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-annotate">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-annotate</a>
+[<code>create_with</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-create_with">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-create_with</a>
+[<code>distinct</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-distinct">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-distinct</a>
+[<code>eager_load</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-eager_load">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-eager_load</a>
+[<code>extending</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-extending">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-extending</a>
+[<code>extract_associated</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-extract_associated">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-extract_associated</a>
+[<code>find</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-find">https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-find</a>
+[<code>from</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-from">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-from</a>
+[<code>group</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-group">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-group</a>
+[<code>have</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-have">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-have</a>
+[<code>includes</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-includes">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-includes</a>
+[<code>joins</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-joins">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-joins</a>
+[<code>left_outer_joins</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-left_outer_joins">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-left_outer_joins</a>
+[<code>limit</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-limit">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-limit</a>
+[<code>lock</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-lock">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-lock</a>
+[<code>none</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-none">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-none</a>
+[<code>offset</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-offset">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-offset</a>
+[<code>optimizer_hints</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-optimizer_hints">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-optimizer_hints</a>
+[<code>order</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-order">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-order</a>
+[<code>preload</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-preload">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-preload</a>
+[<code>readonly</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-readonly">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-readonly</a>
+[<code>references</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-references">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-references</a>
+[<code>reorder</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-reorder">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-reorder</a>
+[<code>reselect</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-reselect">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-reselect</a>
+[<code>reverse_order</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-reverse_order">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-reverse_order</a>
+[<code>select</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-select">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-select</a>
+[<code>where</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-where">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-where</a></p><h4 id=""><a class="anchorlink" href="#">2.1 檢索單個物件</a></h4><p>Active Record 提供了幾種不同的檢索單個物件的方法。</p><h5 id=""><a class="anchorlink" href="#">2.1.1 <code>查詢</code></a></h5><p>使用 [<code>find</code>][] 方法，您可以檢索與指定的 <em>primary key</em> 對應的物件，該物件與任何提供的選項匹配。例如：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="c"># Find the customer with primary key (id) 10.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">customer</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">10</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Ryan"</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customer = Customer.find(10)
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers WHERE (customers.id = 10) LIMIT 1
+">Copy</button>
+</div>
+<p>如果沒有找到匹配的記錄，<code>find</code> 方法將引發 <code>ActiveRecord::RecordNotFound</code> 異常。</p><p>您還可以使用此方法查詢多個物件。呼叫 find 方法並傳入一個主鍵陣列。返回將是一個包含所提供的<em>主鍵</em>的所有匹配記錄的陣列。例如：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="c"># Find the customers with primary keys 1 and 10.
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">customers</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">find</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span> <span class="c1"># OR Customer.find(1, 10)</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Lifo"</span><span class="kt">&gt;</span><span class="p">,</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">10</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Ryan"</span><span class="kt">&gt;</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customers = Customer.find([1, 10]) # OR Customer.find(1, 10)
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers WHERE (customers.id IN (1,10))
+">Copy</button>
+</div>
+<p>警告：<code>find</code> 方法將引發 <code>ActiveRecord::RecordNotFound</code> 異常，除非為 <strong>all</strong> 提供的主鍵找到匹配的記錄。</p><h5 id=""><a class="anchorlink" href="#">2.1.2 <code>採取</code></a></h5><p>[<code>take</code>][] 方法在沒有任何隱式排序的情況下檢索記錄。例如：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">customer</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">take</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Lifo"</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customer = Customer.take
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers LIMIT 1
+">Copy</button>
+</div>
+<p>如果沒有找到記錄並且不會引發異常，則 <code>take</code> 方法返回 <code>nil</code>。</p><p>您可以將數字引數傳遞給 <code>take</code> 方法以返回該數量的結果。例如</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">customers</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Lifo"</span><span class="kt">&gt;</span><span class="p">,</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">220</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Sara"</span><span class="kt">&gt;</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customers = Customer.take(2)
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">LIMIT</span> <span class="mi">2</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers LIMIT 2
+">Copy</button>
+</div>
+<p>[<code>take!</code>][] 方法的行為與 <code>take</code> 完全一樣，除了如果沒有找到匹配的記錄，它會引發 <code>ActiveRecord::RecordNotFound</code>。</p><p>提示：檢索到的記錄可能因資料庫引擎而異。</p><p>[<code>take</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-take">https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-take</a>
+[<code>take!</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-take-21">https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-take-21</a></p><h5 id=""><a class="anchorlink" href="#">2.1.3 <code>第一</code></a></h5><p>[<code>first</code>][] 方法查詢按主鍵（預設）排序的第一條記錄。例如：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">customer</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">first</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Lifo"</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customer = Customer.first
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="k">ASC</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers ORDER BY customers.id ASC LIMIT 1
+">Copy</button>
+</div>
+<p>如果沒有找到匹配的記錄並且不會引發異常，則<code>first</code> 方法返回<code>nil</code>。</p><p>如果您的 <a href="active_record_querying.html#applying-a-default-scope">預設範圍</a> 包含 order 方法，則 <code>first</code> 將根據此順序返回第一條記錄。</p><p>您可以將數字引數傳遞給 <code>first</code> 方法以返回該數量的結果。例如</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">customers</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">first</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Lifo"</span><span class="kt">&gt;</span><span class="p">,</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">2</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Fifo"</span><span class="kt">&gt;</span><span class="p">,</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">3</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Filo"</span><span class="kt">&gt;</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customers = Customer.first(3)
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="k">ASC</span> <span class="k">LIMIT</span> <span class="mi">3</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers ORDER BY customers.id ASC LIMIT 3
+">Copy</button>
+</div>
+<p>在使用 <code>order</code> 排序的集合上，<code>first</code> 將返回按 <code>order</code> 的指定屬性排序的第一條記錄。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">customer</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">order</span><span class="p">(</span><span class="ss">:first_name</span><span class="p">).</span><span class="nf">first</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">2</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Fifo"</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customer = Customer.order(:first_name).first
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">customers</span><span class="p">.</span><span class="n">first_name</span> <span class="k">ASC</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers ORDER BY customers.first_name ASC LIMIT 1
+">Copy</button>
+</div>
+<p>[<code>first!</code>][] 方法的行為與 <code>first</code> 完全一樣，除了如果沒有找到匹配的記錄，它會引發 <code>ActiveRecord::RecordNotFound</code>。</p><p>[<code>first</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-first">https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-first</a>
+[<code>first!</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-first-21">https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-first-21</a></p><h5 id=""><a class="anchorlink" href="#">2.1.4 <code>最後</code></a></h5><p>[<code>last</code>][] 方法查詢按主鍵（預設）排序的最後一條記錄。例如：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">customer</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">last</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">221</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Russel"</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customer = Customer.last
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers ORDER BY customers.id DESC LIMIT 1
+">Copy</button>
+</div>
+<p>如果沒有找到匹配的記錄並且不會引發異常，<code>last</code> 方法返回 <code>nil</code>。</p><p>如果您的 <a href="active_record_querying.html#applying-a-default-scope">預設範圍</a> 包含 order 方法，<code>last</code> 將根據此排序返回最後一條記錄。</p><p>您可以將數字引數傳遞給 <code>last</code> 方法以返回該數量的結果。例如</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">customers</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">last</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">219</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"James"</span><span class="kt">&gt;</span><span class="p">,</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">220</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Sara"</span><span class="kt">&gt;</span><span class="p">,</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">221</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Russel"</span><span class="kt">&gt;</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customers = Customer.last(3)
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">3</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers ORDER BY customers.id DESC LIMIT 3
+">Copy</button>
+</div>
+<p>在使用 <code>order</code> 排序的集合上，<code>last</code> 將返回按 <code>order</code> 的指定屬性排序的最後一條記錄。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">customer</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">order</span><span class="p">(</span><span class="ss">:first_name</span><span class="p">).</span><span class="nf">last</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">220</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Sara"</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customer = Customer.order(:first_name).last
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">customers</span><span class="p">.</span><span class="n">first_name</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers ORDER BY customers.first_name DESC LIMIT 1
+">Copy</button>
+</div>
+<p>[<code>last!</code>][] 方法的行為與 <code>last</code> 完全一樣，除了如果沒有找到匹配的記錄，它會引發 <code>ActiveRecord::RecordNotFound</code>。</p><p>[<code>last</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-last">https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-last</a>
+[<code>last!</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-last-21">https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-last-21</a></p><h5 id="find-by"><a class="anchorlink" href="#find-by">2.1.5 <code>find_by</code></a></h5><p>[<code>find_by</code>][] 方法查詢匹配某些條件的第一條記錄。例如：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">find_by</span> <span class="ss">first_name: </span><span class="s1">'Lifo'</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Lifo"</span><span class="kt">&gt;</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">find_by</span> <span class="ss">first_name: </span><span class="s1">'Jon'</span>
+<span class="p">=&gt;</span> <span class="kp">nil</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_by first_name: 'Lifo'
+Customer.find_by first_name: 'Jon'
+">Copy</button>
+</div>
+<p>相當於寫：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where(first_name: 'Lifo').take
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(first_name: 'Lifo').take
+">Copy</button>
+</div>
+<p>上面的 SQL 等價物是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">customers</span><span class="p">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s1">'Lifo'</span><span class="p">)</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers WHERE (customers.first_name = 'Lifo') LIMIT 1
+">Copy</button>
+</div>
+<p>[<code>find_by!</code>][] 方法的行為與 <code>find_by</code> 完全一樣，除了如果沒有找到匹配的記錄，它會引發 <code>ActiveRecord::RecordNotFound</code>。例如：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">find_by!</span> <span class="ss">first_name: </span><span class="s1">'does not exist'</span>
+<span class="go">ActiveRecord::RecordNotFound
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_by! first_name: 'does not exist'
+">Copy</button>
+</div>
+<p>這相當於寫：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where(first_name: 'does not exist').take!
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(first_name: 'does not exist').take!
+">Copy</button>
+</div>
+<p>[<code>find_by</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-find_by">https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-find_by</a>
+[<code>find_by!</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-find_by-21">https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-find_by-21</a></p><h4 id=""><a class="anchorlink" href="#">2.2 批量檢索多個物件</a></h4><p>我們經常需要遍歷大量記錄，例如當我們向大量客戶傳送時事通訊時，或者當我們匯出資料時。</p><p>這可能看起來很簡單：</p><div class="code_container">
+<pre><code class="highlight plaintext"># This may consume too much memory if the table is big.
+Customer.all.each do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# This may consume too much memory if the table is big.
+Customer.all.each do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+">Copy</button>
+</div>
+<p>但是隨著表大小的增加，這種方法變得越來越不切實際，因為<code>customer.all.each</code> 指示active record 在一次傳遞中獲取<em>整個表</em>，每行構建一個Model 物件，然後保留整個記憶體中的Model 物件陣列。事實上，如果我們有大量的記錄，整個集合可能會超過可用的記憶體量。</p><p>rails 提供了兩種方法來解決這個問題，將記錄分成記憶體友好的批次進行處理。第一個方法，<code>find_each</code>，檢索一批記錄，然後將 <em>each</em> 記錄作為 Model 單獨生成到塊中。第二種方法，<code>find_in_batches</code>，檢索一批記錄，然後將<em>整個批次</em>作為Models 的陣列生成到塊中。</p><p>提示：<code>find_each</code> 和<code>find_in_batches</code> 方法旨在用於批量處理無法一次性全部放入記憶體的大量記錄。如果您只需要迴圈超過一千條記錄，則常規查詢方法是首選選項。</p><h5 id="find-each"><a class="anchorlink" href="#find-each">2.2.1 <code>find_each</code></a></h5><p>[<code>find_each</code>][] 方法分批檢索記錄，然後為塊生成 <em>each</em> 一個。在下面的示例中，<code>find_each</code> 以 1000 個為批次檢索客戶，並將它們一個一個地交給塊：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.find_each do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_each do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+">Copy</button>
+</div>
+<p>重複此過程，根據需要獲取更多批次，直到處理完所有記錄。</p><p><code>find_each</code> 適用於 Model 類，如上所示，也適用於關係：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where(weekly_subscriber: true).find_each do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(weekly_subscriber: true).find_each do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+">Copy</button>
+</div>
+<p>只要他們沒有排序，因為該方法需要強制排序
+在內部進行迭代。</p><p>如果接收器中存在訂單，則行為取決於標誌
+<code>config.active_record.error_on_ignored_order</code>。如果為真，<code>ArgumentError</code> 是
+引發，否則該命令將被忽略併發出警告，這是
+預設。這可以用選項<code>:error_on_ignore</code> 覆蓋，解釋
+以下。</p><p>[<code>find_each</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/batches.html#method-i-find_each">https://api.Rubyonrails.org/classes/activerecord/batches.html#method-i-find_each</a></p><h6 id="find-each"><a class="anchorlink" href="#find-each">2.2.1.1 <code>find_each</code> 選項</a></h6><p><strong><code>:batch_size</code></strong></p><p><code>:batch_size</code> 選項允許您在單獨傳遞到塊之前指定要在每個批次中檢索的記錄數。例如，要分批檢索 5000 條記錄：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.find_each(batch_size: 5000) do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_each(batch_size: 5000) do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+">Copy</button>
+</div>
+<p><strong><code>：開始</code></strong></p><p>預設情況下，記錄按主鍵的升序獲取。 <code>:start</code> 選項允許您在最低 ID 不是您需要的時候配置序列的第一個 ID。這將很有用，例如，如果您想恢復中斷的批處理，前提是您將上次處理的 ID 儲存為檢查點。</p><p>例如，僅向主鍵從 2000 年開始的客戶傳送時事通訊：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.find_each(start: 2000) do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_each(start: 2000) do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+">Copy</button>
+</div>
+<p><strong><code>：完成</code></strong></p><p>與<code>:start</code> 選項類似，<code>:finish</code> 允許你在最高ID 不是你需要的時候配置序列的最後一個ID。
+這將很有用，例如，如果您想使用基於 <code>:start</code> 和 <code>:finish</code> 的記錄子集執行批處理。</p><p>例如，僅向主鍵從 2000 到 10000 的客戶傳送時事通訊：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.find_each(start: 2000, finish: 10000) do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_each(start: 2000, finish: 10000) do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+">Copy</button>
+</div>
+<p>另一個例子是，如果您希望多個工作人員處理相同的
+處理佇列。您可以通過設定每個工人處理 10000 條記錄
+每個 worker 上適當的 <code>:start</code> 和 <code>:finish</code> 選項。</p><p><strong><code>:error_on_ignore</code></strong></p><p>覆蓋應用程式配置以指定在出現錯誤時是否應引發錯誤
+關係中存在順序。</p><h5 id="find-in-batches"><a class="anchorlink" href="#find-in-batches">2.2.2 <code>find_in_batches</code></a></h5><p>[<code>find_in_batches</code>][] 方法類似於 <code>find_each</code>，因為兩者都檢索批次記錄。不同之處在於 <code>find_in_batches</code> 將 <em>batches</em> 作為 Model 的陣列而不是單獨生成到塊中。以下示例將一次向提供的塊提供最多 1000 個客戶的陣列，最後一個塊包含任何剩餘的客戶：</p><div class="code_container">
+<pre><code class="highlight plaintext"># Give add_customers an array of 1000 customers at a time.
+Customer.find_in_batches do |customers|
+  export.add_customers(customers)
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Give add_customers an array of 1000 customers at a time.
+Customer.find_in_batches do |customers|
+  export.add_customers(customers)
+end
+">Copy</button>
+</div>
+<p><code>find_in_batches</code> 適用於 Model 類，如上所示，也適用於關係：</p><div class="code_container">
+<pre><code class="highlight plaintext"># Give add_customers an array of 1000 recently active customers at a time.
+Customer.recently_active.find_in_batches do |customers|
+  export.add_customers(customers)
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Give add_customers an array of 1000 recently active customers at a time.
+Customer.recently_active.find_in_batches do |customers|
+  export.add_customers(customers)
+end
+">Copy</button>
+</div>
+<p>只要他們沒有排序，因為該方法需要強制排序
+在內部進行迭代。</p><p>[<code>find_in_batches</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/batches.html#method-i-find_in_batches">https://api.Rubyonrails.org/classes/activerecord/batches.html#method-i-find_in_batches</a></p><h6 id="find-in-batches"><a class="anchorlink" href="#find-in-batches">2.2.2.1 <code>find_in_batches</code> 選項</a></h6><p><code>find_in_batches</code> 方法接受與 <code>find_each</code> 相同的選項：</p><p><strong><code>:batch_size</code></strong></p><p>就像<code>find_each</code> 一樣，<code>batch_size</code> 確定每個組中將檢索多少記錄。例如，檢索 2500 條記錄的批次可以指定為：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.find_in_batches(batch_size: 2500) do |customers|
+  export.add_customers(customers)
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_in_batches(batch_size: 2500) do |customers|
+  export.add_customers(customers)
+end
+">Copy</button>
+</div>
+<p><strong><code>：開始</code></strong></p><p><code>start</code> 選項允許指定將從其中選擇記錄的起始 ID。如前所述，預設情況下按主鍵的升序獲取記錄。例如，要批量檢索從 ID: 5000 開始的客戶，共 2500 條記錄，可以使用以下程式碼：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.find_in_batches(batch_size: 2500, start: 5000) do |customers|
+  export.add_customers(customers)
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_in_batches(batch_size: 2500, start: 5000) do |customers|
+  export.add_customers(customers)
+end
+">Copy</button>
+</div>
+<p><strong><code>：完成</code></strong></p><p><code>finish</code> 選項允許指定要檢索的記錄的結束 ID。下面的程式碼展示了批量檢索客戶的情況，直到ID為7000的客戶：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.find_in_batches(finish: 7000) do |customers|
+  export.add_customers(customers)
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_in_batches(finish: 7000) do |customers|
+  export.add_customers(customers)
+end
+">Copy</button>
+</div>
+<p><strong><code>:error_on_ignore</code></strong></p><p><code>error_on_ignore</code> 選項覆蓋應用程式配置以指定當關係中存在特定順序時是否應引發錯誤。</p><h3 id=""><a class="anchorlink" href="#">3 狀況</a></h3><p>[<code>where</code>][] 方法允許你指定條件來限制返回的記錄，代表 SQL 語句的 <code>WHERE</code> 部分。條件可以指定為字串、陣列或雜湊。</p><h4 id=""><a class="anchorlink" href="#">3.1 純字串條件</a></h4><p>如果你想為你的發現新增條件，你可以在那裡指定它們，就像 <code>Book.where("title = 'Introduction to Algorithms'")</code> 一樣。這將找到“title”欄位值為“Introduction to Algorithms”的所有書籍。</p><p>警告：將您自己的條件構建為純字串可能會使您容易受到 SQL 注入攻擊。例如，<code>Book.where("title LIKE '%#{params[:title]}%'")</code> 是不安全的。有關使用陣列處理條件的首選方法，請參閱下一節。</p><h4 id=""><a class="anchorlink" href="#">3.2 陣列條件</a></h4><p>現在，如果這個標題可能會有所不同，比如從某個地方說出來的論點呢？查詢結果將採用以下形式：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where("title = ?", params[:title])
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.where("title = ?", params[:title])
+'>Copy</button>
+</div>
+<p>Active Record 將第一個引數作為條件字串，任何其他引數將替換其中的問號“(?)”。</p><p>如果要指定多個條件：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where("title = ? AND out_of_print = ?", params[:title], false)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.where("title = ? AND out_of_print = ?", params[:title], false)
+'>Copy</button>
+</div>
+<p>在這個例子中，第一個問號將替換為 <code>params[:title]</code> 中的值，第二個問號將替換為 <code>false</code> 的 SQL 表示，這取決於介面卡。</p><p>此程式碼是非常可取的：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where("title = ?", params[:title])
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.where("title = ?", params[:title])
+'>Copy</button>
+</div>
+<p>到這個程式碼：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where("title = #{params[:title]}")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.where("title = #{params[:title]}")
+'>Copy</button>
+</div>
+<p>因為論證安全。將變數直接放入條件字串中會將變數<strong>按原樣</strong>傳遞給資料庫。這意味著它將是直接來自可能具有惡意意圖的使用者的未轉義變數。如果你這樣做，你的整個資料庫就會處於危險之中，因為一旦使用者發現他們可以利用你的資料庫，他們幾乎可以對它做任何事情。永遠不要將引數直接放在條件字串中。</p><p>提示：有關 sql 注入危險的更多資訊，請參閱 <a href="security.html#sql-injection">Ruby on rails 安全指南</a>。</p><h5 id=""><a class="anchorlink" href="#">3.2.1 佔位符條件</a></h5><p>類似於 params 的<code>(?)</code> 替換樣式，您還可以在條件字串中指定鍵以及相應的鍵/值雜湊：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where("created_at &gt;= :start_date AND created_at &lt;= :end_date",
+  {start_date: params[:start_date], end_date: params[:end_date]})
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.where("created_at &gt;= :start_date AND created_at &lt;= :end_date",
+  {start_date: params[:start_date], end_date: params[:end_date]})
+'>Copy</button>
+</div>
+<p>如果您有大量可變條件，這將使可讀性更清晰。</p><h4 id=""><a class="anchorlink" href="#">3.3 雜湊條件</a></h4><p>Active Record 還允許您傳入雜湊條件，這可以提高條件語法的可讀性。使用雜湊條件，您可以傳入一個雜湊，其中包含您想要限定的欄位的鍵以及您想要如何限定它們的值：</p><p>注意：雜湊條件只能進行相等、範圍和子集檢查。</p><h5 id=""><a class="anchorlink" href="#">3.3.1 等式條件</a></h5><div class="code_container">
+<pre><code class="highlight plaintext">Book.where(out_of_print: true)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.where(out_of_print: true)
+">Copy</button>
+</div>
+<p>這將生成如下 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">books</span><span class="p">.</span><span class="n">out_of_print</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM books WHERE (books.out_of_print = 1)
+">Copy</button>
+</div>
+<p>欄位名稱也可以是字串：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where('out_of_print' =&gt; true)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.where('out_of_print' =&gt; true)
+">Copy</button>
+</div>
+<p>在belongs_to 關係的情況下，如果active record 物件用作值，則association 鍵可用於指定Model。這種方法也適用於多型關係。</p><div class="code_container">
+<pre><code class="highlight plaintext">author = Author.first
+Book.where(author: author)
+Author.joins(:books).where(books: { author: author })
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="author = Author.first
+Book.where(author: author)
+Author.joins(:books).where(books: { author: author })
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">3.3.2 範圍條件</a></h5><div class="code_container">
+<pre><code class="highlight plaintext">Book.where(created_at: (Time.now.midnight - 1.day)..Time.now.midnight)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.where(created_at: (Time.now.midnight - 1.day)..Time.now.midnight)
+">Copy</button>
+</div>
+<p>這將查詢昨天使用 <code>BETWEEN</code> SQL 語句建立的所有書籍：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">books</span><span class="p">.</span><span class="n">created_at</span> <span class="k">BETWEEN</span> <span class="s1">'2008-12-21 00:00:00'</span> <span class="k">AND</span> <span class="s1">'2008-12-22 00:00:00'</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM books WHERE (books.created_at BETWEEN '2008-12-21 00:00:00' AND '2008-12-22 00:00:00')
+">Copy</button>
+</div>
+<p>這演示了 <a href="#array-conditions">陣列條件</a> 中示例的較短語法</p><h5 id=""><a class="anchorlink" href="#">3.3.3 子集條件</a></h5><p>如果要使用<code>IN</code> 表示式查詢記錄，可以將陣列傳遞給條件雜湊：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where(orders_count: [1,3,5])
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(orders_count: [1,3,5])
+">Copy</button>
+</div>
+<p>此程式碼將生成如下 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">customers</span><span class="p">.</span><span class="n">orders_count</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers WHERE (customers.orders_count IN (1,3,5))
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">3.4 不是條件</a></h4><p><code>NOT</code> SQL 查詢可以透過 [<code>where.not</code>][] 構建：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where.not(orders_count: [1,3,5])
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where.not(orders_count: [1,3,5])
+">Copy</button>
+</div>
+<p>換句話說，這個查詢可以透過不帶引數呼叫 <code>where</code> 來生成，然後立即與 <code>not</code> 連結並傳遞 <code>where</code> 條件。這將生成如下 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">customers</span><span class="p">.</span><span class="n">orders_count</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers WHERE (customers.orders_count NOT IN (1,3,5))
+">Copy</button>
+</div>
+<p>[<code>where.not</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods/wherechain.html#method-i-not">https://api.Rubyonrails.org/classes/activerecord/querymethods/wherechain.html#method-i-not</a></p><h4 id=""><a class="anchorlink" href="#">3.5 或條件</a></h4><p>可以透過在第一個呼叫 [<code>or</code>][] 來構建兩個關係之間的 <code>OR</code> 條件
+關係，並將第二個作為引數傳遞。</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where(last_name: 'Smith').or(Customer.where(orders_count: [1,3,5]))
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(last_name: 'Smith').or(Customer.where(orders_count: [1,3,5]))
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">customers</span><span class="p">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="s1">'Smith'</span> <span class="k">OR</span> <span class="n">customers</span><span class="p">.</span><span class="n">orders_count</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers WHERE (customers.last_name = 'Smith' OR customers.orders_count IN (1,3,5))
+">Copy</button>
+</div>
+<p>[<code>or</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-or">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-or</a></p><h4 id=""><a class="anchorlink" href="#">3.6 和條件</a></h4><p><code>AND</code> 條件可以透過連結 <code>where</code> 條件來構建。</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where(last_name: 'Smith').where(orders_count: [1,3,5]))
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(last_name: 'Smith').where(orders_count: [1,3,5]))
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">WHERE</span> <span class="n">customers</span><span class="p">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="s1">'Smith'</span> <span class="k">AND</span> <span class="n">customers</span><span class="p">.</span><span class="n">orders_count</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers WHERE customers.last_name = 'Smith' AND customers.orders_count IN (1,3,5)
+">Copy</button>
+</div>
+<p>關係之間邏輯交集的“AND”條件可以透過
+在第一個關係上呼叫 [<code>and</code>][]，並將第二個作為
+爭論。</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where(id: [1, 2]).and(Customer.where(id: [2, 3]))
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(id: [1, 2]).and(Customer.where(id: [2, 3]))
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">AND</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers WHERE (customers.id IN (1, 2) AND customers.id IN (2, 3))
+">Copy</button>
+</div>
+<p>[<code>and</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-and">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-and</a></p><h3 id=""><a class="anchorlink" href="#">4 訂購</a></h3><p>要以特定順序從資料庫中檢索記錄，您可以使用 [<code>order</code>][] 方法。</p><p>例如，如果您正在獲取一組記錄並希望透過表中的 <code>created_at</code> 欄位按升序對它們進行排序：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.order(:created_at)
+# OR
+Book.order("created_at")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.order(:created_at)
+# OR
+Book.order("created_at")
+'>Copy</button>
+</div>
+<p>你也可以指定 <code>ASC</code> 或 <code>DESC</code>：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.order(created_at: :desc)
+# OR
+Book.order(created_at: :asc)
+# OR
+Book.order("created_at DESC")
+# OR
+Book.order("created_at ASC")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.order(created_at: :desc)
+# OR
+Book.order(created_at: :asc)
+# OR
+Book.order("created_at DESC")
+# OR
+Book.order("created_at ASC")
+'>Copy</button>
+</div>
+<p>或按多個欄位排序：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.order(title: :asc, created_at: :desc)
+# OR
+Book.order(:title, created_at: :desc)
+# OR
+Book.order("title ASC, created_at DESC")
+# OR
+Book.order("title ASC", "created_at DESC")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.order(title: :asc, created_at: :desc)
+# OR
+Book.order(:title, created_at: :desc)
+# OR
+Book.order("title ASC, created_at DESC")
+# OR
+Book.order("title ASC", "created_at DESC")
+'>Copy</button>
+</div>
+<p>如果你想多次呼叫<code>order</code>，後續的訂單將被附加到第一個：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">order</span><span class="p">(</span><span class="s2">"title ASC"</span><span class="p">).</span><span class="nf">order</span><span class="p">(</span><span class="s2">"created_at DESC"</span><span class="p">)</span>
+<span class="go">SELECT * FROM books ORDER BY title ASC, created_at DESC
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.order("title ASC").order("created_at DESC")
+'>Copy</button>
+</div>
+<p>警告：在大多數資料庫系統中，使用“select”、“pluck”和“ids”等方法從結果集中選擇具有“distinct”的欄位； <code>order</code> 方法將引發 <code>ActiveRecord::StatementInvalid</code> 異常，除非 <code>order</code> 子句中使用的欄位包含在選擇列表中。請參閱下一節以從結果集中選擇欄位。</p><h3 id=""><a class="anchorlink" href="#">5 選擇特定欄位</a></h3><p>預設情況下，<code>Model.find</code> 使用 <code>select *</code> 從結果集中選擇所有欄位。</p><p>要僅從結果集中選擇欄位的子集，您可以透過 [<code>select</code>][] 方法指定子集。</p><p>例如，只選擇 <code>isbn</code> 和 <code>out_of_print</code> 列：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.select(:isbn, :out_of_print)
+# OR
+Book.select("isbn, out_of_print")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.select(:isbn, :out_of_print)
+# OR
+Book.select("isbn, out_of_print")
+'>Copy</button>
+</div>
+<p>這個 find 呼叫使​​用的 SQL 查詢有點像：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="n">isbn</span><span class="p">,</span> <span class="n">out_of_print</span> <span class="k">FROM</span> <span class="n">books</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT isbn, out_of_print FROM books
+">Copy</button>
+</div>
+<p>請小心，因為這也意味著您正在初始化一個 Model 物件，其中僅包含您選擇的欄位。如果您嘗試訪問不在初始化記錄中的欄位，您將收到：</p><div class="code_container">
+<pre><code class="highlight plaintext">activeModel::missingattributeerror: missing attribute: &lt;attribute&gt;
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="activeModel::missingattributeerror: missing attribute: &lt;attribute&gt;
+">Copy</button>
+</div>
+<p>其中<code>&lt;attribute&gt;</code> 是您要求的屬性。 <code>id</code> 方法不會引發 <code>activerecord::missingattributeerror</code>，因此在使用 Association 時要小心，因為它們需要 <code>id</code> 方法才能正常執行。</p><p>如果您只想獲取某個欄位中每個唯一值的單個記錄，您可以使用 [<code>distinct</code>][]：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.select(:last_name).distinct
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.select(:last_name).distinct
+">Copy</button>
+</div>
+<p>這將生成如下 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">last_name</span> <span class="k">FROM</span> <span class="n">customers</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT DISTINCT last_name FROM customers
+">Copy</button>
+</div>
+<p>您還可以刪除唯一性約束：</p><div class="code_container">
+<pre><code class="highlight plaintext"># Returns unique last_names
+query = Customer.select(:last_name).distinct
+
+# Returns all last_names, even if there are duplicates
+query.distinct(false)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Returns unique last_names
+query = Customer.select(:last_name).distinct
+
+# Returns all last_names, even if there are duplicates
+query.distinct(false)
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">6 限制和偏移</a></h3><p>要將 <code>limit</code> 應用到由 <code>Model.find</code> 觸發的 sql，您可以在關係上使用 [<code>limit</code>][] 和 [<code>offset</code>][] 方法指定 <code>limit</code>。</p><p>您可以使用<code>limit</code>指定要檢索的記錄數，並使用<code>offset</code>指定開始返回記錄之前要跳過的記錄數。例如</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.limit(5)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.limit(5)
+">Copy</button>
+</div>
+<p>將返回最多 5 個客戶，因為它沒有指定偏移量，它將返回表中的前 5 個。它執行的 SQL 如下所示：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">LIMIT</span> <span class="mi">5</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers LIMIT 5
+">Copy</button>
+</div>
+<p>向其新增<code>offset</code></p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.limit(5).offset(30)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.limit(5).offset(30)
+">Copy</button>
+</div>
+<p>從 31 日開始，最多返回 5 位客戶。 SQL 看起來像：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">LIMIT</span> <span class="mi">5</span> <span class="k">OFFSET</span> <span class="mi">30</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers LIMIT 5 OFFSET 30
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">7 團體</a></h3><p>要將<code>GROUP BY</code> 子句應用於查詢器觸發的 SQL，您可以使用 [<code>group</code>][] 方法。</p><p>例如，如果您想查詢訂單建立日期的集合：</p><div class="code_container">
+<pre><code class="highlight plaintext">Order.select("created_at").group("created_at")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Order.select("created_at").group("created_at")
+'>Copy</button>
+</div>
+<p>這將為資料庫中有訂單的每個日期提供一個“訂單”物件。</p><p>將執行的 SQL 將是這樣的：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="n">created_at</span>
+<span class="k">FROM</span> <span class="n">orders</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">created_at</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT created_at
+FROM orders
+GROUP BY created_at
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">7.1 個分組專案總數</a></h4><p>要獲取單個查詢的分組專案總數，請在 <code>group</code> 之後呼叫 [<code>count</code>][]。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Order</span><span class="p">.</span><span class="nf">group</span><span class="p">(</span><span class="ss">:status</span><span class="p">).</span><span class="nf">count</span>
+<span class="p">=&gt;</span> <span class="p">{</span><span class="s2">"being_packed"</span><span class="o">=&gt;</span><span class="mi">7</span><span class="p">,</span> <span class="s2">"shipped"</span><span class="o">=&gt;</span><span class="mi">12</span><span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Order.group(:status).count
+">Copy</button>
+</div>
+<p>將執行的 SQL 將是這樣的：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="k">COUNT</span> <span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">count_all</span><span class="p">,</span> <span class="n">status</span> <span class="k">AS</span> <span class="n">status</span>
+<span class="k">FROM</span> <span class="n">orders</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">status</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT COUNT (*) AS count_all, status AS status
+FROM orders
+GROUP BY status
+">Copy</button>
+</div>
+<p>[<code>count</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-count">https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-count</a></p><h3 id=""><a class="anchorlink" href="#">8 擁有</a></h3><p>sql 使用<code>have</code> 子句來指定<code>group by</code> 欄位的條件。您可以透過將 [<code>have</code>][] 方法新增到 find 來將 <code>have</code> 子句新增到由 <code>Model.find</code> 觸發的 sql 中。</p><p>例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">Order.select("created_at, sum(total) as total_price").
+  group("created_at").having("sum(total) &gt; ?", 200)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Order.select("created_at, sum(total) as total_price").
+  group("created_at").having("sum(total) &gt; ?", 200)
+'>Copy</button>
+</div>
+<p>將執行的 SQL 將是這樣的：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="n">created_at</span> <span class="k">as</span> <span class="n">ordered_date</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">total</span><span class="p">)</span> <span class="k">as</span> <span class="n">total_price</span>
+<span class="k">FROM</span> <span class="n">orders</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">created_at</span>
+<span class="k">HAVING</span> <span class="k">sum</span><span class="p">(</span><span class="n">total</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">200</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT created_at as ordered_date, sum(total) as total_price
+FROM orders
+GROUP BY created_at
+HAVING sum(total) &gt; 200
+">Copy</button>
+</div>
+<p>這將返回每個訂單物件的日期和總價，按訂購日期分組，總價超過 200 美元。</p><p>您可以為每個返回的訂單物件訪問 <code>total_price</code>，如下所示：</p><div class="code_container">
+<pre><code class="highlight plaintext">big_orders = Order.select("created_at, sum(total) as total_price")
+                  .group("created_at")
+                  .having("sum(total) &gt; ?", 200)
+
+big_orders[0].total_price
+# Returns the total price for the first Order object
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='big_orders = Order.select("created_at, sum(total) as total_price")
+                  .group("created_at")
+                  .having("sum(total) &gt; ?", 200)
+
+big_orders[0].total_price
+# Returns the total price for the first Order object
+'>Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">9 覆蓋條件</a></h3><h4 id=""><a class="anchorlink" href="#">9.1 <code>取消作用域</code></a></h4><p>您可以使用 [<code>unscope</code>][] 方法指定要刪除的某些條件。例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where('id &gt; 100').limit(20).order('id desc').unscope(:order)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.where('id &gt; 100').limit(20).order('id desc').unscope(:order)
+">Copy</button>
+</div>
+<p>將要執行的 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="k">LIMIT</span> <span class="mi">20</span>
+
+<span class="c1">-- Original query without `unscope`</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span> <span class="k">desc</span> <span class="k">LIMIT</span> <span class="mi">20</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM books WHERE id &gt; 100 LIMIT 20
+
+-- Original query without `unscope`
+SELECT * FROM books WHERE id &gt; 100 ORDER BY id desc LIMIT 20
+">Copy</button>
+</div>
+<p>您還可以取消範圍特定的 <code>where</code> 子句。例如，這將從 where 子句中刪除 <code>id</code> 條件：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where(id: 10, out_of_print: false).unscope(where: :id)
+# SELECT books.* FROM books WHERE out_of_print = 0
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.where(id: 10, out_of_print: false).unscope(where: :id)
+# SELECT books.* FROM books WHERE out_of_print = 0
+">Copy</button>
+</div>
+<p>使用了 <code>unscope</code> 的關係將影響它合併到的任何關係：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.order('id desc').merge(Book.unscope(:order))
+# SELECT books.* FROM books
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.order('id desc').merge(Book.unscope(:order))
+# SELECT books.* FROM books
+">Copy</button>
+</div>
+<p>[<code>unscope</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-unscope">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-unscope</a></p><h4 id=""><a class="anchorlink" href="#">9.2 <code>只有</code></a></h4><p>您還可以使用 [<code>only</code>][] 方法覆蓋條件。例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where('id &gt; 10').limit(20).order('id desc').only(:order, :where)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.where('id &gt; 10').limit(20).order('id desc').only(:order, :where)
+">Copy</button>
+</div>
+<p>將要執行的 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span> <span class="k">DESC</span>
+
+<span class="c1">-- Original query without `only`</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">20</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM books WHERE id &gt; 10 ORDER BY id DESC
+
+-- Original query without `only`
+SELECT * FROM books WHERE id &gt; 10 ORDER BY id DESC LIMIT 20
+">Copy</button>
+</div>
+<p>[<code>only</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/spawnmethods.html#method-i-only">https://api.Rubyonrails.org/classes/activerecord/spawnmethods.html#method-i-only</a></p><h4 id=""><a class="anchorlink" href="#">9.3 <code>重新選擇</code></a></h4><p>[<code>reselect</code>][] 方法覆蓋現有的 select 語句。例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.select(:title, :isbn).reselect(:created_at)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.select(:title, :isbn).reselect(:created_at)
+">Copy</button>
+</div>
+<p>將要執行的 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="nv">`books`</span><span class="p">.</span><span class="nv">`created_at`</span> <span class="k">FROM</span> <span class="nv">`books`</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT `books`.`created_at` FROM `books`
+">Copy</button>
+</div>
+<p>將此與未使用 <code>reselect</code> 子句的情況進行比較：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.select(:title, :isbn).select(:created_at)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.select(:title, :isbn).select(:created_at)
+">Copy</button>
+</div>
+<p>執行的 SQL 將是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="nv">`books`</span><span class="p">.</span><span class="nv">`title`</span><span class="p">,</span> <span class="nv">`books`</span><span class="p">.</span><span class="nv">`isbn`</span><span class="p">,</span> <span class="nv">`books`</span><span class="p">.</span><span class="nv">`created_at`</span> <span class="k">FROM</span> <span class="nv">`books`</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT `books`.`title`, `books`.`isbn`, `books`.`created_at` FROM `books`
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">9.4 <code>重新排序</code></a></h4><p>[<code>reorder</code>][] 方法覆蓋預設範圍順序。例如，如果類定義包括：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Author &lt; ApplicationRecord
+  has_many :books, -&gt; { order(year_published: :desc) }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Author &lt; ApplicationRecord
+  has_many :books, -&gt; { order(year_published: :desc) }
+end
+">Copy</button>
+</div>
+<p>你執行這個：</p><div class="code_container">
+<pre><code class="highlight plaintext">Author.find(10).books
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Author.find(10).books
+">Copy</button>
+</div>
+<p>將要執行的 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">authors</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">10</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="n">author_id</span> <span class="o">=</span> <span class="mi">10</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">year_published</span> <span class="k">DESC</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM authors WHERE id = 10 LIMIT 1
+SELECT * FROM books WHERE author_id = 10 ORDER BY year_published DESC
+">Copy</button>
+</div>
+<p>您可以使用 <code>reorder</code> 子句來指定不同的圖書訂購方式：</p><div class="code_container">
+<pre><code class="highlight plaintext">Author.find(10).books.reorder('year_published ASC')
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Author.find(10).books.reorder('year_published ASC')
+">Copy</button>
+</div>
+<p>將要執行的 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">authors</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">10</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="n">author_id</span> <span class="o">=</span> <span class="mi">10</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">year_published</span> <span class="k">ASC</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM authors WHERE id = 10 LIMIT 1
+SELECT * FROM books WHERE author_id = 10 ORDER BY year_published ASC
+">Copy</button>
+</div>
+<h4 id="reverse-order"><a class="anchorlink" href="#reverse-order">9.5 <code>reverse_order</code></a></h4><p>如果指定，[<code>reverse_order</code>][] 方法會反轉排序子句。</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where("author_id &gt; 10").order(:year_published).reverse_order
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.where("author_id &gt; 10").order(:year_published).reverse_order
+'>Copy</button>
+</div>
+<p>將要執行的 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="n">author_id</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">year_published</span> <span class="k">DESC</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM books WHERE author_id &gt; 10 ORDER BY year_published DESC
+">Copy</button>
+</div>
+<p>如果查詢中未指定排序子句，則 <code>reverse_order</code> 以相反的順序按主鍵排序。</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where("author_id &gt; 10").reverse_order
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Book.where("author_id &gt; 10").reverse_order
+'>Copy</button>
+</div>
+<p>將要執行的 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="n">author_id</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">books</span><span class="p">.</span><span class="n">id</span> <span class="k">DESC</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM books WHERE author_id &gt; 10 ORDER BY books.id DESC
+">Copy</button>
+</div>
+<p><code>reverse_order</code> 方法接受 <strong>no</strong> 引數。</p><h4 id=""><a class="anchorlink" href="#">9.6 <code>去處</code></a></h4><p>[<code>rewhere</code>][] 方法覆蓋了現有的名為 <code>where</code> 的條件。例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where(out_of_print: true).rewhere(out_of_print: false)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.where(out_of_print: true).rewhere(out_of_print: false)
+">Copy</button>
+</div>
+<p>將要執行的 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="nv">`out_of_print`</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM books WHERE `out_of_print` = 0
+">Copy</button>
+</div>
+<p>如果不使用 <code>rewhere</code> 子句，則 where 子句會被 AND 運算在一起：</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.where(out_of_print: true).where(out_of_print: false)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.where(out_of_print: true).where(out_of_print: false)
+">Copy</button>
+</div>
+<p>執行的 SQL 將是：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="nv">`out_of_print`</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">AND</span> <span class="nv">`out_of_print`</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM books WHERE `out_of_print` = 1 AND `out_of_print` = 0
+">Copy</button>
+</div>
+<p>[<code>rewhere</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-rewhere">https://api.Rubyonrails.org/classes/activerecord/querymethods.html#method-i-rewhere</a></p><h3 id=""><a class="anchorlink" href="#">10 空關係</a></h3><p>[<code>none</code>][] 方法返回一個沒有記錄的可連結關係。連結到返回關係的任何後續條件將繼續生成空關係。這在您需要對可能返回零結果的方法或作用域的可連結響應的場景中非常有用。</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.none # returns an empty Relation and fires no queries.
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.none # returns an empty Relation and fires no queries.
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight plaintext"># the highlighted_reViews method below is expected to always return a relation.
+book.first.highlighted_reViews.average(:rating)
+# =&gt; Returns average rating of a book
+
+class Book
+  # returns reViews if there are at least 5,
+  # else consider this as non-reViewed book
+  def highlighted_reViews
+    if reViews.count &gt; 5
+      reViews
+    else
+      reView.none # does not meet minimum threshold yet
+    end
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# the highlighted_reViews method below is expected to always return a relation.
+book.first.highlighted_reViews.average(:rating)
+# =&gt; Returns average rating of a book
+
+class Book
+  # returns reViews if there are at least 5,
+  # else consider this as non-reViewed book
+  def highlighted_reViews
+    if reViews.count &gt; 5
+      reViews
+    else
+      reView.none # does not meet minimum threshold yet
+    end
+  end
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">11 只讀物件</a></h3><p>Active Record 在關係上提供 [<code>readonly</code>][] 方法以明確禁止修改任何返回的物件。任何更改只讀記錄的嘗試都不會成功，並引發 <code>activerecord::readonlyrecord</code> 異常。</p><div class="code_container">
+<pre><code class="highlight plaintext">customer = Customer.readonly.first
+customer.visits += 1
+customer.save
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customer = Customer.readonly.first
+customer.visits += 1
+customer.save
+">Copy</button>
+</div>
+<p>由於 <code>customer</code> 被顯式設定為只讀物件，當使用更新的 <em>visits</em> 值呼叫 <code>customer.save</code> 時，上面的程式碼將引發一個 <code>ActiveRecord::ReadOnlyRecord</code> 異常。</p><h3 id=""><a class="anchorlink" href="#">12 鎖定更新記錄</a></h3><p>在更新資料庫中的記錄並確保原子更新時，鎖定有助於防止競爭條件。</p><p>Active Record 提供了兩種鎖定機制：</p>
+<ul>
+<li>樂觀鎖定</li>
+<li>悲觀鎖</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">12.1 樂觀鎖</a></h4><p>樂觀鎖定允許多個使用者訪問同一記錄進行編輯，並假設與資料的衝突最小。它透過檢查自開啟記錄以來是否有另一個程序對其進行了更改來完成此操作。如果發生了<code>ActiveRecord::StaleObjectError</code> 異常並且更新被忽略，則丟擲異常。</p><p><strong>樂觀鎖柱</strong></p><p>為了使用樂觀鎖定，該表需要有一個名為 <code>lock_version</code> 的整數型別的列。每次更新記錄時，Active Record 都會增加 <code>lock_version</code> 列。如果更新請求在 <code>lock_version</code> 欄位中的值低於資料庫中當前在 <code>lock_version</code> 列中的值，則更新請求將失敗並顯示 <code>activerecord::staleobjecterror</code>。</p><p>例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">c1 = Customer.find(1)
+c2 = Customer.find(1)
+
+c1.first_name = "Sandra"
+c1.save
+
+c2.first_name = "Michael"
+c2.save # Raises an ActiveRecord::StaleObjectError
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='c1 = Customer.find(1)
+c2 = Customer.find(1)
+
+c1.first_name = "Sandra"
+c1.save
+
+c2.first_name = "Michael"
+c2.save # Raises an ActiveRecord::StaleObjectError
+'>Copy</button>
+</div>
+<p>然後，您負責透過挽救異常並回滾、合併或以其他方式應用解決衝突所需的業務邏輯來處理衝突。</p><p>這個行為可以透過設定<code>ActiveRecord::Base.lock_optimistically = false</code> 來關閉。</p><p>為了覆蓋 <code>lock_version</code> 列的名稱，<code>ActiveRecord::Base</code> 提供了一個名為 <code>locking_column</code> 的類屬性：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Customer &lt; ApplicationRecord
+  self.locking_column = :lock_customer_column
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Customer &lt; ApplicationRecord
+  self.locking_column = :lock_customer_column
+end
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">12.2 悲觀鎖</a></h4><p>悲觀鎖定使用底層資料庫提供的鎖定機制。在建立關係時使用 <code>lock</code> 可以獲得對所選行的排他鎖。使用 <code>lock</code> 的關係通常包含在 transAction 中以防止死鎖情況。</p><p>例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">book.transAction do
+  book = Book.lock.first
+  book.title = 'Algorithms, second edition'
+  book.save!
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="book.transAction do
+  book = Book.lock.first
+  book.title = 'Algorithms, second edition'
+  book.save!
+end
+">Copy</button>
+</div>
+<p>上面的Session 為 mysql 後端生成以下 sql：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SQL</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="n">ms</span><span class="p">)</span>   <span class="k">BEGIN</span>
+<span class="n">Book</span> <span class="k">Load</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span><span class="n">ms</span><span class="p">)</span>   <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="nv">`books`</span> <span class="k">LIMIT</span> <span class="mi">1</span> <span class="k">FOR</span> <span class="k">UPDATE</span>
+<span class="n">Book</span> <span class="k">Update</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">4</span><span class="n">ms</span><span class="p">)</span>   <span class="k">UPDATE</span> <span class="nv">`books`</span> <span class="k">SET</span> <span class="nv">`updated_at`</span> <span class="o">=</span> <span class="s1">'2009-02-07 18:05:56'</span><span class="p">,</span> <span class="nv">`title`</span> <span class="o">=</span> <span class="s1">'Algorithms, second edition'</span> <span class="k">WHERE</span> <span class="nv">`id`</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">SQL</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="n">ms</span><span class="p">)</span>   <span class="k">COMMIT</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SQL (0.2ms)   BEGIN
+Book Load (0.3ms)   SELECT * FROM `books` LIMIT 1 FOR UPDATE
+Book Update (0.4ms)   UPDATE `books` SET `updated_at` = '2009-02-07 18:05:56', `title` = 'Algorithms, second edition' WHERE `id` = 1
+SQL (0.8ms)   COMMIT
+">Copy</button>
+</div>
+<p>您還可以將原始 SQL 傳遞給 <code>lock</code> 方法以允許不同型別的鎖。例如，MySQL 有一個名為“LOCK IN SHARE MODE”的表示式，您可以在其中鎖定記錄但仍允許其他查詢讀取它。要指定此表示式，只需將其作為鎖定選項傳入：</p><div class="code_container">
+<pre><code class="highlight plaintext">book.transAction do
+  book = Book.lock("LOCK IN SHARE MODE").find(1)
+  book.increment!(:Views)
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='book.transAction do
+  book = Book.lock("LOCK IN SHARE MODE").find(1)
+  book.increment!(:Views)
+end
+'>Copy</button>
+</div>
+<p>注意：請注意，您的資料庫必須支援傳遞給 <code>lock</code> 方法的原始 SQL。</p><p>如果您已經擁有Model 的例項，則可以使用以下程式碼啟動 transaction 並一次性獲取鎖：</p><div class="code_container">
+<pre><code class="highlight plaintext">book = Book.first
+book.with_lock do
+  # this block is called within a transAction,
+  # book is already locked.
+  book.increment!(:Views)
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="book = Book.first
+book.with_lock do
+  # this block is called within a transAction,
+  # book is already locked.
+  book.increment!(:Views)
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">13 連線表</a></h3><p>Active Record 提供了兩種 finder 方法，用於在
+結果 SQL：<code>joins</code> 和 <code>left_outer_joins</code>。
+雖然<code>joins</code> 應該用於<code>INNER JOIN</code> 或自定義查詢，
+<code>left_outer_joins</code> 用於使用 <code>LEFT OUTER JOIN</code> 的查詢。</p><h4 id=""><a class="anchorlink" href="#">13.1 <code>加入</code></a></h4><p>有多種方法可以使用 [<code>joins</code>][] 方法。</p><h5 id="sql"><a class="anchorlink" href="#sql">13.1.1 使用字串 sql 片段</a></h5><p>你可以只提供原始 SQL，指定 <code>JOIN</code> 子句到 <code>joins</code>：</p><div class="code_container">
+<pre><code class="highlight plaintext">Author.joins("INNER JOIN books ON books.author_id = authors.id AND books.out_of_print = FALSE")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Author.joins("INNER JOIN books ON books.author_id = authors.id AND books.out_of_print = FALSE")
+'>Copy</button>
+</div>
+<p>這將導致以下 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="n">authors</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="n">authors</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">books</span> <span class="k">ON</span> <span class="n">books</span><span class="p">.</span><span class="n">author_id</span> <span class="o">=</span> <span class="n">authors</span><span class="p">.</span><span class="n">id</span> <span class="k">AND</span> <span class="n">books</span><span class="p">.</span><span class="n">out_of_print</span> <span class="o">=</span> <span class="k">FALSE</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT authors.* FROM authors INNER JOIN books ON books.author_id = authors.id AND books.out_of_print = FALSE
+">Copy</button>
+</div>
+<h5 id="association"><a class="anchorlink" href="#association">13.1.2 使用命名 association 的陣列/雜湊</a></h5><p>active record 允許您使用在 Model 上定義的 <a href="association_basics.html">associations</a> 的名稱作為為那些 associations 指定 <code>join</code> 子句的快捷方式使用<code>joins</code>方法時。</p><p>以下所有內容都將使用“INNER JOIN”生成預期的連線查詢：</p><h6 id="association"><a class="anchorlink" href="#association">13.1.2.1 加入單個association</a></h6><div class="code_container">
+<pre><code class="highlight plaintext">book.joins(:reViews)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="book.joins(:reViews)
+">Copy</button>
+</div>
+<p>這產生：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="n">books</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span>
+  <span class="k">inner</span> <span class="k">join</span> <span class="n">reViews</span> <span class="k">on</span> <span class="n">reViews</span><span class="p">.</span><span class="n">book_id</span> <span class="o">=</span> <span class="n">books</span><span class="p">.</span><span class="n">id</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT books.* FROM books
+  inner join reViews on reViews.book_id = books.id
+">Copy</button>
+</div>
+<p>或者，在英語中：“為所有帶有 reViews 的書籍返回一個書籍物件”。請注意，如果一本書有多個 reView，您會看到重複的書。如果你想要獨特的書籍，你可以使用 <code>book.joins(:reViews).distinct</code>。</p><h5 id="association"><a class="anchorlink" href="#association">13.1.3 加入多個association</a></h5><div class="code_container">
+<pre><code class="highlight plaintext">book.joins(:author, :reViews)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="book.joins(:author, :reViews)
+">Copy</button>
+</div>
+<p>這產生：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="n">books</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span>
+  <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">authors</span> <span class="k">ON</span> <span class="n">authors</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">books</span><span class="p">.</span><span class="n">author_id</span>
+  <span class="k">inner</span> <span class="k">join</span> <span class="n">reViews</span> <span class="k">on</span> <span class="n">reViews</span><span class="p">.</span><span class="n">book_id</span> <span class="o">=</span> <span class="n">books</span><span class="p">.</span><span class="n">id</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT books.* FROM books
+  INNER JOIN authors ON authors.id = books.author_id
+  inner join reViews on reViews.book_id = books.id
+">Copy</button>
+</div>
+<p>或者，用英語說：“歸還至少有一個 reView 的所有書籍及其作者”。再次注意，帶有多個 reView 的圖書會出現多次。</p><h6 id="associations"><a class="anchorlink" href="#associations">13.1.3.1 加入巢狀的 associations（單級）</a></h6><div class="code_container">
+<pre><code class="highlight plaintext">book.joins(reViews: :customer)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="book.joins(reViews: :customer)
+">Copy</button>
+</div>
+<p>這產生：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="n">books</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span>
+  <span class="k">inner</span> <span class="k">join</span> <span class="n">reViews</span> <span class="k">on</span> <span class="n">reViews</span><span class="p">.</span><span class="n">book_id</span> <span class="o">=</span> <span class="n">books</span><span class="p">.</span><span class="n">id</span>
+  <span class="k">inner</span> <span class="k">join</span> <span class="n">customers</span> <span class="k">on</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">reViews</span><span class="p">.</span><span class="n">customer_id</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT books.* FROM books
+  inner join reViews on reViews.book_id = books.id
+  inner join customers on customers.id = reViews.customer_id
+">Copy</button>
+</div>
+<p>或者，用英語說：“退回所有有客戶 reView 的圖書。”</p><h6 id="associations"><a class="anchorlink" href="#associations">13.1.3.2 加入巢狀的 associations（多級）</a></h6><div class="code_container">
+<pre><code class="highlight plaintext">author.joins(books: [{reViews: { customer: :orders} }, :supplier] )
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="author.joins(books: [{reViews: { customer: :orders} }, :supplier] )
+">Copy</button>
+</div>
+<p>這產生：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">authors</span>
+  <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">books</span> <span class="k">ON</span> <span class="n">books</span><span class="p">.</span><span class="n">author_id</span> <span class="o">=</span> <span class="n">authors</span><span class="p">.</span><span class="n">id</span>
+  <span class="k">inner</span> <span class="k">join</span> <span class="n">reViews</span> <span class="k">on</span> <span class="n">reViews</span><span class="p">.</span><span class="n">book_id</span> <span class="o">=</span> <span class="n">books</span><span class="p">.</span><span class="n">id</span>
+  <span class="k">inner</span> <span class="k">join</span> <span class="n">customers</span> <span class="k">on</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">reViews</span><span class="p">.</span><span class="n">customer_id</span>
+  <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">orders</span> <span class="k">ON</span> <span class="n">orders</span><span class="p">.</span><span class="n">customer_id</span> <span class="o">=</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">suppliers</span> <span class="k">ON</span> <span class="n">suppliers</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">books</span><span class="p">.</span><span class="n">supplier_id</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM authors
+  INNER JOIN books ON books.author_id = authors.id
+  inner join reViews on reViews.book_id = books.id
+  inner join customers on customers.id = reViews.customer_id
+  INNER JOIN orders ON orders.customer_id = customers.id
+INNER JOIN suppliers ON suppliers.id = books.supplier_id
+">Copy</button>
+</div>
+<p>或者，用英語：“返回所有擁有 reViews <em>and</em> 的書籍的作者，以及這些書籍的供應商。”</p><h5 id=""><a class="anchorlink" href="#">13.1.4 指定連線表的條件</a></h5><p>您可以使用常規的 <a href="#array-conditions">Array</a> 和 <a href="#pure-string-conditions">String</a> 條件在連線表上指定條件。 <a href="#hash-conditions">雜湊條件</a> 提供了一種特殊的語法來指定連線表的條件：</p><div class="code_container">
+<pre><code class="highlight plaintext">time_range = (Time.now.midnight - 1.day)..Time.now.midnight
+Customer.joins(:orders).where('orders.created_at' =&gt; time_range).distinct
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="time_range = (Time.now.midnight - 1.day)..Time.now.midnight
+Customer.joins(:orders).where('orders.created_at' =&gt; time_range).distinct
+">Copy</button>
+</div>
+<p>這將找到所有擁有昨天建立的訂單的客戶，使用 <code>BETWEEN</code> SQL 表示式來比較 <code>created_at</code>。</p><p>另一種更簡潔的語法是巢狀雜湊條件：</p><div class="code_container">
+<pre><code class="highlight plaintext">time_range = (Time.now.midnight - 1.day)..Time.now.midnight
+Customer.joins(:orders).where(orders: { created_at: time_range }).distinct
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="time_range = (Time.now.midnight - 1.day)..Time.now.midnight
+Customer.joins(:orders).where(orders: { created_at: time_range }).distinct
+">Copy</button>
+</div>
+<p>對於更高階的條件或重用現有的命名範圍，可以使用 <code>relation#merge</code>。首先，讓我們為訂單Model 新增一個新的命名範圍：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Order &lt; ApplicationRecord
+  belongs_to :customer
+
+  scope :created_in_time_range, -&gt;(time_range) {
+    where(created_at: time_range)
+  }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Order &lt; ApplicationRecord
+  belongs_to :customer
+
+  scope :created_in_time_range, -&gt;(time_range) {
+    where(created_at: time_range)
+  }
+end
+">Copy</button>
+</div>
+<p>現在我們可以使用 <code>Relation#merge</code> 在 <code>created_in_time_range</code> 範圍內進行合併：</p><div class="code_container">
+<pre><code class="highlight plaintext">time_range = (Time.now.midnight - 1.day)..Time.now.midnight
+Customer.joins(:orders).merge(Order.created_in_time_range(time_range)).distinct
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="time_range = (Time.now.midnight - 1.day)..Time.now.midnight
+Customer.joins(:orders).merge(Order.created_in_time_range(time_range)).distinct
+">Copy</button>
+</div>
+<p>這將再次使用<code>BETWEEN</code> SQL 表示式找到所有擁有昨天建立的訂單的客戶。</p><h4 id="left-outer-joins"><a class="anchorlink" href="#left-outer-joins">13.2 <code>left_outer_joins</code></a></h4><p>如果要選擇一組記錄，無論它們是否關聯
+記錄你可以使用 [<code>left_outer_joins</code>][] 方法。</p><div class="code_container">
+<pre><code class="highlight plaintext">customer.left_outer_joins(:reViews).distinct.select('customers.*, count(reViews.*) as reViews_count').group('customers.id')
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customer.left_outer_joins(:reViews).distinct.select('customers.*, count(reViews.*) as reViews_count').group('customers.id')
+">Copy</button>
+</div>
+<p>其中產生：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">select</span> <span class="k">distinct</span> <span class="n">customers</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="k">count</span><span class="p">(</span><span class="n">reViews</span><span class="p">.</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">reViews_count</span> <span class="k">from</span> <span class="n">customers</span>
+<span class="k">left</span> <span class="k">outer</span> <span class="k">join</span> <span class="n">reViews</span> <span class="k">on</span> <span class="n">reViews</span><span class="p">.</span><span class="n">customer_id</span> <span class="o">=</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span> <span class="k">group</span> <span class="k">by</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="select distinct customers.*, count(reViews.*) as reViews_count from customers
+left outer join reViews on reViews.customer_id = customers.id group by customers.id
+">Copy</button>
+</div>
+<p>這意味著：“返回所有客戶及其 reView 的計數，無論他們是否
+有任何重新View s"</p><h3 id="associations"><a class="anchorlink" href="#associations">14 急切載入Associations</a></h3><p>預先載入是使用盡可能少的查詢載入由<code>Model.find</code> 返回的物件的關聯記錄的機制。</p><p><strong>N + 1 查詢問題</strong></p><p>考慮以下程式碼，該程式碼查詢 10 本書並列印其作者的姓氏：</p><div class="code_container">
+<pre><code class="highlight plaintext">books = Book.limit(10)
+
+books.each do |book|
+  puts book.author.last_name
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="books = Book.limit(10)
+
+books.each do |book|
+  puts book.author.last_name
+end
+">Copy</button>
+</div>
+<p>這段程式碼乍一看還不錯。但問題在於執行的查詢總數。上面的程式碼總共執行 1（查詢 10 本書）+ 10（每本書一個以載入作者）= <strong>11</strong> 查詢。</p><p><strong>N+1 查詢問題的解決方案</strong></p><p>active record 允許您提前指定所有要載入的Association。</p><p>方法是：</p>
+<ul>
+<li>[<code>包括</code>][]</li>
+<li>[<code>預載入</code>][]</li>
+<li>[<code>eager_load</code>][]</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">14.1 包括</a></h4><p>使用 <code>includes</code>，active record 確保使用盡可能少的查詢次數載入所有指定的 Association。</p><p>使用 <code>includes</code> 方法重新審視上述案例，我們可以將 <code>Book.limit(10)</code> 重寫為預先載入作者：</p><div class="code_container">
+<pre><code class="highlight plaintext">books = Book.includes(:author).limit(10)
+
+books.each do |book|
+  puts book.author.last_name
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="books = Book.includes(:author).limit(10)
+
+books.each do |book|
+  puts book.author.last_name
+end
+">Copy</button>
+</div>
+<p>上面的程式碼將只執行 <strong>2</strong> 查詢，而不是前一種情況下的 <strong>11</strong> 查詢：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="nv">`books`</span><span class="o">*</span> <span class="k">FROM</span> <span class="nv">`books`</span> <span class="k">LIMIT</span> <span class="mi">10</span>
+<span class="k">SELECT</span> <span class="nv">`authors`</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="nv">`authors`</span>
+  <span class="k">WHERE</span> <span class="nv">`authors`</span><span class="p">.</span><span class="nv">`book_id`</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT `books`* FROM `books` LIMIT 10
+SELECT `authors`.* FROM `authors`
+  WHERE `authors`.`book_id` IN (1,2,3,4,5,6,7,8,9,10)
+">Copy</button>
+</div>
+<h5 id="association"><a class="anchorlink" href="#association">14.1.1 急切載入多個 association</a></h5><p>active record 允許您使用陣列、雜湊或陣列/雜湊的巢狀雜湊和 <code>includes</code> 方法，透過單個 <code>Model.find</code> 呼叫預先載入任意數量的 association。</p><h5 id="association"><a class="anchorlink" href="#association">14.1.2 多個 association 的陣列</a></h5><div class="code_container">
+<pre><code class="highlight plaintext">customer.includes(:orders, :reViews)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="customer.includes(:orders, :reViews)
+">Copy</button>
+</div>
+<p>這會載入所有客戶和相關訂單，併為每個客戶重新View。</p><h6 id="associations"><a class="anchorlink" href="#associations">14.1.2.1 巢狀 associations 雜湊</a></h6><div class="code_container">
+<pre><code class="highlight plaintext">Customer.includes(orders: {books: [:supplier, :author]}).find(1)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.includes(orders: {books: [:supplier, :author]}).find(1)
+">Copy</button>
+</div>
+<p>這將找到 id 為 1 的客戶並急切載入它的所有相關訂單、所有訂單的書籍以及每本書的作者和供應商。</p><h5 id="association"><a class="anchorlink" href="#association">14.1.3 在預先載入的 association 上指定條件</a></h5><p>儘管active record 允許您像<code>joins</code> 一樣在預先載入的Association 上指定條件，但推薦的方法是使用<a href="#joining-tables">joins</a> 代替。</p><p>然而，如果你必須這樣做，你可以像往常一樣使用 <code>where</code>。</p><div class="code_container">
+<pre><code class="highlight plaintext">Author.includes(:books).where(books: { out_of_print: true })
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Author.includes(:books).where(books: { out_of_print: true })
+">Copy</button>
+</div>
+<p>這將生成一個包含“LEFT OUTER JOIN”的查詢，而
+<code>joins</code> 方法將使用 <code>INNER JOIN</code> 函式生成一個。</p><div class="code_container">
+<pre><code class="highlight sql">  <span class="k">SELECT</span> <span class="n">authors</span><span class="p">.</span><span class="n">id</span> <span class="k">AS</span> <span class="n">t0_r0</span><span class="p">,</span> <span class="p">...</span> <span class="n">books</span><span class="p">.</span><span class="n">updated_at</span> <span class="k">AS</span> <span class="n">t1_r5</span> <span class="k">FROM</span> <span class="n">authors</span> <span class="k">LEFT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="nv">"books"</span> <span class="k">ON</span> <span class="nv">"books"</span><span class="p">.</span><span class="nv">"author_id"</span> <span class="o">=</span> <span class="nv">"authors"</span><span class="p">.</span><span class="nv">"id"</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">books</span><span class="p">.</span><span class="n">out_of_print</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='  SELECT authors.id AS t0_r0, ... books.updated_at AS t1_r5 FROM authors LEFT OUTER JOIN "books" ON "books"."author_id" = "authors"."id" WHERE (books.out_of_print = 1)
+'>Copy</button>
+</div>
+<p>如果沒有“where”條件，這將生成兩個查詢的正常集合。</p><p>注意：像這樣使用 <code>where</code> 只會在你傳遞一個雜湊時起作用。為了
+您需要使用 <code>references</code> 來強制連線表的 SQL 片段：</p><div class="code_container">
+<pre><code class="highlight plaintext">Author.includes(:books).where("books.out_of_print = true").references(:books)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Author.includes(:books).where("books.out_of_print = true").references(:books)
+'>Copy</button>
+</div>
+<p>如果在這個 <code>includes</code> 查詢的情況下，沒有任何書籍
+作者，所有作者仍將被載入。透過使用<code>joins</code>（一個內部
+JOIN)，連線條件<strong>必須</strong>匹配，否則將沒有記錄
+回來。</p><p>注意：如果 association 作為連線的一部分預先載入，則自定義選擇子句中的任何欄位都不會出現在載入的 Model 上。
+這是因為它們應該出現在父記錄還是子記錄中是不明確的。</p><h4 id=""><a class="anchorlink" href="#">14.2 預載入</a></h4><p>使用<code>preload</code>，active record 確保為每個指定的Association 使用查詢載入。</p><p>重新審視使​​用 <code>preload</code> 方法發生 N + 1 的情況，我們可以將 <code>Book.limit(10)</code> 重寫為作者：</p><div class="code_container">
+<pre><code class="highlight plaintext">books = Book.preload(:author).limit(10)
+
+books.each do |book|
+  puts book.author.last_name
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="books = Book.preload(:author).limit(10)
+
+books.each do |book|
+  puts book.author.last_name
+end
+">Copy</button>
+</div>
+<p>上面的程式碼將只執行 <strong>2</strong> 查詢，而不是前一種情況下的 <strong>11</strong> 查詢：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="nv">`books`</span><span class="o">*</span> <span class="k">FROM</span> <span class="nv">`books`</span> <span class="k">LIMIT</span> <span class="mi">10</span>
+<span class="k">SELECT</span> <span class="nv">`authors`</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="nv">`authors`</span>
+  <span class="k">WHERE</span> <span class="nv">`authors`</span><span class="p">.</span><span class="nv">`book_id`</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT `books`* FROM `books` LIMIT 10
+SELECT `authors`.* FROM `authors`
+  WHERE `authors`.`book_id` IN (1,2,3,4,5,6,7,8,9,10)
+">Copy</button>
+</div>
+<p>注意：<code>preload</code> 方法使用陣列、雜湊或陣列/雜湊的巢狀雜湊，與包含方法使用單個 <code>Model.find</code> 載入任意數量的 association 的方式相同稱呼。然而，與 <code>includes</code> 方法不同，它不可能為預先載入的 association 指定條件。</p><h4 id="eager-load"><a class="anchorlink" href="#eager-load">14.3 eager_load</a></h4><p>使用<code>eager_load</code>，active record 確保透過對所有指定的Association 使用<code>left outer join</code> 來強制預載入。</p><p>重新審視使​​用 <code>eager_load</code> 方法發生 N + 1 的情況，我們可以將 <code>Book.limit(10)</code> 重寫為作者：</p><div class="code_container">
+<pre><code class="highlight plaintext">books = Book.eager_load(:author).limit(10)
+
+books.each do |book|
+  puts book.author.last_name
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="books = Book.eager_load(:author).limit(10)
+
+books.each do |book|
+  puts book.author.last_name
+end
+">Copy</button>
+</div>
+<p>上面的程式碼將只執行 <strong>2</strong> 查詢，而不是前一種情況下的 <strong>11</strong> 查詢：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="nv">`books`</span><span class="p">.</span><span class="nv">`id`</span> <span class="k">FROM</span> <span class="nv">`books`</span> <span class="k">LEFT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="nv">`authors`</span> <span class="k">ON</span> <span class="nv">`authors`</span><span class="p">.</span><span class="nv">`book_id`</span> <span class="o">=</span> <span class="nv">`books`</span><span class="p">.</span><span class="nv">`id`</span> <span class="k">LIMIT</span> <span class="mi">10</span>
+<span class="k">SELECT</span> <span class="nv">`books`</span><span class="p">.</span><span class="nv">`id`</span> <span class="k">AS</span> <span class="n">t0_r0</span><span class="p">,</span> <span class="nv">`books`</span><span class="p">.</span><span class="nv">`last_name`</span> <span class="k">AS</span> <span class="n">t0_r1</span><span class="p">,</span> <span class="p">...</span>
+  <span class="k">FROM</span> <span class="nv">`books`</span> <span class="k">LEFT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="nv">`authors`</span> <span class="k">ON</span> <span class="nv">`authors`</span><span class="p">.</span><span class="nv">`book_id`</span> <span class="o">=</span> <span class="nv">`books`</span><span class="p">.</span><span class="nv">`id`</span>
+  <span class="k">WHERE</span> <span class="nv">`books`</span><span class="p">.</span><span class="nv">`id`</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT DISTINCT `books`.`id` FROM `books` LEFT OUTER JOIN `authors` ON `authors`.`book_id` = `books`.`id` LIMIT 10
+SELECT `books`.`id` AS t0_r0, `books`.`last_name` AS t0_r1, ...
+  FROM `books` LEFT OUTER JOIN `authors` ON `authors`.`book_id` = `books`.`id`
+  WHERE `books`.`id` IN (1,2,3,4,5,6,7,8,9,10)
+">Copy</button>
+</div>
+<p>注意：<code>eager_load</code> 方法使用陣列、雜湊或陣列/雜湊的巢狀雜湊，其方式與 <code>includes</code> 方法相同，可以使用單個 <code>Model 載入任意數量的 association。查詢</code>呼叫。此外，與 <code>includes</code> 方法一樣，您可以指定預先載入的 association 的條件。</p><h3 id=""><a class="anchorlink" href="#">15 範圍</a></h3><p>範圍允許您指定常用的查詢，這些查詢可以作為對association 物件或Model 的方法呼叫進行引用。透過這些範圍，您可以使用之前介紹的所有方法，例如<code>where</code>、<code>joins</code> 和<code>includes</code>。所有作用域主體都應該返回一個 <code>activerecord::relation</code> 或 <code>nil</code> 以允許在其上呼叫進一步的方法（例如其他作用域）。</p><p>要定義一個簡單的作用域，我們在類中使用 [<code>scope</code>][] 方法，傳遞我們希望在呼叫此作用域時執行的查詢：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  scope :out_of_print, -&gt; { where(out_of_print: true) }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Book &lt; ApplicationRecord
+  scope :out_of_print, -&gt; { where(out_of_print: true) }
+end
+">Copy</button>
+</div>
+<p>要呼叫這個 <code>out_of_print</code> 範圍，我們可以在任一類上呼叫它：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">out_of_print</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Relation</span><span class="kt">&gt;</span> <span class="c1"># all out of print books</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.out_of_print
+">Copy</button>
+</div>
+<p>或在由 <code>book</code> 物件組成的 Association 上：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">author</span> <span class="o">=</span> <span class="no">Author</span><span class="p">.</span><span class="nf">first</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">author</span><span class="p">.</span><span class="nf">books</span><span class="p">.</span><span class="nf">out_of_print</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Relation</span><span class="kt">&gt;</span> <span class="c1"># all out of print books by `author`</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="author = Author.first
+author.books.out_of_print
+">Copy</button>
+</div>
+<p>範圍也可以在範圍內連結：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  scope :out_of_print, -&gt; { where(out_of_print: true) }
+  scope :out_of_print_and_expensive, -&gt; { out_of_print.where("price &gt; 500") }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Book &lt; ApplicationRecord
+  scope :out_of_print, -&gt; { where(out_of_print: true) }
+  scope :out_of_print_and_expensive, -&gt; { out_of_print.where("price &gt; 500") }
+end
+'>Copy</button>
+</div>
+<p>[<code>範圍</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/scoping/named/classmethods.html#method-i-scope">https://api.Rubyonrails.org/classes/activerecord/scoping/named/classmethods.html#method-i-scope</a></p><h4 id=""><a class="anchorlink" href="#">15.1 傳入引數</a></h4><p>您的範圍可以接受引數：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  scope :costs_more_than, -&gt;(amount) { where("price &gt; ?", amount) }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Book &lt; ApplicationRecord
+  scope :costs_more_than, -&gt;(amount) { where("price &gt; ?", amount) }
+end
+'>Copy</button>
+</div>
+<p>像呼叫類方法一樣呼叫作用域：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">costs_more_than</span><span class="p">(</span><span class="mf">100.10</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.costs_more_than(100.10)
+">Copy</button>
+</div>
+<p>但是，這只是複製了類方法提供給您的功能。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  def self.costs_more_than(amount)
+    where("price &gt; ?", amount)
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Book &lt; ApplicationRecord
+  def self.costs_more_than(amount)
+    where("price &gt; ?", amount)
+  end
+end
+'>Copy</button>
+</div>
+<p>這些方法仍然可以在 Association 物件上訪問：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">author</span><span class="p">.</span><span class="nf">books</span><span class="p">.</span><span class="nf">costs_more_than</span><span class="p">(</span><span class="mf">100.10</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="author.books.costs_more_than(100.10)
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">15.2 使用條件</a></h4><p>您的範圍可以使用條件：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Order &lt; ApplicationRecord
+  scope :created_before, -&gt;(time) { where("created_at &lt; ?", time) if time.present? }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Order &lt; ApplicationRecord
+  scope :created_before, -&gt;(time) { where("created_at &lt; ?", time) if time.present? }
+end
+'>Copy</button>
+</div>
+<p>與其他示例一樣，這與類方法的行為類似。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Order &lt; ApplicationRecord
+  def self.created_before(time)
+    where("created_at &lt; ?", time) if time.present?
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Order &lt; ApplicationRecord
+  def self.created_before(time)
+    where("created_at &lt; ?", time) if time.present?
+  end
+end
+'>Copy</button>
+</div>
+<p>但是，有一個重要的警告：作用域將始終返回一個“ActiveRecord::Relation”物件，即使條件評估為“false”，而類方法將返回“nil”。如果任何條件返回“false”，則在使用條件連結類方法時，這可能會導致“NoMethodError”。</p><h4 id=""><a class="anchorlink" href="#">15.3 應用預設範圍</a></h4><p>如果我們希望將範圍應用於Model 的所有查詢，我們可以使用
+[<code>default_scope</code>][] 方法在 Model 本身中。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  default_scope { where(out_of_print: false) }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Book &lt; ApplicationRecord
+  default_scope { where(out_of_print: false) }
+end
+">Copy</button>
+</div>
+<p>當在這個Model 上執行查詢時，sql 查詢現在看起來像
+這個：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">out_of_print</span> <span class="o">=</span> <span class="k">false</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM books WHERE (out_of_print = false)
+">Copy</button>
+</div>
+<p>如果您需要使用預設範圍做更復雜的事情，您也可以
+將其定義為類方法：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  def self.default_scope
+    # Should return an ActiveRecord::Relation.
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Book &lt; ApplicationRecord
+  def self.default_scope
+    # Should return an ActiveRecord::Relation.
+  end
+end
+">Copy</button>
+</div>
+<p>注意：在建立/構建記錄時也會應用<code>default_scope</code>
+當範圍引數作為“雜湊”給出時。它不適用，而
+更新記錄。例如。：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  default_scope { where(out_of_print: false) }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Book &lt; ApplicationRecord
+  default_scope { where(out_of_print: false) }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">new</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Book</span> <span class="ss">id: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">out_of_print: </span><span class="kp">false</span><span class="kt">&gt;</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">unscoped</span><span class="p">.</span><span class="nf">new</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Book</span> <span class="ss">id: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">out_of_print: </span><span class="kp">nil</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.new
+Book.unscoped.new
+">Copy</button>
+</div>
+<p>請注意，當以 <code>Array</code> 格式給出時，<code>default_scope</code> 查詢引數
+不能轉換為<code>Hash</code> 以進行預設屬性分配。例如。：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  default_scope { where("out_of_print = ?", false) }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Book &lt; ApplicationRecord
+  default_scope { where("out_of_print = ?", false) }
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">new</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Book</span> <span class="ss">id: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">out_of_print: </span><span class="kp">nil</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.new
+">Copy</button>
+</div>
+<p>[<code>default_scope</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/scoping/default/classmethods.html#method-i-default_scope">https://api.Rubyonrails.org/classes/activerecord/scoping/default/classmethods.html#method-i-default_scope</a></p><h4 id=""><a class="anchorlink" href="#">15.4 合併範圍</a></h4><p>就像 <code>where</code> 子句一樣，範圍使用 <code>AND</code> 條件合併。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  scope :in_print, -&gt; { where(out_of_print: false) }
+  scope :out_of_print, -&gt; { where(out_of_print: true) }
+
+  scope :recent, -&gt; { where('year_published &gt;= ?', Date.current.year - 50 )}
+  scope :old, -&gt; { where('year_published &lt; ?', Date.current.year - 50 )}
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Book &lt; ApplicationRecord
+  scope :in_print, -&gt; { where(out_of_print: false) }
+  scope :out_of_print, -&gt; { where(out_of_print: true) }
+
+  scope :recent, -&gt; { where('year_published &gt;= ?', Date.current.year - 50 )}
+  scope :old, -&gt; { where('year_published &lt; ?', Date.current.year - 50 )}
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">out_of_print</span><span class="p">.</span><span class="nf">old</span>
+<span class="go">SELECT books.* FROM books WHERE books.out_of_print = 'true' AND books.year_published &lt; 1969
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.out_of_print.old
+">Copy</button>
+</div>
+<p>我們可以混合和匹配 <code>scope</code> 和 <code>where</code> 條件和最終的 SQL
+將所有條件與“AND”連線。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">in_print</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="s1">'price &lt; 100'</span><span class="p">)</span>
+<span class="go">SELECT books.* FROM books WHERE books.out_of_print = 'false' AND books.price &lt; 100
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.in_print.where('price &lt; 100')
+">Copy</button>
+</div>
+<p>如果我們確實希望最後一個 <code>where</code> 子句獲勝，那麼 [<code>​​merge</code>][] 可以
+使用。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">in_print</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="no">Book</span><span class="p">.</span><span class="nf">out_of_print</span><span class="p">)</span>
+<span class="go">SELECT books.* FROM books WHERE books.out_of_print = true
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.in_print.merge(Book.out_of_print)
+">Copy</button>
+</div>
+<p>一個重要的警告是 <code>default_scope</code> 將被新增到
+<code>scope</code> 和 <code>where</code> 條件。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Book &lt; ApplicationRecord
+  default_scope { where('year_published &gt;= ?', Date.current.year - 50 )}
+
+  scope :in_print, -&gt; { where(out_of_print: false) }
+  scope :out_of_print, -&gt; { where(out_of_print: true) }
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Book &lt; ApplicationRecord
+  default_scope { where('year_published &gt;= ?', Date.current.year - 50 )}
+
+  scope :in_print, -&gt; { where(out_of_print: false) }
+  scope :out_of_print, -&gt; { where(out_of_print: true) }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">all</span>
+<span class="go">SELECT books.* FROM books WHERE (year_published &gt;= 1969)
+</span><span class="err">
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">in_print</span>
+<span class="go">SELECT books.* FROM books WHERE (year_published &gt;= 1969) AND books.out_of_print = true
+</span><span class="err">
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="s1">'price &gt; 50'</span><span class="p">)</span>
+<span class="go">SELECT books.* FROM books WHERE (year_published &gt;= 1969) AND (price &gt; 50)
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.all
+Book.in_print
+Book.where('price &gt; 50')
+">Copy</button>
+</div>
+<p>正如你在上面看到的，<code>default_scope</code> 被合併到兩個
+<code>scope</code> 和 <code>where</code> 條件。</p><p>[<code>merge</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/spawnmethods.html#method-i-merge">https://api.Rubyonrails.org/classes/activerecord/spawnmethods.html#method-i-merge</a></p><h4 id=""><a class="anchorlink" href="#">15.5 刪除所有範圍</a></h4><p>如果我們出於任何原因希望刪除範圍，我們可以使用 [<code>unscoped</code>][] 方法。這是
+如果在 Model 中指定了 <code>default_scope</code> 並且不應該被指定，則特別有用
+申請了這個特定的查詢。</p><div class="code_container">
+<pre><code class="highlight plaintext">Book.unscoped.load
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.unscoped.load
+">Copy</button>
+</div>
+<p>此方法刪除所有範圍並將對錶進行正常查詢。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">unscoped</span><span class="p">.</span><span class="nf">all</span>
+<span class="go">SELECT books.* FROM books
+</span><span class="err">
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">out_of_print: </span><span class="kp">true</span><span class="p">).</span><span class="nf">unscoped</span><span class="p">.</span><span class="nf">all</span>
+<span class="go">SELECT books.* FROM books
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.unscoped.all
+Book.where(out_of_print: true).unscoped.all
+">Copy</button>
+</div>
+<p><code>unscoped</code> 也可以接受一個塊：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">unscoped</span> <span class="p">{</span> <span class="no">Book</span><span class="p">.</span><span class="nf">out_of_print</span> <span class="p">}</span>
+<span class="go">SELECT books.* FROM books WHERE books.out_of_print
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.unscoped { Book.out_of_print }
+">Copy</button>
+</div>
+<p>[<code>unscoped</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/scoping/default/classmethods.html#method-i-unscoped">https://api.Rubyonrails.org/classes/activerecord/scoping/default/classmethods.html#method-i-unscoped</a></p><h3 id=""><a class="anchorlink" href="#">16 動態查詢器</a></h3><p>對於您在表中定義的每個欄位（也稱為屬性），
+active record 提供了一個 finder 方法。例如，如果您的“客戶”Model 上有一個名為“first_name”的欄位，
+您可以從Active Record 免費獲得例項方法 <code>find_by_first_name</code>。
+如果你在 <code>customer</code> Model 上也有一個 <code>locked</code> 欄位，你也會得到 <code>find_by_locked</code> 方法。</p><p>您可以在動態查詢器的末尾指定一個感嘆號 (<code>!</code>)
+如果他們沒有返回任何記錄，讓他們引發一個 <code>ActiveRecord::RecordNotFound</code> 錯誤，比如 <code>Customer.find_by_name!("Ryan")</code></p><p>如果您想同時透過<code>name</code> 和<code>orders_count</code> 查詢，只需在欄位之間輸入“<code>and</code>”，就可以將這些查詢器連結在一起。
+例如，<code>Customer.find_by_first_name_and_orders_count("Ryan", 5)</code>。</p><h3 id=""><a class="anchorlink" href="#">17 列舉</a></h3><p>列舉允許您為屬性定義值陣列並按名稱引用它們。儲存在資料庫中的實際值是一個已對映到其中一個值的整數。</p><p>宣告一個列舉將：</p>
+<ul>
+<li>建立可用於查詢具有或不具有列舉值之一的所有物件的範圍</li>
+<li>建立一個例項方法，可用於確定物件是否具有列舉的特定值</li>
+<li>建立一個例項方法，可以用來改變一個物件的列舉值</li>
+</ul>
+<p>對於列舉的所有可能值。</p><p>例如，給定這個 [<code>enum</code>][] 宣告：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Order &lt; ApplicationRecord
+  enum :status, [:shipped, :being_packaged, :complete, :cancelled]
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Order &lt; ApplicationRecord
+  enum :status, [:shipped, :being_packaged, :complete, :cancelled]
+end
+">Copy</button>
+</div>
+<p>這些 <a href="#scopes">範圍</a> 是自動建立的，可用於查詢具有或不具有特定 <code>status</code> 值的所有物件：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Order</span><span class="p">.</span><span class="nf">shipped</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Relation</span><span class="kt">&gt;</span> <span class="c1"># all orders with status == :shipped</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Order</span><span class="p">.</span><span class="nf">not_shipped</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Relation</span><span class="kt">&gt;</span> <span class="c1"># all orders with status != :shipped</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Order.shipped
+Order.not_shipped
+">Copy</button>
+</div>
+<p>這些例項方法是自動建立的，並查詢 Model 是否具有 <code>status</code> 列舉的值：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">order</span> <span class="o">=</span> <span class="no">Order</span><span class="p">.</span><span class="nf">shipped</span><span class="p">.</span><span class="nf">first</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="nf">shipped?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="nf">complete?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="order = Order.shipped.first
+order.shipped?
+order.complete?
+">Copy</button>
+</div>
+<p>這些例項方法是自動建立的，它們會首先將 <code>status</code> 的值更新為命名值
+然後查詢狀態是否已經成功設定為值：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">order</span> <span class="o">=</span> <span class="no">Order</span><span class="p">.</span><span class="nf">first</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="nf">shipped!</span>
+<span class="go">UPDATE "orders" SET "status" = ?, "updated_at" = ? WHERE "orders"."id" = ?  [["status", 0], ["updated_at", "2019-01-24 07:13:08.524320"], ["id", 1]]
+</span><span class="p">=&gt;</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="order = Order.first
+order.shipped!
+">Copy</button>
+</div>
+<p>可以在 <a href="https://api.Rubyonrails.org/classes/activerecord/enum.html">此處</a> 找到有關列舉的完整文件。</p><p>[<code>enum</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/enum.html#method-i-enum">https://api.Rubyonrails.org/classes/activerecord/enum.html#method-i-enum</a></p><h3 id=""><a class="anchorlink" href="#">18 理解方法鏈</a></h3><p>Active Record 模式實現了<a href="https://en.wikipedia.org/wiki/method_chaining">方法鏈</a>，
+這允許我們以簡單直接的方式一起使用多個 Active Record 方法。</p><p>當先前呼叫的方法返回一個語句時，您可以在語句中連結方法
+[<code>ActiveRecord::Relation</code>][]，如 <code>all</code>、<code>where</code> 和 <code>joins</code>。返回的方法
+單個物件（參見 <a href="#retrieving-a-single-object">檢索單個物件部分</a>）
+必須在語句的末尾。</p><p>下面有一些例子。本指南不會涵蓋所有可能性，僅舉幾個例子。
+當Active Record 方法被呼叫時，查詢不會立即生成併發送到資料庫。
+僅在實際需要資料時才傳送查詢。因此，下面的每個示例都會生成一個查詢。</p><h4 id=""><a class="anchorlink" href="#">18.1 從多個表中檢索過濾資料</a></h4><div class="code_container">
+<pre><code class="highlight plaintext">Customer
+  .select('customers.id, customers.last_name, reViews.body')
+  .joins(:reViews)
+  .where('reViews.created_at &gt; ?', 1.week.ago)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer
+  .select('customers.id, customers.last_name, reViews.body')
+  .joins(:reViews)
+  .where('reViews.created_at &gt; ?', 1.week.ago)
+">Copy</button>
+</div>
+<p>結果應該是這樣的：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">select</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">customers</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span> <span class="n">reViews</span><span class="p">.</span><span class="n">body</span>
+<span class="k">FROM</span> <span class="n">customers</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">reViews</span>
+  <span class="k">on</span> <span class="n">reViews</span><span class="p">.</span><span class="n">customer_id</span> <span class="o">=</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span>
+<span class="k">where</span> <span class="p">(</span><span class="n">reViews</span><span class="p">.</span><span class="n">created_at</span> <span class="o">&gt;</span> <span class="s1">'2019-01-08'</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="select customers.id, customers.last_name, reViews.body
+FROM customers
+inner join reViews
+  on reViews.customer_id = customers.id
+where (reViews.created_at &gt; '2019-01-08')
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">18.2 從多個表中檢索特定資料</a></h4><div class="code_container">
+<pre><code class="highlight plaintext">Book
+  .select('books.id, books.title, authors.first_name')
+  .joins(:author)
+  .find_by(title: 'abstrAction and specification in program development')
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book
+  .select('books.id, books.title, authors.first_name')
+  .joins(:author)
+  .find_by(title: 'abstrAction and specification in program development')
+">Copy</button>
+</div>
+<p>以上應生成：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="n">books</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">books</span><span class="p">.</span><span class="n">title</span><span class="p">,</span> <span class="n">authors</span><span class="p">.</span><span class="n">first_name</span>
+<span class="k">FROM</span> <span class="n">books</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">authors</span>
+  <span class="k">ON</span> <span class="n">authors</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">books</span><span class="p">.</span><span class="n">author_id</span>
+<span class="k">where</span> <span class="n">books</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="err">$</span><span class="mi">1</span> <span class="p">[[</span><span class="nv">"title"</span><span class="p">,</span> <span class="nv">"abstrAction and specification in program development"</span><span class="p">]]</span>
+<span class="k">LIMIT</span> <span class="mi">1</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='SELECT books.id, books.title, authors.first_name
+FROM books
+INNER JOIN authors
+  ON authors.id = books.author_id
+where books.title = $1 [["title", "abstrAction and specification in program development"]]
+LIMIT 1
+'>Copy</button>
+</div>
+<p>注意：請注意，如果查詢匹配多條記錄，<code>find_by</code> 將
+僅獲取第一個並忽略其他（請參閱“LIMIT 1”
+以上宣告）。</p><h3 id=""><a class="anchorlink" href="#">19 查詢或構建新物件</a></h3><p>如果記錄不存在，通常需要查詢或建立記錄。您可以使用 <code>find_or_create_by</code> 和 <code>find_or_create_by!</code> 方法來做到這一點。</p><h4 id="find-or-create-by"><a class="anchorlink" href="#find-or-create-by">19.1 <code>find_or_create_by</code></a></h4><p>[<code>find_or_create_by</code>][] 方法檢查是否存在具有指定屬性的記錄。如果沒有，則呼叫<code>create</code>。讓我們看一個例子。</p><p>假設您要查詢名為“Andy”的客戶，如果沒有，則建立一個。您可以透過執行：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">find_or_create_by</span><span class="p">(</span><span class="ss">first_name: </span><span class="s1">'Andy'</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">5</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Andy"</span><span class="p">,</span> <span class="ss">last_name: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">title: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">visits: </span><span class="mi">0</span><span class="p">,</span> <span class="ss">orders_count: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">lock_version: </span><span class="mi">0</span><span class="p">,</span> <span class="ss">created_at: </span><span class="s2">"2019-01-17 07:06:45"</span><span class="p">,</span> <span class="ss">updated_at: </span><span class="s2">"2019-01-17 07:06:45"</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_or_create_by(first_name: 'Andy')
+">Copy</button>
+</div>
+<p>此方法生成的 SQL 如下所示：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">customers</span><span class="p">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s1">'Andy'</span><span class="p">)</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+<span class="k">BEGIN</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">customers</span> <span class="p">(</span><span class="n">created_at</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">locked</span><span class="p">,</span> <span class="n">orders_count</span><span class="p">,</span> <span class="n">updated_at</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="s1">'2011-08-30 05:22:57'</span><span class="p">,</span> <span class="s1">'Andy'</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="s1">'2011-08-30 05:22:57'</span><span class="p">)</span>
+<span class="k">COMMIT</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers WHERE (customers.first_name = 'Andy') LIMIT 1
+BEGIN
+INSERT INTO customers (created_at, first_name, locked, orders_count, updated_at) VALUES ('2011-08-30 05:22:57', 'Andy', 1, NULL, '2011-08-30 05:22:57')
+COMMIT
+">Copy</button>
+</div>
+<p><code>find_or_create_by</code> 返回已經存在的記錄或新記錄。在我們的例子中，我們還沒有名為 Andy 的客戶，因此會建立並返回記錄。</p><p>新記錄可能不會儲存到資料庫中；這取決於驗證是否透過（就像<code>create</code>）。</p><p>假設我們想將 'locked' 屬性設定為 <code>false</code>，如果我們
+建立新記錄，但我們不想將其包含在查詢中。所以
+我們想找到名為“Andy”的客戶，或者如果該客戶沒有
+存在，建立一個名為“Andy”的未鎖定的客戶。</p><p>我們可以透過兩種方式實現這一點。第一種是使用<code>create_with</code>：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.create_with(locked: false).find_or_create_by(first_name: 'Andy')
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.create_with(locked: false).find_or_create_by(first_name: 'Andy')
+">Copy</button>
+</div>
+<p>第二種方法是使用塊：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.find_or_create_by(first_name: 'Andy') do |c|
+  c.locked = false
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_or_create_by(first_name: 'Andy') do |c|
+  c.locked = false
+end
+">Copy</button>
+</div>
+<p>只有在建立客戶時才會執行該塊。這
+第二次執行此程式碼時，該塊將被忽略。</p><p>[<code>find_or_create_by</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/relation.html#method-i-find_or_create_by">https://api.Rubyonrails.org/classes/activerecord/relation.html#method-i-find_or_create_by</a></p><h4 id="find-or-create-by"><a class="anchorlink" href="#find-or-create-by">19.2 <code>find_or_create_by！</code></a></h4><p>如果新記錄無效，您還可以使用 [<code>find_or_create_by!</code>][] 引發異常。本指南未涵蓋驗證，但讓我們暫時假設您暫時新增</p><div class="code_container">
+<pre><code class="highlight plaintext">validates :orders_count, presence: true
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="validates :orders_count, presence: true
+">Copy</button>
+</div>
+<p>給您的“客戶”Model。如果你嘗試建立一個新的 <code>customer</code> 而不傳遞 <code>orders_count</code>，記錄將無效並引發異常：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">find_or_create_by!</span><span class="p">(</span><span class="ss">first_name: </span><span class="s1">'Andy'</span><span class="p">)</span>
+<span class="go">ActiveRecord::RecordInvalid: Validation failed: Orders count can't be blank
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.find_or_create_by!(first_name: 'Andy')
+">Copy</button>
+</div>
+<p>[<code>find_or_create_by!</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/relation.html#method-i-find_or_create_by-21">https://api.Rubyonrails.org/classes/activerecord/relation.html#method-i-find_or_create_by-21</a></p><h4 id="find-or-initialize-by"><a class="anchorlink" href="#find-or-initialize-by">19.3 <code>find_or_initialize_by</code></a></h4><p>[<code>find_or_initialize_by</code>][] 方法將像
+<code>find_or_create_by</code> 但它會呼叫 <code>new</code> 而不是 <code>create</code>。這個
+意味著將在記憶體中建立一個新的 Model 例項但不會
+儲存到資料庫中。繼續使用 find_or_create_by 示例，我們
+現在想要名為“Nina”的客戶：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">nina</span> <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">find_or_initialize_by</span><span class="p">(</span><span class="ss">first_name: </span><span class="s1">'Nina'</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Nina"</span><span class="p">,</span> <span class="ss">orders_count: </span><span class="mi">0</span><span class="p">,</span> <span class="ss">locked: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">created_at: </span><span class="s2">"2011-08-30 06:09:27"</span><span class="p">,</span> <span class="ss">updated_at: </span><span class="s2">"2011-08-30 06:09:27"</span><span class="kt">&gt;</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">nina</span><span class="p">.</span><span class="nf">persisted?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">nina</span><span class="p">.</span><span class="nf">new_record?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="nina = Customer.find_or_initialize_by(first_name: 'Nina')
+nina.persisted?
+nina.new_record?
+">Copy</button>
+</div>
+<p>由於該物件尚未儲存在資料庫中，因此生成的 SQL 如下所示：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">customers</span> <span class="k">WHERE</span> <span class="p">(</span><span class="n">customers</span><span class="p">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s1">'Nina'</span><span class="p">)</span> <span class="k">LIMIT</span> <span class="mi">1</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT * FROM customers WHERE (customers.first_name = 'Nina') LIMIT 1
+">Copy</button>
+</div>
+<p>當您想將其儲存到資料庫時，只需呼叫 <code>save</code>：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">nina</span><span class="p">.</span><span class="nf">save</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="nina.save
+">Copy</button>
+</div>
+<p>[<code>find_or_initialize_by</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/relation.html#method-i-find_or_initialize_by">https://api.Rubyonrails.org/classes/activerecord/relation.html#method-i-find_or_initialize_by</a></p><h3 id="sql"><a class="anchorlink" href="#sql">20 透過 SQL 查詢</a></h3><p>如果您想使用自己的 SQL 在表中查詢記錄，您可以使用 [<code>find_by_sql</code>][]。 <code>find_by_sql</code> 方法將返回一個物件陣列，即使底層查詢只返回一條記錄。例如，您可以執行此查詢：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">find_by_sql</span><span class="p">(</span><span class="s2">"SELECT * FROM customers INNER JOIN orders ON customers.id = orders.customer_id ORDER BY customers.created_at desc"</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Lucas"</span> <span class="o">...</span><span class="kt">&gt;</span><span class="p">,</span> <span class="kt">#&lt;</span><span class="no">Customer</span> <span class="ss">id: </span><span class="mi">2</span><span class="p">,</span> <span class="ss">first_name: </span><span class="s2">"Jan"</span> <span class="o">...</span><span class="kt">&gt;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Customer.find_by_sql("SELECT * FROM customers INNER JOIN orders ON customers.id = orders.customer_id ORDER BY customers.created_at desc")
+'>Copy</button>
+</div>
+<p><code>find_by_sql</code> 為您提供了一種對資料庫進行自定義呼叫和檢索例項化物件的簡單方法。</p><p>[<code>find_by_sql</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/querying.html#method-i-find_by_sql">https://api.Rubyonrails.org/classes/activerecord/querying.html#method-i-find_by_sql</a></p><h4 id="select-all"><a class="anchorlink" href="#select-all">20.1 <code>select_all</code></a></h4><p><code>find_by_sql</code> 有一個名為 [<code>connection.select_all</code>][] 的近親。 <code>select_all</code> 將檢索
+使用自定義 SQL 的資料庫中的物件，就像 <code>find_by_sql</code> 一樣，但不會例項化它們。
+此方法將返回一個 <code>ActiveRecord::Result</code> 類的例項，並在該類上呼叫 <code>to_a</code>
+object 將返回一個雜湊陣列，其中每個散列表示一條記錄。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">connection</span><span class="p">.</span><span class="nf">select_all</span><span class="p">(</span><span class="s2">"SELECT first_name, created_at FROM customers WHERE id = '1'"</span><span class="p">).</span><span class="nf">to_a</span>
+<span class="p">=&gt;</span> <span class="p">[{</span><span class="s2">"first_name"</span><span class="o">=&gt;</span><span class="s2">"Rafael"</span><span class="p">,</span> <span class="s2">"created_at"</span><span class="o">=&gt;</span><span class="s2">"2012-11-10 23:23:45.281189"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"first_name"</span><span class="o">=&gt;</span><span class="s2">"Eileen"</span><span class="p">,</span> <span class="s2">"created_at"</span><span class="o">=&gt;</span><span class="s2">"2013-12-09 11:22:35.221282"</span><span class="p">}]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.connection.select_all(&quot;SELECT first_name, created_at FROM customers WHERE id = '1'&quot;).to_a
+">Copy</button>
+</div>
+<p>[<code>connection.select_all</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/connectionadapters/databasestatements.html#method-i-select_all">https://api.Rubyonrails.org/classes/activerecord/connectionadapters/databasestatements.html#method-i-select_all</a></p><h4 id=""><a class="anchorlink" href="#">20.2 <code>採摘</code></a></h4><p>[<code>pluck</code>][] 可用於從Model 的基礎表中查詢單個或多個列。它接受列名列表作為引數，並返回具有相應資料型別的指定列的值陣列。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Book</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">out_of_print: </span><span class="kp">true</span><span class="p">).</span><span class="nf">pluck</span><span class="p">(</span><span class="ss">:id</span><span class="p">)</span>
+<span class="go">SELECT id FROM books WHERE out_of_print = false
+</span><span class="p">=&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Order</span><span class="p">.</span><span class="nf">distinct</span><span class="p">.</span><span class="nf">pluck</span><span class="p">(</span><span class="ss">:status</span><span class="p">)</span>
+<span class="go">SELECT DISTINCT status FROM orders
+</span><span class="p">=&gt;</span> <span class="p">[</span><span class="s2">"shipped"</span><span class="p">,</span> <span class="s2">"being_packed"</span><span class="p">,</span> <span class="s2">"cancelled"</span><span class="p">]</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">pluck</span><span class="p">(</span><span class="ss">:id</span><span class="p">,</span> <span class="ss">:first_name</span><span class="p">)</span>
+<span class="go">SELECT customers.id, customers.first_name FROM customers
+</span><span class="p">=&gt;</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"David"</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s2">"Fran"</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s2">"Jose"</span><span class="p">]]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Book.where(out_of_print: true).pluck(:id)
+Order.distinct.pluck(:status)
+Customer.pluck(:id, :first_name)
+">Copy</button>
+</div>
+<p><code>pluck</code> 可以替換如下程式碼：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.select(:id).map { |c| c.id }
+# or
+Customer.select(:id).map(&amp;:id)
+# or
+Customer.select(:id, :first_name).map { |c| [c.id, c.first_name] }
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.select(:id).map { |c| c.id }
+# or
+Customer.select(:id).map(&amp;:id)
+# or
+Customer.select(:id, :first_name).map { |c| [c.id, c.first_name] }
+">Copy</button>
+</div>
+<p>和：</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.pluck(:id)
+# or
+Customer.pluck(:id, :first_name)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.pluck(:id)
+# or
+Customer.pluck(:id, :first_name)
+">Copy</button>
+</div>
+<p>與 <code>select</code> 不同，<code>pluck</code> 直接將資料庫結果轉換為 Ruby <code>array</code>，
+無需構建<code>ActiveRecord</code> 物件。這可能意味著更好的效能
+大型或頻繁執行的查詢。但是，任何 Model 方法覆蓋都將
+不可用。例如：</p><div class="code_container">
+<pre><code class="highlight plaintext">class Customer &lt; ApplicationRecord
+  def name
+    "I am #{first_name}"
+  end
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Customer &lt; ApplicationRecord
+  def name
+    "I am #{first_name}"
+  end
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="ss">:first_name</span><span class="p">).</span><span class="nf">map</span> <span class="o">&amp;</span><span class="ss">:name</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="s2">"I am David"</span><span class="p">,</span> <span class="s2">"I am Jeremy"</span><span class="p">,</span> <span class="s2">"I am Jose"</span><span class="p">]</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">pluck</span><span class="p">(</span><span class="ss">:first_name</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="s2">"David"</span><span class="p">,</span> <span class="s2">"Jeremy"</span><span class="p">,</span> <span class="s2">"Jose"</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.select(:first_name).map &amp;:name
+Customer.pluck(:first_name)
+">Copy</button>
+</div>
+<p>您不僅可以從單個表中查詢欄位，還可以查詢多個表。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Order</span><span class="p">.</span><span class="nf">joins</span><span class="p">(</span><span class="ss">:customer</span><span class="p">,</span> <span class="ss">:books</span><span class="p">).</span><span class="nf">pluck</span><span class="p">(</span><span class="s2">"orders.created_at, customers.email, books.title"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Order.joins(:customer, :books).pluck("orders.created_at, customers.email, books.title")
+'>Copy</button>
+</div>
+<p>此外，與 <code>select</code> 和其他 <code>Relation</code> 作用域不同，<code>pluck</code> 會立即觸發
+查詢，因此不能與任何其他範圍連結，儘管它可以與
+之前已經構建的範圍：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">pluck</span><span class="p">(</span><span class="ss">:first_name</span><span class="p">).</span><span class="nf">limit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gr">NoMethodError: undefined method `limit' for #&lt;Array:0x007ff34d3ad6d8&gt;
+</span><span class="err">
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">limit</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nf">pluck</span><span class="p">(</span><span class="ss">:first_name</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="s2">"David"</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.pluck(:first_name).limit(1)
+Customer.limit(1).pluck(:first_name)
+">Copy</button>
+</div>
+<p>注意：您還應該知道，如果關係物件包含包含值，使用 <code>pluck</code> 將觸發預載入，即使查詢不需要預載入。例如：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">assoc</span> <span class="o">=</span> <span class="n">customer</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="ss">:reViews</span><span class="p">)</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">assoc</span><span class="p">.</span><span class="nf">pluck</span><span class="p">(</span><span class="ss">:id</span><span class="p">)</span>
+<span class="go">select "customers"."id" from "customers" left outer join "reViews" on "reViews"."id" = "customers"."reView_id"
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="assoc = customer.includes(:reViews)
+assoc.pluck(:id)
+">Copy</button>
+</div>
+<p>避免這種情況的一種方法是“取消範圍”包括：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">assoc</span><span class="p">.</span><span class="nf">unscope</span><span class="p">(</span><span class="ss">:includes</span><span class="p">).</span><span class="nf">pluck</span><span class="p">(</span><span class="ss">:id</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="assoc.unscope(:includes).pluck(:id)
+">Copy</button>
+</div>
+<p>[<code>pluck</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-pluck">https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-pluck</a></p><h4 id="ids"><a class="anchorlink" href="#ids">20.3 <code>ids</code></a></h4><p>[<code>ids</code>][] 可用於使用表的主鍵提取關係的所有 ID。</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">ids</span>
+<span class="go">SELECT id FROM customers
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.ids
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight plaintext">class Customer &lt; ApplicationRecord
+  self.primary_key = "customer_id"
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Customer &lt; ApplicationRecord
+  self.primary_key = "customer_id"
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">ids</span>
+<span class="go">SELECT customer_id FROM customers
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.ids
+">Copy</button>
+</div>
+<p>[<code>ids</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-ids">https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-ids</a></p><h3 id=""><a class="anchorlink" href="#">21 物件的存在</a></h3><p>如果您只是想檢查物件是否存在，則有一個名為 [<code>exists?</code>][] 的方法。
+此方法將使用與“find”相同的查詢來查詢資料庫，但不會返回一個
+物件或物件集合，它將返回“true”或“false”。</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.exists?(1)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.exists?(1)
+">Copy</button>
+</div>
+<p><code>exists?</code> 方法也接受多個值，但問題是如果有的話它會返回 <code>true</code>
+存在這些記錄之一。</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.exists?(id: [1,2,3])
+# or
+Customer.exists?(first_name: ['Jane', 'Sergei'])
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.exists?(id: [1,2,3])
+# or
+Customer.exists?(first_name: ['Jane', 'Sergei'])
+">Copy</button>
+</div>
+<p>甚至可以在 Model 或關係上不帶任何引數地使用 <code>exists?</code>。</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where(first_name: 'Ryan').exists?
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(first_name: 'Ryan').exists?
+">Copy</button>
+</div>
+<p>如果至少有一個客戶具有 <code>first_name</code> 'Ryan' 和 <code>false</code>，則上述返回 <code>true</code>
+除此以外。</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.exists?
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.exists?
+">Copy</button>
+</div>
+<p>如果 <code>customers</code> 表為空，則上面返回 <code>false</code>，否則返回 <code>true</code>。</p><p>您還可以使用 <code>any?</code> 和 <code>many?</code> 來檢查 Model 或關係是否存在。 <code>many?</code> 將使用 sql <code>count</code> 來確定該專案是否存在。</p><div class="code_container">
+<pre><code class="highlight plaintext"># via a Model
+Order.any?   # =&gt; SELECT 1 AS one FROM orders
+Order.many?  # =&gt; SELECT COUNT(*) FROM orders
+
+# via a named scope
+Order.shipped.any?   # =&gt; SELECT 1 AS one FROM orders WHERE orders.status = 0
+Order.shipped.many?  # =&gt; SELECT COUNT(*) FROM orders WHERE orders.status = 0
+
+# via a relation
+Book.where(out_of_print: true).any?
+Book.where(out_of_print: true).many?
+
+# via an Association
+Customer.first.orders.any?
+Customer.first.orders.many?
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# via a Model
+Order.any?   # =&gt; SELECT 1 AS one FROM orders
+Order.many?  # =&gt; SELECT COUNT(*) FROM orders
+
+# via a named scope
+Order.shipped.any?   # =&gt; SELECT 1 AS one FROM orders WHERE orders.status = 0
+Order.shipped.many?  # =&gt; SELECT COUNT(*) FROM orders WHERE orders.status = 0
+
+# via a relation
+Book.where(out_of_print: true).any?
+Book.where(out_of_print: true).many?
+
+# via an Association
+Customer.first.orders.any?
+Customer.first.orders.many?
+">Copy</button>
+</div>
+<p>[<code>exists?</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-exists-3f">https://api.Rubyonrails.org/classes/activerecord/findermethods.html#method-i-exists-3f</a></p><h3 id=""><a class="anchorlink" href="#">22 計算</a></h3><p>本節使用 [<code>count</code>][] 作為本序言中的示例方法，但所描述的選項適用於所有子節。</p><p>所有計算方法都直接在Model 上工作：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">count</span>
+<span class="go">SELECT COUNT(*) FROM customers
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.count
+">Copy</button>
+</div>
+<p>或者在關係上：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">first_name: </span><span class="s1">'Ryan'</span><span class="p">).</span><span class="nf">count</span>
+<span class="go">SELECT COUNT(*) FROM customers WHERE (first_name = 'Ryan')
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(first_name: 'Ryan').count
+">Copy</button>
+</div>
+<p>您還可以在關係上使用各種查詢器方法來執行復雜的計算：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Customer</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="s2">"orders"</span><span class="p">).</span><span class="nf">where</span><span class="p">(</span><span class="ss">first_name: </span><span class="s1">'Ryan'</span><span class="p">,</span> <span class="ss">orders: </span><span class="p">{</span> <span class="ss">status: </span><span class="s1">'shipped'</span> <span class="p">}).</span><span class="nf">count</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.includes(&quot;orders&quot;).where(first_name: 'Ryan', orders: { status: 'shipped' }).count
+">Copy</button>
+</div>
+<p>哪個將執行：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">customers</span>
+  <span class="k">LEFT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">orders</span> <span class="k">ON</span> <span class="n">orders</span><span class="p">.</span><span class="n">customer_id</span> <span class="o">=</span> <span class="n">customers</span><span class="p">.</span><span class="n">id</span>
+  <span class="k">WHERE</span> <span class="p">(</span><span class="n">customers</span><span class="p">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s1">'Ryan'</span> <span class="k">AND</span> <span class="n">orders</span><span class="p">.</span><span class="n">status</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="SELECT COUNT(DISTINCT customers.id) FROM customers
+  LEFT OUTER JOIN orders ON orders.customer_id = customers.id
+  WHERE (customers.first_name = 'Ryan' AND orders.status = 0)
+">Copy</button>
+</div>
+<p>假設 Order 具有 <code>enum status: [ :shipped, :being_packed, :cancelled ]</code>。</p><h4 id=""><a class="anchorlink" href="#">22.1 計數</a></h4><p>如果您想檢視Model 的表中有多少條記錄，您可以呼叫<code>customer.count</code> 並返回該數字。
+如果您想更具體地查詢資料庫中存在標題的所有客戶，您可以使用<code>Customer.count(:title)</code>。</p><p>有關選項，請參閱父部分，<a href="#calculations">計算</a>。</p><h4 id=""><a class="anchorlink" href="#">22.2 平均</a></h4><p>如果您想檢視某個表中某個數字的平均值，您可以在與該表相關的類上呼叫 [<code>average</code>][] 方法。這個方法呼叫看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight plaintext">Order.average("subtotal")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Order.average("subtotal")
+'>Copy</button>
+</div>
+<p>這將返回一個數字（可能是一個浮點數，例如 3.14159265），表示該欄位中的平均值。</p><p>有關選項，請參閱父部分，<a href="#calculations">計算</a>。</p><p>[<code>average</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-average">https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-average</a></p><h4 id=""><a class="anchorlink" href="#">22.3 最低</a></h4><p>如果要查詢表中某個欄位的最小值，可以在與該表相關的類上呼叫 [<code>minimum</code>][] 方法。這個方法呼叫看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight plaintext">Order.minimum("subtotal")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Order.minimum("subtotal")
+'>Copy</button>
+</div>
+<p>有關選項，請參閱父部分，<a href="#calculations">計算</a>。</p><p>[<code>minimum</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-minimum">https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-minimum</a></p><h4 id=""><a class="anchorlink" href="#">22.4 最大值</a></h4><p>如果要查詢表中某個欄位的最大值，可以在與該表相關的類上呼叫 [<code>maximum</code>][] 方法。這個方法呼叫看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight plaintext">Order.maximum("subtotal")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Order.maximum("subtotal")
+'>Copy</button>
+</div>
+<p>有關選項，請參閱父部分，<a href="#calculations">計算</a>。</p><p>[<code>maximum</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-maximum">https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-maximum</a></p><h4 id=""><a class="anchorlink" href="#">22.5 總和</a></h4><p>如果要查詢表中所有記錄的欄位總和，可以在與表相關的類上呼叫 [<code>sum</code>][] 方法。這個方法呼叫看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight plaintext">Order.sum("subtotal")
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Order.sum("subtotal")
+'>Copy</button>
+</div>
+<p>有關選項，請參閱父部分，<a href="#calculations">計算</a>。</p><p>[<code>sum</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-sum">https://api.Rubyonrails.org/classes/activerecord/calculations.html#method-i-sum</a></p><h3 id=""><a class="anchorlink" href="#">23 執行解釋</a></h3><p>您可以在關係上執行 [<code>explain</code>][]。每個資料庫的 EXPLAIN 輸出都不同。</p><p>例如，執行</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where(id: 1).joins(:orders).explain
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(id: 1).joins(:orders).explain
+">Copy</button>
+</div>
+<p>可能會屈服</p><div class="code_container">
+<pre><code class="highlight plaintext">EXPLAIN for: SELECT `customers`.* FROM `customers` INNER JOIN `orders` ON `orders`.`customer_id` = `customers`.`id` WHERE `customers`.`id` = 1
++----+-------------+------------+-------+---------------+
+| id | select_type | table      | type  | possible_keys |
++----+-------------+------------+-------+---------------+
+|  1 | SIMPLE      | customers  | const | PRIMARY       |
+|  1 | SIMPLE      | orders     | ALL   | NULL          |
++----+-------------+------------+-------+---------------+
++---------+---------+-------+------+-------------+
+| key     | key_len | ref   | rows | Extra       |
++---------+---------+-------+------+-------------+
+| PRIMARY | 4       | const |    1 |             |
+| NULL    | NULL    | NULL  |    1 | Using where |
++---------+---------+-------+------+-------------+
+
+2 rows in set (0.00 sec)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="EXPLAIN for: SELECT `customers`.* FROM `customers` INNER JOIN `orders` ON `orders`.`customer_id` = `customers`.`id` WHERE `customers`.`id` = 1
++----+-------------+------------+-------+---------------+
+| id | select_type | table      | type  | possible_keys |
++----+-------------+------------+-------+---------------+
+|  1 | SIMPLE      | customers  | const | PRIMARY       |
+|  1 | SIMPLE      | orders     | ALL   | NULL          |
++----+-------------+------------+-------+---------------+
++---------+---------+-------+------+-------------+
+| key     | key_len | ref   | rows | Extra       |
++---------+---------+-------+------+-------------+
+| PRIMARY | 4       | const |    1 |             |
+| NULL    | NULL    | NULL  |    1 | Using where |
++---------+---------+-------+------+-------------+
+
+2 rows in set (0.00 sec)
+">Copy</button>
+</div>
+<p>在 MySQL 和 MariaDB 下。</p><p>Active Record 執行漂亮的列印，模擬
+對應的資料庫外殼。因此，使用相同的查詢執行
+PostgreSQL 介面卡將改為 yield</p><div class="code_container">
+<pre><code class="highlight plaintext">EXPLAIN for: SELECT "customers".* FROM "customers" INNER JOIN "orders" ON "orders"."customer_id" = "customers"."id" WHERE "customers"."id" = $1 [["id", 1]]
+                                  QUERY PLAN
+------------------------------------------------------------------------------
+ Nested Loop  (cost=4.33..20.85 rows=4 width=164)
+    -&gt;  Index Scan using customers_pkey on customers  (cost=0.15..8.17 rows=1 width=164)
+          Index Cond: (id = '1'::bigint)
+    -&gt;  Bitmap Heap Scan on orders  (cost=4.18..12.64 rows=4 width=8)
+          Recheck Cond: (customer_id = '1'::bigint)
+          -&gt;  Bitmap Index Scan on index_orders_on_customer_id  (cost=0.00..4.18 rows=4 width=0)
+                Index Cond: (customer_id = '1'::bigint)
+(7 rows)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="EXPLAIN for: SELECT &quot;customers&quot;.* FROM &quot;customers&quot; INNER JOIN &quot;orders&quot; ON &quot;orders&quot;.&quot;customer_id&quot; = &quot;customers&quot;.&quot;id&quot; WHERE &quot;customers&quot;.&quot;id&quot; = $1 [[&quot;id&quot;, 1]]
+                                  QUERY PLAN
+------------------------------------------------------------------------------
+ Nested Loop  (cost=4.33..20.85 rows=4 width=164)
+    -&gt;  Index Scan using customers_pkey on customers  (cost=0.15..8.17 rows=1 width=164)
+          Index Cond: (id = '1'::bigint)
+    -&gt;  Bitmap Heap Scan on orders  (cost=4.18..12.64 rows=4 width=8)
+          Recheck Cond: (customer_id = '1'::bigint)
+          -&gt;  Bitmap Index Scan on index_orders_on_customer_id  (cost=0.00..4.18 rows=4 width=0)
+                Index Cond: (customer_id = '1'::bigint)
+(7 rows)
+">Copy</button>
+</div>
+<p>急切載入可能會觸發多個查詢，並且一些查詢
+可能需要以前的結果。正因為如此，“解釋”實際上
+執行查詢，然後詢問查詢計劃。例如，</p><div class="code_container">
+<pre><code class="highlight plaintext">Customer.where(id: 1).includes(:orders).explain
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Customer.where(id: 1).includes(:orders).explain
+">Copy</button>
+</div>
+<p>可能會為 MySQL 和 MariaDB 產生這個：</p><div class="code_container">
+<pre><code class="highlight plaintext">EXPLAIN for: SELECT `customers`.* FROM `customers`  WHERE `customers`.`id` = 1
++----+-------------+-----------+-------+---------------+
+| id | select_type | table     | type  | possible_keys |
++----+-------------+-----------+-------+---------------+
+|  1 | SIMPLE      | customers | const | PRIMARY       |
++----+-------------+-----------+-------+---------------+
++---------+---------+-------+------+-------+
+| key     | key_len | ref   | rows | Extra |
++---------+---------+-------+------+-------+
+| PRIMARY | 4       | const |    1 |       |
++---------+---------+-------+------+-------+
+
+1 row in set (0.00 sec)
+
+EXPLAIN for: SELECT `orders`.* FROM `orders`  WHERE `orders`.`customer_id` IN (1)
++----+-------------+--------+------+---------------+
+| id | select_type | table  | type | possible_keys |
++----+-------------+--------+------+---------------+
+|  1 | SIMPLE      | orders | ALL  | NULL          |
++----+-------------+--------+------+---------------+
++------+---------+------+------+-------------+
+| key  | key_len | ref  | rows | Extra       |
++------+---------+------+------+-------------+
+| NULL | NULL    | NULL |    1 | Using where |
++------+---------+------+------+-------------+
+
+
+1 row in set (0.00 sec)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="EXPLAIN for: SELECT `customers`.* FROM `customers`  WHERE `customers`.`id` = 1
++----+-------------+-----------+-------+---------------+
+| id | select_type | table     | type  | possible_keys |
++----+-------------+-----------+-------+---------------+
+|  1 | SIMPLE      | customers | const | PRIMARY       |
++----+-------------+-----------+-------+---------------+
++---------+---------+-------+------+-------+
+| key     | key_len | ref   | rows | Extra |
++---------+---------+-------+------+-------+
+| PRIMARY | 4       | const |    1 |       |
++---------+---------+-------+------+-------+
+
+1 row in set (0.00 sec)
+
+EXPLAIN for: SELECT `orders`.* FROM `orders`  WHERE `orders`.`customer_id` IN (1)
++----+-------------+--------+------+---------------+
+| id | select_type | table  | type | possible_keys |
++----+-------------+--------+------+---------------+
+|  1 | SIMPLE      | orders | ALL  | NULL          |
++----+-------------+--------+------+---------------+
++------+---------+------+------+-------------+
+| key  | key_len | ref  | rows | Extra       |
++------+---------+------+------+-------------+
+| NULL | NULL    | NULL |    1 | Using where |
++------+---------+------+------+-------------+
+
+
+1 row in set (0.00 sec)
+">Copy</button>
+</div>
+<p>並且可能為 PostgreSQL 產生這個：</p><div class="code_container">
+<pre><code class="highlight plaintext">  Customer Load (0.3ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1  [["id", 1]]
+  Order Load (0.3ms)  SELECT "orders".* FROM "orders" WHERE "orders"."customer_id" = $1  [["customer_id", 1]]
+=&gt; EXPLAIN for: SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 [["id", 1]]
+                                    QUERY PLAN
+----------------------------------------------------------------------------------
+ Index Scan using customers_pkey on customers  (cost=0.15..8.17 rows=1 width=164)
+   Index Cond: (id = '1'::bigint)
+(2 rows)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="  Customer Load (0.3ms)  SELECT &quot;customers&quot;.* FROM &quot;customers&quot; WHERE &quot;customers&quot;.&quot;id&quot; = $1  [[&quot;id&quot;, 1]]
+  Order Load (0.3ms)  SELECT &quot;orders&quot;.* FROM &quot;orders&quot; WHERE &quot;orders&quot;.&quot;customer_id&quot; = $1  [[&quot;customer_id&quot;, 1]]
+=&gt; EXPLAIN for: SELECT &quot;customers&quot;.* FROM &quot;customers&quot; WHERE &quot;customers&quot;.&quot;id&quot; = $1 [[&quot;id&quot;, 1]]
+                                    QUERY PLAN
+----------------------------------------------------------------------------------
+ Index Scan using customers_pkey on customers  (cost=0.15..8.17 rows=1 width=164)
+   Index Cond: (id = '1'::bigint)
+(2 rows)
+">Copy</button>
+</div>
+<p>[<code>explain</code>]：<a href="https://api.Rubyonrails.org/classes/activerecord/relation.html#method-i-explain">https://api.Rubyonrails.org/classes/activerecord/relation.html#method-i-explain</a></p><h4 id=""><a class="anchorlink" href="#">23.1 口譯解釋</a></h4><p>EXPLAIN 輸出的解釋超出了本指南的範圍。這
+以下提示可能會有所幫助：</p>
+<ul>
+<li><p>SQLite3：<a href="https://www.sqlite.org/eqp.html">解釋查詢計劃</a></p></li>
+<li><p>MySQL：<a href="https://dev.mysql.com/doc/refman/en/explain-output.html">解釋輸出格式</a></p></li>
+<li><p>MariaDB：<a href="https://mariadb.com/kb/en/mariadb/explain/">解釋</a></p></li>
+<li><p>PostgreSQL: <a href="https://www.postgresql.org/docs/current/static/using-explain.html">使用解釋</a></p></li>
+</ul>
+
+
+        <h3>反饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的質量。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或事實錯誤，請貢獻。
+          首先，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">文檔貢獻</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 添加任何缺失的文檔。確保檢查
+          <a href="https://edgeguides.rubyonrails.org">Edge Guides</a> 先驗證
+          如果問題已經在主分支上解決。
+          檢查 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>
+          風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現需要修復但無法自行修補的內容，請
+          <a href="https://github.com/rails/rails/issues">open an issue</a>。
+        </p>
+        <p>最後但並非最不重要的是，關於 Ruby on Rails 的任何討論
+          <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 郵件列表</a> 上的文檔非常受歡迎。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>
