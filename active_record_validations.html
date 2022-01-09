@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Active Record 驗證 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Active Record 驗證 — Ruby on Rails Guides" />
+  <meta name="description" content="Active Record 驗證本指南教您如何在物件進入之前驗證物件的狀態 資料庫使用 Active Record 的驗證功能。閱讀本指南後，您將瞭解： 如何使用內建的Active Record驗證helpers。 如何建立您自己的自定義驗證方法。 如何處理驗證過程生成的錯誤訊息。" />
+  <meta property="og:description" content="Active Record 驗證本指南教您如何在物件進入之前驗證物件的狀態 資料庫使用 Active Record 的驗證功能。閱讀本指南後，您將瞭解： 如何使用內建的Active Record驗證helpers。 如何建立您自己的自定義驗證方法。 如何處理驗證過程生成的錯誤訊息。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Active Record 驗證</h2><p>本指南教您如何在物件進入之前驗證物件的狀態
+資料庫使用 Active Record 的驗證功能。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何使用內建的Active Record驗證helpers。</li>
+<li>如何建立您自己的自定義驗證方法。</li>
+<li>如何處理驗證過程生成的錯誤訊息。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#view">view 上的驗證</a>
+
+<ul>
+<li><a href="#">為什麼要使用驗證？</a></li>
+<li><a href="#">何時進行驗證？</a></li>
+<li><a href="#">跳過驗證</a></li>
+<li><a href="#valid-questionmark-invalid-questionmark"><code>valid?</code> 和 <code>invalid?</code></a></li>
+<li><a href="#view-errors"><code>errors[]</code></a></li>
+</ul>
+</li>
+<li>
+<a href="#helpers">驗證 Helpers</a>
+
+<ul>
+<li><a href="#acceptance"><code>acceptance</code></a></li>
+<li><a href="#validates-associated"><code>validates_associated</code></a></li>
+<li><a href="#confirmation"><code>confirmation</code></a></li>
+<li><a href="#comparison"><code>comparison</code></a></li>
+<li><a href="#exclusion"><code>exclusion</code></a></li>
+<li><a href="#format"><code>format</code></a></li>
+<li><a href="#inclusion"><code>inclusion</code></a></li>
+<li><a href="#length"><code>length</code></a></li>
+<li><a href="#numericality"><code>numericality</code></a></li>
+<li><a href="#presence"><code>presence</code></a></li>
+<li><a href="#absence"><code>absence</code></a></li>
+<li><a href="#uniqueness"><code>uniqueness</code></a></li>
+<li><a href="#validates-with"><code>validates_with</code></a></li>
+<li><a href="#validates-each"><code>validates_each</code></a></li>
+</ul>
+</li>
+<li>
+<a href="#">常用驗證選項</a>
+
+<ul>
+<li><a href="#allow-nil"><code>:allow_nil</code></a></li>
+<li><a href="#allow-blank"><code>:allow_blank</code></a></li>
+<li><a href="#message"><code>:message</code></a></li>
+<li><a href="#on"><code>:on</code></a></li>
+</ul>
+</li>
+<li><a href="#">嚴格驗證</a></li>
+<li>
+<a href="#">條件驗證</a>
+
+<ul>
+<li><a href="#symbol-if-unless">使用 Symbol 和 <code>:if</code> 和 <code>:unless</code></a></li>
+<li><a href="#if-unless-proc">使用帶有 <code>:if</code> 和 <code>:unless</code> 的 Proc</a></li>
+<li><a href="#">分組條件驗證</a></li>
+<li><a href="#">結合驗證條件</a></li>
+</ul>
+</li>
+<li>
+<a href="#">執行自定義驗證</a>
+
+<ul>
+<li><a href="#">自定義驗證器</a></li>
+<li><a href="#">自定義方法</a></li>
+</ul>
+</li>
+<li>
+<a href="#">處理驗證錯誤</a>
+
+<ul>
+<li><a href="#errors"><code>errors</code></a></li>
+<li><a href="#errors"><code>errors[]</code></a></li>
+<li><a href="#errors-where"><code>errors.where</code> 和錯誤物件</a></li>
+<li><a href="#errors-add"><code>errors.add</code></a></li>
+<li><a href="#errors-base"><code>errors[:base]</code></a></li>
+<li><a href="#errors-clear"><code>errors.clear</code></a></li>
+<li><a href="#errors-size"><code>errors.size</code></a></li>
+</ul>
+</li>
+<li><a href="#view">在 View 中顯示驗證錯誤</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="view"><a class="anchorlink" href="#view">1 view 上的驗證</a></h3><p>這是一個非常簡單的驗證示例：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, presence: true
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Person</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"John Doe"</span><span class="p">).</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Person</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">name: </span><span class="kp">nil</span><span class="p">).</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Person.create(name: "John Doe").valid?
+Person.create(name: nil).valid?
+'>Copy</button>
+</div>
+<p>如您所見，我們的驗證讓我們知道我們的 <code>Person</code> 無效
+沒有 <code>name</code> 屬性。第二個 <code>Person</code> 不會持久化到
+資料庫。</p><p>在我們深入研究更多細節之前，讓我們先談談驗證如何適應
+您的應用程式的大圖。</p><h4 id=""><a class="anchorlink" href="#">1.1 為什麼要使用驗證？</a></h4><p>驗證用於確保僅將有效資料儲存到您的
+資料庫。例如，確保您的應用程式
+每個使用者都提供一個有效的電子郵件地址和郵寄地址。 Model 級
+驗證是確保僅將有效資料儲存到您的
+資料庫。它們與資料庫無關，終端使用者無法繞過，並且
+方便測試和維護。 Rails 提供了內建的 helpers 用於常見的
+需要，並允許您建立自己的驗證方法。</p><p>還有其他幾種方法可以在將資料儲存到您的
+資料庫，包括本機資料庫約束、客戶端驗證和
+controller 級別的驗證。下面總結一下優缺點：</p>
+<ul>
+<li>資料庫約束和/或儲存過程使驗證機制
+依賴於資料庫，並且會使測試和維護更加困難。
+但是，如果您的資料庫被其他應用程式使用，這可能是一個不錯的選擇
+在資料庫級別使用一些約束的想法。此外，
+資料庫級驗證可以安全地處理某些事情（例如唯一性
+在頻繁使用的表中），否則很難實現。</li>
+<li>客戶端驗證可能很有用，但如果使用則通常不可靠
+獨自的。如果它們是使用 JavaScript 實現的，它們可能會被繞過，如果
+使用者瀏覽器中的 JavaScript 已關閉。但是，如果結合
+其他技術，客戶端驗證可以是一種方便的方式來提供
+使用者在使用您的網站時獲得即時反饋。</li>
+<li>Controller 級別的驗證可能很容易使用，但通常會變成
+笨重且難以測試和維護。只要有可能，這是一個很好的
+保持您的 controllers 瘦的想法，因為它會使您的應用程式
+從長遠來看，很高興與之合作。</li>
+</ul>
+<p>在某些特定情況下選擇這些。這是 Rails 團隊的意見
+model 級別的驗證在大多數情況下是最合適的。</p><h4 id=""><a class="anchorlink" href="#">1.2 何時進行驗證？</a></h4><p>Active Record 物件有兩種：對應一行的物件
+在您的資料庫中，而那些不在您的資料庫中。當您建立一個新物件時，對於
+使用 <code>new</code> 方法的示例，該物件不屬於資料庫
+然而。一旦您對該物件呼叫 <code>save</code>，它將被儲存到
+適當的資料庫表。 Active Record 使用 <code>new_record?</code> 實例
+方法來確定一個物件是否已經在資料庫中。
+考慮以下 Active Record 類：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+end
+">Copy</button>
+</div>
+<p>我們可以透過檢視一些 <code>bin/rails console</code> 輸出來瞭解它是如何工作的：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"John Doe"</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Person</span> <span class="ss">id: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">name: </span><span class="s2">"John Doe"</span><span class="p">,</span> <span class="ss">created_at: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">updated_at: </span><span class="kp">nil</span><span class="kt">&gt;</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span><span class="p">.</span><span class="nf">new_record?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span><span class="p">.</span><span class="nf">save</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span><span class="p">.</span><span class="nf">new_record?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='p = Person.new(name: "John Doe")
+p.new_record?
+p.save
+p.new_record?
+'>Copy</button>
+</div>
+<p>建立和儲存新記錄將傳送 SQL <code>INSERT</code> 操作到
+資料庫。更新現有記錄將傳送 SQL <code>UPDATE</code> 操作
+反而。驗證通常在這些命令傳送到
+資料庫。如果任何驗證失敗，該物件將被標記為無效並
+Active Record 不會執行 <code>INSERT</code> 或 <code>UPDATE</code> 操作。這避免了
+在資料庫中儲存無效物件。您可以選擇具有特定的
+在建立、儲存或更新物件時執行驗證。</p><div class="note"><p>有多種方法可以更改資料庫中物件的狀態。
+有些方法會觸發驗證，但有些方法不會。這意味著它是
+如果您不是，則可以將資料庫中的物件以無效狀態儲存
+小心。</p></div><p>以下方法觸發驗證，並將物件儲存到
+僅當物件有效時才使用資料庫：</p>
+<ul>
+<li><code>create</code></li>
+<li><code>create!</code></li>
+<li><code>save</code></li>
+<li><code>save!</code></li>
+<li><code>update</code></li>
+<li><code>update!</code></li>
+</ul>
+<p>如果記錄無效，bang 版本（例如 <code>save!</code>）會引發異常。
+非 bang 版本不會：<code>save</code> 和 <code>update</code> 返回 <code>false</code>，並且
+<code>create</code> 返回物件。</p><h4 id=""><a class="anchorlink" href="#">1.3 跳過驗證</a></h4><p>以下方法跳過驗證，並將物件儲存到
+資料庫而不管其有效性。應謹慎使用它們。</p>
+<ul>
+<li><code>decrement!</code></li>
+<li><code>decrement_counter</code></li>
+<li><code>increment!</code></li>
+<li><code>increment_counter</code></li>
+<li><code>insert</code></li>
+<li><code>insert!</code></li>
+<li><code>insert_all</code></li>
+<li><code>insert_all!</code></li>
+<li><code>toggle!</code></li>
+<li><code>touch</code></li>
+<li><code>touch_all</code></li>
+<li><code>update_all</code></li>
+<li><code>update_attribute</code></li>
+<li><code>update_column</code></li>
+<li><code>update_columns</code></li>
+<li><code>update_counters</code></li>
+<li><code>upsert</code></li>
+<li><code>upsert_all</code></li>
+</ul>
+<p>請注意，如果透過<code>validate，則</code>save<code>還可以跳過驗證：
+false</code> 作為引數。應謹慎使用此技術。</p>
+<ul>
+<li><code>save(validate: false)</code></li>
+</ul>
+<h4 id="valid-questionmark-invalid-questionmark"><a class="anchorlink" href="#valid-questionmark-invalid-questionmark">1.4 <code>valid?</code> 和 <code>invalid?</code></a></h4><p>在儲存 Active Record 物件之前，Rails 會執行您的驗證。
+如果這些驗證產生任何錯誤，Rails 不會儲存該物件。</p><p>您也可以自行執行這些驗證。 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Validations.html#method-i-valid-3F"><code>valid?</code></a> 觸發您的驗證
+如果在物件中沒有發現錯誤，則返回真，否則返回假。
+正如你在上面看到的：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, presence: true
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Person</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"John Doe"</span><span class="p">).</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Person</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">name: </span><span class="kp">nil</span><span class="p">).</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Person.create(name: "John Doe").valid?
+Person.create(name: nil).valid?
+'>Copy</button>
+</div>
+<p>Active Record 執行驗證後，可以訪問發現的任何錯誤
+透過 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations.html#method-i-errors"><code>errors</code></a> 實例方法，該方法返回錯誤集合。
+根據定義，如果此集合在執行後為空，則物件是有效的
+驗證。</p><p>注意用<code>new</code>實例化的物件不會報錯
+即使它在技術上無效，因為驗證是自動執行的
+僅當物件被儲存時，例如使用 <code>create</code> 或 <code>save</code> 方法。</p><div class="code_container">
+<pre><code class="highlight plaintext">class Person &lt; ApplicationRecord
+  validates :name, presence: true
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, presence: true
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Person</span> <span class="ss">id: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">name: </span><span class="kp">nil</span><span class="kt">&gt;</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">size</span>
+<span class="p">=&gt;</span> <span class="mi">0</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">objects</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">full_message</span>
+<span class="p">=&gt;</span> <span class="s2">"Name can't be blank"</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">create</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Person</span> <span class="ss">id: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">name: </span><span class="kp">nil</span><span class="kt">&gt;</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">objects</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">full_message</span>
+<span class="p">=&gt;</span> <span class="s2">"Name can't be blank"</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span><span class="p">.</span><span class="nf">save</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="nb">p</span><span class="p">.</span><span class="nf">save!</span>
+<span class="go">ActiveRecord::RecordInvalid: Validation failed: Name can't be blank
+</span><span class="err">
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Person</span><span class="p">.</span><span class="nf">create!</span>
+<span class="go">ActiveRecord::RecordInvalid: Validation failed: Name can't be blank
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="p = Person.new
+p.errors.size
+p.valid?
+p.errors.objects.first.full_message
+p = Person.create
+p.errors.objects.first.full_message
+p.save
+p.save!
+Person.create!
+">Copy</button>
+</div>
+<p><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations.html#method-i-invalid-3F"><code>invalid?</code></a> 是 <code>valid?</code> 的倒數。它會觸發您的驗證，
+如果在物件中發現任何錯誤，則返回 true，否則返回 false。</p><h4 id="view-errors"><a class="anchorlink" href="#view-errors">1.5 <code>errors[]</code></a></h4><p>要驗證物件的特定屬性是否有效，您可以
+使用 [<code>errors[:attribute]</code>][Errors#squarebrackets]。它返回一個包含所有錯誤訊息的陣列
+<code>:attribute</code>。如果指定的屬性沒有錯誤，則為空陣列
+被退回。</p><p>此方法僅在 <em>after</em> 驗證已執行時有用，因為它僅
+檢查錯誤集合並且不會觸發驗證本身。它是
+與上面解釋的 <code>ActiveRecord::Base#invalid?</code> 方法不同，因為
+它不驗證整個物件的有效性。它只會檢查以檢視
+是否在物件的單個屬性上發現錯誤。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, presence: true
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">errors</span><span class="p">[</span><span class="ss">:name</span><span class="p">].</span><span class="nf">any?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Person</span><span class="p">.</span><span class="nf">create</span><span class="p">.</span><span class="nf">errors</span><span class="p">[</span><span class="ss">:name</span><span class="p">].</span><span class="nf">any?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Person.new.errors[:name].any?
+Person.create.errors[:name].any?
+">Copy</button>
+</div>
+<p>我們將在 <a href="#working-with-validation-errors">使用驗證
+錯誤</a> 部分。</p><h3 id="helpers"><a class="anchorlink" href="#helpers">2 驗證 Helpers</a></h3><p>Active Record 提供了許多您可以使用的預定義驗證 helpers
+直接在您的類定義中。這些 helpers 提供通用驗證
+規則。每次驗證失敗時，都會向物件的
+<code>errors</code> 集合，這與屬性相關聯
+驗證。</p><p>每個 helper 接受任意數量的屬性名稱，因此使用單個
+在一行程式碼中，您可以向多個屬性新增相同型別的驗證。</p><p>它們都接受 <code>:on</code> 和 <code>:message</code> 選項，它們定義何時
+應該執行驗證並且應該將什麼訊息新增到 <code>errors</code>
+如果失敗，則分別收集。 <code>:on</code> 選項採用 values 之一
+<code>:create</code> 或 <code>:update</code>。存在預設錯誤
+訊息為每一個驗證helpers。這些訊息用於
+未指定 <code>:message</code> 選項。讓我們來看看每一個
+可用 helpers。</p><h4 id="acceptance"><a class="anchorlink" href="#acceptance">2.1 <code>acceptance</code></a></h4><p>此方法驗證使用者介面上的複選框在
+表格已提交。這通常用於使用者需要同意您的
+應用程式的服務條款，確認已閱讀某些文字，或任何類似的
+概念。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:terms_of_service</span><span class="p">,</span> <span class="ss">acceptance: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :terms_of_service, acceptance: true
+end
+">Copy</button>
+</div>
+<p>僅當 <code>terms_of_service</code> 不是 <code>nil</code> 時才執行此檢查。
+此 helper 的預設錯誤訊息是<em>“必須接受”</em>。
+您還可以透過 <code>message</code> 選項傳入自定義訊息。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:terms_of_service</span><span class="p">,</span> <span class="ss">acceptance: </span><span class="p">{</span> <span class="ss">message: </span><span class="s1">'must be abided'</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :terms_of_service, acceptance: { message: 'must be abided' }
+end
+">Copy</button>
+</div>
+<p>它還可以接收一個 <code>:accept</code> 選項，它決定了允許的 values
+這將被視為接受。它預設為 <code>['1', true]</code> 並且可以
+容易改變。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:terms_of_service</span><span class="p">,</span> <span class="ss">acceptance: </span><span class="p">{</span> <span class="ss">accept: </span><span class="s1">'yes'</span> <span class="p">}</span>
+  <span class="n">validates</span> <span class="ss">:eula</span><span class="p">,</span> <span class="ss">acceptance: </span><span class="p">{</span> <span class="ss">accept: </span><span class="p">[</span><span class="s1">'TRUE'</span><span class="p">,</span> <span class="s1">'accepted'</span><span class="p">]</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :terms_of_service, acceptance: { accept: 'yes' }
+  validates :eula, acceptance: { accept: ['TRUE', 'accepted'] }
+end
+">Copy</button>
+</div>
+<p>此驗證非常特定於 Web 應用程式，這
+“接受”不需要記錄在您的資料庫中的任何位置。如果你
+沒有它的欄位，helper 將建立一個虛擬屬性。如果
+該欄位確實存在於您的資料庫中，必須將 <code>accept</code> 選項設定為
+或包含 <code>true</code> 否則驗證將不會執行。</p><h4 id="validates-associated"><a class="anchorlink" href="#validates-associated">2.2 <code>validates_associated</code></a></h4><p>當您的模型具有 associations 和其他 models 時，您應該使用此 helper
+它們也需要得到驗證。當您嘗試儲存物件時，<code>valid?</code>
+將呼叫每個關聯的物件。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Library</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:books</span>
+  <span class="n">validates_associated</span> <span class="ss">:books</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Library &lt; ApplicationRecord
+  has_many :books
+  validates_associated :books
+end
+">Copy</button>
+</div>
+<p>此驗證適用於所有 association 型別。</p><div class="note"><p>請勿在 associations 的兩端使用 <code>validates_associated</code>。
+他們會在無限迴圈中互相呼叫。</p></div><p><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Validations/ClassMethods.html#method-i-validates_associated"><code>validates_associated</code></a> 的預設錯誤訊息是 <em>"is invalid"</em>。筆記
+每個關聯的物件都將包含自己的 <code>errors</code> 集合；錯誤做
+不會冒泡到呼叫 model。</p><h4 id="confirmation"><a class="anchorlink" href="#confirmation">2.3 <code>confirmation</code></a></h4><p>當您有兩個應接收的文字欄位時，您應該使用此 helper
+完全一樣的內容。例如，您可能想要確認電子郵件地址
+或密碼。此驗證建立一個虛擬屬性，其名稱是
+必須附加“_confirmation”確認的欄位的名稱。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">confirmation: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :email, confirmation: true
+end
+">Copy</button>
+</div>
+<p>在您的 view 模板中，您可以使用類似</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">text_field</span> <span class="ss">:person</span><span class="p">,</span> <span class="ss">:email</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">text_field</span> <span class="ss">:person</span><span class="p">,</span> <span class="ss">:email_confirmation</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= text_field :person, :email %&gt;
+&lt;%= text_field :person, :email_confirmation %&gt;
+">Copy</button>
+</div>
+<p>僅當 <code>email_confirmation</code> 不是 <code>nil</code> 時才執行此檢查。要求
+確認，確保為確認屬性新增存在檢查
+（我們稍後將在本指南中介紹 <code>presence</code>）：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">confirmation: </span><span class="kp">true</span>
+  <span class="n">validates</span> <span class="ss">:email_confirmation</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :email, confirmation: true
+  validates :email_confirmation, presence: true
+end
+">Copy</button>
+</div>
+<p>還有一個 <code>:case_sensitive</code> 選項可以用來定義
+確認約束將區分大小寫。該選項預設為
+真的。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">confirmation: </span><span class="p">{</span> <span class="ss">case_sensitive: </span><span class="kp">false</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :email, confirmation: { case_sensitive: false }
+end
+">Copy</button>
+</div>
+<p>此 helper 的預設錯誤訊息是 <em>"不匹配確認"</em>。</p><h4 id="comparison"><a class="anchorlink" href="#comparison">2.4 <code>comparison</code></a></h4><p>此檢查將驗證任何兩個可比較的 values 之間的比較。
+驗證器需要提供一個比較選項。每個選項都接受一個
+value、proc 或 symbol。任何包含 Comparable 的類都可以進行比較。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Promotion</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:start_date</span><span class="p">,</span> <span class="ss">comparison: </span><span class="p">{</span> <span class="ss">greater_than: :end_date</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Promotion &lt; ApplicationRecord
+  validates :start_date, comparison: { greater_than: :end_date }
+end
+">Copy</button>
+</div>
+<p>這些選項都受支援：</p>
+<ul>
+<li>
+<code>:greater_than</code> - 指定 value 必須大於提供的
+value。此選項的預設錯誤訊息是 <em>" 必須大於
+％{數數}”</em>。</li>
+<li>
+<code>:greater_than_or_equal_to</code> - 指定 value 必須大於或
+等於提供的 value。此選項的預設錯誤訊息是
+<em>"必須大於或等於 %{count}"</em>。</li>
+<li>
+<code>:equal_to</code> - 指定 value 必須等於提供的 value。這
+此選項的預設錯誤訊息是 <em>"必須等於 %{count}"</em>。</li>
+<li>
+<code>:less_than</code> - 指定 value 必須小於提供的 value。這
+此選項的預設錯誤訊息是 <em>"必須小於 %{count}"</em>。</li>
+<li>
+<code>:less_than_or_equal_to</code> - 指定 value 必須小於或等於
+提供的 value。此選項的預設錯誤訊息是 <em>"must be
+小於或等於 %{count}"</em>。</li>
+<li>
+<code>:other_than</code> - 指定 value 必須不是提供的 value。
+此選項的預設錯誤訊息是 <em>"必須不是 %{count}"</em>。</li>
+</ul>
+<h4 id="exclusion"><a class="anchorlink" href="#exclusion">2.5 <code>exclusion</code></a></h4><p>此 helper 驗證屬性的 values 未包含在給定的
+放。事實上，這個集合可以是任何可列舉的物件。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Account</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:subdomain</span><span class="p">,</span> <span class="ss">exclusion: </span><span class="p">{</span> <span class="ss">in: </span><span class="sx">%w(www us ca jp)</span><span class="p">,</span>
+    <span class="ss">message: </span><span class="s2">"%{value} is reserved."</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Account &lt; ApplicationRecord
+  validates :subdomain, exclusion: { in: %w(www us ca jp),
+    message: "%{value} is reserved." }
+end
+'>Copy</button>
+</div>
+<p><code>exclusion</code> helper 有一個選項 <code>:in</code> 接收一組 values
+將不接受已驗證的屬性。 <code>:in</code> 選項有一個
+如果您願意，可以將別名 <code>:within</code> 用於相同目的。
+此示例使用 <code>:message</code> 選項來展示如何包含
+屬性的 value。有關訊息引數的完整選項，請參閱
+<a href="#message">訊息文件</a>。</p><p>預設錯誤訊息是 <em>"is reserved"</em>。</p><h4 id="format"><a class="anchorlink" href="#format">2.6 <code>format</code></a></h4><p>這個 helper 透過測試它們是否匹配一個屬性來驗證屬性的 values
+給定正則表示式，使用 <code>:with</code> 選項指定。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Product</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:legacy_code</span><span class="p">,</span> <span class="ss">format: </span><span class="p">{</span> <span class="ss">with: </span><span class="sr">/\A[a-zA-Z]+\z/</span><span class="err">,
+    </span><span class="sr">mess</span><span class="ss">age: </span><span class="s2">"only allows letters"</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Product &lt; ApplicationRecord
+  validates :legacy_code, format: { with: /\A[a-zA-Z]+\z/,
+    message: "only allows letters" }
+end
+'>Copy</button>
+</div>
+<p>或者，您可以使用 <code>:without</code> 選項要求指定的屬性<em>不</em>匹配正則表示式。</p><p>預設錯誤訊息是<em>“無效”</em>。</p><h4 id="inclusion"><a class="anchorlink" href="#inclusion">2.7 <code>inclusion</code></a></h4><p>此 helper 驗證屬性的 values 是否包含在給定集合中。
+事實上，這個集合可以是任何可列舉的物件。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Coffee</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:size</span><span class="p">,</span> <span class="ss">inclusion: </span><span class="p">{</span> <span class="ss">in: </span><span class="sx">%w(small medium large)</span><span class="p">,</span>
+    <span class="ss">message: </span><span class="s2">"%{value} is not a valid size"</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Coffee &lt; ApplicationRecord
+  validates :size, inclusion: { in: %w(small medium large),
+    message: "%{value} is not a valid size" }
+end
+'>Copy</button>
+</div>
+<p><code>inclusion</code> helper 有一個選項 <code>:in</code> 接收一組 values
+將被接受。 <code>:in</code> 選項有一個名為 <code>:within</code> 的別名，您可以
+如果您願意，也可以用於相同的目的。前面的例子使用
+<code>:message</code> 選項顯示如何包含屬性的 value。對於完整
+選項請參閱<a href="#message">訊息文件</a>。</p><p>此 helper 的預設錯誤訊息是 <em>"未包含在列表中"</em>。</p><h4 id="length"><a class="anchorlink" href="#length">2.8 <code>length</code></a></h4><p>此 helper 驗證屬性的 values 的長度。它提供了一個
+多種選項，因此您可以以不同方式指定長度約束：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">2</span> <span class="p">}</span>
+  <span class="n">validates</span> <span class="ss">:bio</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">maximum: </span><span class="mi">500</span> <span class="p">}</span>
+  <span class="n">validates</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">in: </span><span class="mi">6</span><span class="o">..</span><span class="mi">20</span> <span class="p">}</span>
+  <span class="n">validates</span> <span class="ss">:registration_number</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">is: </span><span class="mi">6</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, length: { minimum: 2 }
+  validates :bio, length: { maximum: 500 }
+  validates :password, length: { in: 6..20 }
+  validates :registration_number, length: { is: 6 }
+end
+">Copy</button>
+</div>
+<p>可能的長度約束選項是：</p>
+<ul>
+<li>
+<code>:minimum</code> - 屬性不能小於指定的長度。</li>
+<li>
+<code>:maximum</code> - 屬性不能超過指定的長度。</li>
+<li>
+<code>:in</code>（或 <code>:within</code>） - 屬性長度必須包含在給定的
+間隔。此選項的 value 必須是一個範圍。</li>
+<li>
+<code>:is</code> - 屬性長度必須等於給定的 value。</li>
+</ul>
+<p>預設錯誤訊息取決於長度驗證的型別
+執行。您可以使用 <code>:wrong_length</code> 自定義這些訊息，
+<code>:too_long</code> 和 <code>:too_short</code> 選項以及 <code>%{count}</code> 作為佔位符
+與正在使用的長度約束相對應的數字。您仍然可以使用
+<code>:message</code> 選項指定錯誤訊息。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:bio</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">maximum: </span><span class="mi">1000</span><span class="p">,</span>
+    <span class="ss">too_long: </span><span class="s2">"%{count} characters is the maximum allowed"</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Person &lt; ApplicationRecord
+  validates :bio, length: { maximum: 1000,
+    too_long: "%{count} characters is the maximum allowed" }
+end
+'>Copy</button>
+</div>
+<p>請注意，預設錯誤訊息是複數形式（例如，“太短（最少
+是 %{count} 個字元）”）。因此，當 <code>:minimum</code> 為 1 時，您應該
+提供自定義訊息或使用 <code>presence: true</code> 代替。什麼時候
+<code>:in</code> 或 <code>:within</code> 的下限為 1，您應該提供一個
+自定義訊息或在 <code>length</code> 之前呼叫 <code>presence</code>。</p><h4 id="numericality"><a class="anchorlink" href="#numericality">2.9 <code>numericality</code></a></h4><p>此 helper 驗證您的屬性只有數字 values。經過
+預設情況下，它將匹配一個可選符號，後跟一個整數或浮點數
+點數。</p><p>要指定只允許整數，
+將 <code>:only_integer</code> 設定為 true。然後它將使用</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="sr">/\A[+-]?\d+\z/</span><span class="err">
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="/\A[+-]?\d+\z/
+">Copy</button>
+</div>
+<p>正則表示式來驗證屬性的 value。否則，它會嘗試
+使用 <code>Float</code> 將 value 轉換為數字。 <code>Float</code> 使用列的精度 value 或 15 轉換為 <code>BigDecimal</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Player</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:points</span><span class="p">,</span> <span class="ss">numericality: </span><span class="kp">true</span>
+  <span class="n">validates</span> <span class="ss">:games_played</span><span class="p">,</span> <span class="ss">numericality: </span><span class="p">{</span> <span class="ss">only_integer: </span><span class="kp">true</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Player &lt; ApplicationRecord
+  validates :points, numericality: true
+  validates :games_played, numericality: { only_integer: true }
+end
+">Copy</button>
+</div>
+<p><code>:only_integer</code> 的預設錯誤訊息是 <em>"must be an integer"</em>。</p><p>除了<code>:only_integer</code>，這個helper還接受以下選項新增
+對可接受的 values 的約束：</p>
+<ul>
+<li>
+<code>:greater_than</code> - 指定 value 必須大於提供的
+value。此選項的預設錯誤訊息是 <em>" 必須大於
+％{數數}”</em>。</li>
+<li>
+<code>:greater_than_or_equal_to</code> - 指定 value 必須大於或
+等於提供的 value。此選項的預設錯誤訊息是
+<em>"必須大於或等於 %{count}"</em>。</li>
+<li>
+<code>:equal_to</code> - 指定 value 必須等於提供的 value。這
+此選項的預設錯誤訊息是 <em>"必須等於 %{count}"</em>。</li>
+<li>
+<code>:less_than</code> - 指定 value 必須小於提供的 value。這
+此選項的預設錯誤訊息是 <em>"必須小於 %{count}"</em>。</li>
+<li>
+<code>:less_than_or_equal_to</code> - 指定 value 必須小於或等於
+提供的 value。此選項的預設錯誤訊息是 <em>"must be
+小於或等於 %{count}"</em>。</li>
+<li>
+<code>:other_than</code> - 指定 value 必須不是提供的 value。
+此選項的預設錯誤訊息是 <em>"必須不是 %{count}"</em>。</li>
+<li>
+<code>:in</code> - 指定 value 必須在提供的範圍內。
+此選項的預設錯誤訊息是 <em>"must be in %{count}"</em>。</li>
+<li>
+<code>:odd</code> - 如果設定為 true，則指定 value 必須是奇數。這
+此選項的預設錯誤訊息是 <em>“必須是奇數”</em>。</li>
+<li>
+<code>:even</code> - 如果設定為 true，則指定 value 必須是偶數。這
+此選項的預設錯誤訊息是 <em>“必須是偶數”</em>。</li>
+</ul>
+<div class="note"><p>預設情況下，<code>numericality</code> 不允許 <code>nil</code> values。您可以使用 <code>allow_nil: true</code> 選項來允許它。</p></div><p>未指定任何選項時的預設錯誤訊息是 <em>"不是數字"</em>。</p><h4 id="presence"><a class="anchorlink" href="#presence">2.10 <code>presence</code></a></h4><p>此 helper 驗證指定的屬性不為空。它使用
+<code>blank?</code> 方法來檢查 value 是 <code>nil</code> 還是空白字串，即
+是一個空字串或由空格組成的字串。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:login</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, :login, :email, presence: true
+end
+">Copy</button>
+</div>
+<p>如果你想確定一個 association 存在，你需要測試
+是否存在關聯物件本身，而不是使用的外部 key
+對映 association。這樣不僅查了國外的key
+不為空，而且引用的物件存在。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Supplier</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_one</span> <span class="ss">:account</span>
+  <span class="n">validates</span> <span class="ss">:account</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Supplier &lt; ApplicationRecord
+  has_one :account
+  validates :account, presence: true
+end
+">Copy</button>
+</div>
+<p>為了驗證需要存在的關聯記錄，您必須
+為 association 指定 <code>:inverse_of</code> 選項：</p><div class="note"><p>如果要確保 association 存在且有效，則還需要使用 <code>validates_associated</code>。</p></div><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:line_items</span><span class="p">,</span> <span class="ss">inverse_of: :order</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Order &lt; ApplicationRecord
+  has_many :line_items, inverse_of: :order
+end
+">Copy</button>
+</div>
+<p>如果您驗證透過 <code>has_one</code> 關聯的物件的存在或
+<code>has_many</code> 關係，它會檢查物件既不是 <code>blank?</code> 也不是
+<code>marked_for_destruction?</code>。</p><p>由於 <code>false.blank?</code> 為真，如果你想驗證一個布林值的存在
+您應該使用以下驗證之一：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">validates</span> <span class="ss">:boolean_field_name</span><span class="p">,</span> <span class="ss">inclusion: </span><span class="p">[</span><span class="kp">true</span><span class="p">,</span> <span class="kp">false</span><span class="p">]</span>
+<span class="n">validates</span> <span class="ss">:boolean_field_name</span><span class="p">,</span> <span class="ss">exclusion: </span><span class="p">[</span><span class="kp">nil</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="validates :boolean_field_name, inclusion: [true, false]
+validates :boolean_field_name, exclusion: [nil]
+">Copy</button>
+</div>
+<p>透過使用這些驗證之一，您將確保 value 不會是 <code>nil</code>
+在大多數情況下，這將導致 <code>NULL</code> value。</p><h4 id="absence"><a class="anchorlink" href="#absence">2.11 <code>absence</code></a></h4><p>此 helper 驗證指定的屬性不存在。它使用
+<code>present?</code> 方法來檢查 value 是否不是 nil 或空白字串，即
+是一個空字串或由空格組成的字串。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:login</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">absence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, :login, :email, absence: true
+end
+">Copy</button>
+</div>
+<p>如果你想確定一個 association 不存在，你需要測試
+關聯物件本身是否不存在，而不是使用的外部 key
+對映 association。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">LineItem</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">belongs_to</span> <span class="ss">:order</span>
+  <span class="n">validates</span> <span class="ss">:order</span><span class="p">,</span> <span class="ss">absence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class LineItem &lt; ApplicationRecord
+  belongs_to :order
+  validates :order, absence: true
+end
+">Copy</button>
+</div>
+<p>為了驗證需要缺席的關聯記錄，您必須
+為 association 指定 <code>:inverse_of</code> 選項：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:line_items</span><span class="p">,</span> <span class="ss">inverse_of: :order</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Order &lt; ApplicationRecord
+  has_many :line_items, inverse_of: :order
+end
+">Copy</button>
+</div>
+<p>如果您驗證不存在透過 <code>has_one</code> 關聯的物件或
+<code>has_many</code> 關係，它會檢查物件既不是 <code>present?</code> 也不是
+<code>marked_for_destruction?</code>。</p><p>由於 <code>false.present?</code> 是假的，如果你想驗證一個布林值的缺失
+您應該使用 <code>validates :field_name, exclusion: { in: [true, false] }</code> 欄位。</p><p>預設錯誤訊息是<em>“必須為空”</em>。</p><h4 id="uniqueness"><a class="anchorlink" href="#uniqueness">2.12 <code>uniqueness</code></a></h4><p>此 helper 驗證屬性的 value 在
+物件被儲存。它不會在資料庫中建立唯一性約束，
+所以可能會發生兩個不同的資料庫連線建立兩個記錄
+對於您打算唯一的列，使用相同的 value。為了避免這種情況，
+您必須在資料庫中的該列上建立唯一索引。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Account</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">uniqueness: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Account &lt; ApplicationRecord
+  validates :email, uniqueness: true
+end
+">Copy</button>
+</div>
+<p>驗證透過對 model 的表執行 SQL 查詢來進行，
+在該屬性中搜索具有相同 value 的現有記錄。</p><p>有一個 <code>:scope</code> 選項可用於指定一個或多個屬性
+用於限制唯一性檢查：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Holiday</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">uniqueness: </span><span class="p">{</span> <span class="ss">scope: :year</span><span class="p">,</span>
+    <span class="ss">message: </span><span class="s2">"should happen once per year"</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Holiday &lt; ApplicationRecord
+  validates :name, uniqueness: { scope: :year,
+    message: "should happen once per year" }
+end
+'>Copy</button>
+</div>
+<p>如果您希望使用 <code>:scope</code> 選項建立資料庫約束以防止可能違反唯一性驗證，則必須在資料庫的兩列上建立唯一索引。有關多列索引的更多詳細資訊，請參閱 <a href="https://dev.mysql.com/doc/refman/en/multiple-column-indexes.html">MySQL 手冊</a> 或 <a href="https://www%20.postgresql.org/docs/current/static/ddl-constraints.html">PostgreSQL 手冊</a> 獲取引用一組列的唯一約束的示例。</p><p>還有一個 <code>:case_sensitive</code> 選項可以用來定義
+唯一性約束將區分大小寫。該選項預設為
+真的。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">uniqueness: </span><span class="p">{</span> <span class="ss">case_sensitive: </span><span class="kp">false</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, uniqueness: { case_sensitive: false }
+end
+">Copy</button>
+</div>
+<div class="warning"><p>請注意，某些資料庫配置為執行不區分大小寫
+無論如何搜尋。</p></div><p>預設的錯誤資訊是<em>“已經被佔用”</em>。</p><h4 id="validates-with"><a class="anchorlink" href="#validates-with">2.13 <code>validates_with</code></a></h4><p>此 helper 將記錄傳遞給單獨的類進行驗證。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">GoodnessValidator</span> <span class="o">&lt;</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Validator</span>
+  <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">record</span><span class="p">.</span><span class="nf">first_name</span> <span class="o">==</span> <span class="s2">"Evil"</span>
+      <span class="n">record</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">add</span> <span class="ss">:base</span><span class="p">,</span> <span class="s2">"This person is evil"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates_with</span> <span class="no">GoodnessValidator</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class GoodnessValidator &lt; ActiveModel::Validator
+  def validate(record)
+    if record.first_name == "Evil"
+      record.errors.add :base, "This person is evil"
+    end
+  end
+end
+
+class Person &lt; ApplicationRecord
+  validates_with GoodnessValidator
+end
+'>Copy</button>
+</div>
+<div class="note"><p>新增到 <code>record.errors[:base]</code> 的錯誤與記錄的狀態有關
+作為一個整體，而不是特定的屬性。</p></div><p><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates_with"><code>validates_with</code></a> helper 需要一個類，或者一個類列表來用於
+驗證。 <code>validates_with</code> 沒有預設錯誤訊息。你必須
+手動將錯誤新增到驗證器類中記錄的錯誤集合中。</p><p>要實現驗證方法，您必須定義一個 <code>record</code> 引數，
+這是要驗證的記錄。</p><p>與所有其他驗證一樣，<code>validates_with</code> 採用 <code>:if</code>、<code>:unless</code> 和
+<code>:on</code> 選項。如果您傳遞任何其他選項，它會將這些選項傳送到
+驗證器類為 <code>options</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">GoodnessValidator</span> <span class="o">&lt;</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Validator</span>
+  <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="ss">:fields</span><span class="p">].</span><span class="nf">any?</span> <span class="p">{</span> <span class="o">|</span><span class="n">field</span><span class="o">|</span> <span class="n">record</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="n">field</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"Evil"</span> <span class="p">}</span>
+      <span class="n">record</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">add</span> <span class="ss">:base</span><span class="p">,</span> <span class="s2">"This person is evil"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates_with</span> <span class="no">GoodnessValidator</span><span class="p">,</span> <span class="ss">fields: </span><span class="p">[</span><span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class GoodnessValidator &lt; ActiveModel::Validator
+  def validate(record)
+    if options[:fields].any? { |field| record.send(field) == "Evil" }
+      record.errors.add :base, "This person is evil"
+    end
+  end
+end
+
+class Person &lt; ApplicationRecord
+  validates_with GoodnessValidator, fields: [:first_name, :last_name]
+end
+'>Copy</button>
+</div>
+<p>請注意，驗證器將在整個應用程式中<em>僅初始化一次</em>
+生命週期，而不是在每次驗證執行時，所以要小心使用實例
+裡面的變數。</p><p>如果您的驗證器足夠複雜以至於您需要實例變數，您可以
+輕鬆地使用普通的舊 Ruby 物件代替：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validate</span> <span class="k">do</span> <span class="o">|</span><span class="n">person</span><span class="o">|</span>
+    <span class="no">GoodnessValidator</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">person</span><span class="p">).</span><span class="nf">validate</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">GoodnessValidator</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+    <span class="vi">@person</span> <span class="o">=</span> <span class="n">person</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">validate</span>
+    <span class="k">if</span> <span class="n">some_complex_condition_involving_ivars_and_private_methods?</span>
+      <span class="vi">@person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">add</span> <span class="ss">:base</span><span class="p">,</span> <span class="s2">"This person is evil"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Person &lt; ApplicationRecord
+  validate do |person|
+    GoodnessValidator.new(person).validate
+  end
+end
+
+class GoodnessValidator
+  def initialize(person)
+    @person = person
+  end
+
+  def validate
+    if some_complex_condition_involving_ivars_and_private_methods?
+      @person.errors.add :base, "This person is evil"
+    end
+  end
+
+  # ...
+end
+'>Copy</button>
+</div>
+<h4 id="validates-each"><a class="anchorlink" href="#validates-each">2.14 <code>validates_each</code></a></h4><p>此 helper 驗證針對塊的屬性。它沒有預定義
+驗證功能。您應該使用塊建立一個，並且每個屬性
+傳遞給 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates_each"><code>validates_each</code></a> 將對其進行測試。在下面的例子中，
+我們不希望名字和姓氏以小寫開頭。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates_each</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:surname</span> <span class="k">do</span> <span class="o">|</span><span class="n">record</span><span class="p">,</span> <span class="kp">attr</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+    <span class="n">record</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="kp">attr</span><span class="p">,</span> <span class="s1">'must start with upper case'</span><span class="p">)</span> <span class="k">if</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/\A[[:lower:]]/</span><span class="err">
+  </span><span class="sr">en</span><span class="n">d</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates_each :name, :surname do |record, attr, value|
+    record.errors.add(attr, 'must start with upper case') if value =~ /\A[[:lower:]]/
+  end
+end
+">Copy</button>
+</div>
+<p>該塊接收記錄、屬性名稱和屬性的 value。
+您可以做任何事情來檢查塊中的有效資料。如果你的
+驗證失敗，您應該向 model 新增錯誤，因此
+使其無效。</p><h3 id=""><a class="anchorlink" href="#">3 常用驗證選項</a></h3><p>這些是常見的驗證選項：</p><h4 id="allow-nil"><a class="anchorlink" href="#allow-nil">3.1 <code>:allow_nil</code></a></h4><p>當正在驗證的 value 是時，<code>:allow_nil</code> 選項跳過驗證
+<code>nil</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Coffee</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:size</span><span class="p">,</span> <span class="ss">inclusion: </span><span class="p">{</span> <span class="ss">in: </span><span class="sx">%w(small medium large)</span><span class="p">,</span>
+    <span class="ss">message: </span><span class="s2">"%{value} is not a valid size"</span> <span class="p">},</span> <span class="ss">allow_nil: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Coffee &lt; ApplicationRecord
+  validates :size, inclusion: { in: %w(small medium large),
+    message: "%{value} is not a valid size" }, allow_nil: true
+end
+'>Copy</button>
+</div>
+<p>有關訊息引數的完整選項，請參閱
+<a href="#message">訊息文件</a>。</p><h4 id="allow-blank"><a class="anchorlink" href="#allow-blank">3.2 <code>:allow_blank</code></a></h4><p><code>:allow_blank</code> 選項類似於 <code>:allow_nil</code> 選項。這個選項
+如果屬性的 value 是 <code>blank?</code>，例如 <code>nil</code> 或
+例如空字串。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Topic</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">is: </span><span class="mi">5</span> <span class="p">},</span> <span class="ss">allow_blank: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Topic &lt; ApplicationRecord
+  validates :title, length: { is: 5 }, allow_blank: true
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Topic</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">title: </span><span class="s2">""</span><span class="p">).</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Topic</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">title: </span><span class="kp">nil</span><span class="p">).</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Topic.create(title: "").valid?
+Topic.create(title: nil).valid?
+'>Copy</button>
+</div>
+<h4 id="message"><a class="anchorlink" href="#message">3.3 <code>:message</code></a></h4><p>正如您已經看到的，<code>:message</code> 選項允許您指定訊息
+驗證失敗時將新增到 <code>errors</code> 集合中。當這
+未使用選項，Active Record 將使用各自的預設錯誤訊息
+對於每個驗證 helper。 <code>:message</code> 選項接受 <code>String</code> 或 <code>Proc</code>。</p><p>A <code>String</code> <code>:message</code> value 可以選擇包含任何/全部 <code>%{value}</code>，
+<code>%{attribute}</code> 和 <code>%{model}</code> 將在以下情況下動態替換
+驗證失敗。此替換是使用 I18n gem 完成的，並且
+佔位符必須完全匹配，不允許有空格。</p><p>A <code>Proc</code> <code>:message</code> value 有兩個引數：被驗證的物件，以及
+具有 <code>:model</code>、<code>:attribute</code> 和 <code>:value</code> key-value 對的雜湊。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="c1"># Hard-coded message</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="p">{</span> <span class="ss">message: </span><span class="s2">"must be given please"</span> <span class="p">}</span>
+
+  <span class="c1"># Message with dynamic attribute value. %{value} will be replaced</span>
+  <span class="c1"># with the actual value of the attribute. %{attribute} and %{model}</span>
+  <span class="c1"># are also available.</span>
+  <span class="n">validates</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">numericality: </span><span class="p">{</span> <span class="ss">message: </span><span class="s2">"%{value} seems wrong"</span> <span class="p">}</span>
+
+  <span class="c1"># Proc</span>
+  <span class="n">validates</span> <span class="ss">:username</span><span class="p">,</span>
+    <span class="ss">uniqueness: </span><span class="p">{</span>
+      <span class="c1"># object = person object being validated</span>
+      <span class="c1"># data = { model: "Person", attribute: "Username", value: &lt;username&gt; }</span>
+      <span class="ss">message: </span><span class="o">-&gt;</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="k">do</span>
+        <span class="s2">"Hey </span><span class="si">#{</span><span class="n">object</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">data</span><span class="p">[</span><span class="ss">:value</span><span class="p">]</span><span class="si">}</span><span class="s2"> is already taken."</span>
+      <span class="k">end</span>
+    <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Person &lt; ApplicationRecord
+  # Hard-coded message
+  validates :name, presence: { message: "must be given please" }
+
+  # Message with dynamic attribute value. %{value} will be replaced
+  # with the actual value of the attribute. %{attribute} and %{model}
+  # are also available.
+  validates :age, numericality: { message: "%{value} seems wrong" }
+
+  # Proc
+  validates :username,
+    uniqueness: {
+      # object = person object being validated
+      # data = { model: "Person", attribute: "Username", value: &lt;username&gt; }
+      message: -&gt;(object, data) do
+        "Hey #{object.name}, #{data[:value]} is already taken."
+      end
+    }
+end
+'>Copy</button>
+</div>
+<h4 id="on"><a class="anchorlink" href="#on">3.4 <code>:on</code></a></h4><p><code>:on</code> 選項可讓您指定應何時進行驗證。這
+所有內建驗證 helpers 的預設行為是在儲存時執行
+（無論是在建立新記錄時還是在更新記錄時）。如果你
+想要改變它，你可以使用 <code>on: :create</code> 來執行驗證，只有當
+新記錄被建立或 <code>on: :update</code> 僅在記錄時執行驗證
+已更新。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="c1"># it will be possible to update email with a duplicated value</span>
+  <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">uniqueness: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">on: :create</span>
+
+  <span class="c1"># it will be possible to create the record with a non-numerical age</span>
+  <span class="n">validates</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">numericality: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">on: :update</span>
+
+  <span class="c1"># the default (validates on both create and update)</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  # it will be possible to update email with a duplicated value
+  validates :email, uniqueness: true, on: :create
+
+  # it will be possible to create the record with a non-numerical age
+  validates :age, numericality: true, on: :update
+
+  # the default (validates on both create and update)
+  validates :name, presence: true
+end
+">Copy</button>
+</div>
+<p>您還可以使用 <code>on:</code> 來定義自定義上下文。自定義上下文需要
+透過將上下文的名稱傳遞給 <code>valid?</code> 來顯式觸發，
+<code>invalid?</code> 或 <code>save</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">uniqueness: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">on: :account_setup</span>
+  <span class="n">validates</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">numericality: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">on: :account_setup</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :email, uniqueness: true, on: :account_setup
+  validates :age, numericality: true, on: :account_setup
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">age: </span><span class="s1">'thirty-three'</span><span class="p">)</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span><span class="p">(</span><span class="ss">:account_setup</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">messages</span>
+<span class="p">=&gt;</span> <span class="p">{</span><span class="ss">:email</span><span class="o">=&gt;</span><span class="p">[</span><span class="s2">"has already been taken"</span><span class="p">],</span> <span class="ss">:age</span><span class="o">=&gt;</span><span class="p">[</span><span class="s2">"is not a number"</span><span class="p">]}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person = Person.new(age: 'thirty-three')
+person.valid?
+person.valid?(:account_setup)
+person.errors.messages
+">Copy</button>
+</div>
+<p><code>person.valid?(:account_setup)</code> 執行兩個驗證而不儲存
+model。 <code>person.save(context: :account_setup)</code> 驗證 <code>person</code> 在
+儲存前的 <code>account_setup</code> 上下文。</p><p>當由顯式上下文觸發時，會針對該上下文執行驗證，
+以及任何<em>沒有</em>上下文的驗證。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">uniqueness: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">on: :account_setup</span>
+  <span class="n">validates</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">numericality: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">on: :account_setup</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :email, uniqueness: true, on: :account_setup
+  validates :age, numericality: true, on: :account_setup
+  validates :name, presence: true
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span><span class="p">(</span><span class="ss">:account_setup</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">messages</span>
+<span class="p">=&gt;</span> <span class="p">{</span><span class="ss">:email</span><span class="o">=&gt;</span><span class="p">[</span><span class="s2">"has already been taken"</span><span class="p">],</span> <span class="ss">:age</span><span class="o">=&gt;</span><span class="p">[</span><span class="s2">"is not a number"</span><span class="p">],</span> <span class="ss">:name</span><span class="o">=&gt;</span><span class="p">[</span><span class="s2">"can't be blank"</span><span class="p">]}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person = Person.new
+person.valid?(:account_setup)
+person.errors.messages
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">4 嚴格驗證</a></h3><p>您還可以將驗證指定為嚴格並提高
+<code>ActiveModel::StrictValidationFailed</code> 當物件無效時。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="p">{</span> <span class="ss">strict: </span><span class="kp">true</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, presence: { strict: true }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="go">ActiveModel::StrictValidationFailed: Name can't be blank
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Person.new.valid?
+">Copy</button>
+</div>
+<p>還可以將自定義異常傳遞給 <code>:strict</code> 選項。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:token</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">uniqueness: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">strict: </span><span class="no">TokenGenerationException</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :token, presence: true, uniqueness: true, strict: TokenGenerationException
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="gr">TokenGenerationException: Token can't be blank
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="Person.new.valid?
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">5 條件驗證</a></h3><p>有時只有在給定謂詞時才驗證物件才有意義
+很滿意。您可以透過使用 <code>:if</code> 和 <code>:unless</code> 選項來做到這一點，它們
+可以採用 symbol、<code>Proc</code> 或 <code>Array</code>。您可以使用 <code>:if</code>
+當您想指定驗證<strong>應該</strong>發生的時間時的選項。如果你
+想要指定驗證<strong>不應該</strong>發生的時間，那麼您可以使用
+<code>:unless</code> 選項。</p><h4 id="symbol-if-unless"><a class="anchorlink" href="#symbol-if-unless">5.1 使用 Symbol 和 <code>:if</code> 和 <code>:unless</code></a></h4><p>您可以將 <code>:if</code> 和 <code>:unless</code> 選項與對應的 symbol 相關聯
+到將在驗證發生之前被呼叫的方法的名稱。
+這是最常用的選項。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:card_number</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">if: :paid_with_card?</span>
+
+  <span class="k">def</span> <span class="nf">paid_with_card?</span>
+    <span class="n">payment_type</span> <span class="o">==</span> <span class="s2">"card"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Order &lt; ApplicationRecord
+  validates :card_number, presence: true, if: :paid_with_card?
+
+  def paid_with_card?
+    payment_type == "card"
+  end
+end
+'>Copy</button>
+</div>
+<h4 id="if-unless-proc"><a class="anchorlink" href="#if-unless-proc">5.2 使用帶有 <code>:if</code> 和 <code>:unless</code> 的 Proc</a></h4><p>可以將 <code>:if</code> 和 <code>:unless</code> 與 <code>Proc</code> 物件相關聯
+這將被呼叫。使用 <code>Proc</code> 物件使您能夠編寫一個
+內聯條件而不是單獨的方法。此選項最適合
+單襯。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Account</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">confirmation: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">unless: </span><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span><span class="p">.</span><span class="nf">password</span><span class="p">.</span><span class="nf">blank?</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Account &lt; ApplicationRecord
+  validates :password, confirmation: true,
+    unless: Proc.new { |a| a.password.blank? }
+end
+">Copy</button>
+</div>
+<p>由於 <code>Lambdas</code> 是 <code>Proc</code> 的一種，所以它們也可以用來寫內聯
+條件更短。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">validates</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">confirmation: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">unless: </span><span class="o">-&gt;</span> <span class="p">{</span> <span class="n">password</span><span class="p">.</span><span class="nf">blank?</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="validates :password, confirmation: true, unless: -&gt; { password.blank? }
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">5.3 分組條件驗證</a></h4><p>有時讓多個驗證使用一個條件很有用。它可以
+使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/Object.html#method-i-with_options"><code>with_options</code></a> 可以輕鬆實現。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">with_options</span> <span class="ss">if: :is_admin?</span> <span class="k">do</span> <span class="o">|</span><span class="n">admin</span><span class="o">|</span>
+    <span class="n">admin</span><span class="p">.</span><span class="nf">validates</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">10</span> <span class="p">}</span>
+    <span class="n">admin</span><span class="p">.</span><span class="nf">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class User &lt; ApplicationRecord
+  with_options if: :is_admin? do |admin|
+    admin.validates :password, length: { minimum: 10 }
+    admin.validates :email, presence: true
+  end
+end
+">Copy</button>
+</div>
+<p><code>with_options</code> 塊內的所有驗證將自動具有
+透過條件 <code>if: :is_admin?</code></p><h4 id=""><a class="anchorlink" href="#">5.4 結合驗證條件</a></h4><p>另一方面，當多個條件定義是否驗證
+應該發生，可以使用 <code>Array</code>。此外，您可以同時應用 <code>:if</code> 和
+<code>:unless</code> 到相同的驗證。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Computer</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:mouse</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span>
+                    <span class="ss">if: </span><span class="p">[</span><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">c</span><span class="p">.</span><span class="nf">market</span><span class="p">.</span><span class="nf">retail?</span> <span class="p">},</span> <span class="ss">:desktop?</span><span class="p">],</span>
+                    <span class="ss">unless: </span><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">c</span><span class="p">.</span><span class="nf">trackpad</span><span class="p">.</span><span class="nf">present?</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Computer &lt; ApplicationRecord
+  validates :mouse, presence: true,
+                    if: [Proc.new { |c| c.market.retail? }, :desktop?],
+                    unless: Proc.new { |c| c.trackpad.present? }
+end
+">Copy</button>
+</div>
+<p>驗證僅在所有 <code>:if</code> 條件且不滿足任何條件時執行
+<code>:unless</code> 條件評估為 <code>true</code>。</p><h3 id=""><a class="anchorlink" href="#">6 執行自定義驗證</a></h3><p>當內建驗證 helpers 不足以滿足您的需求時，您可以
+根據需要編寫自己的驗證器或驗證方法。</p><h4 id=""><a class="anchorlink" href="#">6.1 自定義驗證器</a></h4><p>自定義驗證器是從 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validator.html"><code>ActiveModel::Validator</code></a> 繼承的類。這些
+類必須實現 <code>validate</code> 方法，該方法將記錄作為引數
+並對其進行驗證。自定義驗證器使用
+<code>validates_with</code> 方法。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">MyValidator</span> <span class="o">&lt;</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Validator</span>
+  <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">unless</span> <span class="n">record</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">start_with?</span> <span class="s1">'X'</span>
+      <span class="n">record</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">add</span> <span class="ss">:name</span><span class="p">,</span> <span class="s2">"Need a name starting with X please!"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Person</span>
+  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Validations</span>
+  <span class="n">validates_with</span> <span class="no">MyValidator</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class MyValidator &lt; ActiveModel::Validator
+  def validate(record)
+    unless record.name.start_with? 'X'
+      record.errors.add :name, &quot;Need a name starting with X please!&quot;
+    end
+  end
+end
+
+class Person
+  include ActiveModel::Validations
+  validates_with MyValidator
+end
+">Copy</button>
+</div>
+<p>新增自定義驗證器以驗證單個屬性的最簡單方法
+是用方便的<a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/EachValidator.html"><code>ActiveModel::EachValidator</code></a>。在這種情況下，自定義
+驗證器類必須實現一個 <code>validate_each</code> 方法，該方法需要三個
+引數：記錄、屬性和 value。這些對應於實例，
+要驗證的屬性，以及傳入的屬性的value
+實例。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">EmailValidator</span> <span class="o">&lt;</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">EachValidator</span>
+  <span class="k">def</span> <span class="nf">validate_each</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">unless</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i</span>
+      <span class="n">record</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">add</span> <span class="n">attribute</span><span class="p">,</span> <span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span> <span class="o">||</span> <span class="s2">"is not an email"</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">email: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class EmailValidator &lt; ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    unless value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+      record.errors.add attribute, (options[:message] || "is not an email")
+    end
+  end
+end
+
+class Person &lt; ApplicationRecord
+  validates :email, presence: true, email: true
+end
+'>Copy</button>
+</div>
+<p>如示例所示，您還可以將標準驗證與您的
+自己的自定義驗證器。</p><h4 id=""><a class="anchorlink" href="#">6.2 自定義方法</a></h4><p>您還可以建立驗證 models 狀態的方法並新增
+<code>errors</code> 集合無效時的錯誤。那麼你必須
+使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations/ClassMethods.html#method-i-validate"><code>validate</code></a> 註冊這些方法
+類方法，傳入 symbols 作為驗證方法的名稱。</p><p>您可以為每個類方法和各自的方法傳遞多個 symbol
+驗證將按照與註冊相同的順序執行。</p><p><code>valid?</code> 方法將驗證錯誤集合是否為空，
+所以你的自定義驗證方法應該在你
+希望驗證失敗：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Invoice</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validate</span> <span class="ss">:expiration_date_cannot_be_in_the_past</span><span class="p">,</span>
+    <span class="ss">:discount_cannot_be_greater_than_total_value</span>
+
+  <span class="k">def</span> <span class="nf">expiration_date_cannot_be_in_the_past</span>
+    <span class="k">if</span> <span class="n">expiration_date</span><span class="p">.</span><span class="nf">present?</span> <span class="o">&amp;&amp;</span> <span class="n">expiration_date</span> <span class="o">&lt;</span> <span class="no">Date</span><span class="p">.</span><span class="nf">today</span>
+      <span class="n">errors</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="ss">:expiration_date</span><span class="p">,</span> <span class="s2">"can't be in the past"</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">discount_cannot_be_greater_than_total_value</span>
+    <span class="k">if</span> <span class="n">discount</span> <span class="o">&gt;</span> <span class="n">total_value</span>
+      <span class="n">errors</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="ss">:discount</span><span class="p">,</span> <span class="s2">"can't be greater than total value"</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Invoice &lt; ApplicationRecord
+  validate :expiration_date_cannot_be_in_the_past,
+    :discount_cannot_be_greater_than_total_value
+
+  def expiration_date_cannot_be_in_the_past
+    if expiration_date.present? &amp;&amp; expiration_date &lt; Date.today
+      errors.add(:expiration_date, &quot;can't be in the past&quot;)
+    end
+  end
+
+  def discount_cannot_be_greater_than_total_value
+    if discount &gt; total_value
+      errors.add(:discount, &quot;can't be greater than total value&quot;)
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>預設情況下，每次呼叫 <code>valid?</code> 時都會執行此類驗證
+或儲存物件。但是也可以控制何時執行這些
+透過為 <code>validate</code> 方法提供 <code>:on</code> 選項來自定義驗證，
+使用：<code>:create</code> 或 <code>:update</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Invoice</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validate</span> <span class="ss">:active_customer</span><span class="p">,</span> <span class="ss">on: :create</span>
+
+  <span class="k">def</span> <span class="nf">active_customer</span>
+    <span class="n">errors</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="ss">:customer_id</span><span class="p">,</span> <span class="s2">"is not active"</span><span class="p">)</span> <span class="k">unless</span> <span class="n">customer</span><span class="p">.</span><span class="nf">active?</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Invoice &lt; ApplicationRecord
+  validate :active_customer, on: :create
+
+  def active_customer
+    errors.add(:customer_id, "is not active") unless customer.active?
+  end
+end
+'>Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">7 處理驗證錯誤</a></h3><p><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Validations.html#method-i-valid-3F"><code>valid?</code></a> 和 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations.html#method-i-invalid-3F"><code>invalid?</code></a> 方法僅提供有效性的摘要狀態。但是，您可以使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations.html#method-i-errors"><code>errors</code></a> 集合中的各種方法深入挖掘每個錯誤。</p><p>下面列出了最常用的方法。有關所有可用方法的列表，請參閱 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Errors.html"><code>ActiveModel::Errors</code></a> 文件。</p><h4 id="errors"><a class="anchorlink" href="#errors">7.1 <code>errors</code></a></h4><p>您可以透過該閘道器深入瞭解每個錯誤的各種詳細資訊。</p><p>這將返回一個包含所有錯誤的類 <code>ActiveModel::Errors</code> 的實例，
+每個錯誤都由一個 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Error.html"><code>ActiveModel::Error</code></a> 物件表示。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">3</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, presence: true, length: { minimum: 3 }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="s2">"Name can't be blank"</span><span class="p">,</span> <span class="s2">"Name is too short (minimum is 3 characters)"</span><span class="p">]</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"John Doe"</span><span class="p">)</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span>
+<span class="p">=&gt;</span> <span class="p">[]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='person = Person.new
+person.valid?
+person.errors.full_messages
+person = Person.new(name: "John Doe")
+person.valid?
+person.errors.full_messages
+'>Copy</button>
+</div>
+<h4 id="errors"><a class="anchorlink" href="#errors">7.2 <code>errors[]</code></a></h4><p>[<code>errors[]</code>][Errors#squarebrackets] 用於檢查特定屬性的錯誤訊息。它返回一個字串陣列，其中包含給定屬性的所有錯誤訊息，每個字串包含一個錯誤訊息。如果沒有與屬性相關的錯誤，則返回一個空陣列。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">3</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, presence: true, length: { minimum: 3 }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"John Doe"</span><span class="p">)</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span>
+<span class="p">=&gt;</span> <span class="p">[]</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"JD"</span><span class="p">)</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="s2">"is too short (minimum is 3 characters)"</span><span class="p">]</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span>
+<span class="p">=&gt;</span> <span class="p">[</span><span class="s2">"can't be blank"</span><span class="p">,</span> <span class="s2">"is too short (minimum is 3 characters)"</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='person = Person.new(name: "John Doe")
+person.valid?
+person.errors[:name]
+person = Person.new(name: "JD")
+person.valid?
+person.errors[:name]
+person = Person.new
+person.valid?
+person.errors[:name]
+'>Copy</button>
+</div>
+<h4 id="errors-where"><a class="anchorlink" href="#errors-where">7.3 <code>errors.where</code> 和錯誤物件</a></h4><p>有時，除了訊息之外，我們可能還需要有關每個錯誤的更多資訊。每個錯誤都封裝成一個<code>ActiveModel::Error</code>物件，<a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Errors.html#method-i-where"><code>where</code></a>方法是最常見的訪問方式。</p><p><code>where</code> 返回一個錯誤物件陣列，按不同程度的條件過濾。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">3</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, presence: true, length: { minimum: 3 }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="p">[</span> <span class="o">...</span> <span class="p">]</span> <span class="c1"># all errors for :name attribute</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:too_short</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="p">[</span> <span class="o">...</span> <span class="p">]</span> <span class="c1"># :too_short errors for :name attribute</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person = Person.new
+person.valid?
+person.errors.where(:name)
+person.errors.where(:name, :too_short)
+">Copy</button>
+</div>
+<p>您可以從這些錯誤物件中讀取各種資訊：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">error</span> <span class="o">=</span> <span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">:name</span><span class="p">).</span><span class="nf">last</span>
+<span class="err">
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="nf">attribute</span>
+<span class="p">=&gt;</span> <span class="ss">:name</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="nf">type</span>
+<span class="p">=&gt;</span> <span class="ss">:too_short</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="nf">options</span><span class="p">[</span><span class="ss">:count</span><span class="p">]</span>
+<span class="p">=&gt;</span> <span class="mi">3</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="error = person.errors.where(:name).last
+error.attribute
+error.type
+error.options[:count]
+">Copy</button>
+</div>
+<p>您還可以生成錯誤訊息：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="nf">message</span>
+<span class="p">=&gt;</span> <span class="s2">"is too short (minimum is 3 characters)"</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="nf">full_message</span>
+<span class="p">=&gt;</span> <span class="s2">"Name is too short (minimum is 3 characters)"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="error.message
+error.full_message
+">Copy</button>
+</div>
+<p><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Errors.html#method-i-full_message"><code>full_message</code></a> 方法生成更加使用者友好的訊息，並在前面加上大寫的屬性名稱。</p><h4 id="errors-add"><a class="anchorlink" href="#errors-add">7.4 <code>errors.add</code></a></h4><p><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Errors.html#method-i-add"><code>add</code></a> 方法透過獲取 <code>attribute</code>、錯誤 <code>type</code> 和其他選項雜湊來建立錯誤物件。這對於編寫自己的驗證器很有用。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validate</span> <span class="k">do</span> <span class="o">|</span><span class="n">person</span><span class="o">|</span>
+    <span class="n">errors</span><span class="p">.</span><span class="nf">add</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:too_plain</span><span class="p">,</span> <span class="ss">message: </span><span class="s2">"is not cool enough"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Person &lt; ApplicationRecord
+  validate do |person|
+    errors.add :name, :too_plain, message: "is not cool enough"
+  end
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">create</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">:name</span><span class="p">).</span><span class="nf">first</span><span class="p">.</span><span class="nf">type</span>
+<span class="p">=&gt;</span> <span class="ss">:too_plain</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">:name</span><span class="p">).</span><span class="nf">first</span><span class="p">.</span><span class="nf">full_message</span>
+<span class="p">=&gt;</span> <span class="s2">"Name is not cool enough"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person = Person.create
+person.errors.where(:name).first.type
+person.errors.where(:name).first.full_message
+">Copy</button>
+</div>
+<h4 id="errors-base"><a class="anchorlink" href="#errors-base">7.5 <code>errors[:base]</code></a></h4><p>您可以新增與物件整體狀態相關的錯誤，而不是與特定屬性相關的錯誤。無論其屬性的values如何，當您想說該物件無效時，都可以在<code>:base</code>中新增錯誤。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validate</span> <span class="k">do</span> <span class="o">|</span><span class="n">person</span><span class="o">|</span>
+    <span class="n">errors</span><span class="p">.</span><span class="nf">add</span> <span class="ss">:base</span><span class="p">,</span> <span class="ss">:invalid</span><span class="p">,</span> <span class="ss">message: </span><span class="s2">"This person is invalid because ..."</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Person &lt; ApplicationRecord
+  validate do |person|
+    errors.add :base, :invalid, message: "This person is invalid because ..."
+  end
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">create</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">:base</span><span class="p">).</span><span class="nf">first</span><span class="p">.</span><span class="nf">full_message</span>
+<span class="p">=&gt;</span> <span class="s2">"This person is invalid because ..."</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person = Person.create
+person.errors.where(:base).first.full_message
+">Copy</button>
+</div>
+<h4 id="errors-clear"><a class="anchorlink" href="#errors-clear">7.6 <code>errors.clear</code></a></h4><p>當您有意清除 <code>errors</code> 集合時，將使用 <code>clear</code> 方法。當然，在無效物件上呼叫 <code>errors.clear</code> 實際上不會使其有效：<code>errors</code> 集合現在將為空，但是下次您呼叫 <code>valid?</code> 或任何嘗試將此物件儲存到資料庫的方法時，驗證將再次執行.如果任何驗證失敗，則將再次填充 <code>errors</code> 集合。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">3</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, presence: true, length: { minimum: 3 }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">empty?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">clear</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">empty?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">save</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">empty?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="person = Person.new
+person.valid?
+person.errors.empty?
+person.errors.clear
+person.errors.empty?
+person.save
+person.errors.empty?
+">Copy</button>
+</div>
+<h4 id="errors-size"><a class="anchorlink" href="#errors-size">7.7 <code>errors.size</code></a></h4><p><code>size</code> 方法返回物件的錯誤總數。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">3</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+  validates :name, presence: true, length: { minimum: 3 }
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">size</span>
+<span class="p">=&gt;</span> <span class="mi">2</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"Andrea"</span><span class="p">,</span> <span class="ss">email: </span><span class="s2">"andrea@example.com"</span><span class="p">)</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="p">=&gt;</span> <span class="kp">true</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">size</span>
+<span class="p">=&gt;</span> <span class="mi">0</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='person = Person.new
+person.valid?
+person.errors.size
+person = Person.new(name: "Andrea", email: "andrea@example.com")
+person.valid?
+person.errors.size
+'>Copy</button>
+</div>
+<h3 id="view"><a class="anchorlink" href="#view">8 在 View 中顯示驗證錯誤</a></h3><p>建立 model 並新增驗證後，如果該 model 是透過建立的
+Web 表單，您可能希望在以下情況之一時顯示錯誤訊息
+驗證失敗。</p><p>因為每個應用程式處理這種事情的方式都不一樣，所以 Rails 是這樣做的
+不包含任何 view helpers 來幫助您直接生成這些訊息。
+然而，由於 Rails 為您提供了豐富的互動方法
+一般驗證，您可以構建自己的。此外，當
+生成一個 scaffold，Rails 會將一些 ERB 放入 <code>_form.html.erb</code>
+它生成顯示該 model 上的完整錯誤列表。</p><p>假設我們有一個 model 儲存在一個名為的實例變數中
+<code>@article</code>，它看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">any?</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"error_explanation"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h2&gt;</span><span class="cp">&lt;%=</span> <span class="n">pluralize</span><span class="p">(</span><span class="vi">@article</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">count</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">)</span> <span class="cp">%&gt;</span> prohibited this article from being saved:<span class="nt">&lt;/h2&gt;</span>
+
+    <span class="nt">&lt;ul&gt;</span>
+      <span class="cp">&lt;%</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">error</span><span class="o">|</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">error</span><span class="p">.</span><span class="nf">full_message</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;% if @article.errors.any? %&gt;
+  &lt;div id="error_explanation"&gt;
+    &lt;h2&gt;&lt;%= pluralize(@article.errors.count, "error") %&gt; prohibited this article from being saved:&lt;/h2&gt;
+
+    &lt;ul&gt;
+      &lt;% @article.errors.each do |error| %&gt;
+        &lt;li&gt;&lt;%= error.full_message %&gt;&lt;/li&gt;
+      &lt;% end %&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>此外，如果您使用 Rails 表單 helpers 生成表單，則當
+欄位上發生驗證錯誤，它會在周圍生成一個額外的 <code>&lt;div&gt;</code>
+入口。</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"field_with_errors"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"article_title"</span> <span class="na">name=</span><span class="s">"article[title]"</span> <span class="na">size=</span><span class="s">"30"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;div class="field_with_errors"&gt;
+  &lt;input id="article_title" name="article[title]" size="30" type="text" value=""&gt;
+&lt;/div&gt;
+'>Copy</button>
+</div>
+<p>然後，您可以隨意設定此 div 的樣式。預設的 scaffold 即
+例如，Rails 生成添加了這個 CSS 規則：</p><div class="code_container">
+<pre><code class="highlight css"><span class="nc">.field_with_errors</span> <span class="p">{</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">2px</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">table</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text=".field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+">Copy</button>
+</div>
+<p>這意味著任何有錯誤的欄位都會以 2 畫素的紅色邊框結束。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

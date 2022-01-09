@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Active Record 基礎知識 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Active Record 基礎知識 — Ruby on Rails Guides" />
+  <meta name="description" content="Active Record 基礎知識本指南是對 Active Record 的介紹。閱讀本指南後，您將瞭解： 什麼是物件關係對映和 Active Record 以及它們是如何使用的。 Active Record 如何適應 Model-View-Controller 正規化。 如何使用 Active Record models 來操作儲存在關係中的資料庫。 Active Record 架構命名約定。 資料庫migrations、驗證和callbacks的概念。" />
+  <meta property="og:description" content="Active Record 基礎知識本指南是對 Active Record 的介紹。閱讀本指南後，您將瞭解： 什麼是物件關係對映和 Active Record 以及它們是如何使用的。 Active Record 如何適應 Model-View-Controller 正規化。 如何使用 Active Record models 來操作儲存在關係中的資料庫。 Active Record 架構命名約定。 資料庫migrations、驗證和callbacks的概念。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Active Record 基礎知識</h2><p>本指南是對 Active Record 的介紹。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>什麼是物件關係對映和 Active Record 以及它們是如何使用的。</li>
+<li>Active Record 如何適應 Model-View-Controller 正規化。</li>
+<li>如何使用 Active Record models 來操作儲存在關係中的資料庫。</li>
+<li>Active Record 架構命名約定。</li>
+<li>資料庫migrations、驗證和callbacks的概念。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#active-record">Active Record 是什麼？</a>
+
+<ul>
+<li><a href="#active-record">Active Record 模式</a></li>
+<li><a href="#">物件關係對映</a></li>
+<li><a href="#active-record-orm">Active Record 作為 ORM 框架</a></li>
+</ul>
+</li>
+<li>
+<a href="#active-record">Active Record 中的約定優於配置</a>
+
+<ul>
+<li><a href="#">命名約定</a></li>
+<li><a href="#">模式約定</a></li>
+</ul>
+</li>
+<li><a href="#active-record-model">建立 Active Record Model</a></li>
+<li><a href="#">覆蓋命名約定</a></li>
+<li>
+<a href="#crud">CRUD：讀寫資料</a>
+
+<ul>
+<li><a href="#">建立</a></li>
+<li><a href="#">讀取</a></li>
+<li><a href="#">更新</a></li>
+<li><a href="#">刪除</a></li>
+</ul>
+</li>
+<li><a href="#">驗證</a></li>
+<li><a href="#callbacks">Callbacks</a></li>
+<li><a href="#migrations">Migrations</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="active-record"><a class="anchorlink" href="#active-record">1 Active Record 是什麼？</a></h3><p>Active Record 是 <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> 中的 M -
+model - 負責代表業務的系統層
+資料和邏輯。 Active Record 方便業務的建立和使用
+其資料需要持久儲存到資料庫的物件。它是一個
+Active Record 模式的實現，它本身是對
+物件關係對映系統。</p><h4 id="active-record"><a class="anchorlink" href="#active-record">1.1 Active Record 模式</a></h4><p><a href="https://www.martinfowler.com/eaaCatalog/activeRecord.html">Active Record 由 Martin Fowler 描述</a>
+在他的《企業應用程式架構模式》一書中。在
+Active Record，物件攜帶持久資料和行為
+對這些資料進行操作。 Active Record 認為確保
+作為物件的一部分的資料訪問邏輯將教育使用者
+關於如何寫入和讀取資料庫的物件。</p><h4 id=""><a class="anchorlink" href="#">1.2 物件關係對映</a></h4><p><a href="https://en.wikipedia.org/wiki/Object-relational_mapping">Object Relational Mapping</a>，通常簡稱為ORM，是
+一種將應用程式的豐富物件連線到表的技術
+一個關係資料庫管理系統。使用 ORM，屬性和
+應用程式中物件的關係可以很容易地儲存和
+從資料庫中檢索，無需直接編寫 SQL 語句，使用較少
+整體資料庫訪問程式碼。</p><div class="note"><p>關係資料庫管理系統 (RDBMS) 和結構化查詢語言 (SQL) 的基本知識有助於充分理解 Active Record。請參考<a href="https://www.w3schools.com/sql/default.asp">本教學手冊</a>(或<a href="http://www.sqlcourse.com/">本教學手冊</a>)或透過其他方式學習。</p></div><h4 id="active-record-orm"><a class="anchorlink" href="#active-record-orm">1.3 Active Record 作為 ORM 框架</a></h4><p>Active Record 給了我們幾個機制，最重要的是能力
+到：</p>
+<ul>
+<li>代表models 及其資料。</li>
+<li>代表這些 models 之間的 associations。</li>
+<li>透過相關的models 表示繼承層次。</li>
+<li>在它們被持久化到資料庫之前驗證 models。</li>
+<li>以面向物件的方式執行資料庫操作。</li>
+</ul>
+<h3 id="active-record"><a class="anchorlink" href="#active-record">2 Active Record 中的約定優於配置</a></h3><p>在使用其他程式語言或框架編寫應用程式時，它
+可能需要寫很多配置程式碼。這是特別真實的
+一般用於 ORM 框架。但是，如果您遵循
+Rails，你只需要編寫很少的配置（在某些情況下不需要
+配置）建立 Active Record models 時。這個想法是，如果
+大多數時候你以同樣的方式配置你的應用程式然後這個
+應該是預設方式。因此，需要顯式配置
+僅在您無法遵循標準約定的情況下。</p><h4 id=""><a class="anchorlink" href="#">2.1 命名約定</a></h4><p>預設情況下，Active Record 使用一些命名約定來找出
+應建立 models 和資料庫表之間的對映。 Rails 將
+將您的類名複數化以找到相應的資料庫表。因此對於
+一個類 <code>Book</code>，你應該有一個名為 <strong>books</strong> 的資料庫表。Rails
+多元化機制非常強大，能夠多元化（和
+單數化）規則詞和不規則詞。使用組成的類名時
+兩個或多個單詞，model 類名應遵循 Ruby 約定，
+使用CamelCase形式，而表名必須使用snake_case形式。例子：</p>
+<ul>
+<li>Model 類 - 每個單詞的第一個字母大寫的單數（例如，
+<code>BookClub</code>）。</li>
+<li>資料庫表 - 複數用下劃線分隔單詞（例如，<code>book_clubs</code>）。</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Model / 班級</th>
+<th>表/架構</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Article</code></td>
+<td><code>articles</code></td>
+</tr>
+<tr>
+<td><code>LineItem</code></td>
+<td><code>line_items</code></td>
+</tr>
+<tr>
+<td><code>Deer</code></td>
+<td><code>deers</code></td>
+</tr>
+<tr>
+<td><code>Mouse</code></td>
+<td><code>mice</code></td>
+</tr>
+<tr>
+<td><code>Person</code></td>
+<td><code>people</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id=""><a class="anchorlink" href="#">2.2 模式約定</a></h4><p>Active Record 對資料庫表中的列使用命名約定，
+取決於這些列的用途。</p>
+<ul>
+<li>
+<strong>外部 keys</strong> - 這些欄位應按照模式命名
+<code>singularized_table_name_id</code>（例如，<code>item_id</code>、<code>order_id</code>）。這些是
+當您在兩者之間建立 associations 時，Active Record 將查詢的欄位
+您的 models。</li>
+<li>
+<strong>主 keys</strong> - 預設情況下，Active Record 將使用名為的整數列
+<code>id</code> 作為表的主 key（對於 PostgreSQL 和 MySQL，<code>bigint</code>，<code>integer</code>
+對於 SQLite）。當使用 <a href="active_record_migrations.html">Active Record Migrations</a>
+要建立表，將自動建立此列。</li>
+</ul>
+<p>還有一些可選的列名稱將新增其他功能
+到 Active Record 實例：</p>
+<ul>
+<li>
+<code>created_at</code> - 自動設定為當前日期和時間，當
+記錄首先被建立。</li>
+<li>
+<code>updated_at</code> - 自動設定為當前日期和時間
+記錄被建立或更新。</li>
+<li>
+<code>lock_version</code> - 新增 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Locking.html">樂觀
+鎖定</a> 到
+model。</li>
+<li>
+<code>type</code> - 指定 model 使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Base.html#class-ActiveRecord::Base-label-Single+table+inheritance">單表
+繼承</a>。</li>
+<li>
+<code>(association_name)_type</code> - 儲存型別
+<a href="association_basics.html#polymorphic-associations">多型 associations</a>。</li>
+<li>
+<code>(table_name)_count</code> - 用於快取所屬物件的數量
+associations。例如，<code>Article</code> 類中的 <code>comments_count</code> 列
+有很多 <code>Comment</code> 的實例會快取現有評論的數量
+對於每篇文章。</li>
+</ul>
+<div class="note"><p>雖然這些列名是可選的，但實際上它們是由 Active Record 保留的。除非您想要額外的功能，否則請避開保留的 keywords。例如，<code>type</code> 是保留的 key 字，用於指定使用單表繼承 (STI) 的表。如果您沒有使用 STI，請嘗試使用類似的 key 詞，例如“上下文”，它仍然可以準確地描述您使用的 modeling 資料。</p></div><h3 id="active-record-model"><a class="anchorlink" href="#active-record-model">3 建立 Active Record Model</a></h3><p>要建立 Active Record models，子類化 <code>ApplicationRecord</code> 類，你就可以開始了：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Product</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Product &lt; ApplicationRecord
+end
+">Copy</button>
+</div>
+<p>這將建立一個 <code>Product</code> model，對映到一個 <code>products</code> 表
+資料庫。透過這樣做，您還可以對映每個
+該表中的行具有 model 實例的屬性。認為
+<code>products</code> 表是使用 SQL（或其擴充套件之一）語句建立的，例如：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">products</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="CREATE TABLE products (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255),
+  PRIMARY KEY  (id)
+);
+">Copy</button>
+</div>
+<p>上面的模式聲明瞭一個包含兩列的表：<code>id</code> 和 <code>name</code>。每一行
+該表代表了具有這兩個引數的某個產品。這樣，你
+將能夠編寫如下程式碼：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">p</span> <span class="o">=</span> <span class="no">Product</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s2">"Some Book"</span>
+<span class="nb">puts</span> <span class="nb">p</span><span class="p">.</span><span class="nf">name</span> <span class="c1"># "Some Book"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='p = Product.new
+p.name = "Some Book"
+puts p.name # "Some Book"
+'>Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">4 覆蓋命名約定</a></h3><p>如果您需要遵循不同的命名約定或需要使用您的
+帶有舊資料庫的 Rails 應用程式？沒問題，您可以輕鬆覆蓋
+預設約定。</p><p><code>ApplicationRecord</code> 繼承自 <code>ActiveRecord::Base</code>，它定義了一個
+一些有用的方法。您可以使用 <code>ActiveRecord::Base.table_name=</code>
+方法來指定應該使用的表名：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Product</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">table_name</span> <span class="o">=</span> <span class="s2">"my_products"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Product &lt; ApplicationRecord
+  self.table_name = "my_products"
+end
+'>Copy</button>
+</div>
+<p>如果這樣做，則必須手動定義託管的類名
+在您的測試中使用 <code>set_fixture_class</code> 方法的裝置 (my_products.yml)
+定義：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ProductTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="n">set_fixture_class</span> <span class="ss">my_products: </span><span class="no">Product</span>
+  <span class="n">fixtures</span> <span class="ss">:my_products</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ProductTest &lt; ActiveSupport::TestCase
+  set_fixture_class my_products: Product
+  fixtures :my_products
+  # ...
+end
+">Copy</button>
+</div>
+<p>也可以覆蓋應該用作表的列
+使用 <code>ActiveRecord::Base.primary_key=</code> 方法的主要 key：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Product</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">primary_key</span> <span class="o">=</span> <span class="s2">"product_id"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Product &lt; ApplicationRecord
+  self.primary_key = "product_id"
+end
+'>Copy</button>
+</div>
+<div class="note"><p>Active Record 不支援使用名為 <code>id</code> 的非主要 key 列。</p></div><h3 id="crud"><a class="anchorlink" href="#crud">5 CRUD：讀寫資料</a></h3><p>CRUD 是我們用來操作資料的四個動詞的首字母縮寫詞：<strong>C</strong>reate，
+<strong>R</strong>ead、<strong>U</strong>pdate 和 <strong>D</strong>elete。 Active Record 自動建立方法
+允許應用程式讀取和操作儲存在其表中的資料。</p><h4 id=""><a class="anchorlink" href="#">5.1 建立</a></h4><p>Active Record 物件可以從一個雜湊、一個塊中建立，或者擁有它們的
+建立後手動設定屬性。 <code>new</code> 方法將返回一個新的
+物件，而 <code>create</code> 將返回物件並將其儲存到資料庫中。</p><p>例如，給定一個 model <code>User</code> 屬性為 <code>name</code> 和 <code>occupation</code>，
+<code>create</code> 方法呼叫將建立一個新記錄並將其儲存到資料庫中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"David"</span><span class="p">,</span> <span class="ss">occupation: </span><span class="s2">"Code Artist"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='user = User.create(name: "David", occupation: "Code Artist")
+'>Copy</button>
+</div>
+<p>使用 <code>new</code> 方法，可以在不儲存的情況下實例化物件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">user</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s2">"David"</span>
+<span class="n">user</span><span class="p">.</span><span class="nf">occupation</span> <span class="o">=</span> <span class="s2">"Code Artist"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='user = User.new
+user.name = "David"
+user.occupation = "Code Artist"
+'>Copy</button>
+</div>
+<p>呼叫 <code>user.save</code> 會將記錄提交到資料庫。</p><p>最後，如果提供了一個塊，<code>create</code> 和 <code>new</code> 都會產生新的
+物件到該塊進行初始化：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">u</span><span class="o">|</span>
+  <span class="n">u</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s2">"David"</span>
+  <span class="n">u</span><span class="p">.</span><span class="nf">occupation</span> <span class="o">=</span> <span class="s2">"Code Artist"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='user = User.new do |u|
+  u.name = "David"
+  u.occupation = "Code Artist"
+end
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">5.2 讀取</a></h4><p>Active Record 提供了豐富的 API 來訪問資料庫中的資料。以下
+是幾個由 Active Record 提供的不同資料訪問方法的例子。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 返回一個包含所有使用者的集合</span>
+<span class="n">users</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">all</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 返回一個包含所有使用者的集合
+users = User.all
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 返回第一個使用者</span>
+<span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">first</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 返回第一個使用者
+user = User.first
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 返回第一個名為 David 的使用者</span>
+<span class="n">david</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'David'</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 返回第一個名為 David 的使用者
+david = User.find_by(name: 'David')
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 查詢所有名為 David 的 Code Artists 使用者並按 created_at 按時間倒序排序</span>
+<span class="n">users</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'David'</span><span class="p">,</span> <span class="ss">occupation: </span><span class="s1">'Code Artist'</span><span class="p">).</span><span class="nf">order</span><span class="p">(</span><span class="ss">created_at: :desc</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 查詢所有名為 David 的 Code Artists 使用者並按 created_at 按時間倒序排序
+users = User.where(name: 'David', occupation: 'Code Artist').order(created_at: :desc)
+">Copy</button>
+</div>
+<p>您可以在 <a href="active_record_querying.html">Active Record 中瞭解更多關於查詢 Active Record model
+查詢介面</a> 指南。</p><h4 id=""><a class="anchorlink" href="#">5.3 更新</a></h4><p>一旦檢索到 Active Record 物件，就可以修改其屬性
+它可以儲存到資料庫中。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'David'</span><span class="p">)</span>
+<span class="n">user</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s1">'Dave'</span>
+<span class="n">user</span><span class="p">.</span><span class="nf">save</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="user = User.find_by(name: 'David')
+user.name = 'Dave'
+user.save
+">Copy</button>
+</div>
+<p>對此的簡寫是使用雜湊對映屬性名稱到所需的
+value，像這樣：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'David'</span><span class="p">)</span>
+<span class="n">user</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'Dave'</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="user = User.find_by(name: 'David')
+user.update(name: 'Dave')
+">Copy</button>
+</div>
+<p>這在一次更新多個屬性時最有用。如果，另一方面
+手，你想批次更新多條記錄，你可能會發現
+<code>update_all</code> 類方法有用：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">User</span><span class="p">.</span><span class="nf">update_all</span> <span class="s2">"max_login_attempts = 3, must_change_password = 'true'"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="User.update_all &quot;max_login_attempts = 3, must_change_password = 'true'&quot;
+">Copy</button>
+</div>
+<p>這就像你寫的一樣：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">User</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span> <span class="ss">max_login_attempts: </span><span class="mi">3</span><span class="p">,</span> <span class="ss">must_change_password: </span><span class="kp">true</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="User.update(:all, max_login_attempts: 3, must_change_password: true)
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">5.4 刪除</a></h4><p>同樣，一旦檢索到一個 Active Record 物件就可以被銷燬，從而刪除
+它來自資料庫。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'David'</span><span class="p">)</span>
+<span class="n">user</span><span class="p">.</span><span class="nf">destroy</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="user = User.find_by(name: 'David')
+user.destroy
+">Copy</button>
+</div>
+<p>如果你想批次刪除多條記錄，你可以使用 <code>destroy_by</code>
+或 <code>destroy_all</code> 方法：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 查詢並刪除所有名為 David 的使用者</span>
+<span class="no">User</span><span class="p">.</span><span class="nf">destroy_by</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'David'</span><span class="p">)</span>
+
+<span class="c1"># 刪除所有使用者</span>
+<span class="no">User</span><span class="p">.</span><span class="nf">destroy_all</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 查詢並刪除所有名為 David 的使用者
+User.destroy_by(name: 'David')
+
+# 刪除所有使用者
+User.destroy_all
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">6 驗證</a></h3><p>Active Record 允許您在寫入之前驗證 model 的狀態
+進入資料庫。有幾種方法可以用來檢查你的
+models 並驗證屬性 value 不為空、唯一且不
+已經在資料庫中，遵循特定格式，等等。</p><p>驗證是持久化到資料庫時要考慮的一個非常重要的問題，因此
+方法 <code>save</code> 和 <code>update</code> 在
+執行：他們在驗證失敗時返回 <code>false</code> 而實際上並沒有
+對資料庫執行任何操作。所有這些都有一個爆炸對應物（即
+是，<code>save!</code> 和 <code>update!</code>），它們更嚴格
+如果驗證失敗，它們會引發異常 <code>ActiveRecord::RecordInvalid</code>。
+一個簡單的例子來說明：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class User &lt; ApplicationRecord
+  validates :name, presence: true
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">new</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="nf">save</span>
+<span class="p">=&gt;</span> <span class="kp">false</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="nf">save!</span>
+<span class="go">ActiveRecord::RecordInvalid: Validation failed: Name can't be blank
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="user = User.new
+user.save
+user.save!
+">Copy</button>
+</div>
+<p>您可以在 <a href="active_record_validations.html">Active Record 驗證
+指南</a>。</p><h3 id="callbacks"><a class="anchorlink" href="#callbacks">7 Callbacks</a></h3><p>Active Record callbacks 允許您將程式碼附加到
+models 的生命週期。這使您可以透過以下方式向 models 新增行為
+當這些事件發生時透明地執行程式碼，比如當你建立一個新的
+記錄、更新、銷燬，等等。你可以在 callbacks 中瞭解更多
+<a href="active_record_callbacks.html">Active Record Callbacks 指南</a>。</p><h3 id="migrations"><a class="anchorlink" href="#migrations">8 Migrations</a></h3><p>Rails 提供了一種特定領域的語言來管理稱為
+遷移。 Migration 儲存在針對任何
+Active Record 支援使用 <code>rake</code> 的資料庫。這是一個 migration
+建立一個表：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">CreatePublications</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="p">[</span><span class="mf">7.0</span><span class="p">]</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="ss">:publications</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:title</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">text</span> <span class="ss">:description</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">references</span> <span class="ss">:publication_type</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">integer</span> <span class="ss">:publisher_id</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:publisher_type</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">boolean</span> <span class="ss">:single_issue</span>
+
+      <span class="n">t</span><span class="p">.</span><span class="nf">timestamps</span>
+    <span class="k">end</span>
+    <span class="n">add_index</span> <span class="ss">:publications</span><span class="p">,</span> <span class="ss">:publication_type_id</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CreatePublications &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :publications do |t|
+      t.string :title
+      t.text :description
+      t.references :publication_type
+      t.integer :publisher_id
+      t.string :publisher_type
+      t.boolean :single_issue
+
+      t.timestamps
+    end
+    add_index :publications, :publication_type_id
+  end
+end
+">Copy</button>
+</div>
+<p>Rails 會跟蹤哪些檔案已提交到資料庫中，並且
+提供回滾功能。要實際建立表，您需要執行 <code>bin/rails db:migrate</code>，
+並回滾它，<code>bin/rails db:rollback</code>。</p><p>請注意，上面的程式碼與資料庫無關：它將在 MySQL 中執行，
+PostgreSQL、Oracle 等。您可以瞭解更多關於 migrations 的資訊
+<a href="active_record_migrations.html">Active Record Migrations 指南</a>。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

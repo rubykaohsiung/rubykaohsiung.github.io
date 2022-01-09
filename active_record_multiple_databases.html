@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>具有 Active Record 的多個數據庫 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="具有 Active Record 的多個數據庫 — Ruby on Rails Guides" />
+  <meta name="description" content="具有 Active Record 的多個數據庫本指南涵蓋在 Rails 應用程式中使用多個數據庫。閱讀本指南後，您將瞭解： 如何為多個數據庫設定應用程式。 自動連線切換的工作原理。 如何對多個數據庫使用水平分片。 如何從 legacy_connection_handling 遷移到新的連線處理。 支援哪些功能以及哪些仍在進行中。" />
+  <meta property="og:description" content="具有 Active Record 的多個數據庫本指南涵蓋在 Rails 應用程式中使用多個數據庫。閱讀本指南後，您將瞭解： 如何為多個數據庫設定應用程式。 自動連線切換的工作原理。 如何對多個數據庫使用水平分片。 如何從 legacy_connection_handling 遷移到新的連線處理。 支援哪些功能以及哪些仍在進行中。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>具有 Active Record 的多個數據庫</h2><p>本指南涵蓋在 Rails 應用程式中使用多個數據庫。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何為多個數據庫設定應用程式。</li>
+<li>自動連線切換的工作原理。</li>
+<li>如何對多個數據庫使用水平分片。</li>
+<li>如何從 <code>legacy_connection_handling</code> 遷移到新的連線處理。</li>
+<li>支援哪些功能以及哪些仍在進行中。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#">設定您的應用程式</a></li>
+<li><a href="#migration">無需管理架構和 Migration 即可連線到資料庫</a></li>
+<li><a href="#migrations">發電機和 Migrations</a></li>
+<li><a href="#">開啟自動連線切換</a></li>
+<li><a href="#">使用手動連線切換</a></li>
+<li><a href="#">水平分片</a></li>
+<li><a href="#">遷移到新的連線處理</a></li>
+<li>
+<a href="#">粒度資料庫連線切換</a>
+
+<ul>
+<li><a href="#associations">透過跨資料庫連線處理 associations</a></li>
+</ul>
+</li>
+<li>
+<a href="#">注意事項</a>
+
+<ul>
+<li><a href="#">水平分片的自動交換</a></li>
+<li><a href="#">負載均衡副本</a></li>
+<li><a href="#">架構快取</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <p>隨著應用程式越來越流行和使用，您需要擴充套件應用程式
+支援您的新使用者及其資料。您的應用程式可能需要的一種方式
+擴充套件是在資料庫級別。 Rails 現在支援多個數據庫
+因此您不必將所有資料都儲存在一個地方。</p><p>目前支援以下功能：</p>
+<ul>
+<li>多個作者資料庫和每個副本</li>
+<li>您正在使用的 model 的自動連線切換</li>
+<li>根據 HTTP 動詞在作者和副本之間自動交換
+和最近的寫作</li>
+<li>用於建立、刪除、遷移和與多個互動的 Rails 任務
+資料庫</li>
+</ul>
+<p>（尚）不支援以下功能：</p><p>*自動交換水平分片
+* 負載均衡副本
+* 為多個數據庫轉儲模式快取</p><h3 id=""><a class="anchorlink" href="#">1 設定您的應用程式</a></h3><p>儘管 Rails 嘗試為您完成大部分工作，但您仍然需要執行一些步驟
+需要做讓您的應用程式為多個數據庫做好準備。</p><p>假設我們有一個具有單個編寫器資料庫的應用程式，我們需要新增一個
+我們正在新增的一些新表的新資料庫。新資料庫的名稱將是
+“動物”。</p><p><code>database.yml</code> 看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">production</span><span class="pi">:</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">my_primary_database</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+  <span class="na">username</span><span class="pi">:</span> <span class="s">root</span>
+  <span class="na">password</span><span class="pi">:</span> <span class="s">&lt;%= ENV['ROOT_PASSWORD'] %&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="production:
+  database: my_primary_database
+  adapter: mysql2
+  username: root
+  password: &lt;%= ENV['ROOT_PASSWORD'] %&gt;
+">Copy</button>
+</div>
+<p>讓我們為第一個配置新增一個副本，以及一個名為動物的第二個資料庫和一個
+複製品也是如此。為此，我們需要將 <code>database.yml</code> 從 2 層更改為
+到 3 層配置。</p><p>如果提供了主要配置，它將用作“預設”配置。如果
+沒有名為 <code>"primary"</code> 的配置，Rails 會預設使用第一個配置
+對於每個環境。預設配置將使用預設 Rails 檔名。例如，
+主要配置將使用 <code>schema.rb</code> 作為架構檔案，而所有其他條目
+將使用 <code>[CONFIGURATION_NAMESPACE]_schema.rb</code> 作為檔名。</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">production</span><span class="pi">:</span>
+  <span class="na">primary</span><span class="pi">:</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">my_primary_database</span>
+    <span class="na">username</span><span class="pi">:</span> <span class="s">root</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="s">&lt;%= ENV['ROOT_PASSWORD'] %&gt;</span>
+    <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+  <span class="na">primary_replica</span><span class="pi">:</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">my_primary_database</span>
+    <span class="na">username</span><span class="pi">:</span> <span class="s">root_readonly</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="s">&lt;%= ENV['ROOT_READONLY_PASSWORD'] %&gt;</span>
+    <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+    <span class="na">replica</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">animals</span><span class="pi">:</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">my_animals_database</span>
+    <span class="na">username</span><span class="pi">:</span> <span class="s">animals_root</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="s">&lt;%= ENV['ANIMALS_ROOT_PASSWORD'] %&gt;</span>
+    <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+    <span class="na">migrations_paths</span><span class="pi">:</span> <span class="s">db/animals_migrate</span>
+  <span class="na">animals_replica</span><span class="pi">:</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">my_animals_database</span>
+    <span class="na">username</span><span class="pi">:</span> <span class="s">animals_readonly</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="s">&lt;%= ENV['ANIMALS_READONLY_PASSWORD'] %&gt;</span>
+    <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+    <span class="na">replica</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="production:
+  primary:
+    database: my_primary_database
+    username: root
+    password: &lt;%= ENV['ROOT_PASSWORD'] %&gt;
+    adapter: mysql2
+  primary_replica:
+    database: my_primary_database
+    username: root_readonly
+    password: &lt;%= ENV['ROOT_READONLY_PASSWORD'] %&gt;
+    adapter: mysql2
+    replica: true
+  animals:
+    database: my_animals_database
+    username: animals_root
+    password: &lt;%= ENV['ANIMALS_ROOT_PASSWORD'] %&gt;
+    adapter: mysql2
+    migrations_paths: db/animals_migrate
+  animals_replica:
+    database: my_animals_database
+    username: animals_readonly
+    password: &lt;%= ENV['ANIMALS_READONLY_PASSWORD'] %&gt;
+    adapter: mysql2
+    replica: true
+">Copy</button>
+</div>
+<p>使用多個數據庫時，有一些重要的設定。</p><p>首先，<code>primary</code> 和 <code>primary_replica</code> 的資料庫名稱應該相同，因為它們包含
+相同的資料。 <code>animals</code> 和 <code>animals_replica</code> 也是這種情況。</p><p>其次，作者和副本的使用者名稱應該不同，並且
+副本使用者的資料庫許可權應該設定為只讀而不是寫。</p><p>使用副本資料庫時，需要在副本中新增一個<code>replica: true</code>條目
+<code>database.yml</code>。這是因為 Rails 否則無法知道哪個是副本
+哪個是作者。 Rails 不會針對副本執行某些任務，例如 migrations。</p><p>最後，對於新的 writer 資料庫，您需要將 <code>migrations_paths</code> 設定為目錄
+您將為該資料庫儲存 migrations 的位置。我們將更多地關注 <code>migrations_paths</code>
+稍後在本指南中。</p><p>現在我們有了一個新的資料庫，讓我們建立連線 model。為了使用
+新資料庫 我們需要建立一個新的抽象類並連線到動物資料庫。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">AnimalsRecord</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">abstract_class</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="n">connects_to</span> <span class="ss">database: </span><span class="p">{</span> <span class="ss">writing: :animals</span><span class="p">,</span> <span class="ss">reading: :animals_replica</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class AnimalsRecord &lt; ApplicationRecord
+  self.abstract_class = true
+
+  connects_to database: { writing: :animals, reading: :animals_replica }
+end
+">Copy</button>
+</div>
+<p>然後我們需要更新 <code>ApplicationRecord</code> 以瞭解我們的新副本。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationRecord</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">abstract_class</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="n">connects_to</span> <span class="ss">database: </span><span class="p">{</span> <span class="ss">writing: :primary</span><span class="p">,</span> <span class="ss">reading: :primary_replica</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ApplicationRecord &lt; ActiveRecord::Base
+  self.abstract_class = true
+
+  connects_to database: { writing: :primary, reading: :primary_replica }
+end
+">Copy</button>
+</div>
+<p>如果您為應用程式記錄使用不同名稱的類，則需要
+改為設定 <code>primary_abstract_class</code>，以便 Rails 知道 <code>ActiveRecord::Base</code> 是哪個類
+應該共享一個連線。</p><div class="code_container">
+<pre><code class="highlight plaintext">class PrimaryApplicationRecord &lt; ActiveRecord::Base
+  self.primary_abstract_class
+end
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class PrimaryApplicationRecord &lt; ActiveRecord::Base
+  self.primary_abstract_class
+end
+">Copy</button>
+</div>
+<p>連線到 primary/primary_replica 的類可以從您的主要抽象繼承
+類標準 Rails 應用程式：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person &lt; ApplicationRecord
+end
+">Copy</button>
+</div>
+<p>預設情況下，Rails 期望主資料庫的資料庫角色是 <code>writing</code> 和 <code>reading</code>
+和副本分別。如果你有一個遺留系統，你可能已經設定了角色
+你不想改變。在這種情況下，您可以在應用程式配置中設定新角色名稱。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">writing_role</span> <span class="o">=</span> <span class="ss">:default</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">reading_role</span> <span class="o">=</span> <span class="ss">:readonly</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.writing_role = :default
+config.active_record.reading_role = :readonly
+">Copy</button>
+</div>
+<p>在單個 model 中連線到您的資料庫然後從該 model 繼承很重要
+對於表，而不是將多個單獨的 models 連線到同一個資料庫。資料庫
+客戶端對開啟連線的數量有限制，如果你這樣做，它會
+乘以您擁有的連線數，因為 Rails 使用 model 類名作為
+連線規範名稱。</p><p>現在我們已經設定了 <code>database.yml</code> 和新的 model，是時候建立資料庫了。
+Rails 6.0 附帶了在 Rails 中使用多個數據庫所需的所有 Rails 任務。</p><p>您可以執行 <code>bin/rails -T</code> 來檢視您可以執行的所有命令。您應該看到以下內容：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails</span> <span class="nt">-T</span>
+<span class="gp">rails db:create                          #</span><span class="w"> </span>Creates the database from DATABASE_URL or config/database.yml <span class="k">for </span>the ...
+<span class="gp">rails db:create:animals                  #</span><span class="w"> </span>Create animals database <span class="k">for </span>current environment
+<span class="gp">rails db:create:primary                  #</span><span class="w"> </span>Create primary database <span class="k">for </span>current environment
+<span class="gp">rails db:drop                            #</span><span class="w"> </span>Drops the database from DATABASE_URL or config/database.yml <span class="k">for </span>the cu...
+<span class="gp">rails db:drop:animals                    #</span><span class="w"> </span>Drop animals database <span class="k">for </span>current environment
+<span class="gp">rails db:drop:primary                    #</span><span class="w"> </span>Drop primary database <span class="k">for </span>current environment
+<span class="gp">rails db:migrate                         #</span><span class="w"> </span>Migrate the database <span class="o">(</span>options: <span class="nv">VERSION</span><span class="o">=</span>x, <span class="nv">VERBOSE</span><span class="o">=</span><span class="nb">false</span>, <span class="nv">SCOPE</span><span class="o">=</span>blog<span class="o">)</span>
+<span class="gp">rails db:migrate:animals                 #</span><span class="w"> </span>Migrate animals database <span class="k">for </span>current environment
+<span class="gp">rails db:migrate:primary                 #</span><span class="w"> </span>Migrate primary database <span class="k">for </span>current environment
+<span class="gp">rails db:migrate:status                  #</span><span class="w"> </span>Display status of migrations
+<span class="gp">rails db:migrate:status:animals          #</span><span class="w"> </span>Display status of migrations <span class="k">for </span>animals database
+<span class="gp">rails db:migrate:status:primary          #</span><span class="w"> </span>Display status of migrations <span class="k">for </span>primary database
+<span class="gp">rails db:reset                           #</span><span class="w"> </span>Drops and recreates all databases from their schema <span class="k">for </span>the current environment and loads the seeds
+<span class="gp">rails db:reset:animals                   #</span><span class="w"> </span>Drops and recreates the animals database from its schema <span class="k">for </span>the current environment and loads the seeds
+<span class="gp">rails db:reset:primary                   #</span><span class="w"> </span>Drops and recreates the primary database from its schema <span class="k">for </span>the current environment and loads the seeds
+<span class="gp">rails db:rollback                        #</span><span class="w"> </span>Rolls the schema back to the previous version <span class="o">(</span>specify steps w/ <span class="nv">STEP</span><span class="o">=</span>n<span class="o">)</span>
+<span class="gp">rails db:rollback:animals                #</span><span class="w"> </span>Rollback animals database <span class="k">for </span>current environment <span class="o">(</span>specify steps w/ <span class="nv">STEP</span><span class="o">=</span>n<span class="o">)</span>
+<span class="gp">rails db:rollback:primary                #</span><span class="w"> </span>Rollback primary database <span class="k">for </span>current environment <span class="o">(</span>specify steps w/ <span class="nv">STEP</span><span class="o">=</span>n<span class="o">)</span>
+<span class="gp">rails db:schema:dump                     #</span><span class="w"> </span>Creates a database schema file <span class="o">(</span>either db/schema.rb or db/structure.sql  ...
+<span class="gp">rails db:schema:dump:animals             #</span><span class="w"> </span>Creates a database schema file <span class="o">(</span>either db/schema.rb or db/structure.sql  ...
+<span class="gp">rails db:schema:dump:primary             #</span><span class="w"> </span>Creates a db/schema.rb file that is portable against any DB supported  ...
+<span class="gp">rails db:schema:load                     #</span><span class="w"> </span>Loads a database schema file <span class="o">(</span>either db/schema.rb or db/structure.sql  ...
+<span class="gp">rails db:schema:load:animals             #</span><span class="w"> </span>Loads a database schema file <span class="o">(</span>either db/schema.rb or db/structure.sql  ...
+<span class="gp">rails db:schema:load:primary             #</span><span class="w"> </span>Loads a database schema file <span class="o">(</span>either db/schema.rb or db/structure.sql  ...
+<span class="gp">rails db:setup                           #</span><span class="w"> </span>Creates all databases, loads all schemas, and initializes with the seed data <span class="o">(</span>use db:reset to also drop all databases first<span class="o">)</span>
+<span class="gp">rails db:setup:animals                   #</span><span class="w"> </span>Creates the animals database, loads the schema, and initializes with the seed data <span class="o">(</span>use db:reset:animals to also drop the database first<span class="o">)</span>
+<span class="gp">rails db:setup:primary                   #</span><span class="w"> </span>Creates the primary database, loads the schema, and initializes with the seed data <span class="o">(</span>use db:reset:primary to also drop the database first<span class="o">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails -T
+">Copy</button>
+</div>
+<p>執行像 <code>bin/rails db:create</code> 這樣的命令將建立主資料庫和動物資料庫。
+請注意，沒有用於建立資料庫使用者的命令，您需要手動執行此操作
+支援您的副本的只讀使用者。如果你只想創造動物
+資料庫你可以執行<code>bin/rails db:create:animals</code>。</p><h3 id="migration"><a class="anchorlink" href="#migration">2 無需管理架構和 Migration 即可連線到資料庫</a></h3><p>如果您想連線到沒有任何資料庫的外部資料庫
+模式管理、migrations、種子等管理任務可以設定
+每個資料庫的配置選項 <code>database_tasks: false</code>。預設情況下是
+設定為真。</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">production</span><span class="pi">:</span>
+  <span class="na">primary</span><span class="pi">:</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">my_database</span>
+    <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+  <span class="na">animals</span><span class="pi">:</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">my_animals_database</span>
+    <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+    <span class="na">database_tasks</span><span class="pi">:</span> <span class="no">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="production:
+  primary:
+    database: my_database
+    adapter: mysql2
+  animals:
+    database: my_animals_database
+    adapter: mysql2
+    database_tasks: false
+">Copy</button>
+</div>
+<h3 id="migrations"><a class="anchorlink" href="#migrations">3 發電機和 Migrations</a></h3><p>多個數據庫的 Migrations 應該位於它們自己的資料夾中，字首為
+配置中資料庫 key 的名稱。</p><p>您還需要在資料庫配置中設定 <code>migrations_paths</code> 來告訴 Rails
+在哪裡可以找到 migrations。</p><p>例如，<code>animals</code> 資料庫將在 <code>db/animals_migrate</code> 目錄中查詢 migrations 並
+<code>primary</code> 會在 <code>db/migrate</code> 中查詢。 Rails 生成器現在採用 <code>--database</code> 選項
+以便在正確的目錄中生成檔案。該命令可以像這樣執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration CreateDogs name:string <span class="nt">--database</span> animals
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration CreateDogs name:string --database animals
+">Copy</button>
+</div>
+<p>如果您使用 Rails 生成器，則 scaffold 和 model 生成器將建立抽象
+為你上課。只需將資料庫 key 傳遞到命令列即可。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate scaffold Dog name:string <span class="nt">--database</span> animals
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate scaffold Dog name:string --database animals
+">Copy</button>
+</div>
+<p>將建立一個具有資料庫名稱和 <code>Record</code> 的類。在這個例子中
+資料庫是 <code>Animals</code> 所以我們最終得到 <code>AnimalsRecord</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">AnimalsRecord</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">abstract_class</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="n">connects_to</span> <span class="ss">database: </span><span class="p">{</span> <span class="ss">writing: :animals</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class AnimalsRecord &lt; ApplicationRecord
+  self.abstract_class = true
+
+  connects_to database: { writing: :animals }
+end
+">Copy</button>
+</div>
+<p>生成的 model 會自動繼承自 <code>AnimalsRecord</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Dog</span> <span class="o">&lt;</span> <span class="no">AnimalsRecord</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Dog &lt; AnimalsRecord
+end
+">Copy</button>
+</div>
+<div class="note"><p>由於 Rails 不知道哪個資料庫是您的編寫器的副本，因此您需要
+完成後將其新增到抽象類中。</p></div><p>Rails 只會生成一次新類。它不會被新的 scaffolds 覆蓋
+如果 scaffold 被刪除，則刪除。</p><p>如果你已經有一個抽象類並且它的名字與 <code>AnimalsRecord</code> 不同，你可以透過
+<code>--parent</code> 選項表明你想要一個不同的抽象類：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate scaffold Dog name:string <span class="nt">--database</span> animals <span class="nt">--parent</span> Animals::Record
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate scaffold Dog name:string --database animals --parent Animals::Record
+">Copy</button>
+</div>
+<p>這將跳過生成 <code>AnimalsRecord</code> 因為你已經向 Rails 表明你想要
+使用不同的父類。</p><h3 id=""><a class="anchorlink" href="#">4 開啟自動連線切換</a></h3><p>最後，為了在您的應用程式中使用只讀副本，您需要啟用
+自動切換的中介軟體。</p><p>自動切換允許應用程式從寫入器切換到副本或副本
+根據 HTTP 動詞以及請求使用者最近是否進行了寫入。</p><p>如果應用程式正在接收 POST、PUT、DELETE 或 PATCH 請求，應用程式將
+自動寫入寫入器資料庫。在寫入後的指定時間內，
+應用程式將從主讀取。對於 GET 或 HEAD 請求，應用程式將讀取
+除非最近有寫入，否則來自副本。</p><p>要啟用自動連線切換中介軟體，請新增或取消註釋以下內容
+應用程式配置中的行。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">database_selector</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">delay: </span><span class="mi">2</span><span class="p">.</span><span class="nf">seconds</span> <span class="p">}</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">database_resolver</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Middleware</span><span class="o">::</span><span class="no">DatabaseSelector</span><span class="o">::</span><span class="no">Resolver</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">database_resolver_context</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Middleware</span><span class="o">::</span><span class="no">DatabaseSelector</span><span class="o">::</span><span class="no">Resolver</span><span class="o">::</span><span class="no">Session</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.database_selector = { delay: 2.seconds }
+config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
+config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+">Copy</button>
+</div>
+<p>Rails 保證“讀你自己寫的”並將你的 GET 或 HEAD 請求傳送到
+編寫器，如果它在 <code>delay</code> 視窗內。預設情況下，延遲設定為 2 秒。你
+應該根據您的資料庫基礎結構更改此設定。 Rails 不保證“讀
+最近寫入”延遲視窗內的其他使用者，並將傳送 GET 和 HEAD 請求
+複製到副本，除非他們最近寫過。</p><p>Rails 中的自動連線切換比較原始，故意沒有
+做很多。目標是一個演示如何進行自動連線的系統
+切換足夠靈活，可以由應用程式開發人員自定義。</p><p>Rails 中的設定允許您輕鬆更改切換的完成方式和內容
+它基於的引數。假設您想使用 cookie 而不是 session 來
+決定何時交換連線。您可以編寫自己的類：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">MyCookieResolver</span>
+  <span class="c1"># code for your cookie class</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class MyCookieResolver
+  # code for your cookie class
+end
+">Copy</button>
+</div>
+<p>然後將其傳遞給中介軟體：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">database_selector</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">delay: </span><span class="mi">2</span><span class="p">.</span><span class="nf">seconds</span> <span class="p">}</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">database_resolver</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Middleware</span><span class="o">::</span><span class="no">DatabaseSelector</span><span class="o">::</span><span class="no">Resolver</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">database_resolver_context</span> <span class="o">=</span> <span class="no">MyCookieResolver</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.database_selector = { delay: 2.seconds }
+config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
+config.active_record.database_resolver_context = MyCookieResolver
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">5 使用手動連線切換</a></h3><p>在某些情況下，您可能希望應用程式連線到寫入器或副本
+並且自動連線切換是不夠的。例如，您可能知道對於一個
+您總是希望將請求傳送到副本的特定請求，即使您在
+POST 請求路徑。</p><p>為此，Rails 提供了一個 <code>connected_to</code> 方法，該方法將切換到您的連線
+需要。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">connected_to</span><span class="p">(</span><span class="ss">role: :reading</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># all code in this block will be connected to the reading role</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ActiveRecord::Base.connected_to(role: :reading) do
+  # all code in this block will be connected to the reading role
+end
+">Copy</button>
+</div>
+<p><code>connected_to</code> 呼叫中的“角色”查詢在該呼叫上連線的連線
+連線處理程式（或角色）。 <code>reading</code> 連線處理程式將儲存所有連線
+透過 <code>connects_to</code> 與角色名稱 <code>reading</code> 連線。</p><p>請注意，帶有角色的 <code>connected_to</code> 將查詢現有連線並切換
+使用連線規範名稱。這意味著如果你傳遞一個未知的角色
+像 <code>connected_to(role: :nonexistent)</code> 你會得到一個錯誤，說
+<code>ActiveRecord::ConnectionNotEstablished (No connection pool for 'ActiveRecord::Base' found for the 'nonexistent' role.)</code></p><p>如果您希望 Rails 確保執行的任何查詢都是隻讀的，請傳遞 <code>prevent_writes: true</code>。
+這只是防止將看起來像寫入的查詢傳送到資料庫。
+您還應該將副本資料庫配置為以只讀模式執行。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">connected_to</span><span class="p">(</span><span class="ss">role: :reading</span><span class="p">,</span> <span class="ss">prevent_writes: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># Rails will check each query to ensure it's a read query</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ActiveRecord::Base.connected_to(role: :reading, prevent_writes: true) do
+  # Rails will check each query to ensure it's a read query
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">6 水平分片</a></h3><p>水平分片是當您拆分資料庫以減少每個資料庫的行數時
+資料庫伺服器，但在“分片”之間保持相同的模式。這通常稱為“多租戶”
+分片。</p><p>Rails 中支援水平分片的 API 類似於多資料庫/垂直
+自 Rails 6.0 以來就存在的分片 API。</p><p>分片在三層配置中宣告如下：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">production</span><span class="pi">:</span>
+  <span class="na">primary</span><span class="pi">:</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">my_primary_database</span>
+    <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+  <span class="na">primary_replica</span><span class="pi">:</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">my_primary_database</span>
+    <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+    <span class="na">replica</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">primary_shard_one</span><span class="pi">:</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">my_primary_shard_one</span>
+    <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+  <span class="na">primary_shard_one_replica</span><span class="pi">:</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">my_primary_shard_one</span>
+    <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+    <span class="na">replica</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="production:
+  primary:
+    database: my_primary_database
+    adapter: mysql2
+  primary_replica:
+    database: my_primary_database
+    adapter: mysql2
+    replica: true
+  primary_shard_one:
+    database: my_primary_shard_one
+    adapter: mysql2
+  primary_shard_one_replica:
+    database: my_primary_shard_one
+    adapter: mysql2
+    replica: true
+">Copy</button>
+</div>
+<p>Model 然後透過 <code>shards</code> key 與 <code>connects_to</code> API 連線：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationRecord</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">abstract_class</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="n">connects_to</span> <span class="ss">shards: </span><span class="p">{</span>
+    <span class="ss">default: </span><span class="p">{</span> <span class="ss">writing: :primary</span><span class="p">,</span> <span class="ss">reading: :primary_replica</span> <span class="p">},</span>
+    <span class="ss">shard_one: </span><span class="p">{</span> <span class="ss">writing: :primary_shard_one</span><span class="p">,</span> <span class="ss">reading: :primary_shard_one_replica</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ApplicationRecord &lt; ActiveRecord::Base
+  self.abstract_class = true
+
+  connects_to shards: {
+    default: { writing: :primary, reading: :primary_replica },
+    shard_one: { writing: :primary_shard_one, reading: :primary_shard_one_replica }
+  }
+end
+">Copy</button>
+</div>
+<p>然後 models 可以透過 <code>connected_to</code> API 手動交換連線。如果
+使用分片，必須同時傳遞 <code>role</code> 和 <code>shard</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">connected_to</span><span class="p">(</span><span class="ss">role: :writing</span><span class="p">,</span> <span class="ss">shard: :default</span><span class="p">)</span> <span class="k">do</span>
+  <span class="vi">@id</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">create!</span> <span class="c1"># Creates a record in shard default</span>
+<span class="k">end</span>
+
+<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">connected_to</span><span class="p">(</span><span class="ss">role: :writing</span><span class="p">,</span> <span class="ss">shard: :shard_one</span><span class="p">)</span> <span class="k">do</span>
+  <span class="no">Person</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="vi">@id</span><span class="p">)</span> <span class="c1"># Can't find record, doesn't exist because it was created</span>
+                   <span class="c1"># in the default shard</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ActiveRecord::Base.connected_to(role: :writing, shard: :default) do
+  @id = Person.create! # Creates a record in shard default
+end
+
+ActiveRecord::Base.connected_to(role: :writing, shard: :shard_one) do
+  Person.find(@id) # Can't find record, doesn't exist because it was created
+                   # in the default shard
+end
+">Copy</button>
+</div>
+<p>水平分片 API 也支援只讀副本。你可以交換
+角色和帶有 <code>connected_to</code> API 的分片。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">connected_to</span><span class="p">(</span><span class="ss">role: :reading</span><span class="p">,</span> <span class="ss">shard: :shard_one</span><span class="p">)</span> <span class="k">do</span>
+  <span class="no">Person</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># Lookup record from read replica of shard one</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ActiveRecord::Base.connected_to(role: :reading, shard: :shard_one) do
+  Person.first # Lookup record from read replica of shard one
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">7 遷移到新的連線處理</a></h3><p>在 Rails 6.1+ 中，Active Record 為連線管理提供了一個新的內部 API。
+在大多數情況下，除了選擇加入
+新行為（如果從 6.0 及以下升級）透過設定
+<code>config.active_record.legacy_connection_handling = false</code>。如果您只有一個數據庫
+應用程式，不需要其他更改。如果您有多個數據庫應用程式
+如果您的應用程式使用這些方法，則需要進行以下更改：</p>
+<ul>
+<li>
+<code>connection_handlers</code> 和 <code>connection_handlers=</code> 在新連線中不再起作用
+處理。例如，如果您在其中一個連線處理程式上呼叫方法，
+<code>connection_handlers[:reading].retrieve_connection_pool("ActiveRecord::Base")</code>
+您現在需要將該呼叫更新為
+<code>connection_handlers.retrieve_connection_pool("ActiveRecord::Base", role: :reading)</code>。</li>
+<li>對 <code>ActiveRecord::Base.connection_handler.prevent_writes</code> 的呼叫需要更新
+到 <code>ActiveRecord::Base.connection.preventing_writes?</code>。</li>
+<li>如果您需要所有池，包括寫入和讀取，則提供了一種新方法
+處理程式。呼叫 <code>connection_handler.all_connection_pools</code> 來使用它。雖然在大多數情況下
+您需要使用 <code>connection_handler.connection_pool_list(:writing)</code> 或
+<code>connection_handler.connection_pool_list(:reading)</code>。</li>
+<li>如果您在應用程式中關閉 <code>legacy_connection_handling</code>，任何不受支援的方法
+將引發錯誤（即 <code>connection_handlers=</code>）。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">8 粒度資料庫連線切換</a></h3><p>在 Rails 6.1 中，可以為一個數據庫切換連線而不是
+全球所有資料庫。要使用此功能，您必須首先設定
+在您的應用程式中 <code>config.active_record.legacy_connection_handling</code> 到 <code>false</code>
+配置。大多數應用程式不需要做任何其他
+更改，因為公共 API 具有相同的行為。請參閱上述部分
+如何啟用和遷移遠離 <code>legacy_connection_handling</code>。</p><p>將 <code>legacy_connection_handling</code> 設定為 <code>false</code>，任何抽象連線類
+將能夠在不影響其他連線的情況下切換連線。這
+用於切換 <code>AnimalsRecord</code> 查詢以從副本讀取
+同時確保您的 <code>ApplicationRecord</code> 查詢轉到主要查詢。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">AnimalsRecord</span><span class="p">.</span><span class="nf">connected_to</span><span class="p">(</span><span class="ss">role: :reading</span><span class="p">)</span> <span class="k">do</span>
+  <span class="no">Dog</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># Reads from animals_replica</span>
+  <span class="no">Person</span><span class="p">.</span><span class="nf">first</span>  <span class="c1"># Reads from primary</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="AnimalsRecord.connected_to(role: :reading) do
+  Dog.first # Reads from animals_replica
+  Person.first  # Reads from primary
+end
+">Copy</button>
+</div>
+<p>也可以為分片粒度交換連線。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">AnimalsRecord</span><span class="p">.</span><span class="nf">connected_to</span><span class="p">(</span><span class="ss">role: :reading</span><span class="p">,</span> <span class="ss">shard: :shard_one</span><span class="p">)</span> <span class="k">do</span>
+  <span class="no">Dog</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># Will read from shard_one_replica. If no connection exists for shard_one_replica,</span>
+  <span class="c1"># a ConnectionNotEstablished error will be raised</span>
+  <span class="no">Person</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># Will read from primary writer</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="AnimalsRecord.connected_to(role: :reading, shard: :shard_one) do
+  Dog.first # Will read from shard_one_replica. If no connection exists for shard_one_replica,
+  # a ConnectionNotEstablished error will be raised
+  Person.first # Will read from primary writer
+end
+">Copy</button>
+</div>
+<p>要僅切換主資料庫叢集，請使用 <code>ApplicationRecord</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ApplicationRecord</span><span class="p">.</span><span class="nf">connected_to</span><span class="p">(</span><span class="ss">role: :reading</span><span class="p">,</span> <span class="ss">shard: :shard_one</span><span class="p">)</span> <span class="k">do</span>
+  <span class="no">Person</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># Reads from primary_shard_one_replica</span>
+  <span class="no">Dog</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># Reads from animals_primary</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ApplicationRecord.connected_to(role: :reading, shard: :shard_one) do
+  Person.first # Reads from primary_shard_one_replica
+  Dog.first # Reads from animals_primary
+end
+">Copy</button>
+</div>
+<p><code>ActiveRecord::Base.connected_to</code> 保持切換能力
+全球連線。</p><h4 id="associations"><a class="anchorlink" href="#associations">8.1 透過跨資料庫連線處理 associations</a></h4><p>從 Rails 7.0+ 開始，Active Record 有一個選項來處理 associations 將執行
+跨多個數據庫的連線。如果您有一個透過 association 或有一個透過 association
+如果您想禁用加入並執行 2 個或更多查詢，請傳遞 <code>disable_joins: true</code> 選項。</p><p>例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Dog</span> <span class="o">&lt;</span> <span class="no">AnimalsRecord</span>
+  <span class="n">has_many</span> <span class="ss">:treats</span><span class="p">,</span> <span class="ss">through: :humans</span><span class="p">,</span> <span class="ss">disable_joins: </span><span class="kp">true</span>
+  <span class="n">has_many</span> <span class="ss">:humans</span>
+
+  <span class="n">belongs_to</span> <span class="ss">:home</span>
+  <span class="n">has_one</span> <span class="ss">:yard</span><span class="p">,</span> <span class="ss">through: :home</span><span class="p">,</span> <span class="ss">disable_joins: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Dog &lt; AnimalsRecord
+  has_many :treats, through: :humans, disable_joins: true
+  has_many :humans
+
+  belongs_to :home
+  has_one :yard, through: :home, disable_joins: true
+end
+">Copy</button>
+</div>
+<p>以前在沒有 <code>disable_joins</code> 的情況下呼叫 <code>@dog.treats</code> 或在沒有 <code>disable_joins</code> 的情況下呼叫 <code>@dog.yard</code>
+會引發錯誤，因為資料庫無法處理跨叢集的連線。隨著
+<code>disable_joins</code> 選項，Rails 會生成多個選擇查詢
+以避免嘗試跨叢集加入。對於上面的 association，<code>@dog.treats</code> 會生成
+以下 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="nv">"humans"</span><span class="p">.</span><span class="nv">"id"</span> <span class="k">FROM</span> <span class="nv">"humans"</span> <span class="k">WHERE</span> <span class="nv">"humans"</span><span class="p">.</span><span class="nv">"dog_id"</span> <span class="o">=</span> <span class="o">?</span>  <span class="p">[[</span><span class="nv">"dog_id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="k">SELECT</span> <span class="nv">"treats"</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="nv">"treats"</span> <span class="k">WHERE</span> <span class="nv">"treats"</span><span class="p">.</span><span class="nv">"human_id"</span> <span class="k">IN</span> <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">)</span>  <span class="p">[[</span><span class="nv">"human_id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="nv">"human_id"</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="nv">"human_id"</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='SELECT "humans"."id" FROM "humans" WHERE "humans"."dog_id" = ?  [["dog_id", 1]]
+SELECT "treats".* FROM "treats" WHERE "treats"."human_id" IN (?, ?, ?)  [["human_id", 1], ["human_id", 2], ["human_id", 3]]
+'>Copy</button>
+</div>
+<p>而 <code>@dog.yard</code> 會生成以下 SQL：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">SELECT</span> <span class="nv">"home"</span><span class="p">.</span><span class="nv">"id"</span> <span class="k">FROM</span> <span class="nv">"homes"</span> <span class="k">WHERE</span> <span class="nv">"homes"</span><span class="p">.</span><span class="nv">"dog_id"</span> <span class="o">=</span> <span class="o">?</span> <span class="p">[[</span><span class="nv">"dog_id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="k">SELECT</span> <span class="nv">"yards"</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="nv">"yards"</span> <span class="k">WHERE</span> <span class="nv">"yards"</span><span class="p">.</span><span class="nv">"home_id"</span> <span class="o">=</span> <span class="o">?</span> <span class="p">[[</span><span class="nv">"home_id"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='SELECT "home"."id" FROM "homes" WHERE "homes"."dog_id" = ? [["dog_id", 1]]
+SELECT "yards".* FROM "yards" WHERE "yards"."home_id" = ? [["home_id", 1]]
+'>Copy</button>
+</div>
+<p>使用此選項需要注意一些重要事項：</p><p>1) 可能會有效能影響，因為現在將執行兩個或多個查詢（取決於
+在 association 上）而不是連線。如果 <code>humans</code> 的選擇返回大量 ID
+<code>treats</code> 的選擇可能會發送過多的 ID。
+2) 由於我們不再執行連線，具有順序或限制的查詢現在在記憶體中排序，因為
+一張桌子上的訂單不能應用到另一張桌子上。
+3) 必須將此設定新增到您要禁用加入的所有 associations。
+Rails 無法為您猜測這一點，因為 association 載入是懶惰的，在 <code>@dog.treats</code> 中載入 <code>treats</code>
+Rails 已經需要知道應該生成什麼 SQL。</p><h3 id=""><a class="anchorlink" href="#">9 注意事項</a></h3><h4 id=""><a class="anchorlink" href="#">9.1 水平分片的自動交換</a></h4><p>雖然 Rails 現在支援用於連線和交換分片連線的 API，但它確實支援
+尚不支援自動交換策略。任何分片交換都需要手動完成
+透過中介軟體或 <code>around_action</code> 在您的應用程式中。</p><h4 id=""><a class="anchorlink" href="#">9.2 負載均衡副本</a></h4><p>Rails 也不支援副本的自動負載平衡。這是很
+取決於您的基礎設施。我們可以實現基本的、原始的負載平衡
+將來，但對於大規模應用程式，這應該是您的應用程式
+在 Rails 之外處理。</p><h4 id=""><a class="anchorlink" href="#">9.3 架構快取</a></h4><p>如果您使用架構快取和多個數據庫，則需要編寫一個初始化程式
+從您的應用程式載入架構快取。這不是我們可以解決的問題
+是 Rails 6.0 的時候了，但希望很快能在未來的版本中使用它。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

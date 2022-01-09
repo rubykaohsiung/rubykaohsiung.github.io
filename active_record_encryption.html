@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Active Record 加密(Encryption) — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Active Record 加密(Encryption) — Ruby on Rails Guides" />
+  <meta name="description" content="Active Record 加密(Encryption)本指南涵蓋使用 Active Record 加密您的資料庫資訊。閱讀本指南後，您將瞭解： 如何使用 Active Record 設定資料庫加密。 如何遷移未加密的資料 如何讓不同的加密方案共存 如何使用 API 如何配置庫以及如何擴充套件它" />
+  <meta property="og:description" content="Active Record 加密(Encryption)本指南涵蓋使用 Active Record 加密您的資料庫資訊。閱讀本指南後，您將瞭解： 如何使用 Active Record 設定資料庫加密。 如何遷移未加密的資料 如何讓不同的加密方案共存 如何使用 API 如何配置庫以及如何擴充套件它" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Active Record 加密(Encryption)</h2><p>本指南涵蓋使用 Active Record 加密您的資料庫資訊。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何使用 Active Record 設定資料庫加密。</li>
+<li>如何遷移未加密的資料</li>
+<li>如何讓不同的加密方案共存</li>
+<li>如何使用 API</li>
+<li>如何配置庫以及如何擴充套件它</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#">基本用法</a>
+
+<ul>
+<li><a href="#">設定</a></li>
+<li><a href="#">加密屬性宣告</a></li>
+<li><a href="#">確定性和非確定性加密</a></li>
+</ul>
+</li>
+<li>
+<a href="#">特點</a>
+
+<ul>
+<li><a href="#action-text">Action Text</a></li>
+<li><a href="#">燈具</a></li>
+<li><a href="#">支援的型別</a></li>
+<li><a href="#">忽略大小寫</a></li>
+<li><a href="#">支援未加密資料</a></li>
+<li><a href="#">支援以前的加密方案</a></li>
+<li><a href="#">唯一約束</a></li>
+<li><a href="#">過濾引數命名為加密列</a></li>
+<li><a href="#">編碼</a></li>
+</ul>
+</li>
+<li>
+<a href="#key">Key 管理</a>
+
+<ul>
+<li><a href="#key">內建 Key 提供程式</a></li>
+<li><a href="#key">自定義 Key 提供程式</a></li>
+<li><a href="#model-key">Model 特定的 Key 提供者</a></li>
+<li><a href="#model-keys">Model 特定的 Keys</a></li>
+<li><a href="#keys">旋轉 Keys</a></li>
+<li><a href="#key">儲存 Key 引用</a></li>
+</ul>
+</li>
+<li>
+<a href="#">介面</a>
+
+<ul>
+<li><a href="#">基礎介面</a></li>
+</ul>
+</li>
+<li>
+<a href="#">配置</a>
+
+<ul>
+<li><a href="#">配置選項</a></li>
+<li><a href="#">加密上下文</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <p>Active Record 支援應用級加密。它透過宣告應該加密哪些屬性並在必要時無縫加密和解密它們來工作。加密層位於資料庫和應用程式之間。應用程式將訪問未加密的資料，但資料庫將對其進行加密儲存。</p><h3 id=""><a class="anchorlink" href="#">1 基本用法</a></h3><h4 id=""><a class="anchorlink" href="#">1.1 設定</a></h4><p>首先，您需要向 <a href="/security.html#custom-credentials">rails 憑據</a> 新增一些 keys。執行 <code>bin/rails db:encryption:init</code> 生成隨機金鑰集：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:encryption:init
+<span class="go">Add this entry to the credentials of the target environment:
+
+active_record_encryption:
+  primary_key: EGY8WhulUOXixybod7ZWwMIL68R9o5kC
+  deterministic_key: aPA5XyALhf75NNnMzaspW7akTfZp0lPY
+  key_derivation_salt: xEY0dt6TZcAMg52K7O84wYzkjvbA62Hz
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails db:encryption:init
+">Copy</button>
+</div>
+<div class="note"><p>這些生成的 keys 和 salt 的長度為 32 位元組。如果你自己生成這些，你應該使用的最小長度是 12 位元組的主鍵（這將用於派生 AES 32 位元組的金鑰）和 20 位元組的鹽。</p></div><h4 id=""><a class="anchorlink" href="#">1.2 加密屬性宣告</a></h4><p>可加密屬性在 model 級別定義。這些是由同名列支援的正常 Active Record 屬性。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">encrypts</span> <span class="ss">:title</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Article &lt; ApplicationRecord
+  encrypts :title
+end
+">Copy</button>
+</div>
+<p>庫將在將這些屬性儲存到資料庫之前透明地加密它們，並在檢索它們的 values 時將它們解密：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">create</span> <span class="ss">title: </span><span class="s2">"Encrypt it all!"</span>
+<span class="n">article</span><span class="p">.</span><span class="nf">title</span> <span class="c1"># =&gt; "Encrypt it all!"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='article = Article.create title: "Encrypt it all!"
+article.title # =&gt; "Encrypt it all!"
+'>Copy</button>
+</div>
+<p>但是，在幕後，執行的 SQL 看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight sql"><span class="k">INSERT</span> <span class="k">INTO</span> <span class="nv">`articles`</span> <span class="p">(</span><span class="nv">`title`</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="s1">'{</span><span class="se">\"</span><span class="s1">p</span><span class="se">\"</span><span class="s1">:</span><span class="se">\"</span><span class="s1">n7J0/ol+a7DRMeaE</span><span class="se">\"</span><span class="s1">,</span><span class="se">\"</span><span class="s1">h</span><span class="se">\"</span><span class="s1">:{</span><span class="se">\"</span><span class="s1">iv</span><span class="se">\"</span><span class="s1">:</span><span class="se">\"</span><span class="s1">DXZMDWUKfp3bg/Yu</span><span class="se">\"</span><span class="s1">,</span><span class="se">\"</span><span class="s1">at</span><span class="se">\"</span><span class="s1">:</span><span class="se">\"</span><span class="s1">X1/YjMHbHD4talgF9dt61A==</span><span class="se">\"</span><span class="s1">}}'</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="INSERT INTO `articles` (`title`) VALUES ('{\&quot;p\&quot;:\&quot;n7J0/ol+a7DRMeaE\&quot;,\&quot;h\&quot;:{\&quot;iv\&quot;:\&quot;DXZMDWUKfp3bg/Yu\&quot;,\&quot;at\&quot;:\&quot;X1/YjMHbHD4talgF9dt61A==\&quot;}}')
+">Copy</button>
+</div>
+<p>加密會佔用列中的額外空間。當使用內建信封加密 key 提供程式時，您可以估計最壞情況的過載大約為 250 位元組。對於中型和大型文字列，此過載可以忽略不計，但對於 255 位元組的 <code>string</code> 列，您應該相應地增加它們的限制（推薦 510）。</p><div class="note"><p>額外空間的原因是 Base 64 編碼和額外的元資料與加密的 values 一起儲存。</p></div><h4 id=""><a class="anchorlink" href="#">1.3 確定性和非確定性加密</a></h4><p>預設情況下，Active Record 加密使用非確定性方法進行加密。這意味著用相同的密碼對相同的內容加密兩次會導致不同的密文。這有利於安全，因為它使加密內容的加密分析變得更加困難，但它使查詢資料庫變得不可能。</p><p>您可以使用 <code>deterministic:</code> 選項以確定性方式生成初始化向量，從而有效地查詢加密資料。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Author</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">encrypts</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">deterministic: </span><span class="kp">true</span>
+<span class="k">end</span>
+
+<span class="no">Author</span><span class="p">.</span><span class="nf">find_by_email</span><span class="p">(</span><span class="s2">"some@email.com"</span><span class="p">)</span> <span class="c1"># You can query the model normally</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Author &lt; ApplicationRecord
+  encrypts :email, deterministic: true
+end
+
+Author.find_by_email("some@email.com") # You can query the model normally
+'>Copy</button>
+</div>
+<p>除非您需要查詢資料，否則建議使用預設值（非確定性）。</p><div class="note"><p>在非確定性模式下，它使用帶有 256 位 key 和隨機初始化向量的 AES-GCM。在確定性模式下，它也使用 AES-GCM，但初始化向量生成為 key 的 HMAC-SHA-256 摘要和要加密的內容。</p></div><div class="note"><p>您可以透過不配置 <code>deterministic_key</code> 來禁用確定性加密。</p></div><h3 id=""><a class="anchorlink" href="#">2 特點</a></h3><h4 id="action-text"><a class="anchorlink" href="#action-text">2.1 Action Text</a></h4><p>您可以透過在宣告中傳遞 <code>encrypted: true</code> 來加密 action text 屬性。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_rich_text</span> <span class="ss">:content</span><span class="p">,</span> <span class="ss">encrypted: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Message &lt; ApplicationRecord
+  has_rich_text :content, encrypted: true
+end
+">Copy</button>
+</div>
+<div class="note"><p>尚不支援將單個加密選項傳遞給 action text 屬性。它將使用配置了全域性加密選項的非確定性加密。</p></div><h4 id=""><a class="anchorlink" href="#">2.2 燈具</a></h4><p>您可以透過將此選項新增到 <code>test.rb</code> 來自動加密 Rails 裝置：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">encrypt_fixtures</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.encryption.encrypt_fixtures = true
+">Copy</button>
+</div>
+<p>啟用後，所有可加密屬性將根據 model 中定義的加密設定進行加密。</p><h5 id="action-text"><a class="anchorlink" href="#action-text">2.2.1 Action Text 燈具</a></h5><p>要加密 action text 固定裝置，您應該將它們放在 <code>fixtures/action_text/encrypted_rich_texts.yml</code> 中。</p><h4 id=""><a class="anchorlink" href="#">2.3 支援的型別</a></h4><p><code>active_record.encryption</code> 將在加密之前使用底層型別序列化 values，但<em>它們必須可序列化為字串</em>。開箱即用支援結構型別，如 <code>serialized</code>。</p><p>如果需要支援自定義型別，推薦的方式是使用<a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/AttributeMethods/Serialization/ClassMethods.html">序列化屬性</a>。序列化屬性的宣告應該在加密宣告之前**：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="err">＃</span> <span class="err">好的</span>
+<span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">serialize</span> <span class="ss">:title</span><span class="p">,</span> <span class="no">Title</span>
+  <span class="n">encrypts</span> <span class="ss">:title</span>
+<span class="k">end</span>
+
+<span class="err">＃</span> <span class="err">錯誤的</span>
+<span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">encrypts</span> <span class="ss">:title</span>
+  <span class="n">serialize</span> <span class="ss">:title</span><span class="p">,</span> <span class="no">Title</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="＃ 好的
+class Article &lt; ApplicationRecord
+  serialize :title, Title
+  encrypts :title
+end
+
+＃ 錯誤的
+class Article &lt; ApplicationRecord
+  encrypts :title
+  serialize :title, Title
+end
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.4 忽略大小寫</a></h4><p>在查詢確定性加密的資料時，您可能需要忽略大小寫。這裡有兩個選項可以幫助您。</p><p>您可以在宣告加密屬性時使用 <code>:downcase</code> 選項以在加密發生之前將內容小寫。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span>
+  <span class="n">encrypts</span> <span class="ss">:email_address</span><span class="p">,</span> <span class="ss">deterministic: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">downcase: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  encrypts :email_address, deterministic: true, downcase: true
+end
+">Copy</button>
+</div>
+<p>使用<code>:downcase</code>時，原來的case丟失。在某些情況下，您可能只想在查詢時忽略大小寫，同時儲存原始大小寫。對於這些情況，您可以使用選項 <code>:ignore_case</code>。這需要您新增一個名為 <code>original_&lt;column_name&gt;</code> 的新列來儲存大小寫不變的內容：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Label</span>
+  <span class="n">encrypts</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">deterministic: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">ignore_case: </span><span class="kp">true</span> <span class="c1"># the content with the original case will be stored in the column `original_name`</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Label
+  encrypts :name, deterministic: true, ignore_case: true # the content with the original case will be stored in the column `original_name`
+end
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.5 支援未加密資料</a></h4><p>為了簡化未加密資料的 migrations，該庫包含選項 <code>config.active_record.encryption.support_unencrypted_data</code>。設定為 <code>true</code> 時：</p>
+<ul>
+<li>嘗試讀取未加密的加密屬性將正常工作，不會引發任何錯誤</li>
+<li>具有確定性加密屬性的查詢將包括它們的“明文”版本，以支援查詢加密和未加密的內容。您需要設定 <code>config.active_record.encryption.extend_queries = true</code> 以啟用此功能。</li>
+</ul>
+<p><strong>此選項適用於過渡期</strong>，而明文資料和加密資料需要共存。它們的 value 預設為 <code>false</code>，這是任何應用程式的推薦目標：處理未加密資料時會引發錯誤。</p><h4 id=""><a class="anchorlink" href="#">2.6 支援以前的加密方案</a></h4><p>更改屬性的加密屬性可能會破壞現有資料。例如，假設您想將“確定性”屬性設定為“非確定性”。如果只是更改了 model 中的宣告，則讀取現有密文將失敗，因為它們現在不同了。</p><p>為了支援這些情況，您可以宣告將在兩種情況下使用的先前加密方案：</p>
+<ul>
+<li>在讀取加密資料時，如果當前方案不起作用，Active Record 加密將嘗試以前的加密方案。</li>
+<li>查詢確定性資料時，將使用先前方案的密文新增到查詢中，以便查詢與使用不同方案加密的資料無縫協作。您需要設定 <code>config.active_record.encryption.extend_queries = true</code> 以啟用此功能。</li>
+</ul>
+<p>您可以配置以前的加密方案：</p>
+<ul>
+<li>全球</li>
+<li>基於每個屬性</li>
+</ul>
+<h5 id=""><a class="anchorlink" href="#">2.6.1 全球以前的加密方案</a></h5><p>您可以透過使用 <code>application.rb</code> 中的 <code>previous</code> 配置屬性將它們新增為屬性列表來新增以前的加密方案：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">previous</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span> <span class="ss">key_provider: </span><span class="no">MyOldKeyProvider</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span> <span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.encryption.previous = [ { key_provider: MyOldKeyProvider.new } ]
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">2.6.2 每屬性加密方案</a></h5><p>宣告屬性時使用 <code>:previous</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span>
+  <span class="n">encrypts</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">deterministic: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">previous: </span><span class="p">{</span> <span class="ss">deterministic: </span><span class="kp">false</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Article
+  encrypts :title, deterministic: true, previous: { deterministic: false }
+end
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">2.6.3 加密方案和確定性屬性</a></h5><p>新增以前的加密方案時：</p>
+<ul>
+<li>使用<strong>非確定性加密</strong>，新資訊將始終使用<em>最新</em>（當前）加密方案進行加密。</li>
+<li>使用<strong>確定性加密</strong>，預設情況下，新資訊將始終使用<em>最舊的</em>加密方案進行加密。</li>
+</ul>
+<p>原因是，對於確定性加密，您通常希望密文保持不變。您可以透過設定 <code>deterministic: { fixed: false }</code> 來更改此行為。在這種情況下，它將使用<em>最新</em> 加密方案來加密新資料。</p><h4 id=""><a class="anchorlink" href="#">2.7 唯一約束</a></h4><div class="note"><p>唯一約束只能用於確定性加密的資料。</p></div><h5 id=""><a class="anchorlink" href="#">2.7.1 唯一驗證</a></h5><p>只要啟用了擴充套件查詢 (<code>config.active_record.encryption.extend_queries = true</code>)，通常就支援唯一驗證。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span>
+  <span class="n">validates</span> <span class="ss">:email_address</span><span class="p">,</span> <span class="ss">uniqueness: </span><span class="kp">true</span>
+  <span class="n">encrypts</span> <span class="ss">:email_address</span><span class="p">,</span> <span class="ss">deterministic: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">downcase: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  validates :email_address, uniqueness: true
+  encrypts :email_address, deterministic: true, downcase: true
+end
+">Copy</button>
+</div>
+<p>在組合加密和未加密資料以及配置以前的加密方案時，它們也將起作用。</p><div class="note"><p>如果您想忽略大小寫，請確保在 <code>encrypts</code> 宣告中使用 <code>downcase:</code> 或 <code>ignore_case:</code>。在驗證中使用 <code>case_sensitive:</code> 選項將不起作用。</p></div><h5 id=""><a class="anchorlink" href="#">2.7.2 唯一索引</a></h5><p>為了支援確定性加密列的唯一索引，您需要確保它們的密文永遠不會改變。</p><p>為了鼓勵這一點，預設情況下，當配置多個加密方案時，確定性屬性將始終使用最舊的加密方案。除此之外，您需要確保這些屬性的加密屬性不會更改，否則唯一索引將不起作用。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Person</span>
+  <span class="n">encrypts</span> <span class="ss">:email_address</span><span class="p">,</span> <span class="ss">deterministic: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Person
+  encrypts :email_address, deterministic: true
+end
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.8 過濾引數命名為加密列</a></h4><p>預設情況下，加密列被配置為<a href="https://guides.rubyonrails.org/action_controller_overview.html#parameters-filtering">在 Rails 日誌中自動過濾</a>。您可以透過將其新增到 <code>application.rb</code> 來禁用此行為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">add_to_filter_parameters</span> <span class="o">=</span> <span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.encryption.add_to_filter_parameters = false
+">Copy</button>
+</div>
+<p>如果您想從此自動過濾中排除特定列，請將它們新增到 <code>config.active_record.encryption.excluded_from_filter_parameters</code>。</p><h4 id=""><a class="anchorlink" href="#">2.9 編碼</a></h4><p>該庫將保留非確定性加密的字串 values 的編碼。</p><p>對於 values 確定性加密，預設情況下，庫將強制使用 UTF-8 編碼。原因是編碼與加密的有效負載一起儲存。這意味著相同的值具有不同的編碼會在加密時產生不同的密文。您通常希望避免這種情況以保持查詢和唯一性約束正常工作，因此庫將代表您自動執行轉換。</p><p>您可以使用以下命令為確定性加密配置所需的預設編碼：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">forced_encoding_for_deterministic_encryption</span> <span class="o">=</span> <span class="no">Encoding</span><span class="o">::</span><span class="no">US_ASCII</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.encryption.forced_encoding_for_deterministic_encryption = Encoding::US_ASCII
+">Copy</button>
+</div>
+<p>您可以禁用此行為並在所有情況下保留編碼：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">forced_encoding_for_deterministic_encryption</span> <span class="o">=</span> <span class="kp">nil</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.encryption.forced_encoding_for_deterministic_encryption = nil
+">Copy</button>
+</div>
+<h3 id="key"><a class="anchorlink" href="#key">3 Key 管理</a></h3><p>Key 管理策略由關鍵提供商實施。您可以全域性或按屬性配置金鑰提供程式。</p><h4 id="key"><a class="anchorlink" href="#key">3.1 內建 Key 提供程式</a></h4><h5 id="derivedsecretkeyprovider"><a class="anchorlink" href="#derivedsecretkeyprovider">3.1.1 DerivedSecretKeyProvider</a></h5><p>將使用 PBKDF2 從提供的密碼派生的 keys 的金鑰提供程式。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">key_provider</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Encryption</span><span class="o">::</span><span class="no">DerivedSecretKeyProvider</span><span class="p">.</span><span class="nf">new</span><span class="p">([</span><span class="s2">"some passwords"</span><span class="p">,</span> <span class="s2">"to derive keys from. "</span><span class="p">,</span> <span class="s2">"These should be in"</span><span class="p">,</span> <span class="s2">"credentials"</span><span class="p">])</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='config.active_record.encryption.key_provider = ActiveRecord::Encryption::DerivedSecretKeyProvider.new(["some passwords", "to derive keys from. ", "These should be in", "credentials"])
+'>Copy</button>
+</div>
+<div class="note"><p>預設情況下，<code>active_record.encryption</code> 使用 <code>active_record.encryption.primary_key</code> 中定義的 keys 配置 <code>DerivedSecretKeyProvider</code>。</p></div><h5 id="keyprovider"><a class="anchorlink" href="#keyprovider">3.1.2 信封加密KeyProvider</a></h5><p>實現一個簡單的<a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#enveloping">信封加密</a> 策略：</p>
+<ul>
+<li>它為每個資料加密操作生成一個隨機的 key</li>
+<li>它將資料-key 與資料本身一起儲存，並使用憑證 <code>active_record.encryption.primary_key</code> 中定義的主要 key 進行加密。</li>
+</ul>
+<p>您可以透過將其新增到 <code>application.rb</code> 來進行配置：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">key_provider</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Encryption</span><span class="o">::</span><span class="no">EnvelopeEncryptionKeyProvider</span><span class="p">.</span><span class="nf">new</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.encryption.key_provider = ActiveRecord::Encryption::EnvelopeEncryptionKeyProvider.new
+">Copy</button>
+</div>
+<p>與其他內建金鑰提供程式一樣，您可以在 <code>active_record.encryption.primary_key</code> 中提供主要 keys 列表，以實現金鑰輪換方案。</p><h4 id="key"><a class="anchorlink" href="#key">3.2 自定義 Key 提供程式</a></h4><p>對於更高階的 key 管理方案，您可以在初始化程式中配置自定義 key 提供程式：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Encryption</span><span class="p">.</span><span class="nf">key_provider</span> <span class="o">=</span> <span class="no">MyKeyProvider</span><span class="p">.</span><span class="nf">new</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ActiveRecord::Encryption.key_provider = MyKeyProvider.new
+">Copy</button>
+</div>
+<p>key 提供者必須實現這個介面：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">MyKeyProvider</span>
+  <span class="k">def</span> <span class="nf">encryption_key</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">decryption_keys</span><span class="p">(</span><span class="n">encrypted_message</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class MyKeyProvider
+  def encryption_key
+  end
+
+  def decryption_keys(encrypted_message)
+  end
+end
+">Copy</button>
+</div>
+<p>兩種方法都返回 <code>ActiveRecord::Encryption::Key</code> 物件：</p>
+<ul>
+<li>
+<code>encryption_key</code> 返回用於加密某些內容的 key</li>
+<li>
+<code>decryption keys</code> 返回用於解密給定訊息的潛在 keys 列表</li>
+</ul>
+<p>key 可以包含將與訊息一起未加密儲存的任意標籤。您可以在解密時使用 <code>ActiveRecord::Encryption::Message#headers</code> 來檢查那些 values。</p><h4 id="model-key"><a class="anchorlink" href="#model-key">3.3 Model 特定的 Key 提供者</a></h4><p>您可以使用 <code>:key_provider</code> 選項在每個類的基礎上配置 key 提供程式：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">encrypts</span> <span class="ss">:summary</span><span class="p">,</span> <span class="ss">key_provider: </span><span class="no">ArticleKeyProvider</span><span class="p">.</span><span class="nf">new</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Article &lt; ApplicationRecord
+  encrypts :summary, key_provider: ArticleKeyProvider.new
+end
+">Copy</button>
+</div>
+<h4 id="model-keys"><a class="anchorlink" href="#model-keys">3.4 Model 特定的 Keys</a></h4><p>您可以使用 <code>:key</code> 選項在每個類的基礎上配置給定的 key：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">encrypts</span> <span class="ss">:summary</span><span class="p">,</span> <span class="ss">key: </span><span class="s2">"some secret key for article summaries"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class Article &lt; ApplicationRecord
+  encrypts :summary, key: "some secret key for article summaries"
+end
+'>Copy</button>
+</div>
+<p>key 將在內部用於派生用於加密和解密資料的 key。</p><h4 id="keys"><a class="anchorlink" href="#keys">3.5 旋轉 Keys</a></h4><p><code>active_record.encryption</code> 可以使用 keys 列表來支援實現金鑰輪換方案：</p>
+<ul>
+<li>
+<strong>last key</strong> 將用於加密新內容。</li>
+<li>解密內容時將嘗試所有 keys，直到成功為止。</li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight yml"><span class="s">active_record</span>
+  <span class="s">encryption</span><span class="pi">:</span>
+    <span class="na">primary_key</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s">a1cc4d7b9f420e40a337b9e68c5ecec6</span> <span class="c1"># Previous keys can still decrypt existing content</span>
+        <span class="pi">-</span> <span class="s">bc17e7b413fd4720716a7633027f8cc4</span> <span class="c1"># Active, encrypts new content</span>
+    <span class="na">key_derivation_salt</span><span class="pi">:</span> <span class="s">a3226b97b3b2f8372d1fc6d497a0c0d3</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="active_record
+  encryption:
+    primary_key:
+        - a1cc4d7b9f420e40a337b9e68c5ecec6 # Previous keys can still decrypt existing content
+        - bc17e7b413fd4720716a7633027f8cc4 # Active, encrypts new content
+    key_derivation_salt: a3226b97b3b2f8372d1fc6d497a0c0d3
+">Copy</button>
+</div>
+<p>這透過新增新的 keys、重新加密內容和刪除舊的 keys 來啟用您保留 keys 的簡短列表的工作流。</p><div class="note"><p>確定性加密目前不支援旋轉 keys。</p></div><div class="note"><p>Active Record 加密還沒有提供對 key 輪換過程的自動管理。所有的部分都在那裡，但這還沒有實現。</p></div><h4 id="key"><a class="anchorlink" href="#key">3.6 儲存 Key 引用</a></h4><p>有一個設定 <code>active_record.encryption.store_key_references</code> 可以用來使 <code>active_record.encryption</code> 在加密訊息本身中儲存對加密 key 的引用。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">store_key_references</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.encryption.store_key_references = true
+">Copy</button>
+</div>
+<p>這使得解密效能更高，因為系統現在可以直接定位 keys，而不是嘗試 keys 列表。付出的代價是儲存：加密資料的大小會更大一些。</p><h3 id=""><a class="anchorlink" href="#">4 介面</a></h3><h4 id=""><a class="anchorlink" href="#">4.1 基礎介面</a></h4><p>ActiveRecord 加密旨在以宣告方式使用，但它提供了用於高階使用場景的 API。</p><h5 id=""><a class="anchorlink" href="#">4.1.1 加解密</a></h5><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">article</span><span class="p">.</span><span class="nf">encrypt</span> <span class="c1"># encrypt or re-encrypt all the encryptable attributes</span>
+<span class="n">article</span><span class="p">.</span><span class="nf">decrypt</span> <span class="c1"># decrypt all the encryptable attributes</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="article.encrypt # encrypt or re-encrypt all the encryptable attributes
+article.decrypt # decrypt all the encryptable attributes
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">4.1.2 讀取密文</a></h5><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">article</span><span class="p">.</span><span class="nf">ciphertext_for</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="article.ciphertext_for(:title)
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">4.1.3 檢查屬性是否加密</a></h5><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">article</span><span class="p">.</span><span class="nf">encrypted_attribute?</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="article.encrypted_attribute?(:title)
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">5 配置</a></h3><h4 id=""><a class="anchorlink" href="#">5.1 配置選項</a></h4><p>您可以透過在您的 <code>application.rb</code>（最常見的場景）或特定環境配置檔案 <code>config/environments/&lt;env name&gt;.rb</code> 中設定它們來配置 Active Record 加密選項，如果您想在每個環境的基礎上設定它們。</p><p>所有配置選項都在 <code>active_record.encryption.config</code> 中命名。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">key_provider</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Encryption</span><span class="o">::</span><span class="no">EnvelopeEncryptionKeyProvider</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">store_key_references</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">extend_queries</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.encryption.key_provider = ActiveRecord::Encryption::EnvelopeEncryptionKeyProvider.new
+config.active_record.encryption.store_key_references = true
+config.active_record.encryption.extend_queries = true
+">Copy</button>
+</div>
+<p>可用的配置選項是：</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>support_unencrypted_data</code></td>
+<td>當為 true 時，可以正常讀取未加密的資料。當為假時，它會升高。預設值：假。</td>
+</tr>
+<tr>
+<td><code>extend_queries</code></td>
+<td>當為 true 時，如果需要，將修改引用確定性加密屬性的查詢以包含額外的 values。這些額外的 values 將是該值的乾淨版本，當 <code>support_unencrypted_data</code> 為真時）和 values 使用以前的加密方案加密（如果有的話）（與 <code>previous:</code> 選項一起提供）。預設值：false（實驗性）。</td>
+</tr>
+<tr>
+<td><code>encrypt_fixtures</code></td>
+<td>當為 true 時，裝置中的可加密屬性將在載入時自動加密。預設值：假。</td>
+</tr>
+<tr>
+<td><code>store_key_references</code></td>
+<td>當為真時，對加密金鑰的引用儲存在加密訊息的標題中。當使用多個 keys 時，這可以加快解密速度。預設值：假。</td>
+</tr>
+<tr>
+<td><code>add_to_filter_parameters</code></td>
+<td>當為 true 時，加密的屬性名稱會自動新增到 <a href="https://guides.rubyonrails.org/configuring.html#rails-general-configuration">過濾引數列表</a> 中，不會在日誌中顯示。預設值：真。</td>
+</tr>
+<tr>
+<td><code>excluded_from_filter_parameters</code></td>
+<td>您可以配置一個引數列表，當 <code>add_to_filter_parameters</code> 為 true 時，這些引數不會被過濾掉。預設： []。</td>
+</tr>
+<tr>
+<td><code>validate_column_size</code></td>
+<td>新增基於列大小的驗證。建議使用高度可壓縮的有效載荷來防止儲存巨大的 values。預設值：真。</td>
+</tr>
+<tr>
+<td><code>primary_key</code></td>
+<td>用於派生根資料加密 keys 的 keys 的金鑰或列表。它們的使用方式取決於配置的金鑰提供程式。最好透過憑證 <code>active_record_encryption.primary_key</code> 對其進行配置。</td>
+</tr>
+<tr>
+<td><code>deterministic_key</code></td>
+<td>用於確定性加密的 keys 的金鑰或列表。最好透過憑證 <code>active_record_encryption.deterministic_key</code> 對其進行配置。</td>
+</tr>
+<tr>
+<td><code>key_derivation_salt</code></td>
+<td>派生 keys 時使用的鹽。最好透過憑證 <code>active_record_encryption.key_derivation_salt</code> 對其進行配置。</td>
+</tr>
+<tr>
+<td><code>forced_encoding_for_deterministic_encryption</code></td>
+<td>確定性加密的屬性的預設編碼。您可以透過將此選項設定為 <code>nil</code> 來禁用強制編碼。預設為 <code>Encoding::UTF_8</code>。</td>
+</tr>
+</tbody>
+</table>
+<div class="note"><p>建議使用 Rails 內建憑證支援來儲存 keys。如果您更喜歡透過配置屬性手動設定它們，請確保不要將它們與您的程式碼一起提交（例如：使用環境變數）。</p></div><h4 id=""><a class="anchorlink" href="#">5.2 加密上下文</a></h4><p>加密上下文定義了在給定時刻使用的加密元件。有一個基於您的全域性配置的預設加密上下文，但您可以為給定屬性或在執行特定程式碼塊時配置自定義上下文。</p><div class="note"><p>加密上下文是一種靈活但高階的配置機制。大多數使用者不應該關心它們。</p></div><p>加密上下文的主要組成部分是：</p>
+<ul>
+<li>
+<code>encryptor</code>：公開用於加密和解密資料的內部API。它與 <code>key_provider</code> 互動以構建加密訊息並處理它們的序列化。加密/解密本身由 <code>cipher</code> 完成，序列化由 <code>message_serializer</code> 完成。</li>
+<li>
+<code>cipher</code> 加密演算法本身（Aes 256 GCM）</li>
+<li>
+<code>key_provider</code> 服務於加密和解密 keys。</li>
+<li>
+<code>message_serializer</code>：序列化和反序列化加密的有效負載（<code>Message</code>）。</li>
+</ul>
+<div class="note"><p>如果您決定構建自己的 <code>message_serializer</code>，請務必使用不能反序列化任意物件的安全機制。一個常見的支援方案是加密現有的未加密資料。攻擊者可以利用它在加密之前輸入篡改的有效載荷並執行 RCE 攻擊。這意味著自定義序列化程式應避免使用 <code>Marshal</code>、<code>YAML.load</code>（使用 <code>YAML.safe_load</code> 代替）或 <code>JSON.load</code>（使用 <code>JSON.parse</code> 代替）。</p></div><h5 id=""><a class="anchorlink" href="#">5.2.1 全域性加密上下文</a></h5><p>全域性加密上下文是預設使用的上下文，並在 <code>application.rb</code> 或環境配置檔案中配置為其他配置屬性。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">encryption</span><span class="p">.</span><span class="nf">key_provider</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Encryption</span><span class="o">::</span><span class="no">EnvelopeEncryptionKeyProvider</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">active_record_encryption</span><span class="p">.</span><span class="nf">encryptor</span> <span class="o">=</span> <span class="no">MyEncryptor</span><span class="p">.</span><span class="nf">new</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.active_record.encryption.key_provider = ActiveRecord::Encryption::EnvelopeEncryptionKeyProvider.new
+config.active_record_encryption.encryptor = MyEncryptor.new
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">5.2.2 每屬性加密上下文</a></h5><p>您可以透過在屬性宣告中傳遞加密上下文引數來覆蓋它們：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Attribute</span>
+  <span class="n">encrypts</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">encryptor: </span><span class="no">MyAttributeEncryptor</span><span class="p">.</span><span class="nf">new</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Attribute
+  encrypts :title, encryptor: MyAttributeEncryptor.new
+end
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">5.2.3 執行程式碼塊時的加密上下文</a></h5><p>您可以使用 <code>ActiveRecord::Encryption.with_encryption_context</code> 為給定的程式碼塊設定加密上下文：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Encryption</span><span class="p">.</span><span class="nf">with_encryption_context</span><span class="p">(</span><span class="ss">encryptor: </span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Encryption</span><span class="o">::</span><span class="no">NullEncryptor</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span> <span class="k">do</span>
+  <span class="o">...</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ActiveRecord::Encryption.with_encryption_context(encryptor: ActiveRecord::Encryption::NullEncryptor.new) do
+  ...
+end
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">5.2.4 內建加密上下文</a></h5><h6 id=""><a class="anchorlink" href="#">5.2.4.1 禁用加密</a></h6><p>您可以在不加密的情況下執行程式碼：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Encryption</span><span class="p">.</span><span class="nf">without_encryption</span> <span class="k">do</span>
+   <span class="o">...</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ActiveRecord::Encryption.without_encryption do
+   ...
+end
+">Copy</button>
+</div>
+<p>這意味著讀取加密文字將返回密文，儲存的內容將不加密儲存。</p><h6 id=""><a class="anchorlink" href="#">5.2.4.2 保護加密資料</a></h6><p>您可以在不加密的情況下執行程式碼但防止覆蓋加密的內容：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Encryption</span><span class="p">.</span><span class="nf">protecting_encrypted_data</span> <span class="k">do</span>
+   <span class="o">...</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ActiveRecord::Encryption.protecting_encrypted_data do
+   ...
+end
+">Copy</button>
+</div>
+<p>如果您想保護加密資料，同時仍然允許有人針對它執行任意程式碼（例如：在 Rails 控制檯中），這會很方便。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

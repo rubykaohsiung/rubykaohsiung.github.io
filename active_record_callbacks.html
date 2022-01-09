@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Active Record 回呼(Callbacks) — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Active Record 回呼(Callbacks) — Ruby on Rails Guides" />
+  <meta name="description" content="Active Record 回呼(Callbacks)本指南教你如何掛載你的Active Record的生命週期 物件。閱讀本指南後，您將瞭解： Active Record 物件的生命週期。 如何在物件生命週期中建立回應事件的callback方法。 如何為您的 callbacks 建立封裝常見行為的特殊類。" />
+  <meta property="og:description" content="Active Record 回呼(Callbacks)本指南教你如何掛載你的Active Record的生命週期 物件。閱讀本指南後，您將瞭解： Active Record 物件的生命週期。 如何在物件生命週期中建立回應事件的callback方法。 如何為您的 callbacks 建立封裝常見行為的特殊類。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Active Record 回呼(Callbacks)</h2><p>本指南教你如何掛載你的Active Record的生命週期
+物件。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>Active Record 物件的生命週期。</li>
+<li>如何在物件生命週期中建立回應事件的callback方法。</li>
+<li>如何為您的 callbacks 建立封裝常見行為的特殊類。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#">物件生命週期</a></li>
+<li>
+<a href="#callback">Callback 概述</a>
+
+<ul>
+<li><a href="#callback">Callback 註冊</a></li>
+</ul>
+</li>
+<li>
+<a href="#callbacks">可用 Callbacks</a>
+
+<ul>
+<li><a href="#">建立物件</a></li>
+<li><a href="#">更新物件</a></li>
+<li><a href="#">銷燬物件</a></li>
+<li><a href="#after-initialize-after-find"><code>after_initialize</code> 和 <code>after_find</code></a></li>
+<li><a href="#after-touch"><code>after_touch</code></a></li>
+</ul>
+</li>
+<li><a href="#callbacks">執行 Callbacks</a></li>
+<li><a href="#callbacks">跳過 Callbacks</a></li>
+<li><a href="#">停止執行</a></li>
+<li><a href="#callbacks">關係Callbacks</a></li>
+<li>
+<a href="#callbacks">有條件的 Callbacks</a>
+
+<ul>
+<li><a href="#if-unless-symbol">使用 <code>:if</code> 和 <code>:unless</code> 和 <code>Symbol</code></a></li>
+<li><a href="#if-unless-proc">使用 <code>:if</code> 和 <code>:unless</code> 和 <code>Proc</code></a></li>
+<li><a href="#if-unless">同時使用 :if 和 :unless</a></li>
+<li><a href="#callback">多個 Callback 條件</a></li>
+</ul>
+</li>
+<li><a href="#callback">Callback 類</a></li>
+<li><a href="#transaction-callbacks">Transaction Callbacks</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 物件生命週期</a></h3><p>在 Rails 應用程式的正常執行期間，可能會建立、更新和銷燬物件。 Active Record 為這個<em>物件生命週期</em>提供了掛載機制，以便您可以控制您的應用程式及其資料。</p><p>Callbacks 允許您在更改物件狀態之前或之後觸發邏輯。</p><h3 id="callback"><a class="anchorlink" href="#callback">2 Callback 概述</a></h3><p>Callback 是在物件生命週期的特定時刻被呼叫的方法。使用回呼，可以編寫在建立、儲存、更新、刪除、驗證或從資料庫載入 Active Record 物件時執行的程式碼。</p><h4 id="callback"><a class="anchorlink" href="#callback">2.1 Callback 註冊</a></h4><p>為了使用可用的callbacks，您需要註冊它們。您可以將 callbacks 實現為普通方法，並使用宏樣式的類方法將它們註冊為 callbacks：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:login</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+
+  <span class="n">before_validation</span> <span class="ss">:ensure_login_has_a_value</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">ensure_login_has_a_value</span>
+      <span class="k">if</span> <span class="n">login</span><span class="p">.</span><span class="nf">nil?</span>
+        <span class="nb">self</span><span class="p">.</span><span class="nf">login</span> <span class="o">=</span> <span class="n">email</span> <span class="k">unless</span> <span class="n">email</span><span class="p">.</span><span class="nf">blank?</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class User &lt; ApplicationRecord
+  validates :login, :email, presence: true
+
+  before_validation :ensure_login_has_a_value
+
+  private
+    def ensure_login_has_a_value
+      if login.nil?
+        self.login = email unless email.blank?
+      end
+    end
+end
+">Copy</button>
+</div>
+<p>宏風格的類方法也可以接收一個塊。如果程式碼塊內的程式碼太短以至於可以放在一行中，請考慮使用這種樣式：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:login</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+
+  <span class="n">before_create</span> <span class="k">do</span>
+    <span class="nb">self</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="n">login</span><span class="p">.</span><span class="nf">capitalize</span> <span class="k">if</span> <span class="nb">name</span><span class="p">.</span><span class="nf">blank?</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class User &lt; ApplicationRecord
+  validates :login, :email, presence: true
+
+  before_create do
+    self.name = login.capitalize if name.blank?
+  end
+end
+">Copy</button>
+</div>
+<p>Callbacks 也可以註冊為僅在某些生命週期事件上觸發：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">before_validation</span> <span class="ss">:normalize_name</span><span class="p">,</span> <span class="ss">on: :create</span>
+
+  <span class="c1"># :on takes an array as well</span>
+  <span class="n">after_validation</span> <span class="ss">:set_location</span><span class="p">,</span> <span class="ss">on: </span><span class="p">[</span> <span class="ss">:create</span><span class="p">,</span> <span class="ss">:update</span> <span class="p">]</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">normalize_name</span>
+      <span class="nb">self</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">.</span><span class="nf">downcase</span><span class="p">.</span><span class="nf">titleize</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">set_location</span>
+      <span class="nb">self</span><span class="p">.</span><span class="nf">location</span> <span class="o">=</span> <span class="no">LocationService</span><span class="p">.</span><span class="nf">query</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class User &lt; ApplicationRecord
+  before_validation :normalize_name, on: :create
+
+  # :on takes an array as well
+  after_validation :set_location, on: [ :create, :update ]
+
+  private
+    def normalize_name
+      self.name = name.downcase.titleize
+    end
+
+    def set_location
+      self.location = LocationService.query(self)
+    end
+end
+">Copy</button>
+</div>
+<p>將 callback 方法宣告為私有方法被認為是一種很好的做法。如果將它們設為 public，則可以從 model 外部呼叫它們，並且違反了物件封裝原則。</p><h3 id="callbacks"><a class="anchorlink" href="#callbacks">3 可用 Callbacks</a></h3><p>這是一個包含所有可用 Active Record callbacks 的列表，按照在相應操作期間呼叫它們的相同順序列出：</p><h4 id=""><a class="anchorlink" href="#">3.1 建立物件</a></h4>
+<ul>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations/Callbacks/ClassMethods.html#method-i-before_validation"><code>before_validation</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations/Callbacks/ClassMethods.html#method-i-after_validation"><code>after_validation</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-before_save"><code>before_save</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-around_save"><code>around_save</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-before_create"><code>before_create</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-around_create"><code>around_create</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-after_create"><code>after_create</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-after_save"><code>after_save</code></a></li>
+<li>
+<a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_commit"><code>after_commit</code></a> / <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_rollback"><code>after_rollback</code></a>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">3.2 更新物件</a></h4>
+<ul>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations/Callbacks/ClassMethods.html#method-i-before_validation"><code>before_validation</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Validations/Callbacks/ClassMethods.html#method-i-after_validation"><code>after_validation</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-before_save"><code>before_save</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-around_save"><code>around_save</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-before_update"><code>before_update</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-around_update"><code>around_update</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-after_update"><code>after_update</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-after_save"><code>after_save</code></a></li>
+<li>
+<a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_commit"><code>after_commit</code></a> / <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_rollback"><code>after_rollback</code></a>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">3.3 銷燬物件</a></h4>
+<ul>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-before_destroy"><code>before_destroy</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-around_destroy"><code>around_destroy</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-after_destroy"><code>after_destroy</code></a></li>
+<li>
+<a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_commit"><code>after_commit</code></a> / <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_rollback"><code>after_rollback</code></a>
+</li>
+</ul>
+<div class="warning"><p><code>after_save</code> 在建立和更新時執行，但總是<em>after</em> 更具體的 callbacks <code>after_create</code> 和 <code>after_update</code>，無論宏呼叫的執行順序如何。</p></div><div class="warning"><p>避免在 callbacks 中更新或儲存屬性。例如，不要在回呼中呼叫 <code>update(attribute: "value")</code>。這可能會改變 model 的狀態，並可能在提交期間導致意外的副作用。相反，您可以在 <code>before_create</code> / <code>before_update</code> 或更早的 callbacks 中直接安全地分配 values（例如，<code>self.attribute = "value"</code>）。</p></div><div class="note"><p><code>before_destroy</code> callbacks 應該放在 <code>dependent: :destroy</code> 之前
+associations（或使用 <code>prepend: true</code> 選項），以確保它們在執行之前
+記錄被 <code>dependent: :destroy</code> 刪除。</p></div><h4 id="after-initialize-after-find"><a class="anchorlink" href="#after-initialize-after-find">3.4 <code>after_initialize</code> 和 <code>after_find</code></a></h4><p><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-after_initialize"><code>after_initialize</code></a> callback 將在實例化 Active Record 物件時呼叫，直接使用 <code>new</code> 或從資料庫載入記錄時。避免直接覆蓋 Active Record <code>initialize</code> 方法的需要會很有用。</p><p>每當 Active Record 從資料庫載入記錄時，都會呼叫 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-after_find"><code>after_find</code></a> callback。如果兩者都定義了，則 <code>after_find</code> 在 <code>after_initialize</code> 之前呼叫。</p><p><code>after_initialize</code> 和 <code>after_find</code> callbacks 沒有對應的 <code>before_*</code>，但它們可以像其他 Active Record callbacks 一樣註冊。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">after_initialize</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">"You have initialized an object!"</span>
+  <span class="k">end</span>
+
+  <span class="n">after_find</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">"You have found an object!"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class User &lt; ApplicationRecord
+  after_initialize do |user|
+    puts "You have initialized an object!"
+  end
+
+  after_find do |user|
+    puts "You have found an object!"
+  end
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">User</span><span class="p">.</span><span class="nf">new</span>
+<span class="go">You have initialized an object!
+</span><span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">User</span> <span class="ss">id: </span><span class="kp">nil</span><span class="kt">&gt;</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="no">User</span><span class="p">.</span><span class="nf">first</span>
+<span class="go">You have found an object!
+You have initialized an object!
+</span><span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">User</span> <span class="ss">id: </span><span class="mi">1</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="User.new
+User.first
+">Copy</button>
+</div>
+<h4 id="after-touch"><a class="anchorlink" href="#after-touch">3.5 <code>after_touch</code></a></h4><p>每當觸控 Active Record 物件時，都會呼叫 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-after_touch"><code>after_touch</code></a> callback。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">after_touch</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">"You have touched an object"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class User &lt; ApplicationRecord
+  after_touch do |user|
+    puts "You have touched an object"
+  end
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">u</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'Kuldeep'</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">User</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">name: </span><span class="s2">"Kuldeep"</span><span class="p">,</span> <span class="ss">created_at: </span><span class="s2">"2013-11-25 12:17:49"</span><span class="p">,</span> <span class="ss">updated_at: </span><span class="s2">"2013-11-25 12:17:49"</span><span class="kt">&gt;</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="nf">touch</span>
+<span class="go">You have touched an object
+</span><span class="p">=&gt;</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="u = User.create(name: 'Kuldeep')
+u.touch
+">Copy</button>
+</div>
+<p>它可以與 <code>belongs_to</code> 一起使用：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Employee</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">belongs_to</span> <span class="ss">:company</span><span class="p">,</span> <span class="ss">touch: </span><span class="kp">true</span>
+  <span class="n">after_touch</span> <span class="k">do</span>
+    <span class="nb">puts</span> <span class="s1">'An Employee was touched'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Company</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:employees</span>
+  <span class="n">after_touch</span> <span class="ss">:log_when_employees_or_company_touched</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">log_when_employees_or_company_touched</span>
+      <span class="nb">puts</span> <span class="s1">'Employee/Company was touched'</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Employee &lt; ApplicationRecord
+  belongs_to :company, touch: true
+  after_touch do
+    puts 'An Employee was touched'
+  end
+end
+
+class Company &lt; ApplicationRecord
+  has_many :employees
+  after_touch :log_when_employees_or_company_touched
+
+  private
+    def log_when_employees_or_company_touched
+      puts 'Employee/Company was touched'
+    end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="vi">@employee</span> <span class="o">=</span> <span class="no">Employee</span><span class="p">.</span><span class="nf">last</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Employee</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">company_id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">created_at: </span><span class="s2">"2013-11-25 17:04:22"</span><span class="p">,</span> <span class="ss">updated_at: </span><span class="s2">"2013-11-25 17:05:05"</span><span class="kt">&gt;</span>
+
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="vi">@employee</span><span class="p">.</span><span class="nf">touch</span> <span class="c1"># triggers @employee.company.touch</span>
+<span class="go">An Employee was touched
+Employee/Company was touched
+</span><span class="p">=&gt;</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="@employee = Employee.last
+@employee.touch # triggers @employee.company.touch
+">Copy</button>
+</div>
+<h3 id="callbacks"><a class="anchorlink" href="#callbacks">4 執行 Callbacks</a></h3><p>以下方法會觸發 callbacks：</p>
+<ul>
+<li><code>create</code></li>
+<li><code>create!</code></li>
+<li><code>destroy</code></li>
+<li><code>destroy!</code></li>
+<li><code>destroy_all</code></li>
+<li><code>destroy_by</code></li>
+<li><code>save</code></li>
+<li><code>save!</code></li>
+<li><code>save(validate: false)</code></li>
+<li><code>toggle!</code></li>
+<li><code>touch</code></li>
+<li><code>update_attribute</code></li>
+<li><code>update</code></li>
+<li><code>update!</code></li>
+<li><code>valid?</code></li>
+</ul>
+<p>此外，<code>after_find</code> callback 由以下查詢器方法觸發：</p>
+<ul>
+<li><code>all</code></li>
+<li><code>first</code></li>
+<li><code>find</code></li>
+<li><code>find_by</code></li>
+<li><code>find_by_*</code></li>
+<li><code>find_by_*!</code></li>
+<li><code>find_by_sql</code></li>
+<li><code>last</code></li>
+</ul>
+<p>每次初始化類的新物件時都會觸發 <code>after_initialize</code> callback。</p><div class="note"><p><code>find_by_*</code> 和 <code>find_by_*!</code> 方法是為每個屬性自動生成的動態查詢器。在<a href="active_record_querying.html#dynamic-finders">動態查詢器部分</a> 中瞭解有關它們的更多資訊</p></div><h3 id="callbacks"><a class="anchorlink" href="#callbacks">5 跳過 Callbacks</a></h3><p>與驗證一樣，也可以使用以下方法跳過 callbacks：</p>
+<ul>
+<li><code>decrement!</code></li>
+<li><code>decrement_counter</code></li>
+<li><code>delete</code></li>
+<li><code>delete_all</code></li>
+<li><code>delete_by</code></li>
+<li><code>increment!</code></li>
+<li><code>increment_counter</code></li>
+<li><code>insert</code></li>
+<li><code>insert!</code></li>
+<li><code>insert_all</code></li>
+<li><code>insert_all!</code></li>
+<li><code>touch_all</code></li>
+<li><code>update_column</code></li>
+<li><code>update_columns</code></li>
+<li><code>update_all</code></li>
+<li><code>update_counters</code></li>
+<li><code>upsert</code></li>
+<li><code>upsert_all</code></li>
+</ul>
+<p>但是，這些方法應謹慎使用，因為重要的業務規則和應用程式邏輯可能會儲存在 callbacks 中。在不瞭解潛在影響的情況下繞過它們可能會導致無效資料。</p><h3 id=""><a class="anchorlink" href="#">6 停止執行</a></h3><p>當您開始為 models 註冊新的 callbacks 時，它們將排隊等待執行。該佇列將包括您模型的所有驗證、註冊的 callbacks 以及要執行的資料庫操作。</p><p>整個 callback 鏈都包裹在一個 transaction 中。如果任何 callback 引發異常，則執行鏈將停止併發出 ROLLBACK。有意停止鏈使用：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="kp">throw</span> <span class="ss">:abort</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="throw :abort
+">Copy</button>
+</div>
+<div class="warning"><p>任何不是 <code>ActiveRecord::Rollback</code> 或 <code>ActiveRecord::RecordInvalid</code> 的異常都會在 callback 鏈停止後由 Rails 重新引發。引發除 <code>ActiveRecord::Rollback</code> 或 <code>ActiveRecord::RecordInvalid</code> 以外的異常可能會破壞不期望像 <code>save</code> 和 <code>update</code> 之類的方法（通常嘗試返回 <code>true</code> 或 <code>false</code>）引發異常的程式碼。</p></div><h3 id="callbacks"><a class="anchorlink" href="#callbacks">7 關係Callbacks</a></h3><p>Callback 透過 model 關係工作，甚至可以由它們定義。假設一個使用者有很多文章的例子。如果使用者被銷燬，使用者的文章應該被銷燬。讓我們透過它與 <code>Article</code> model 的關係為 <code>User</code> model 新增一個 <code>after_destroy</code> 回呼：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">dependent: :destroy</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">after_destroy</span> <span class="ss">:log_destroy_action</span>
+
+  <span class="k">def</span> <span class="nf">log_destroy_action</span>
+    <span class="nb">puts</span> <span class="s1">'Article destroyed'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class User &lt; ApplicationRecord
+  has_many :articles, dependent: :destroy
+end
+
+class Article &lt; ApplicationRecord
+  after_destroy :log_destroy_action
+
+  def log_destroy_action
+    puts 'Article destroyed'
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">first</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">User</span> <span class="ss">id: </span><span class="mi">1</span><span class="kt">&gt;</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="nf">articles</span><span class="p">.</span><span class="nf">create!</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Article</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">user_id: </span><span class="mi">1</span><span class="kt">&gt;</span>
+<span class="gp">irb&gt;</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="nf">destroy</span>
+<span class="go">Article destroyed
+</span><span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">User</span> <span class="ss">id: </span><span class="mi">1</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="user = User.first
+user.articles.create!
+user.destroy
+">Copy</button>
+</div>
+<h3 id="callbacks"><a class="anchorlink" href="#callbacks">8 有條件的 Callbacks</a></h3><p>與驗證一樣，我們還可以根據給定謂詞的 satisfaction 來呼叫 callback 方法。我們可以使用 <code>:if</code> 和 <code>:unless</code> 選項來做到這一點，它們可以採用 symbol、<code>Proc</code> 或 <code>Array</code>。當您要指定在何種條件下呼叫 callback <strong>應</strong>時，您可以使用 <code>:if</code> 選項。如果你想指定在什麼條件下 callback <strong>不應該</strong>被呼叫，那麼你可以使用 <code>:unless</code> 選項。</p><h4 id="if-unless-symbol"><a class="anchorlink" href="#if-unless-symbol">8.1 使用 <code>:if</code> 和 <code>:unless</code> 和 <code>Symbol</code></a></h4><p>您可以將 <code>:if</code> 和 <code>:unless</code> 選項與 symbol 相關聯，該 symbol 對應於將在 callback 之前呼叫的謂詞方法的名稱。使用<code>:if</code>選項時，如果謂詞方法返回false，則不會執行callback；使用 <code>:unless</code> 選項時，如果謂詞方法返回 true，則不會執行 callback。這是最常見的選項。使用這種註冊形式，還可以註冊幾個不同的謂詞，這些謂詞應該被呼叫以檢查是否應該執行 callback。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">before_save</span> <span class="ss">:normalize_card_number</span><span class="p">,</span> <span class="ss">if: :paid_with_card?</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Order &lt; ApplicationRecord
+  before_save :normalize_card_number, if: :paid_with_card?
+end
+">Copy</button>
+</div>
+<h4 id="if-unless-proc"><a class="anchorlink" href="#if-unless-proc">8.2 使用 <code>:if</code> 和 <code>:unless</code> 和 <code>Proc</code></a></h4><p>可以將 <code>:if</code> 和 <code>:unless</code> 與 <code>Proc</code> 物件相關聯。此選項最適合編寫簡短的驗證方法，通常是單行程式碼：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">before_save</span> <span class="ss">:normalize_card_number</span><span class="p">,</span>
+    <span class="ss">if: </span><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">order</span><span class="o">|</span> <span class="n">order</span><span class="p">.</span><span class="nf">paid_with_card?</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Order &lt; ApplicationRecord
+  before_save :normalize_card_number,
+    if: Proc.new { |order| order.paid_with_card? }
+end
+">Copy</button>
+</div>
+<p>由於 proc 是在物件的上下文中計算的，因此也可以將其寫為：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">before_save</span> <span class="ss">:normalize_card_number</span><span class="p">,</span> <span class="ss">if: </span><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="n">paid_with_card?</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Order &lt; ApplicationRecord
+  before_save :normalize_card_number, if: Proc.new { paid_with_card? }
+end
+">Copy</button>
+</div>
+<h4 id="if-unless"><a class="anchorlink" href="#if-unless">8.3 同時使用 :if 和 :unless</a></h4><p>Callback 可以在同一個宣告中混合使用 <code>:if</code> 和 <code>:unless</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">before_save</span> <span class="ss">:filter_content</span><span class="p">,</span>
+    <span class="ss">if: </span><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="n">forum</span><span class="p">.</span><span class="nf">parental_control?</span> <span class="p">},</span>
+    <span class="ss">unless: </span><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="n">author</span><span class="p">.</span><span class="nf">trusted?</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Comment &lt; ApplicationRecord
+  before_save :filter_content,
+    if: Proc.new { forum.parental_control? },
+    unless: Proc.new { author.trusted? }
+end
+">Copy</button>
+</div>
+<h4 id="callback"><a class="anchorlink" href="#callback">8.4 多個 Callback 條件</a></h4><p><code>:if</code> 和 <code>:unless</code> 選項也接受一組過程或方法名稱作為 symbols：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">before_save</span> <span class="ss">:filter_content</span><span class="p">,</span>
+    <span class="ss">if: </span><span class="p">[</span><span class="ss">:subject_to_parental_control?</span><span class="p">,</span> <span class="ss">:untrusted_author?</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Comment &lt; ApplicationRecord
+  before_save :filter_content,
+    if: [:subject_to_parental_control?, :untrusted_author?]
+end
+">Copy</button>
+</div>
+<p>callback 僅在所有 <code>:if</code> 條件和 <code>:unless</code> 條件都沒有評估為 <code>true</code> 時執行。</p><h3 id="callback"><a class="anchorlink" href="#callback">9 Callback 類</a></h3><p>有時，您將編寫的 callback 方法非常有用，可以被其他 models 重用。 Active Record 可以建立封裝 callback 方法的類，因此它們可以被重用。</p><p>下面是一個示例，我們使用 <code>after_destroy</code> callback 為 <code>PictureFile</code> model 建立一個類：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">PictureFileCallbacks</span>
+  <span class="k">def</span> <span class="nf">after_destroy</span><span class="p">(</span><span class="n">picture_file</span><span class="p">)</span>
+    <span class="k">if</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="n">picture_file</span><span class="p">.</span><span class="nf">filepath</span><span class="p">)</span>
+      <span class="no">File</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">picture_file</span><span class="p">.</span><span class="nf">filepath</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class PictureFileCallbacks
+  def after_destroy(picture_file)
+    if File.exist?(picture_file.filepath)
+      File.delete(picture_file.filepath)
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>當在類中宣告時，如上所述，callback 方法將接收 model 物件作為引數。我們現在可以在 model 中使用 callback 類：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">PictureFile</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">after_destroy</span> <span class="no">PictureFileCallbacks</span><span class="p">.</span><span class="nf">new</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class PictureFile &lt; ApplicationRecord
+  after_destroy PictureFileCallbacks.new
+end
+">Copy</button>
+</div>
+<p>請注意，我們需要實例化一個新的 <code>PictureFileCallbacks</code> 物件，因為我們將回調宣告為實例方法。如果 callbacks 使用實例化物件的狀態，這將特別有用。然而，通常將 callbacks 宣告為類方法會更有意義：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">PictureFileCallbacks</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">after_destroy</span><span class="p">(</span><span class="n">picture_file</span><span class="p">)</span>
+    <span class="k">if</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="n">picture_file</span><span class="p">.</span><span class="nf">filepath</span><span class="p">)</span>
+      <span class="no">File</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">picture_file</span><span class="p">.</span><span class="nf">filepath</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class PictureFileCallbacks
+  def self.after_destroy(picture_file)
+    if File.exist?(picture_file.filepath)
+      File.delete(picture_file.filepath)
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>如果以這種方式宣告 callback 方法，則不需要實例化 <code>PictureFileCallbacks</code> 物件。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">PictureFile</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">after_destroy</span> <span class="no">PictureFileCallbacks</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class PictureFile &lt; ApplicationRecord
+  after_destroy PictureFileCallbacks
+end
+">Copy</button>
+</div>
+<p>您可以在回呼類中宣告任意數量的 callbacks。</p><h3 id="transaction-callbacks"><a class="anchorlink" href="#transaction-callbacks">10 Transaction Callbacks</a></h3><p>有兩個額外的 callbacks 由資料庫 transaction 的完成觸發：<a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_commit"><code>after_commit</code></a> 和 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_rollback"><code>after_rollback</code></a>。這些 callbacks 與 <code>after_save</code> 回呼非常相似，除了它們在資料庫更改提交或回滾後才會執行。當您的 active record models 需要與不屬於資料庫 transaction 的外部系統互動時，它們最有用。</p><p>例如，考慮前面的示例，其中 <code>PictureFile</code> model 需要在相應記錄銷燬後刪除檔案。如果在呼叫 <code>after_destroy</code> callback 並且 transaction 回滾後出現任何異常，則該檔案將被刪除並且 model 將處於不一致狀態。例如，假設下面程式碼中的 <code>picture_file_2</code> 無效並且 <code>save!</code> 方法引發錯誤。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">PictureFile</span><span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  <span class="n">picture_file_1</span><span class="p">.</span><span class="nf">destroy</span>
+  <span class="n">picture_file_2</span><span class="p">.</span><span class="nf">save!</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="PictureFile.transaction do
+  picture_file_1.destroy
+  picture_file_2.save!
+end
+">Copy</button>
+</div>
+<p>透過使用 <code>after_commit</code> callback，我們可以解釋這種情況。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">PictureFile</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">after_commit</span> <span class="ss">:delete_picture_file_from_disk</span><span class="p">,</span> <span class="ss">on: :destroy</span>
+
+  <span class="k">def</span> <span class="nf">delete_picture_file_from_disk</span>
+    <span class="k">if</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+      <span class="no">File</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class PictureFile &lt; ApplicationRecord
+  after_commit :delete_picture_file_from_disk, on: :destroy
+
+  def delete_picture_file_from_disk
+    if File.exist?(filepath)
+      File.delete(filepath)
+    end
+  end
+end
+">Copy</button>
+</div>
+<div class="note"><p><code>:on</code> 選項指定何時觸發 callback。如果你
+不要提供 <code>:on</code> 選項 callback 將為每個 action 觸發。</p></div><p>由於僅在建立、更新或刪除時使用 <code>after_commit</code> callback
+常見的是，這些操作有別名：</p>
+<ul>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_create_commit"><code>after_create_commit</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_update_commit"><code>after_update_commit</code></a></li>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_destroy_commit"><code>after_destroy_commit</code></a></li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">PictureFile</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">after_destroy_commit</span> <span class="ss">:delete_picture_file_from_disk</span>
+
+  <span class="k">def</span> <span class="nf">delete_picture_file_from_disk</span>
+    <span class="k">if</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+      <span class="no">File</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class PictureFile &lt; ApplicationRecord
+  after_destroy_commit :delete_picture_file_from_disk
+
+  def delete_picture_file_from_disk
+    if File.exist?(filepath)
+      File.delete(filepath)
+    end
+  end
+end
+">Copy</button>
+</div>
+<div class="warning"><p>當 transaction 完成時，為該 transaction 內建立、更新或銷燬的所有 models 呼叫 <code>after_commit</code> 或 <code>after_rollback</code> callbacks。但是，如果在這些 callbacks 之一中引發異常，則異常將冒泡並且任何剩餘的 <code>after_commit</code> 或 <code>after_rollback</code> 方法將<em>不</em>執行。因此，如果您的回呼程式碼可能引發異常，您需要在回呼中拯救它並處理它，以允許其他 callbacks 執行。</p></div><div class="warning"><p>在 <code>after_commit</code> 或 <code>after_rollback</code> callbacks 中執行的程式碼本身並不包含在 transaction 中。</p></div><div class="warning"><p>使用具有相同方法名稱的 <code>after_create_commit</code> 和 <code>after_update_commit</code> 將只允許定義的最後一個回呼生效，因為它們都在內部別名為 <code>after_commit</code>，後者覆蓋先前定義的具有相同方法名稱的 callbacks。</p></div><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">after_create_commit</span> <span class="ss">:log_user_saved_to_db</span>
+  <span class="n">after_update_commit</span> <span class="ss">:log_user_saved_to_db</span>
+
+  <span class="kp">private</span>
+  <span class="k">def</span> <span class="nf">log_user_saved_to_db</span>
+    <span class="nb">puts</span> <span class="s1">'User was saved to database'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class User &lt; ApplicationRecord
+  after_create_commit :log_user_saved_to_db
+  after_update_commit :log_user_saved_to_db
+
+  private
+  def log_user_saved_to_db
+    puts 'User was saved to database'
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">create</span> <span class="c1"># prints nothing</span>
+<span class="err">
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="vi">@user</span><span class="p">.</span><span class="nf">save</span> <span class="c1"># updating @user</span>
+<span class="go">User was saved to database
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="@user = User.create # prints nothing
+@user.save # updating @user
+">Copy</button>
+</div>
+<p>還有一個別名用於將 <code>after_commit</code> callback 一起用於建立和更新：</p>
+<ul>
+<li><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_save_commit"><code>after_save_commit</code></a></li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">after_save_commit</span> <span class="ss">:log_user_saved_to_db</span>
+
+  <span class="kp">private</span>
+  <span class="k">def</span> <span class="nf">log_user_saved_to_db</span>
+    <span class="nb">puts</span> <span class="s1">'User was saved to database'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class User &lt; ApplicationRecord
+  after_save_commit :log_user_saved_to_db
+
+  private
+  def log_user_saved_to_db
+    puts 'User was saved to database'
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">create</span> <span class="c1"># creating a User</span>
+<span class="go">User was saved to database
+</span><span class="err">
+</span><span class="gp">irb&gt;</span><span class="w"> </span><span class="vi">@user</span><span class="p">.</span><span class="nf">save</span> <span class="c1"># updating @user</span>
+<span class="go">User was saved to database
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="@user = User.create # creating a User
+@user.save # updating @user
+">Copy</button>
+</div>
+
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

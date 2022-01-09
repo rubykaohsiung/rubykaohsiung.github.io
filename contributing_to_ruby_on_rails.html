@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>在 Rails 上為 Ruby 做貢獻 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="在 Rails 上為 Ruby 做貢獻 — Ruby on Rails Guides" />
+  <meta name="description" content="在 Rails 上為 Ruby 做貢獻本指南介紹了你如何成為 Rails 上正在進行的 Ruby 開發的一部分。閱讀本指南後，您將瞭解： 如何使用 GitHub 報告問題。 如何克隆 main 並執行測試套件。 如何幫助解決現有問題。 如何為 Rails 文件上的 Ruby 做出貢獻。 如何在 Rails 程式碼上為 Ruby 做出貢獻。 Rails 上的 Ruby 不是“別人的框架”。多年來，成千上萬的人在 Rails 上為 Ruby 做出了貢獻，從單個角色到大規模的架構更改或重要的文件——所有這些都是為了讓 Rails 上的 Rails 對每個人都更好。即使您還沒有準備好編寫程式碼或文件，您也可以透過其他各種方式做出貢獻，從報告問題到測試補丁。如 Rails&#39; 中所述 README，在Rails及其子專案的程式碼庫中進行互動的每個人，釋出trackers，聊天室和郵件列表都應遵循Rails 行為準則。" />
+  <meta property="og:description" content="在 Rails 上為 Ruby 做貢獻本指南介紹了你如何成為 Rails 上正在進行的 Ruby 開發的一部分。閱讀本指南後，您將瞭解： 如何使用 GitHub 報告問題。 如何克隆 main 並執行測試套件。 如何幫助解決現有問題。 如何為 Rails 文件上的 Ruby 做出貢獻。 如何在 Rails 程式碼上為 Ruby 做出貢獻。 Rails 上的 Ruby 不是“別人的框架”。多年來，成千上萬的人在 Rails 上為 Ruby 做出了貢獻，從單個角色到大規模的架構更改或重要的文件——所有這些都是為了讓 Rails 上的 Rails 對每個人都更好。即使您還沒有準備好編寫程式碼或文件，您也可以透過其他各種方式做出貢獻，從報告問題到測試補丁。如 Rails&#39; 中所述 README，在Rails及其子專案的程式碼庫中進行互動的每個人，釋出trackers，聊天室和郵件列表都應遵循Rails 行為準則。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>在 Rails 上為 Ruby 做貢獻</h2><p>本指南介紹了<em>你</em>如何成為 Rails 上正在進行的 Ruby 開發的一部分。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何使用 GitHub 報告問題。</li>
+<li>如何克隆 main 並執行測試套件。</li>
+<li>如何幫助解決現有問題。</li>
+<li>如何為 Rails 文件上的 Ruby 做出貢獻。</li>
+<li>如何在 Rails 程式碼上為 Ruby 做出貢獻。</li>
+</ul>
+<p>Rails 上的 Ruby 不是“別人的框架”。多年來，成千上萬的人在 Rails 上為 Ruby 做出了貢獻，從單個角色到大規模的架構更改或重要的文件——所有這些都是為了讓 Rails 上的 Rails 對每個人都更好。即使您還沒有準備好編寫程式碼或文件，您也可以透過其他各種方式做出貢獻，從報告問題到測試補丁。</p><p>如 <a href="https://github.com/rails/rails/blob/main/README.md">Rails&#39; 中所述
+README</a>，在Rails及其子專案的程式碼庫中進行互動的每個人，釋出trackers，聊天室和郵件列表都應遵循Rails <a href="https://rubyonrails.org/conduct/">行為準則</a>。</p>
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#">報告問題</a>
+
+<ul>
+<li><a href="#">建立錯誤報告</a></li>
+<li><a href="#">建立一個可執行的測試用例</a></li>
+<li><a href="#">安全問題特殊處理</a></li>
+<li><a href="#">功能請求呢？</a></li>
+</ul>
+</li>
+<li>
+<a href="#">幫助解決現有問題</a>
+
+<ul>
+<li><a href="#">驗證錯誤報告</a></li>
+<li><a href="#">測試補丁</a></li>
+</ul>
+</li>
+<li><a href="#rails">為 Rails 文件做貢獻</a></li>
+<li><a href="#rails">翻譯Rails指南</a></li>
+<li>
+<a href="#rails">為 Rails 程式碼做貢獻</a>
+
+<ul>
+<li><a href="#">搭建開發環境</a></li>
+<li><a href="#rails">克隆 Rails 儲存庫</a></li>
+<li><a href="#">捆綁安裝</a></li>
+<li><a href="#">在本地分支上執行應用程式</a></li>
+<li><a href="#">編寫程式碼</a></li>
+<li><a href="#">對您的程式碼進行基準測試</a></li>
+<li><a href="#">執行測試</a></li>
+<li><a href="#">警告</a></li>
+<li><a href="#">更新文件</a></li>
+<li><a href="#changelog">更新 CHANGELOG</a></li>
+<li><a href="#ide">忽略編輯器/IDE 建立的檔案</a></li>
+<li><a href="#gemfile-lock">更新 Gemfile.lock</a></li>
+<li><a href="#">提交您的更改</a></li>
+<li><a href="#">更新你的分支</a></li>
+<li><a href="#">前叉</a></li>
+<li><a href="#">發出拉取請求</a></li>
+<li><a href="#">得到一些反饋</a></li>
+<li><a href="#">根據需要迭代</a></li>
+<li><a href="#rails-ruby">Rails 上 Ruby 的舊版本</a></li>
+</ul>
+</li>
+<li><a href="#rails">Rails 貢獻者</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 報告問題</a></h3><p>Rails 上的 Ruby 使用 <a href="https://github.com/rails/rails/issues">GitHub 問題 Tracking</a> 到 track 問題（主要是新程式碼的錯誤和貢獻）。如果您在 Rails 上的 Ruby 中發現了錯誤，請從這裡開始。您需要建立一個（免費）GitHub 帳戶來提交問題、評論問題或建立拉取請求。</p><div class="note"><p>在 Rails 上最新發布的 Ruby 版本中的錯誤可能會得到最多的關注。此外，Rails 核心團隊總是對那些可以花時間測試 <em>edge Rails</em>（目前正在開發的 Rails 版本的程式碼）的人的反饋感興趣。在本指南的後面，您將瞭解如何獲取邊緣 Rails 進行測試。</p></div><h4 id=""><a class="anchorlink" href="#">1.1 建立錯誤報告</a></h4><p>如果您在 Rails 上的 Ruby 中發現了一個不是安全風險的問題，請在 GitHub 上搜索 <a href="https://github.com/rails/rails/issues">問題</a>，以防它已被報告。如果您找不到任何解決您發現的問題的開放 GitHub 問題，您的下一步將是 <a href="https://github.com/rails/rails/issues/new">開啟一個新問題</a>。 （有關報告安全問題，請參閱下一節。）</p><p>您的問題報告應至少包含問題的標題和清晰的描述。您應該包含儘可能多的相關資訊和演示問題的程式碼示例。包含一個測試預期行為的失敗單元測試會更好。你的目標應該是讓你自己 - 和其他人 - 更容易重現錯誤並找出修復方法。</p><p>那麼，不要抱有希望！除非您有“程式碼紅色，關鍵任務，世界即將終結”之類的錯誤，否則不要期望問題報告會自動看到任何活動或有人會跳出來修復它。您正在建立此問題報告，以便遇到相同問題的其他人可以確認該錯誤並與您合作修復它。</p><h4 id=""><a class="anchorlink" href="#">1.2 建立一個可執行的測試用例</a></h4><p>有辦法重現您的問題將有助於人們確認、調查並最終解決您的問題。您可以透過提供一個可執行的測試用例來做到這一點。為了簡化此過程，我們準備了幾個錯誤報告模板供您用作起點：</p>
+<ul>
+<li>Active Record（models，資料庫）問題的模板：<a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/active_record_gem.rb">gem</a> / <a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/active_record_main.rb">main</a>
+</li>
+<li>用於測試 Active Record (migration) 問題的模板：<a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/active_record_migrations_gem.rb">gem</a> / <a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/active_record_migrations_main.rb">main</a>
+</li>
+<li>Action Pack（controllers，路由）問題的模板：<a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/action_controller_gem.rb">gem</a> / <a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/action_controller_main.rb">main</a>
+</li>
+<li>Active Job 問題模板：<a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/active_job_gem.rb">gem</a> / <a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/active_job_main.rb">main</a>
+</li>
+<li>Active Storage 問題模板：<a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/active_storage_gem.rb">gem</a> / <a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/active_storage_main.rb">main</a>
+</li>
+<li>Action Mailbox 問題模板：<a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/action_mailbox_gem.rb">gem</a> / <a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/action_mailbox_main.rb">main</a>
+</li>
+<li>其他問題的通用模板：<a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/generic_gem.rb">gem</a> / <a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/generic_main.rb">main</a>
+</li>
+</ul>
+<p>這些模板包括樣板程式碼，用於針對 Rails (<code>*_gem.rb</code>) 的釋出版本或邊緣 Rails (<code>*_main.rb</code>) 設定測試用例。</p><p>將相應模板的內容複製到 <code>.rb</code> 檔案中，並進行必要的更改以演示問題。您可以透過在終端中執行 <code>ruby the_file.rb</code> 來執行它。如果一切順利，您應該會看到您的測試用例失敗。</p><p>然後，您可以將您的可執行測試用例作為 <a href="https://gist.github.com">gist</a> 共享或將內容貼上到問題描述中。</p><h4 id=""><a class="anchorlink" href="#">1.3 安全問題特殊處理</a></h4><div class="warning"><p>請不要在公共 GitHub 問題報告中報告安全漏洞。 <a href="https://rubyonrails.org/security">Rails 安全策略頁面</a> 詳細說明了安全問題要遵循的程式。</p></div><h4 id=""><a class="anchorlink" href="#">1.4 功能請求呢？</a></h4><p>請不要將“功能請求”項放入 GitHub 問題。如果有新的
+您希望在 Rails 上看到新增到 Ruby 的功能，您需要編寫
+自己編寫程式碼 - 或說服其他人與您合作編寫程式碼。
+在本指南的後面，您將找到有關向
+Rails 上的 Ruby。如果你在 GitHub Issues 中輸入一個沒有程式碼的願望清單專案，你
+可以期望它在 reviewed 後立即被標記為“無效”。</p><p>有時，“錯誤”和“功能”之間的界限很難劃清。
+一般來說，一個特性是任何增加新行為的東西，而一個錯誤
+是導致錯誤行為的任何事情。有時，核心團隊會有
+作出判斷。也就是說，差別通常決定了哪個
+釋出您的更改的補丁；我們喜歡提交功能！他們只是
+不會被反向移植到維護分支。</p><p>如果您想在開始工作之前就某個功能的想法獲得反饋
+一個補丁，請發郵件到<a href="https://discuss.rubyonrails.org/c/rubyonrails-core">rails-core mailing
+列表</a>。你
+可能沒有得到回應，這意味著每個人都無動於衷。你可能會發現
+也有興趣構建該功能的人。你可能會得到一個“這個
+不會被接受”。但這是討論新想法的合適場所。GitHub
+問題不是一個特別好的地方，有時很長而且涉及
+討論新功能需要。</p><h3 id=""><a class="anchorlink" href="#">2 幫助解決現有問題</a></h3><p>除了報告問題之外，您還可以透過提供有關問題的反饋來幫助核心團隊解決現有問題。如果您不熟悉 Rails 核心開發，這可能是邁出第一步的好方法，您將熟悉程式碼庫和流程。</p><p>如果您檢視 GitHub 問題中的 <a href="https://github.com/rails/rails/issues">問題列表</a>，您會發現很多問題已經需要關注。你能對這些做什麼？相當多，實際上：</p><h4 id=""><a class="anchorlink" href="#">2.1 驗證錯誤報告</a></h4><p>首先，它有助於驗證錯誤報告。您能在您的計算機上重現報告的問題嗎？如果是這樣，您可以對問題新增評論，說明您看到了相同的內容。</p><p>如果問題非常模糊，您能否幫助將其縮小到更具體的範圍？也許您可以提供額外的資訊來重現錯誤，或者您可以消除不需要演示問題的不必要步驟。</p><p>如果你發現一個沒有測試的錯誤報告，貢獻一個失敗的測試是非常有用的。這也是探索原始碼的好方法：檢視現有的測試檔案將教您如何編寫更多測試。新測試最好以補丁的形式貢獻，如稍後在“<a href="#contributing-to-the-rails-code">貢獻 Rails 程式碼</a>”部分所述。</p><p>您可以做的任何事情使錯誤報告更簡潔或更容易重現，這有助於人們嘗試編寫程式碼來修復這些錯誤——無論您最終是否自己編寫程式碼。</p><h4 id=""><a class="anchorlink" href="#">2.2 測試補丁</a></h4><p>您還可以透過檢查已透過 GitHub 在 Rails 上提交到 Ruby 的拉取請求來提供幫助。為了應用某人的更改，首先建立一個專用分支：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>checkout <span class="nt">-b</span> testing_branch
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git checkout -b testing_branch
+">Copy</button>
+</div>
+<p>然後，您可以使用他們的遠端分支來更新您的程式碼庫。例如，假設 GitHub 使用者 JohnSmith 已經分叉並推送到位於 <a href="https://github.com/JohnSmith/rails">https://github.com/JohnSmith/rails</a> 的主題分支“orange”。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>remote add JohnSmith https://github.com/JohnSmith/rails.git
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>pull JohnSmith orange
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git remote add JohnSmith https://github.com/JohnSmith/rails.git
+git pull JohnSmith orange
+">Copy</button>
+</div>
+<p>應用他們的分支後，測試一下！這裡有一些事情需要考慮：</p>
+<ul>
+<li>改變真的有效嗎？</li>
+<li>你對測試滿意嗎？你能跟蹤他們正在測試的內容嗎？是否缺少任何測試？</li>
+<li>它是否有適當的檔案覆蓋？其他地方的文件是否應該更新？</li>
+<li>你喜歡這個實現嗎？你能想出一種更好或更快的方法來實現他們的一部分改變嗎？</li>
+</ul>
+<p>一旦您對拉取請求包含一個好的更改感到滿意，請在 GitHub 問題上發表評論以表示您的批准。你的評論應該表明你喜歡這個變化以及你喜歡它的什麼。就像是：</p>
+<blockquote>
+<p>我喜歡你在 generate_finder_sql 中重構程式碼的方式 - 好多了。測試看起來也不錯。</p>
+</blockquote>
+<p>如果您的評論只是“+1”，那麼其他 reviewers 可能不會太認真對待它。表明您花時間重新 view 拉取請求。</p><h3 id="rails"><a class="anchorlink" href="#rails">3 為 Rails 文件做貢獻</a></h3><p>Rails 上的 Ruby 有兩套主要文件：指南，可以幫助您
+在Rails上了解Ruby，以及API，作為參考。</p><p>您可以幫助改進 Rails 指南或 API 參考，方法是使它們更加連貫、一致或可讀，新增缺失的資訊，更正事實錯誤，修復拼寫錯誤，或使用最新的 Rails 更新它們。</p><p>為此，請更改 Rails 指南原始檔（位於 [此處] GitHub 上的 (<a href="https://github.com/rails/rails/tree/main/guides/source)%EF%BC%89%E6%88%96%E5%8E%9F%E5%A7%8B%E7%A2%BC%E4%B8%AD%E7%9A%84">https://github.com/rails/rails/tree/main/guides/source)）或原始碼中的</a> RDoc 註釋。然後開啟拉取請求以將您的更改應用到主分支。</p><p>在處理文件時，請考慮 <a href="api_documentation_guidelines.html">API 文件指南</a> 和 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南指南</a>。</p><h3 id="rails"><a class="anchorlink" href="#rails">4 翻譯Rails指南</a></h3><p>我們很高興有人自願翻譯 Rails 指南。只需按照以下步驟操作：</p>
+<ul>
+<li>分叉 <a href="https://github.com/rails/rails%E3%80%82">https://github.com/rails/rails。</a>
+</li>
+<li>為您的語言新增原始檔夾，例如：<em>guides/source/it-IT</em> 用於義大利語。</li>
+<li>將<em>guides/source</em> 的內容複製到您的語言目錄中並進行翻譯。</li>
+<li>不要翻譯 HTML 檔案，因為它們是自動產生的。</li>
+</ul>
+<p>請注意，翻譯不會提交到 Rails 儲存庫；如上所述，您的工作生活在您的叉子中。這是因為，在實踐中，透過補丁進行的文件維護僅適用於英語。</p><p>要產生 HTML 格式的指南，您需要將指南依賴項 <code>cd</code> 安裝到 <em>guides</em> 目錄中，然後執行（例如，for it-IT）：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">#</span><span class="w"> </span>只安裝指南所需的 gems。要撤消執行： <span class="nb">bundle </span>config <span class="nt">--delete</span> without
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle install</span> <span class="nt">--without</span> job cable storage ujs <span class="nb">test </span>db
+<span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>guides/
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake </span>guides:generate:html <span class="nv">GUIDES_LANGUAGE</span><span class="o">=</span>it-IT
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bundle install --without job cable storage ujs test db
+cd guides/
+bundle exec rake guides:generate:html GUIDES_LANGUAGE=it-IT
+">Copy</button>
+</div>
+<p>這將在 <em>output</em> 目錄中產生指南。</p><div class="note"><p>Redcarpet Gem 不適用於 JRuby。</p></div><p>我們瞭解的翻譯工作（各種版本）：</p>
+<ul>
+<li>
+<strong>義大利語</strong>：<a href="https://github.com/rixlabs/docrails">https://github.com/rixlabs/docrails</a>
+</li>
+<li>
+<strong>西班牙語</strong>：<a href="https://github.com/latinadeveloper/railsguides.es">https://github.com/latinadeveloper/railsguides.es</a>
+</li>
+<li>
+<strong>波蘭語</strong>：<a href="https://github.com/apohllo/docrails">https://github.com/apollo/docrails</a>
+</li>
+<li>
+<strong>法語</strong>：<a href="https://github.com/railsfrance/docrails">https://github.com/railsfrance/docrails</a>
+</li>
+<li>
+<strong>捷克</strong>：<a href="https://github.com/rubyonrails-cz/docrails/tree/czech">https://github.com/rubyonrails-cz/docrails/tree/czech</a>
+</li>
+<li>
+<strong>土耳其語</strong>：<a href="https://github.com/ujk/docrails">https://github.com/ujk/docrails</a>
+</li>
+<li>
+<strong>韓文</strong>：<a href="https://github.com/rorlakr/rails-guides">https://github.com/rorlakr/rails-guides</a>
+</li>
+<li>
+<strong>簡體中文</strong>：<a href="https://github.com/ruby-china/guides">https://github.com/ruby-china/guides</a>
+</li>
+<li>
+<strong>繁體中文</strong>：<a href="https://github.com/docrails-tw/guides">https://github.com/docrails-tw/guides</a>
+</li>
+<li>
+<strong>俄語</strong>：<a href="https://github.com/morsbox/rusrails">https://github.com/morsbox/rusrails</a>
+</li>
+<li>
+<strong>日語</strong>：<a href="https://github.com/yasslab/railsguides.jp">https://github.com/yasslab/railsguides.jp</a>
+</li>
+<li>
+<strong>巴西葡萄牙語</strong>：<a href="https://github.com/campuscode/rails-guides-pt-BR">https://github.com/campuscode/rails-guides-pt-BR</a>
+</li>
+</ul>
+<h3 id="rails"><a class="anchorlink" href="#rails">5 為 Rails 程式碼做貢獻</a></h3><h4 id=""><a class="anchorlink" href="#">5.1 搭建開發環境</a></h4><p>要從提交錯誤到幫助解決現有問題或將您自己的程式碼貢獻給 Rails 上的 Ruby，您<em>必須</em>能夠執行其測試套件。在指南的這一部分中，您將瞭解如何在計算機上設定測試。</p><h5 id=""><a class="anchorlink" href="#">5.1.1 簡單的方法</a></h5><p>讓開發環境準備好進行駭客攻擊的最簡單和推薦的方法是使用 <a href="https://github.com/rails/rails-dev-box">rails-dev-box</a>。</p><h5 id=""><a class="anchorlink" href="#">5.1.2 艱難之路</a></h5><p>如果您無法使用 Rails 開發框，請參閱 <a href="development_dependencies_install.html">其他指南</a>。</p><h4 id="rails"><a class="anchorlink" href="#rails">5.2 克隆 Rails 儲存庫</a></h4><p>為了能夠貢獻程式碼，您需要克隆 Rails 儲存庫：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>clone https://github.com/rails/rails.git
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git clone https://github.com/rails/rails.git
+">Copy</button>
+</div>
+<p>並建立一個專用分支：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd rails</span>
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>checkout <span class="nt">-b</span> my_new_branch
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd rails
+git checkout -b my_new_branch
+">Copy</button>
+</div>
+<p>您使用什麼名稱並不重要，因為該分支僅存在於您的本地計算機和 GitHub 上的個人儲存庫中。它不會成為 Rails Git 儲存庫的一部分。</p><h4 id=""><a class="anchorlink" href="#">5.3 捆綁安裝</a></h4><p>安裝所需的寶石。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bundle install</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bundle install
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">5.4 在本地分支上執行應用程式</a></h4><p>如果您需要一個虛擬的 Rails 應用程式來測試更改，則 <code>rails new</code> 的 <code>--dev</code> 標誌會產生一個使用您本地分支的應用程式：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd rails</span>
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rails </span>new ~/my-test-app <span class="nt">--dev</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd rails
+bundle exec rails new ~/my-test-app --dev
+">Copy</button>
+</div>
+<p>在 <code>~/my-test-app</code> 中產生的應用程式針對您的本地分支執行
+尤其是在伺服器重新啟動時可以看到任何修改。</p><h4 id=""><a class="anchorlink" href="#">5.5 編寫程式碼</a></h4><p>現在開始忙碌並新增/編輯程式碼。你現在在你的分支上，所以你可以寫任何你想要的東西（確保你在正確的分支上使用 <code>git branch -a</code>）。但是，如果您打算將更改提交回來以包含在 Rails 中，請記住以下幾點：</p>
+<ul>
+<li>獲取正確的程式碼。</li>
+<li>使用 Rails 習語和 helpers。</li>
+<li>包括在沒有程式碼的情況下失敗的測試，並透過它。</li>
+<li>更新（周圍）文件、其他地方的示例和指南：受您貢獻影響的任何內容。</li>
+</ul>
+<p>提示：外觀上的更改不會對 Rails 的穩定性、功能性或可測試性增加任何實質性的內容，通常不會被接受（閱讀更多有關 <a href="https://github.com/rails/rails/pull/13771#issuecomment-32746700">我們做出此決定的理由</a> 的資訊）。</p><h5 id=""><a class="anchorlink" href="#">5.5.1 遵循編碼約定</a></h5><p>Rails 遵循一組簡單的編碼風格約定：</p>
+<ul>
+<li>兩個空格，沒有製表符（用於縮排）。</li>
+<li>沒有 trailing 空格。空行不應有任何空格。</li>
+<li>私有/受保護後縮排且無空行。</li>
+<li>對雜湊使用 Ruby &gt;= 1.9 語法。比 <code>{ :a =&gt; :b }</code> 更喜歡 <code>{ a: :b }</code>。</li>
+<li>比 <code>and</code>/<code>or</code> 更喜歡 <code>&amp;&amp;</code>/<code>||</code>。</li>
+<li>對於類方法，更喜歡 <code>class &lt;&lt; self</code> 而不是 <code>self.method</code>。</li>
+<li>使用 <code>my_method(my_arg)</code> 而不是 <code>my_method( my_arg )</code> 或 <code>my_method my_arg</code>。</li>
+<li>使用 <code>a = b</code> 而不是 <code>a=b</code>。</li>
+<li>使用 <code>assert_not</code> 方法代替 <code>refute</code>。</li>
+<li>對於單行塊，首選 <code>method { do_stuff }</code> 而不是 <code>method{do_stuff}</code>。</li>
+<li>遵循您看到已使用的原始碼中的約定。</li>
+</ul>
+<p>以上是指導方針 - 請在使用它們時做出最佳判斷。</p><p>此外，我們定義了 <a href="https://www.rubocop.org/">RuboCop</a> 規則來編纂我們的一些編碼約定。您可以在提交拉取請求之前針對已修改的檔案在本地執行 RuboCop：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span>rubocop actionpack/lib/action_controller/metal/strong_parameters.rb
+<span class="go">Inspecting 1 file
+</span><span class="c">.
+</span><span class="go">
+1 file inspected, no offenses detected
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="rubocop actionpack/lib/action_controller/metal/strong_parameters.rb
+">Copy</button>
+</div>
+<p>對於 <code>rails-ujs</code> CoffeeScript 和 JavaScript 檔案，您可以在 <code>actionview</code> 資料夾中執行 <code>npm run lint</code>。</p><h5 id=""><a class="anchorlink" href="#">5.5.2 拼寫檢查</a></h5><p>我們正在執行 <a href="https://github.com/client9/misspell">misspell</a> 主要是寫在
+<a href="https://golang.org/">Golang</a> 使用 <a href="https://github.com/rails/rails/blob/main/.github/workflows/lint.yml">GitHub Actions</a> 檢查拼寫。正確的
+使用 <code>misspell</code> 快速拼錯英語單詞。 <code>misspell</code> 與大多數其他拼寫檢查器不同
+因為它不使用自定義字典。您可以使用以下命令對所有檔案在本地執行 <code>misspell</code>：</p><div class="code_container">
+<pre><code class="highlight console"><span class="go">find . -type f | xargs ./misspell -i 'aircrafts,devels,invertions' -error
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="">Copy</button>
+</div>
+<p>值得注意的 <code>misspell</code> 幫助選項或標誌是：</p>
+<ul>
+<li>
+<code>-i</code> 字串：忽略以下更正，逗號分隔</li>
+<li>
+<code>-w</code>：用更正覆蓋檔案（預設只是顯示）</li>
+</ul>
+<p>我們還使用 GitHub Actions 執行 <a href="https://github.com/codespell-project/codespell">codespell</a> 來檢查拼寫和
+<a href="https://pypi.org/project/codespell/">codespell</a> 執行在<a href="https://github.com/rails/rails/blob/main/codespell.txt">小型自定義詞典</a> 上。
+<code>codespell</code> 是用 <a href="https://www.python.org/">Python</a> 編寫的，您可以使用以下命令執行它：</p><div class="code_container">
+<pre><code class="highlight console"><span class="go">codespell --ignore-words=codespell.txt
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">5.6 對您的程式碼進行基準測試</a></h4><p>對於可能對效能產生影響的更改，請對您的
+編碼並衡量影響。請分享您使用的基準指令碼
+作為結果。您應該考慮在提交中包含此資訊
+訊息，以允許未來的貢獻者輕鬆驗證您的發現和
+確定它們是否仍然相關。 （例如，未來的最佳化
+Ruby VM 可能會使某些最佳化變得不必要。）</p><p>在針對您關心的特定場景進行最佳化時，很容易
+其他常見情況的迴歸效能。
+因此，您應該針對代表列表測試您的更改
+場景，理想情況下是從現實世界的生產應用程式中提取的。</p><p>您可以使用<a href="https://github.com/rails/rails/blob/main/guides/bug_report_templates/benchmark.rb">基準模板</a>
+作為起點。它包括用於設定基準的樣板程式碼
+使用 <a href="https://github.com/evanphx/benchmark-ips">benchmark-ips</a> gem。這
+模板的目標在於測試相對獨立的更改，這些更改可以
+內聯到指令碼中。</p><h4 id=""><a class="anchorlink" href="#">5.7 執行測試</a></h4><p>Rails 不習慣在推送之前執行完整的測試套件
+變化。特別是 railties 測試套件需要很長時間，並且需要一個
+如果原始碼安裝在 <code>/vagrant</code> 中，則特別長時間
+使用 <a href="https://github.com/rails/rails-dev-box">rails-dev-box</a> 的推薦工作流程。</p><p>作為妥協，測試您的程式碼明顯影響的內容，以及更改是否是
+不在 railties 中，執行受影響元件的整個測試套件。我摔倒
+測試正在透過，這足以提出您的貢獻。我們有
+<a href="https://buildkite.com/rails/rails">Buildkite</a> 作為捕捉的安全網
+其他地方的意外破損。</p><h5 id="rails"><a class="anchorlink" href="#rails">5.7.1 整個 Rails：</a></h5><p>要執行所有測試，請執行以下操作：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd rails</span>
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake test</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd rails
+bundle exec rake test
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">5.7.2 對於特定元件</a></h5><p>您只能對特定元件（例如，Action Pack）執行測試。例如，
+執行 Action Mailer 測試：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>actionmailer
+<span class="gp">$</span><span class="w"> </span>bin/test
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd actionmailer
+bin/test
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">5.7.3 對於特定目錄</a></h5><p>您只能對特定元件的特定目錄執行測試
+（例如，Active Storage 中的 models）。例如，在 <code>/activestorage/test/models</code> 中執行測試：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>activestorage
+<span class="gp">$</span><span class="w"> </span>bin/test models
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd activestorage
+bin/test models
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">5.7.4 對於特定檔案</a></h5><p>您可以為特定檔案執行測試：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>actionview
+<span class="gp">$</span><span class="w"> </span>bin/test <span class="nb">test</span>/template/form_helper_test.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd actionview
+bin/test test/template/form_helper_test.rb
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">5.7.5 執行單個測試</a></h5><p>您可以使用 <code>-n</code> 選項按名稱執行單個測試：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>actionmailer
+<span class="gp">$</span><span class="w"> </span>bin/test <span class="nb">test</span>/mail_layout_test.rb <span class="nt">-n</span> test_explicit_class_layout
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd actionmailer
+bin/test test/mail_layout_test.rb -n test_explicit_class_layout
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">5.7.6 使用特定種子執行測試</a></h5><p>測試執行使用隨機化種子進行隨機化。如果您遇到隨機
+測試失敗，您可以透過專門的方式更準確地重現失敗的測試場景
+設定隨機種子。</p><p>執行一個元件的所有測試：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>actionmailer
+<span class="gp">$</span><span class="w"> </span><span class="nv">SEED</span><span class="o">=</span>15002 bin/test
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd actionmailer
+SEED=15002 bin/test
+">Copy</button>
+</div>
+<p>執行單個測試檔案：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>actionmailer
+<span class="gp">$</span><span class="w"> </span><span class="nv">SEED</span><span class="o">=</span>15002 bin/test <span class="nb">test</span>/mail_layout_test.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd actionmailer
+SEED=15002 bin/test test/mail_layout_test.rb
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">5.7.7 序列執行測試</a></h5><p>Action Pack 和 Action View 單元測試預設並行執行。如果您遇到隨機
+測試失敗，您可以設定隨機化種子並透過設定 <code>PARALLEL_WORKERS=1</code> 讓這些單元測試序列執行</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>actionview
+<span class="gp">$</span><span class="w"> </span><span class="nv">PARALLEL_WORKERS</span><span class="o">=</span>1 <span class="nv">SEED</span><span class="o">=</span>53708 bin/test <span class="nb">test</span>/template/test_case_test.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd actionview
+PARALLEL_WORKERS=1 SEED=53708 bin/test test/template/test_case_test.rb
+">Copy</button>
+</div>
+<h5 id="active-record"><a class="anchorlink" href="#active-record">5.7.8 測試 Active Record</a></h5><p>首先，建立您需要的資料庫。您可以找到所需的列表
+<code>activerecord/test/config.example.yml</code> 中的表名、使用者名稱和密碼。</p><p>對於 MySQL 和 PostgreSQL，執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>activerecord
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake </span>db:mysql:build
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd activerecord
+bundle exec rake db:mysql:build
+">Copy</button>
+</div>
+<p>或者：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>activerecord
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake </span>db:postgresql:build
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd activerecord
+bundle exec rake db:postgresql:build
+">Copy</button>
+</div>
+<p>這對於 SQLite3 不是必需的。</p><p>這是您僅針對 SQLite3 執行 Active Record 測試套件的方式：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>activerecord
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake test</span>:sqlite3
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd activerecord
+bundle exec rake test:sqlite3
+">Copy</button>
+</div>
+<p>您現在可以像對 <code>sqlite3</code> 一樣執行測試。任務分別是：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake test</span>:mysql2
+<span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake test</span>:postgresql
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bundle exec rake test:mysql2
+bundle exec rake test:postgresql
+">Copy</button>
+</div>
+<p>最後，</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake test</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bundle exec rake test
+">Copy</button>
+</div>
+<p>現在將依次執行他們三個。</p><p>您還可以單獨執行任何單個測試：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nv">ARCONN</span><span class="o">=</span><span class="nb">sqlite3 bundle exec ruby</span> <span class="nt">-Itest</span> <span class="nb">test</span>/cases/associations/has_many_associations_test.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="ARCONN=sqlite3 bundle exec ruby -Itest test/cases/associations/has_many_associations_test.rb
+">Copy</button>
+</div>
+<p>要對所有介面卡執行單個測試，請使用：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bundle exec rake </span><span class="nv">TEST</span><span class="o">=</span><span class="nb">test</span>/cases/associations/has_many_associations_test.rb
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bundle exec rake TEST=test/cases/associations/has_many_associations_test.rb
+">Copy</button>
+</div>
+<p>您也可以呼叫 <code>test_jdbcmysql</code>、<code>test_jdbcsqlite3</code> 或 <code>test_jdbcpostgresql</code>。有關執行更有針對性的資料庫測試的資訊，請參閱檔案 <code>activerecord/RUNNING_UNIT_TESTS.rdoc</code>。</p><h4 id=""><a class="anchorlink" href="#">5.8 警告</a></h4><p>測試套件在啟用警告的情況下執行。理想情況下，Rails 上的 Ruby 不應發出警告，但可能會有一些警告，以及來自第三方庫的一些警告。請忽略（或修復！）它們，如果有的話，並提交不會發出新警告的補丁。</p><h4 id=""><a class="anchorlink" href="#">5.9 更新文件</a></h4><p>Rails <a href="https://guides.rubyonrails.org/">指南</a> 上的 Ruby 提供了 Rails 功能的高級別 view，而 <a href="https://api.rubyonrails.org/v7.0.0/">API 文件</a> 深入研究了細節。</p><p>如果您的 PR 添加了新功能，或更改了現有功能的行為方式，請檢查相關文件，並根據需要對其進行更新或新增。</p><p>例如，如果您修改 Active Storage 的影象分析器以新增新的元資料欄位，則應更新 Active Storage 指南的 <a href="https://edgeguides.rubyonrails.org/active_storage_overview.html#analyzing-files">分析檔案</a> 部分以反映這一點。</p><h4 id="changelog"><a class="anchorlink" href="#changelog">5.10 更新 CHANGELOG</a></h4><p>CHANGELOG 是每個版本的重要組成部分。它保留每個 Rails 版本的更改列表。</p><p>如果您要新增或刪除功能、提交錯誤修復或新增棄用通知，您應該在您修改的框架的 CHANGELOG 的頂部** 新增一個條目。重構和文件更改通常不應進入 CHANGELOG。</p><p>CHANGELOG 條目應總結更改的內容，並應以作者姓名結尾。如果需要更多空間，可以使用多行，並且可以附上縮排 4 個空格的程式碼示例。如果更改與特定問題有關，則應附上問題編號。這是一個示例 CHANGELOG 條目：</p><div class="code_container">
+<pre><code class="highlight plaintext">*   Summary of a change that briefly describes what was changed. You can use multiple
+    lines and wrap them at around 80 characters. Code examples are ok, too, if needed:
+
+        class Foo
+          def bar
+            puts 'baz'
+          end
+        end
+
+    You can continue after the code example, and you can attach the issue number.
+
+    Fixes #1234.
+
+    *Your Name*
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="*   Summary of a change that briefly describes what was changed. You can use multiple
+    lines and wrap them at around 80 characters. Code examples are ok, too, if needed:
+
+        class Foo
+          def bar
+            puts 'baz'
+          end
+        end
+
+    You can continue after the code example, and you can attach the issue number.
+
+    Fixes #1234.
+
+    *Your Name*
+">Copy</button>
+</div>
+<p>如果沒有程式碼可以直接在最後一個字後面加上你的名字
+示例或多個段落。否則，最好新建一個段落。</p><h4 id="ide"><a class="anchorlink" href="#ide">5.11 忽略編輯器/IDE 建立的檔案</a></h4><p>一些編輯器和 IDE 會在 <code>rails</code> 資料夾中建立隱藏檔案或資料夾。與其手動從每次提交中排除那些或將它們新增到 Rails' <code>.gitignore</code>，您應該將它們新增到您自己的 <a href="https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files#configuring-ignored-files-for-all-repositories-on-your-computer">global gitignore 檔案</a>。</p><h4 id="gemfile-lock"><a class="anchorlink" href="#gemfile-lock">5.12 更新 Gemfile.lock</a></h4><p>某些更改需要依賴項升級。在這些情況下，請確保執行 <code>bundle update</code> 以獲取正確版本的依賴項並在更改中提交 <code>Gemfile.lock</code> 檔案。</p><h4 id=""><a class="anchorlink" href="#">5.13 提交您的更改</a></h4><p>當您對計算機上的程式碼感到滿意時，您需要將更改提交到 Git：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>commit <span class="nt">-a</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git commit -a
+">Copy</button>
+</div>
+<p>這應該啟動您的編輯器以編寫提交訊息。當你有
+完成，儲存並關閉以繼續。</p><p>格式良好的描述性提交訊息對其他人非常有幫助
+瞭解更改的原因，所以請花點時間寫下來。</p><p>一個好的提交資訊看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight plaintext">Short summary (ideally 50 characters or less)
+
+More detailed description, if necessary. Each line should wrap at
+72 characters. Try to be as descriptive as you can. Even if you
+think that the commit content is obvious, it may not be obvious
+to others. Add any description that is already present in the
+relevant issues; it should not be necessary to visit a webpage
+to check the history.
+
+The description section can have multiple paragraphs.
+
+Code examples can be embedded by indenting them with 4 spaces:
+
+    class ArticlesController
+      def index
+        render json: Article.limit(10)
+      end
+    end
+
+You can also add bullet points:
+
+- make a bullet point by starting a line with either a dash (-)
+  or an asterisk (*)
+
+- wrap lines at 72 characters, and indent any additional lines
+  with 2 spaces for readability
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Short summary (ideally 50 characters or less)
+
+More detailed description, if necessary. Each line should wrap at
+72 characters. Try to be as descriptive as you can. Even if you
+think that the commit content is obvious, it may not be obvious
+to others. Add any description that is already present in the
+relevant issues; it should not be necessary to visit a webpage
+to check the history.
+
+The description section can have multiple paragraphs.
+
+Code examples can be embedded by indenting them with 4 spaces:
+
+    class ArticlesController
+      def index
+        render json: Article.limit(10)
+      end
+    end
+
+You can also add bullet points:
+
+- make a bullet point by starting a line with either a dash (-)
+  or an asterisk (*)
+
+- wrap lines at 72 characters, and indent any additional lines
+  with 2 spaces for readability
+">Copy</button>
+</div>
+<p>小費。請在適當的時候將您的提交壓縮為單個提交。這
+簡化未來的櫻桃選擇並保持 git 日誌乾淨。</p><h4 id=""><a class="anchorlink" href="#">5.14 更新你的分支</a></h4><p>很可能在您工作時對 main 進行了其他更改。去拿他們：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>checkout main
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>pull <span class="nt">--rebase</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git checkout main
+git pull --rebase
+">Copy</button>
+</div>
+<p>現在根據最新更改重新應用您的補丁：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>checkout my_new_branch
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>rebase main
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git checkout my_new_branch
+git rebase main
+">Copy</button>
+</div>
+<p>沒有衝突？測試還透過嗎？你覺得改變還是合理的？然後繼續前進。</p><h4 id=""><a class="anchorlink" href="#">5.15 前叉</a></h4><p>導航到 Rails <a href="https://github.com/rails/rails">GitHub 儲存庫</a>，然後按右上角的“Fork”。</p><p>將新的遠端新增到本地機器上的本地儲存庫：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>remote add fork https://github.com/&lt;your username&gt;/rails.git
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git remote add fork https://github.com/&lt;your username&gt;/rails.git
+">Copy</button>
+</div>
+<p>您可能已經從 rails/rails 克隆了您的本地儲存庫，或者您可能已經從您的分叉儲存庫中進行了克隆。以下 git 命令假設您已經建立了一個指向 rails/rails 的“rails”遙控器。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>remote add <span class="nb">rails </span>https://github.com/rails/rails.git
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git remote add rails https://github.com/rails/rails.git
+">Copy</button>
+</div>
+<p>從官方儲存庫下載新的提交和分支：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>fetch <span class="nb">rails</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git fetch rails
+">Copy</button>
+</div>
+<p>合併新內容：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>checkout main
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>rebase <span class="nb">rails</span>/main
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>checkout my_new_branch
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>rebase <span class="nb">rails</span>/main
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git checkout main
+git rebase rails/main
+git checkout my_new_branch
+git rebase rails/main
+">Copy</button>
+</div>
+<p>更新你的叉子：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>push fork main
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>push fork my_new_branch
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git push fork main
+git push fork my_new_branch
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">5.16 發出拉取請求</a></h4><p>導航到您剛剛推送到的 Rails 儲存庫（例如
+<a href="https://github.com/your-user-name/rails%EF%BC%89%E4%B8%A6%E9%BB%9E%E6%93%8A%E4%B8%8A%E6%96%B9%E6%AC%84%E4%B8%AD%E7%9A%84%E2%80%9C%E6%8B%89%E5%8F%96%E8%AB%8B%E6%B1%82%E2%80%9D%EF%BC%88%E7%A8%8B%E5%BC%8F%E7%A2%BC%E6%AD%A3%E4%B8%8A%E6%96%B9%EF%BC%89%E3%80%82">https://github.com/your-user-name/rails）並點擊上方欄中的“拉取請求”（程式碼正上方）。</a>
+在下一頁，單擊右上角的“新建拉取請求”。</p><p>拉取請求應針對基礎儲存庫 <code>rails/rails</code> 和分支 <code>main</code>。
+頭儲存庫將是您的工作（<code>your-user-name/rails</code>），而分支將是
+無論你給你的分支起什麼名字。準備好後，單擊“建立拉取請求”。</p><p>確保包含您引入的變更集。填寫一些關於
+您的潛在補丁，使用提供的拉取請求模板。完成後點選“建立
+pull request”。Rails 核心團隊將收到您提交的通知。</p><h4 id=""><a class="anchorlink" href="#">5.17 得到一些反饋</a></h4><p>大多數拉取請求在合併之前會經過幾次迭代。
+不同的貢獻者有時會有不同的意見，而且往往
+補丁在合併之前需要修改。</p><p>Rails 的一些貢獻者打開了來自 GitHub 的電子郵件通知，但是
+其他人沒有。此外，（幾乎）每個在 Rails 上工作的人都是一個
+志願者，因此您可能需要幾天時間才能獲得關於
+拉取請求。不要絕望！有時它很快；有時它很慢。這樣的
+是開源的生活。</p><p>如果已經一個多星期了，你還沒有聽到任何訊息，你可能想試試
+並推動事情。您可以使用 <a href="https://discuss.rubyonrails.org/c/rubyonrails-core">rubyonrails-core 郵件
+列表</a> 用於此。你也可以
+在拉取請求上留下另一個評論。</p><p>在等待對拉取請求的反饋時，開啟其他一些
+拉請求並給其他人一些！他們會很感激的
+就像您欣賞補丁的反饋一樣。</p><p>請注意，您的拉取請求可能會被其他人標記為“已批准”
+有權合併它。在成員之前可能仍需要進一步的更改
+核心或提交者團隊接受它。為防止混淆，在給予時
+對他人拉取請求的反饋，請避免將其標記為“已批准”。</p><h4 id=""><a class="anchorlink" href="#">5.18 根據需要迭代</a></h4><p>您獲得的反饋完全有可能提出更改建議。不要氣餒：為活躍的開源專案做出貢獻的全部意義在於利用社群的知識。如果人們鼓勵您調整程式碼，那麼進行調整並重新提交是值得的。如果反饋是您的程式碼不屬於核心，您可能仍會考慮將其作為 gem 釋出。</p><h5 id=""><a class="anchorlink" href="#">5.18.1 壓縮提交</a></h5><p>我們可能會要求您做的一件事是“壓縮您的提交”，即
+會將您的所有提交合併為一個提交。我們更喜歡拉取請求
+那是一次提交。這使得將更改向後移植到穩定版變得更容易
+分支，壓縮可以更容易地恢復錯誤的提交，以及 git 歷史
+可以更容易遵循。 Rails 是個大專案，一堆
+無關的提交會增加很多噪音。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>fetch <span class="nb">rails</span>
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>checkout my_new_branch
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>rebase <span class="nt">-i</span> <span class="nb">rails</span>/main
+<span class="go">
+</span><span class="gp">&lt; Choose 'squash' for all of your commits except the first one. &gt;</span><span class="w">
+</span><span class="gp">&lt; Edit the commit message to make sense, and describe all your changes. &gt;</span><span class="w">
+</span><span class="go">
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>push fork my_new_branch <span class="nt">--force-with-lease</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git fetch rails
+git checkout my_new_branch
+git rebase -i rails/main
+git push fork my_new_branch --force-with-lease
+">Copy</button>
+</div>
+<p>您應該能夠重新整理 GitHub 上的拉取請求並看到它
+已更新。</p><h5 id=""><a class="anchorlink" href="#">5.18.2 更新拉取請求</a></h5><p>有時您會被要求對您擁有的程式碼進行一些更改
+已經承諾。這可以包括修改現有的提交。在這
+案例 Git 不允許您將更改作為推送分支推送
+和當地分行不匹配。而不是開啟一個新的拉取請求，
+您可以按照前面所述在 GitHub 上強制推送到您的分支
+壓縮提交部分：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>push fork my_new_branch <span class="nt">--force-with-lease</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git push fork my_new_branch --force-with-lease
+">Copy</button>
+</div>
+<p>這將使用您的新程式碼更新 GitHub 上的分支和拉取請求。
+透過使用 <code>--force-with-lease</code> 強制推送，git 將更安全地更新
+遠端比典型的 <code>-f</code>，可以從遠端刪除工作
+你還沒有的。</p><h4 id="rails-ruby"><a class="anchorlink" href="#rails-ruby">5.19 Rails 上 Ruby 的舊版本</a></h4><p>如果您想在 Rails 上為舊版本的 Ruby 新增修復程式，則需要設定並切換到您自己的本地 tracking 分支。這是切換到 4-0-stable 分支的示例：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>branch <span class="nt">--track</span> 4-0-stable <span class="nb">rails</span>/4-0-stable
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>checkout 4-0-stable
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git branch --track 4-0-stable rails/4-0-stable
+git checkout 4-0-stable
+">Copy</button>
+</div>
+<p>提示：你可能想<a href="http://qugstart.com/blog/git-and-svn/add-colored-git-branch-name-to-your-shell-%20prompt/">將你的 Git 分支名稱放在你的 shell 提示中</a> 以便更容易記住您正在使用的程式碼版本。</p><div class="note"><p>在處理舊版本之前，請檢查<a href="maintenance_policy.html">維護策略</a>。</p></div><h5 id=""><a class="anchorlink" href="#">5.19.1 向後移植</a></h5><p>合併到 main 中的更改的目標在於用於 Rails 的下一個主要版本。有時，將更改傳播回較舊的穩定分支以包含在維護版本中可能是有益的。通常，安全修復和錯誤修復是向後移植的良好候選者，而改變預期行為的新功能和補丁將不被接受。如有疑問，最好在向後移植更改之前諮詢 Rails 團隊成員，以避免浪費精力。</p><p>對於簡單的修復，向後移植更改的最簡單方法是<a href="https://www.devroom.io/2009/10/26/how-to-create-and-apply-a-patch-with-git/">從 main 中的更改中提取差異並將它們應用到目標分支</a>。</p><p>首先，確保您的更改是當前分支和主分支之間的唯一差別：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>log main..HEAD
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git log main..HEAD
+">Copy</button>
+</div>
+<p>然後提取差異：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>format-patch main <span class="nt">--stdout</span> <span class="o">&gt;</span> ~/my_changes.patch
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git format-patch main --stdout &gt; ~/my_changes.patch
+">Copy</button>
+</div>
+<p>切換到目標分支並應用您的更改：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">git </span>checkout <span class="nt">-b</span> my_backport_branch 4-2-stable
+<span class="gp">$</span><span class="w"> </span><span class="nb">git </span>apply ~/my_changes.patch
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="git checkout -b my_backport_branch 4-2-stable
+git apply ~/my_changes.patch
+">Copy</button>
+</div>
+<p>這適用於簡單的更改。但是，如果您的更改很複雜，或者如果 main 中的程式碼與您的目標分支明顯偏離，則可能需要您做更多的工作。向後移植的難度因情況而異，有時根本不值得付出努力。</p><p>一旦你解決了所有衝突並確保所有測試都透過，推送你的更改併為你的反向移植開啟一個單獨的拉取請求。還值得注意的是，較舊的分支可能具有與 main 不同的一組構建目標。如果可能，最好在提交拉取請求之前，首先針對目標分支的 <code>rails.gemspec</code> 允許的最舊 Ruby 版本在本地測試您的向後移植。</p><p>然後……想想你的下一個貢獻！</p><h3 id="rails"><a class="anchorlink" href="#rails">6 Rails 貢獻者</a></h3><p>所有貢獻都在 <a href="https://contributors.rubyonrails.org">Rails Contributors</a> 中獲得積分。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

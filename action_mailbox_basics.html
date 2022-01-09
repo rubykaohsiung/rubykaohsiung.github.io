@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Action Mailbox 基礎知識 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Action Mailbox 基礎知識 — Ruby on Rails Guides" />
+  <meta name="description" content="Action Mailbox 基礎知識本指南為您提供了開始接收所需的一切 電子郵件到您的應用程式。閱讀本指南後，您將瞭解： 如何在 Rails 應用程式中接收電子郵件。 如何配置Action Mailbox。 如何生成電子郵件並將其路由到郵箱。 如何測試收到的電子郵件。" />
+  <meta property="og:description" content="Action Mailbox 基礎知識本指南為您提供了開始接收所需的一切 電子郵件到您的應用程式。閱讀本指南後，您將瞭解： 如何在 Rails 應用程式中接收電子郵件。 如何配置Action Mailbox。 如何生成電子郵件並將其路由到郵箱。 如何測試收到的電子郵件。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Action Mailbox 基礎知識</h2><p>本指南為您提供了開始接收所需的一切
+電子郵件到您的應用程式。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何在 Rails 應用程式中接收電子郵件。</li>
+<li>如何配置Action Mailbox。</li>
+<li>如何生成電子郵件並將其路由到郵箱。</li>
+<li>如何測試收到的電子郵件。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#action-mailbox">Action Mailbox 是什麼？</a></li>
+<li><a href="#">設定</a></li>
+<li>
+<a href="#">配置</a>
+
+<ul>
+<li><a href="#">進出口</a></li>
+<li><a href="#">郵槍</a></li>
+<li><a href="#">山魈</a></li>
+<li><a href="#">字尾</a></li>
+<li><a href="#">郵戳</a></li>
+<li><a href="#qmail">Qmail</a></li>
+<li><a href="#sendgrid">SendGrid</a></li>
+</ul>
+</li>
+<li><a href="#">示例</a></li>
+<li><a href="#inboundemail">InboundEmail 的焚燒</a></li>
+<li><a href="#action-mailbox">在開發中使用 Action Mailbox</a></li>
+<li><a href="#">測試郵箱</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="action-mailbox"><a class="anchorlink" href="#action-mailbox">1 Action Mailbox 是什麼？</a></h3><p>Action Mailbox 將收到的電子郵件路由到類似 controller 的郵箱，以便
+在 Rails 中處理。它附帶了 Mailgun、Mandrill、Postmark、
+和傳送網格。您還可以透過內建的 Exim 直接處理入站郵件，
+Postfix 和 Qmail 入口。</p><p>使用 Active Record 將入站電子郵件轉換為 <code>InboundEmail</code> 記錄
+並具有生命週期跟蹤功能，將原始電子郵件儲存在雲端儲存中
+透過 Active Storage，以及負責的資料處理
+預設焚燒。</p><p>這些入站電子郵件使用 Active Job 非同步路由到一個或
+幾個專用郵箱，可以直接互動
+與您域的其餘部分 model。</p><h3 id=""><a class="anchorlink" href="#">2 設定</a></h3><p>安裝 <code>InboundEmail</code> 所需的 migrations 並確保已設定 Active Storage：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>action_mailbox:install
+<span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:migrate
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails action_mailbox:install
+bin/rails db:migrate
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">3 配置</a></h3><h4 id=""><a class="anchorlink" href="#">3.1 進出口</a></h4><p>告訴 Action Mailbox 接受來自 SMTP 中繼的電子郵件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 配置/環境/production.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailbox</span><span class="p">.</span><span class="nf">ingress</span> <span class="o">=</span> <span class="ss">:relay</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 配置/環境/production.rb
+config.action_mailbox.ingress = :relay
+">Copy</button>
+</div>
+<p>生成一個強密碼，Action Mailbox 可以用它來驗證對中繼入口的請求。</p><p>使用 <code>bin/rails credentials:edit</code> 將密碼新增到您的應用程式的加密憑據下
+<code>action_mailbox.ingress_password</code>，其中Action Mailbox會自動找到：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">action_mailbox</span><span class="pi">:</span>
+  <span class="na">ingress_password</span><span class="pi">:</span> <span class="s">...</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="action_mailbox:
+  ingress_password: ...
+">Copy</button>
+</div>
+<p>或者，在 <code>RAILS_INBOUND_EMAIL_PASSWORD</code> 環境變數中提供密碼。</p><p>配置 Exim 以透過管道將入站電子郵件傳送到 <code>bin/rails action_mailbox:ingress:exim</code>，
+提供中繼入口的 <code>URL</code> 和 <code>INGRESS_PASSWORD</code> 你
+之前生成的。如果您的應用程式位於 <code>https://example.com</code>，則
+完整命令如下所示：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>action_mailbox:ingress:exim <span class="nv">URL</span><span class="o">=</span>https://example.com/rails/action_mailbox/relay/inbound_emails <span class="nv">INGRESS_PASSWORD</span><span class="o">=</span>...
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails action_mailbox:ingress:exim URL=https://example.com/rails/action_mailbox/relay/inbound_emails INGRESS_PASSWORD=...
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">3.2 郵槍</a></h4><p>給 Action Mailbox 你的
+Mailgun 簽名 key（您可以在 Mailgun 中的設定 -&gt; 安全和使用者 -&gt; API 安全下找到），
+因此它可以驗證對 Mailgun 入口的請求。</p><p>使用 <code>bin/rails credentials:edit</code> 將您的簽名 key 新增到您的應用程式的
+<code>action_mailbox.mailgun_signing_key</code> 下的加密憑證，
+其中 Action Mailbox 會自動找到它：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">action_mailbox</span><span class="pi">:</span>
+  <span class="na">mailgun_signing_key</span><span class="pi">:</span> <span class="s">...</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="action_mailbox:
+  mailgun_signing_key: ...
+">Copy</button>
+</div>
+<p>或者，在 <code>MAILGUN_INGRESS_SIGNING_KEY</code> 環境中提供您的簽名 key
+多變的。</p><p>告訴 Action Mailbox 接受來自 Mailgun 的電子郵件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 配置/環境/production.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailbox</span><span class="p">.</span><span class="nf">ingress</span> <span class="o">=</span> <span class="ss">:mailgun</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 配置/環境/production.rb
+config.action_mailbox.ingress = :mailgun
+">Copy</button>
+</div>
+<p><a href="https://documentation.mailgun.com/en/latest/user_manual.html#receiving-forwarding-and-storing-messages">配置Mailgun</a>
+將入站電子郵件轉發到 <code>/rails/action_mailbox/mailgun/inbound_emails/mime</code>。
+如果您的應用程式位於 <code>https://example.com</code>，您將指定
+完全限定的 URL <code>https://example.com/rails/action_mailbox/mailgun/inbound_emails/mime</code>。</p><h4 id=""><a class="anchorlink" href="#">3.3 山魈</a></h4><p>給 Action Mailbox 你的 Mandrill API key，這樣它就可以驗證請求
+山魈入口。</p><p>使用 <code>bin/rails credentials:edit</code> 將您的 API key 新增到您的應用程式的
+<code>action_mailbox.mandrill_api_key</code> 下的加密憑證，
+其中 Action Mailbox 會自動找到它：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">action_mailbox</span><span class="pi">:</span>
+  <span class="na">mandrill_api_key</span><span class="pi">:</span> <span class="s">...</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="action_mailbox:
+  mandrill_api_key: ...
+">Copy</button>
+</div>
+<p>或者，在 <code>MANDRILL_INGRESS_API_KEY</code> 中提供您的 API key
+環境變數。</p><p>告訴 Action Mailbox 接受來自 Mandrill 的電子郵件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 配置/環境/production.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailbox</span><span class="p">.</span><span class="nf">ingress</span> <span class="o">=</span> <span class="ss">:mandrill</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 配置/環境/production.rb
+config.action_mailbox.ingress = :mandrill
+">Copy</button>
+</div>
+<p><a href="https://mandrill.zendesk.com/hc/en-us/articles/205583197-Inbound-Email-Processing-Overview">配置 Mandrill</a>
+將入站電子郵件路由到 <code>/rails/action_mailbox/mandrill/inbound_emails</code>。
+如果您的應用程式位於 <code>https://example.com</code>，您將指定
+完全限定的 URL <code>https://example.com/rails/action_mailbox/mandrill/inbound_emails</code>。</p><h4 id=""><a class="anchorlink" href="#">3.4 字尾</a></h4><p>告訴 Action Mailbox 接受來自 SMTP 中繼的電子郵件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 配置/環境/production.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailbox</span><span class="p">.</span><span class="nf">ingress</span> <span class="o">=</span> <span class="ss">:relay</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 配置/環境/production.rb
+config.action_mailbox.ingress = :relay
+">Copy</button>
+</div>
+<p>生成一個強密碼，Action Mailbox 可以用它來驗證對中繼入口的請求。</p><p>使用 <code>bin/rails credentials:edit</code> 將密碼新增到您的應用程式的加密憑據下
+<code>action_mailbox.ingress_password</code>，其中Action Mailbox會自動找到：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">action_mailbox</span><span class="pi">:</span>
+  <span class="na">ingress_password</span><span class="pi">:</span> <span class="s">...</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="action_mailbox:
+  ingress_password: ...
+">Copy</button>
+</div>
+<p>或者，在 <code>RAILS_INBOUND_EMAIL_PASSWORD</code> 環境變數中提供密碼。</p><p><a href="https://serverfault.com/questions/258469/how-to-configure-postfix-to-pipe-all-incoming-email-to-a-script">配置字尾</a>
+將入站電子郵件透過管道傳輸到 <code>bin/rails action_mailbox:ingress:postfix</code>，提供
+Postfix入口的<code>URL</code>和你之前的<code>INGRESS_PASSWORD</code>
+生成。如果您的應用程式位於 <code>https://example.com</code>，則完整命令
+看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>action_mailbox:ingress:postfix <span class="nv">URL</span><span class="o">=</span>https://example.com/rails/action_mailbox/relay/inbound_emails <span class="nv">INGRESS_PASSWORD</span><span class="o">=</span>...
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails action_mailbox:ingress:postfix URL=https://example.com/rails/action_mailbox/relay/inbound_emails INGRESS_PASSWORD=...
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">3.5 郵戳</a></h4><p>告訴 Action Mailbox 接受來自 Postmark 的電子郵件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 配置/環境/production.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailbox</span><span class="p">.</span><span class="nf">ingress</span> <span class="o">=</span> <span class="ss">:postmark</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 配置/環境/production.rb
+config.action_mailbox.ingress = :postmark
+">Copy</button>
+</div>
+<p>生成一個強密碼，Action Mailbox 可以使用該密碼進行身份驗證
+對 Postmark 入口的請求。</p><p>使用 <code>bin/rails credentials:edit</code> 將密碼新增到您的應用程式的
+<code>action_mailbox.ingress_password</code> 下的加密憑證，
+其中 Action Mailbox 會自動找到它：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">action_mailbox</span><span class="pi">:</span>
+  <span class="na">ingress_password</span><span class="pi">:</span> <span class="s">...</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="action_mailbox:
+  ingress_password: ...
+">Copy</button>
+</div>
+<p>或者，在 <code>RAILS_INBOUND_EMAIL_PASSWORD</code> 中提供密碼
+環境變數。</p><p><a href="https://postmarkapp.com/manual#configure-your-inbound-webhook-url">配置 Postmark 入站 webhook</a>
+使用使用者名稱 <code>actionmailbox</code> 將入站電子郵件轉發到 <code>/rails/action_mailbox/postmark/inbound_emails</code>
+以及您之前生成的密碼。如果您的應用程式位於 <code>https://example.com</code>，您將
+使用以下完全限定的 URL 配置 Postmark：</p><div class="code_container">
+<pre><code class="highlight plaintext">https://actionmailbox:PASSWORD@example.com/rails/action_mailbox/postmark/inbound_emails
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="https://actionmailbox:PASSWORD@example.com/rails/action_mailbox/postmark/inbound_emails
+">Copy</button>
+</div>
+<div class="note"><p>配置 Postmark 入站 Webhook 時，請務必選中標記為 <strong>“在 JSON 有效負載中包含原始電子郵件內容”</strong> 的框。
+Action Mailbox 需要原始電子郵件內容才能工作。</p></div><h4 id="qmail"><a class="anchorlink" href="#qmail">3.6 Qmail</a></h4><p>告訴 Action Mailbox 接受來自 SMTP 中繼的電子郵件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 配置/環境/production.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailbox</span><span class="p">.</span><span class="nf">ingress</span> <span class="o">=</span> <span class="ss">:relay</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 配置/環境/production.rb
+config.action_mailbox.ingress = :relay
+">Copy</button>
+</div>
+<p>生成一個強密碼，Action Mailbox 可以用它來驗證對中繼入口的請求。</p><p>使用 <code>bin/rails credentials:edit</code> 將密碼新增到您的應用程式的加密憑據下
+<code>action_mailbox.ingress_password</code>，其中Action Mailbox會自動找到：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">action_mailbox</span><span class="pi">:</span>
+  <span class="na">ingress_password</span><span class="pi">:</span> <span class="s">...</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="action_mailbox:
+  ingress_password: ...
+">Copy</button>
+</div>
+<p>或者，在 <code>RAILS_INBOUND_EMAIL_PASSWORD</code> 環境變數中提供密碼。</p><p>配置 Qmail 以透過管道將入站電子郵件傳送到 <code>bin/rails action_mailbox:ingress:qmail</code>，
+提供中繼入口的 <code>URL</code> 和 <code>INGRESS_PASSWORD</code> 你
+之前生成的。如果您的應用程式位於 <code>https://example.com</code>，則
+完整命令如下所示：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>action_mailbox:ingress:qmail <span class="nv">URL</span><span class="o">=</span>https://example.com/rails/action_mailbox/relay/inbound_emails <span class="nv">INGRESS_PASSWORD</span><span class="o">=</span>...
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails action_mailbox:ingress:qmail URL=https://example.com/rails/action_mailbox/relay/inbound_emails INGRESS_PASSWORD=...
+">Copy</button>
+</div>
+<h4 id="sendgrid"><a class="anchorlink" href="#sendgrid">3.7 SendGrid</a></h4><p>告訴 Action Mailbox 接受來自 SendGrid 的電子郵件：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 配置/環境/production.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">action_mailbox</span><span class="p">.</span><span class="nf">ingress</span> <span class="o">=</span> <span class="ss">:sendgrid</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 配置/環境/production.rb
+config.action_mailbox.ingress = :sendgrid
+">Copy</button>
+</div>
+<p>生成一個強密碼，Action Mailbox 可以使用該密碼進行身份驗證
+對 SendGrid 入口的請求。</p><p>使用 <code>bin/rails credentials:edit</code> 將密碼新增到您的應用程式的
+<code>action_mailbox.ingress_password</code> 下的加密憑證，
+其中 Action Mailbox 會自動找到它：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">action_mailbox</span><span class="pi">:</span>
+  <span class="na">ingress_password</span><span class="pi">:</span> <span class="s">...</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="action_mailbox:
+  ingress_password: ...
+">Copy</button>
+</div>
+<p>或者，在 <code>RAILS_INBOUND_EMAIL_PASSWORD</code> 中提供密碼
+環境變數。</p><p><a href="https://sendgrid.com/docs/for-developers/parsing-email/setting-up-the-inbound-parse-webhook/">配置 SendGrid 入站解析</a>
+將入站電子郵件轉發到
+<code>/rails/action_mailbox/sendgrid/inbound_emails</code> 使用者名稱為 <code>actionmailbox</code>
+以及您之前生成的密碼。如果您的應用程式位於 <code>https://example.com</code>，
+您將使用以下 URL 配置 SendGrid：</p><div class="code_container">
+<pre><code class="highlight plaintext">https://actionmailbox:PASSWORD@example.com/rails/action_mailbox/sendgrid/inbound_emails
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="https://actionmailbox:PASSWORD@example.com/rails/action_mailbox/sendgrid/inbound_emails
+">Copy</button>
+</div>
+<div class="note"><p>在配置您的 SendGrid Inbound Parse webhook 時，請務必選中標記為 <strong>“釋出原始的完整 MIME 訊息”的框。</strong> Action Mailbox 需要原始 MIME 訊息才能工作。</p></div><h3 id=""><a class="anchorlink" href="#">4 示例</a></h3><p>配置基本路由：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/mailboxes/application_mailbox.rb</span>
+<span class="k">class</span> <span class="nc">ApplicationMailbox</span> <span class="o">&lt;</span> <span class="no">ActionMailbox</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">routing</span> <span class="sr">/^save@/i</span>     <span class="o">=&gt;</span> <span class="ss">:forwards</span>
+  <span class="n">routing</span> <span class="sr">/@replies\./i</span> <span class="o">=&gt;</span> <span class="ss">:replies</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/mailboxes/application_mailbox.rb
+class ApplicationMailbox &lt; ActionMailbox::Base
+  routing /^save@/i     =&gt; :forwards
+  routing /@replies\./i =&gt; :replies
+end
+">Copy</button>
+</div>
+<p>然後設定郵箱：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">#</span><span class="w"> </span>生成新郵箱
+<span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate mailbox forwards
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate mailbox forwards
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/mailboxes/forwards_mailbox.rb</span>
+<span class="k">class</span> <span class="nc">ForwardsMailbox</span> <span class="o">&lt;</span> <span class="no">ApplicationMailbox</span>
+  <span class="c1"># Callbacks specify prerequisites to processing</span>
+  <span class="n">before_processing</span> <span class="ss">:require_projects</span>
+
+  <span class="k">def</span> <span class="nf">process</span>
+    <span class="c1"># Record the forward on the one project, or…</span>
+    <span class="k">if</span> <span class="n">forwarder</span><span class="p">.</span><span class="nf">projects</span><span class="p">.</span><span class="nf">one?</span>
+      <span class="n">record_forward</span>
+    <span class="k">else</span>
+      <span class="c1"># …involve a second Action Mailer to ask which project to forward into.</span>
+      <span class="n">request_forwarding_project</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">require_projects</span>
+      <span class="k">if</span> <span class="n">forwarder</span><span class="p">.</span><span class="nf">projects</span><span class="p">.</span><span class="nf">none?</span>
+        <span class="c1"># Use Action Mailers to bounce incoming emails back to sender – this halts processing</span>
+        <span class="n">bounce_with</span> <span class="no">Forwards</span><span class="o">::</span><span class="no">BounceMailer</span><span class="p">.</span><span class="nf">no_projects</span><span class="p">(</span><span class="n">inbound_email</span><span class="p">,</span> <span class="ss">forwarder: </span><span class="n">forwarder</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">record_forward</span>
+      <span class="n">forwarder</span><span class="p">.</span><span class="nf">forwards</span><span class="p">.</span><span class="nf">create</span> <span class="ss">subject: </span><span class="n">mail</span><span class="p">.</span><span class="nf">subject</span><span class="p">,</span> <span class="ss">content: </span><span class="n">mail</span><span class="p">.</span><span class="nf">content</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">request_forwarding_project</span>
+      <span class="no">Forwards</span><span class="o">::</span><span class="no">RoutingMailer</span><span class="p">.</span><span class="nf">choose_project</span><span class="p">(</span><span class="n">inbound_email</span><span class="p">,</span> <span class="ss">forwarder: </span><span class="n">forwarder</span><span class="p">).</span><span class="nf">deliver_now</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">forwarder</span>
+      <span class="vi">@forwarder</span> <span class="o">||=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">email_address: </span><span class="n">mail</span><span class="p">.</span><span class="nf">from</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/mailboxes/forwards_mailbox.rb
+class ForwardsMailbox &lt; ApplicationMailbox
+  # Callbacks specify prerequisites to processing
+  before_processing :require_projects
+
+  def process
+    # Record the forward on the one project, or…
+    if forwarder.projects.one?
+      record_forward
+    else
+      # …involve a second Action Mailer to ask which project to forward into.
+      request_forwarding_project
+    end
+  end
+
+  private
+    def require_projects
+      if forwarder.projects.none?
+        # Use Action Mailers to bounce incoming emails back to sender – this halts processing
+        bounce_with Forwards::BounceMailer.no_projects(inbound_email, forwarder: forwarder)
+      end
+    end
+
+    def record_forward
+      forwarder.forwards.create subject: mail.subject, content: mail.content
+    end
+
+    def request_forwarding_project
+      Forwards::RoutingMailer.choose_project(inbound_email, forwarder: forwarder).deliver_now
+    end
+
+    def forwarder
+      @forwarder ||= User.find_by(email_address: mail.from)
+    end
+end
+">Copy</button>
+</div>
+<h3 id="inboundemail"><a class="anchorlink" href="#inboundemail">5 InboundEmail 的焚燒</a></h3><p>預設情況下，已成功處理的 InboundEmail 將是
+30 天后焚燒。這可確保您不會保留人們的資料
+在他們可能已經取消帳戶或刪除他們的
+內容。目的是在您處理完電子郵件後，您應該
+提取您需要的所有資料並將其轉換為域 models 和內容
+在您的應用程式方面。 InboundEmail 只是留在系統中
+額外的時間來提供除錯和取證選項。</p><p>實際的焚燒是透過預定的 <code>IncinerationJob</code> 完成的
+在 <code>config.action_mailbox.incinerate_after</code> 時間後執行。這個 value 是
+預設設定為 <code>30.days</code>，但您可以在 production.rb 中更改它
+配置。 （請注意，這個遙遠的未來焚燒排程依賴於
+您的工作佇列能夠保留那麼長時間的工作。）</p><h3 id="action-mailbox"><a class="anchorlink" href="#action-mailbox">6 在開發中使用 Action Mailbox</a></h3><p>能夠在開發中測試收到的電子郵件很有幫助，而無需實際
+傳送和接收真實的電子郵件。為了做到這一點，有一個指揮家
+controller 安裝在 <code>/rails/conductor/action_mailbox/inbound_emails</code>，
+它為您提供系統中所有 InboundEmail 的索引，它們的
+處理狀態，以及用於建立新 InboundEmail 的表單。</p><h3 id=""><a class="anchorlink" href="#">7 測試郵箱</a></h3><p>例子：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ForwardsMailboxTest</span> <span class="o">&lt;</span> <span class="no">ActionMailbox</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s2">"directly recording a client forward for a forwarder and forwardee corresponding to one project"</span> <span class="k">do</span>
+    <span class="n">assert_difference</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">people</span><span class="p">(</span><span class="ss">:david</span><span class="p">).</span><span class="nf">buckets</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">recordings</span><span class="p">.</span><span class="nf">count</span> <span class="p">}</span> <span class="k">do</span>
+      <span class="n">receive_inbound_email_from_mail</span> <span class="p">\</span>
+        <span class="ss">to: </span><span class="s1">'save@example.com'</span><span class="p">,</span>
+        <span class="ss">from: </span><span class="n">people</span><span class="p">(</span><span class="ss">:david</span><span class="p">).</span><span class="nf">email_address</span><span class="p">,</span>
+        <span class="ss">subject: </span><span class="s2">"Fwd: Status update?"</span><span class="p">,</span>
+        <span class="ss">body: </span><span class="o">&lt;&lt;~</span><span class="no">BODY</span><span class="sh">
+          --- Begin forwarded message ---
+          From: Frank Holland &lt;frank@microsoft.com&gt;
+
+          What's the status?
+</span><span class="no">        BODY</span>
+    <span class="k">end</span>
+
+    <span class="n">recording</span> <span class="o">=</span> <span class="n">people</span><span class="p">(</span><span class="ss">:david</span><span class="p">).</span><span class="nf">buckets</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">recordings</span><span class="p">.</span><span class="nf">last</span>
+    <span class="n">assert_equal</span> <span class="n">people</span><span class="p">(</span><span class="ss">:david</span><span class="p">),</span> <span class="n">recording</span><span class="p">.</span><span class="nf">creator</span>
+    <span class="n">assert_equal</span> <span class="s2">"Status update?"</span><span class="p">,</span> <span class="n">recording</span><span class="p">.</span><span class="nf">forward</span><span class="p">.</span><span class="nf">subject</span>
+    <span class="n">assert_match</span> <span class="s2">"What's the status?"</span><span class="p">,</span> <span class="n">recording</span><span class="p">.</span><span class="nf">forward</span><span class="p">.</span><span class="nf">content</span><span class="p">.</span><span class="nf">to_s</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ForwardsMailboxTest &lt; ActionMailbox::TestCase
+  test &quot;directly recording a client forward for a forwarder and forwardee corresponding to one project&quot; do
+    assert_difference -&gt; { people(:david).buckets.first.recordings.count } do
+      receive_inbound_email_from_mail \
+        to: 'save@example.com',
+        from: people(:david).email_address,
+        subject: &quot;Fwd: Status update?&quot;,
+        body: &lt;&lt;~BODY
+          --- Begin forwarded message ---
+          From: Frank Holland &lt;frank@microsoft.com&gt;
+
+          What's the status?
+        BODY
+    end
+
+    recording = people(:david).buckets.first.recordings.last
+    assert_equal people(:david), recording.creator
+    assert_equal &quot;Status update?&quot;, recording.forward.subject
+    assert_match &quot;What's the status?&quot;, recording.forward.content.to_s
+  end
+end
+">Copy</button>
+</div>
+<p>請參閱 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionMailbox/TestHelper.html">ActionMailbox::TestHelper API</a> 以獲取更多測試輔助方法。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

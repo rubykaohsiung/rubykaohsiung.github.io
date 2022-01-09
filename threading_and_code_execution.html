@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rails 中的執行緒和程式碼執行 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Rails 中的執行緒和程式碼執行 — Ruby on Rails Guides" />
+  <meta name="description" content="Rails 中的執行緒和程式碼執行閱讀本指南後，您將瞭解： 什麼程式碼Rails會自動平行計算執行 如何將手動平行計算與 Rails 內部整合 如何包裝所有應用程式程式碼 如何影回應用程式重新載入" />
+  <meta property="og:description" content="Rails 中的執行緒和程式碼執行閱讀本指南後，您將瞭解： 什麼程式碼Rails會自動平行計算執行 如何將手動平行計算與 Rails 內部整合 如何包裝所有應用程式程式碼 如何影回應用程式重新載入" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Rails 中的執行緒和程式碼執行</h2><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>什麼程式碼Rails會自動平行計算執行</li>
+<li>如何將手動平行計算與 Rails 內部整合</li>
+<li>如何包裝所有應用程式程式碼</li>
+<li>如何影回應用程式重新載入</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#">自動平行計算</a></li>
+<li>
+<a href="#">執行者</a>
+
+<ul>
+<li><a href="#callbacks">預設 callbacks</a></li>
+<li><a href="#">包裝應用程式程式碼</a></li>
+<li><a href="#-">平行計算</a></li>
+</ul>
+</li>
+<li>
+<a href="#">重灌器</a>
+
+<ul>
+<li><a href="#callbacks">Callbacks</a></li>
+<li><a href="#">類解除安裝</a></li>
+<li><a href="#">平行計算</a></li>
+</ul>
+</li>
+<li>
+<a href="#">框架行為</a>
+
+<ul>
+<li><a href="#">設定</a></li>
+</ul>
+</li>
+<li>
+<a href="#">負載聯鎖</a>
+
+<ul>
+<li><a href="#permit-concurrent-loads"><code>permit_concurrent_loads</code></a></li>
+<li><a href="#actiondispatch-debuglocks">ActionDispatch::DebugLocks</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 自動平行計算</a></h3><p>Rails 自動允許同時執行各種操作。</p><p>當使用執行緒 web 伺服器時，比如預設的 Puma，多個 HTTP
+請求將同時提供，每個請求都提供自己的
+controller 實例。</p><p>執行緒的 Active Job 介面卡，包括內建的 Async，同樣會
+同時執行多個作業。 Action Cable 頻道由這個管理
+方式也是。</p><p>這些機制都涉及多個執行緒，每個執行緒管理一個獨特的工作
+某個物件的實例（controller、job、channel），同時共享全域性
+程序空間（例如類及其設定和全域性變數）。
+只要你的程式碼不修改任何這些共享的東西，它基本上可以
+忽略其他執行緒的存在。</p><p>本指南的其餘部分描述了 Rails 用來使其“主要是
+ignorable”，以及具有特殊需求的擴充套件和應用程式如何使用它們。</p><h3 id=""><a class="anchorlink" href="#">2 執行者</a></h3><p>Rails Executor 將應用程式程式碼與框架程式碼分開：任何時候
+框架呼叫您在應用程式中編寫的程式碼，它將被包裝
+執行者。</p><p>Executor 由兩個 callbacks 組成：<code>to_run</code> 和 <code>to_complete</code>。執行
+callback在應用程式碼之前呼叫，完整的callback是
+叫後。</p><h4 id="callbacks"><a class="anchorlink" href="#callbacks">2.1 預設 callbacks</a></h4><p>在預設的 Rails 應用程式中，Executor callbacks 用於：</p>
+<ul>
+<li>track 哪些執行緒處於自動載入和重新載入的安全位置</li>
+<li>啟用和禁用 Active Record 查詢快取</li>
+<li>將獲得的 Active Record 連線返回到池中</li>
+<li>限制內部快取壽命</li>
+</ul>
+<p>在 Rails 5.0 之前，其中一些由單獨的 Rack 中介軟體處理
+類（例如 <code>ActiveRecord::ConnectionAdapters::ConnectionManagement</code>），或
+直接用類似的方法包裝程式碼
+<code>ActiveRecord::Base.connection_pool.with_connection</code>。執行者替換
+這些帶有一個更抽象的介面。</p><h4 id=""><a class="anchorlink" href="#">2.2 包裝應用程式程式碼</a></h4><p>如果您正在編寫將呼叫應用程式程式碼的庫或元件，您
+應該通過呼叫 executor 來包裝它：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">executor</span><span class="p">.</span><span class="nf">wrap</span> <span class="k">do</span>
+  <span class="c1"># call application code here</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.executor.wrap do
+  # call application code here
+end
+">Copy</button>
+</div>
+<p>提示：如果您從長時間執行的程序中重複呼叫應用程式程式碼，
+可能想要使用 <a href="#reloader">Reloader</a> 來包裝。</p><p>每個執行緒都應該在它執行應用程式程式碼之前被包裝，所以如果你
+應用程式手動將工作委託給其他執行緒，例如通過 <code>Thread.new</code>
+或使用執行緒池的平行計算 Ruby 功能，您應該立即包裝
+塊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">executor</span><span class="p">.</span><span class="nf">wrap</span> <span class="k">do</span>
+    <span class="c1"># your code here</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Thread.new do
+  Rails.application.executor.wrap do
+    # your code here
+  end
+end
+">Copy</button>
+</div>
+<div class="note"><p>平行計算 Ruby 使用 <code>ThreadPoolExecutor</code>，它有時會設定
+帶有 <code>executor</code> 選項。儘管名稱，它是無關的。</p></div><p>Executor 是安全可重入的；如果它已經在當前處於活動狀態
+執行緒，<code>wrap</code> 是空操作。</p><p>如果將應用程式程式碼包裝在一個塊中是不切實際的（對於
+例如，Rack API 使這有問題），您也可以使用 <code>run!</code> /
+<code>complete!</code> 對：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="n">execution_context</span> <span class="o">=</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">executor</span><span class="p">.</span><span class="nf">run!</span>
+  <span class="c1"># your code here</span>
+<span class="k">ensure</span>
+  <span class="n">execution_context</span><span class="p">.</span><span class="nf">complete!</span> <span class="k">if</span> <span class="n">execution_context</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Thread.new do
+  execution_context = Rails.application.executor.run!
+  # your code here
+ensure
+  execution_context.complete! if execution_context
+end
+">Copy</button>
+</div>
+<h4 id="-"><a class="anchorlink" href="#-">2.3 平行計算</a></h4><p>Executor 會在<a href="#load-interlock">Load
+互鎖</a>。此操作將暫時阻塞，如果另一個
+執行緒當前正在自動載入常量或解除安裝/重新載入
+應用程式。</p><h3 id=""><a class="anchorlink" href="#">3 重灌器</a></h3><p>與 Executor 一樣，Reloader 也包裝應用程式程式碼。如果執行者是
+尚未在當前執行緒上處於活動狀態，重新載入器將為您呼叫它，
+所以你只需要呼叫一個。這也保證了 Reloader 的一切
+確實，包括其所有的 callback 呼叫，發生在包裹在
+執行者。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">reloader</span><span class="p">.</span><span class="nf">wrap</span> <span class="k">do</span>
+  <span class="c1"># call application code here</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.reloader.wrap do
+  # call application code here
+end
+">Copy</button>
+</div>
+<p>Reloader 只適用於長時間執行的框架級程序
+重複呼叫應用程式程式碼，例如 Web 伺服器或作業佇列。
+Rails 自動包裝網路請求和 Active Job 工作人員，所以你很少
+需要自己呼叫 Reloader。始終考慮 Executor 是否
+更適合您的用例。</p><h4 id="callbacks"><a class="anchorlink" href="#callbacks">3.1 Callbacks</a></h4><p>在進入包裹塊之前，Reloader 會檢查是否正在執行
+應用程式需要重新載入——例如，因為 model 的原始檔有
+被修改。如果它確定需要重新載入，它將等到它
+安全，然後在繼續之前這樣做。當應用程式設定為
+無論是否檢測到任何更改，始終重新載入，重新載入是
+而是在塊的末尾執行。</p><p>Reloader 還提供了 <code>to_run</code> 和 <code>to_complete</code> callbacks；他們是
+在與 Executor 相同的點呼叫，但僅噹噹前
+執行已啟動應用程式重新載入。當認為沒有重新載入時
+必要時，重新載入器將呼叫沒有其他 callbacks 的包裝塊。</p><h4 id=""><a class="anchorlink" href="#">3.2 類解除安裝</a></h4><p>過載過程中最重要的部分是類解除安裝，其中
+所有自動載入的類都被刪除，準備再次載入。這會發生
+緊接在 Run 或 Complete callback 之前，具體取決於
+<code>reload_classes_only_on_change</code> 設定。</p><p>通常，額外的重新載入 actions 需要在之前或之前執行
+就在 Class Unload 之後，所以 Reloader 也提供了 <code>before_class_unload</code>
+和 <code>after_class_unload</code> callbacks。</p><h4 id=""><a class="anchorlink" href="#">3.3 平行計算</a></h4><p>只有長時間執行的“頂級”程序才應該呼叫 Reloader，因為如果
+它確定需要重新載入，它將阻塞，直到所有其他執行緒都
+完成了任何 Executor 呼叫。</p><p>如果這發生在“子”執行緒中，並且在“子”執行緒中有一個等待的父執行緒
+Executor，它會導致一個不可避免的死鎖：reload 必須發生在
+子執行緒已執行，但在父執行緒期間無法安全執行
+執行緒正在執行中。子執行緒應該使用 Executor 代替。</p><h3 id=""><a class="anchorlink" href="#">4 框架行為</a></h3><p>Rails 框架元件使用這些工具來管理自己的平行計算
+也需要。</p><p><code>ActionDispatch::Executor</code> 和 <code>ActionDispatch::Reloader</code> 是 Rack 中介軟體
+分別使用提供的 Executor 或 Reloader 包裝請求。他們
+自動包含在預設應用程式堆疊中。重灌器將
+確保任何到達的 HTTP 請求都帶有新載入的
+應用程式，如果發生任何程式碼更改。</p><p>Active Job 還使用 Reloader 包裝其作業執行，載入最新的
+當每個作業離開佇列時執行它的程式碼。</p><p>Action Cable 使用 Executor 代替：因為電纜連線連結到
+一個類的特定實例，不可能每次到達都重新載入
+WebSocket 訊息。但是，只有訊息處理程式被包裝；一個長期執行
+電纜連線不會阻止由新傳入觸發的重新載入
+請求或工作。相反，Action Cable 使用 Reloader 的 Action Cable
+callback 斷開其所有連線。當客戶端自動
+重新連線，它將與新版本的程式碼對話。</p><p>以上是框架的入口點，所以他們負責
+確保它們各自的執行緒受到保護，並決定是否重新載入
+有必要的。其他元件只需要在產生時使用 Executor
+附加執行緒。</p><h4 id=""><a class="anchorlink" href="#">4.1 設定</a></h4><p>Reloader 僅在 <code>cache_classes</code> 為 false 時檢查檔案更改，並且
+<code>reload_classes_only_on_change</code> 為真（這是
+<code>development</code> 環境）。</p><p>當 <code>cache_classes</code> 為真時（在 <code>production</code> 中，預設情況下），Reloader 只有
+傳遞給 Executor。</p><p>Executor 總是有重要的工作要做，比如資料庫連線
+管理。當 <code>cache_classes</code> 和 <code>eager_load</code> 都為真（<code>production</code>）時，
+不會發生自動載入或類重新載入，因此不需要 Load
+互鎖。如果其中任何一個為 false (<code>development</code>)，則 Executor 將
+使用載入聯鎖確保常量僅在安全時載入。</p><h3 id=""><a class="anchorlink" href="#">5 負載聯鎖</a></h3><p>裝載聯鎖允許自動裝載和重新裝載
+多執行緒執行時環境。</p><p>當一個執行緒通過評估類定義執行自動載入時
+從適當的檔案中，重要的是沒有其他執行緒遇到
+對部分定義的常量的引用。</p><p>同樣，只有在沒有應用程式程式碼時執行解除安裝/重新載入才是安全的
+is in mid-execution: 在重新載入後，例如 <code>User</code> 常量，可能
+指向不同的類。如果沒有這條規則，不合時宜的重新載入將意味著
+<code>User.new.class == User</code>，甚至 <code>User == User</code>，都可能是假的。</p><p>這兩個約束都由負載聯鎖解決。它保持 track 的
+哪些執行緒當前正在執行應用程式程式碼、載入類，或
+解除安裝自動載入的常量。</p><p>一次只能載入或解除安裝一個執行緒，並且要執行任一操作，它必須等待
+直到沒有其他執行緒正在執行應用程式程式碼。如果一個執行緒正在等待
+執行載入，它不會阻止其他執行緒載入（實際上，它們會
+合作，並在所有恢復之前依次執行他們排隊的載入
+一起跑）。</p><h4 id="permit-concurrent-loads"><a class="anchorlink" href="#permit-concurrent-loads">5.1 <code>permit_concurrent_loads</code></a></h4><p>Executor 在其執行期間自動獲取 <code>running</code> 鎖
+阻止，並且自動載入知道何時升級到 <code>load</code> 鎖，並切換回
+之後再次 <code>running</code>。</p><p>在 Executor 塊內執行的其他阻塞操作（包括
+所有應用程式程式碼），然而，可以不必要地保留 <code>running</code> 鎖。如果
+另一個執行緒遇到一個必須自動載入的常量，這可能導致
+僵局。</p><p>例如，假設 <code>User</code> 還沒有載入，下面會死鎖：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">executor</span><span class="p">.</span><span class="nf">wrap</span> <span class="k">do</span>
+  <span class="n">th</span> <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+    <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">executor</span><span class="p">.</span><span class="nf">wrap</span> <span class="k">do</span>
+      <span class="no">User</span> <span class="c1"># inner thread waits here; it cannot load</span>
+           <span class="c1"># User while another thread is running</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="n">th</span><span class="p">.</span><span class="nf">join</span> <span class="c1"># outer thread waits here, holding 'running' lock</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.executor.wrap do
+  th = Thread.new do
+    Rails.application.executor.wrap do
+      User # inner thread waits here; it cannot load
+           # User while another thread is running
+    end
+  end
+
+  th.join # outer thread waits here, holding 'running' lock
+end
+">Copy</button>
+</div>
+<p>為了防止這種死鎖，外執行緒可以使用<code>permit_concurrent_loads</code>。經過
+呼叫此方法，執行緒保證它不會取消引用任何
+可能在提供的塊內自動載入常量。最安全的見面方式
+這個承諾是儘可能接近阻塞呼叫：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">executor</span><span class="p">.</span><span class="nf">wrap</span> <span class="k">do</span>
+  <span class="n">th</span> <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+    <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">executor</span><span class="p">.</span><span class="nf">wrap</span> <span class="k">do</span>
+      <span class="no">User</span> <span class="c1"># inner thread can acquire the 'load' lock,</span>
+           <span class="c1"># load User, and continue</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Dependencies</span><span class="p">.</span><span class="nf">interlock</span><span class="p">.</span><span class="nf">permit_concurrent_loads</span> <span class="k">do</span>
+    <span class="n">th</span><span class="p">.</span><span class="nf">join</span> <span class="c1"># outer thread waits here, but has no lock</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.executor.wrap do
+  th = Thread.new do
+    Rails.application.executor.wrap do
+      User # inner thread can acquire the 'load' lock,
+           # load User, and continue
+    end
+  end
+
+  ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
+    th.join # outer thread waits here, but has no lock
+  end
+end
+">Copy</button>
+</div>
+<p>另一個例子，使用平行計算 Ruby：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">executor</span><span class="p">.</span><span class="nf">wrap</span> <span class="k">do</span>
+  <span class="n">futures</span> <span class="o">=</span> <span class="mi">3</span><span class="p">.</span><span class="nf">times</span><span class="p">.</span><span class="nf">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+    <span class="no">Concurrent</span><span class="o">::</span><span class="no">Future</span><span class="p">.</span><span class="nf">execute</span> <span class="k">do</span>
+      <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">executor</span><span class="p">.</span><span class="nf">wrap</span> <span class="k">do</span>
+        <span class="c1"># do work here</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="n">values</span> <span class="o">=</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Dependencies</span><span class="p">.</span><span class="nf">interlock</span><span class="p">.</span><span class="nf">permit_concurrent_loads</span> <span class="k">do</span>
+    <span class="n">futures</span><span class="p">.</span><span class="nf">collect</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:value</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.executor.wrap do
+  futures = 3.times.collect do |i|
+    Concurrent::Future.execute do
+      Rails.application.executor.wrap do
+        # do work here
+      end
+    end
+  end
+
+  values = ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
+    futures.collect(&amp;:value)
+  end
+end
+">Copy</button>
+</div>
+<h4 id="actiondispatch-debuglocks"><a class="anchorlink" href="#actiondispatch-debuglocks">5.2 ActionDispatch::DebugLocks</a></h4><p>如果您的應用程式死鎖並且您認為 Load Interlock 可能是
+涉及到的，可以臨時新增ActionDispatch::DebugLocks中介軟體
+<code>config/application.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">insert_before</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Sendfile</span><span class="p">,</span>
+                                  <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">DebugLocks</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.middleware.insert_before Rack::Sendfile,
+                                  ActionDispatch::DebugLocks
+">Copy</button>
+</div>
+<p>如果您隨後重新啟動應用程式並重新觸發死鎖條件，
+<code>/rails/locks</code> 將顯示當前已知的所有執行緒的摘要
+互鎖，他們持有或等待的鎖定級別，以及他們當前的
+回溯。</p><p>通常死鎖是由互鎖與其他一些衝突引起的
+外部鎖定或阻塞 I/O 呼叫。一旦你找到它，你可以用它包裹它
+<code>permit_concurrent_loads</code>。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

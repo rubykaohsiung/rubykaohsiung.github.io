@@ -1,0 +1,2858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rails 入門 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Rails 入門 — Ruby on Rails Guides" />
+  <meta name="description" content="Rails 入門本指南介紹如何在 Rails 上啟動和執行 Ruby。閱讀本指南後，您將瞭解： 如何安裝Rails，建立一個新的Rails應用程式，並連線你的 應用到資料庫。 Rails 應用程式的總體佈局。 MVC的基本原理（Model、View、Controller）和RESTful設計。 如何快速產生 Rails 應用程式的起始部分。" />
+  <meta property="og:description" content="Rails 入門本指南介紹如何在 Rails 上啟動和執行 Ruby。閱讀本指南後，您將瞭解： 如何安裝Rails，建立一個新的Rails應用程式，並連線你的 應用到資料庫。 Rails 應用程式的總體佈局。 MVC的基本原理（Model、View、Controller）和RESTful設計。 如何快速產生 Rails 應用程式的起始部分。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Rails 入門</h2><p>本指南介紹如何在 Rails 上啟動和執行 Ruby。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何安裝Rails，建立一個新的Rails應用程式，並連線你的
+應用到資料庫。</li>
+<li>Rails 應用程式的總體佈局。</li>
+<li>MVC的基本原理（Model、View、Controller）和RESTful設計。</li>
+<li>如何快速產生 Rails 應用程式的起始部分。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#">指導假設</a></li>
+<li><a href="#rails">什麼是Rails？</a></li>
+<li>
+<a href="#rails">建立一個新的 Rails 專案</a>
+
+<ul>
+<li><a href="#rails-rails">安裝 Rails</a></li>
+<li><a href="#">建立部落格應用程式</a></li>
+</ul>
+</li>
+<li>
+<a href="#rails">你好，Rails！</a>
+
+<ul>
+<li><a href="#web">啟動 Web 伺服器</a></li>
+<li><a href="#rails">說“你好”，Rails</a></li>
+<li><a href="#">設定應用首頁</a></li>
+</ul>
+</li>
+<li>
+<a href="#mvc">MVC 和你</a>
+
+<ul>
+<li><a href="#mvc-model">產生 Model</a></li>
+<li><a href="#migrations">資料庫 Migrations</a></li>
+<li><a href="#model">使用 Model 與資料庫互動</a></li>
+<li><a href="#">顯示文章列表</a></li>
+</ul>
+</li>
+<li>
+<a href="#crudit-crudit">CRUDit CRUDit 到期的地方</a>
+
+<ul>
+<li><a href="#">顯示單篇文章</a></li>
+<li><a href="#">資源豐富的路由</a></li>
+<li><a href="#">建立新文章</a></li>
+<li><a href="#">更新文章</a></li>
+<li><a href="#">刪除文章</a></li>
+</ul>
+</li>
+<li>
+<a href="#model">新增第二個 Model</a>
+
+<ul>
+<li><a href="#model-model">產生 Model</a></li>
+<li><a href="#model">關聯 Model</a></li>
+<li><a href="#">新增評論路由</a></li>
+<li><a href="#controller">產生 Controller</a></li>
+</ul>
+</li>
+<li>
+<a href="#">重構</a>
+
+<ul>
+<li><a href="#">渲染部分集合</a></li>
+<li><a href="#">渲染部分表單</a></li>
+<li><a href="#">使用問題</a></li>
+</ul>
+</li>
+<li>
+<a href="#">刪除評論</a>
+
+<ul>
+<li><a href="#">刪除關聯物件</a></li>
+</ul>
+</li>
+<li>
+<a href="#">安全</a>
+
+<ul>
+<li><a href="#">基本認證</a></li>
+<li><a href="#">其他安全注意事項</a></li>
+</ul>
+</li>
+<li><a href="#">下一步是什麼？</a></li>
+<li><a href="#">設定問題</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 指導假設</a></h3><p>本指南專為想要開始建立 Rails 的初學者而設計
+從頭開始申請。它不假設您有任何先前的經驗
+與 Rails。</p><p>Rails 是一個執行在 Ruby 程式語言上的 Web 應用程式框架。
+如果您之前沒有使用 Ruby 的經驗，您會發現學習非常陡峭
+曲線直接潛入 Rails。有幾個精選的線上資源列表
+學習Ruby：</p>
+<ul>
+<li><a href="https://www.ruby-lang.org/en/documentation/">Ruby程式語言官方網站</a></li>
+<li><a href="https://github.com/EbookFoundation/free-programming-books/blob/master/books/free-programming-books.md#ruby">免費程式設計書籍列表</a></li>
+</ul>
+<p>請注意，一些資源雖然仍然很好，但包含了舊版本的
+Ruby，並且可能不包含您將在日常中看到的某些語法
+使用 Rails 進行開發。</p><h3 id="rails"><a class="anchorlink" href="#rails">2 什麼是Rails？</a></h3><p>Rails是用Ruby程式語言編寫的Web應用開發框架。
+它的目標在於通過做出假設來簡化 Web 應用程式的程式設計
+關於每個開發人員需要什麼才能開始。它可以讓你寫得更少
+程式碼，同時完成比許多其他語言和框架更多的工作。
+有經驗的 Rails 開發者也報告說它使 Web 應用程式
+開發更有趣。</p><p>Rails 是自以為是的軟體。它假設有一個“最好的”
+做事的方式，它的目標在於鼓勵這種方式 - 在某些情況下
+勸阻替代品。如果您學習了“Rails 方式”，您可能會發現
+生產力的巨大提高。如果你堅持把舊習慣從
+其他語言到您的 Rails 開發，並嘗試使用您的模式
+在別處學到的，你可能會有不那麼愉快的經歷。</p><p>Rails 哲學包括兩大指導原則：</p>
+<ul>
+<li>
+<strong>不要重複自己：</strong> DRY 是軟體開發的一個原則
+指出“每一條知識都必須有一個單一的、明確的、權威的
+系統內的表示”。通過不一遍又一遍地寫入相同的資訊
+同樣，我們的程式碼更易於維護、更可擴充套件且錯誤更少。</li>
+<li>
+<strong>Convention Over Configuration：</strong> Rails 對做很多事情的最佳方式有意見
+Web 應用程式中的事物，並且預設為這組約定，而不是
+要求您通過無盡的設定檔案指定細節。</li>
+</ul>
+<h3 id="rails"><a class="anchorlink" href="#rails">3 建立一個新的 Rails 專案</a></h3><p>閱讀本指南的最佳方式是循序漸進。所有步驟都是
+執行此示例應用程式必不可少，無需額外的程式碼或步驟
+需要。</p><p>按照本指南進行操作，您將建立一個名為 Rails 的專案
+<code>blog</code>，一個（非常）簡單的部落格。在開始構建應用程式之前，
+你需要確保你已經安裝了 Rails 本身。</p><div class="note"><p>下面的例子使用 <code>$</code> 來代表你在類 UNIX 作業系統中的終端提示，
+儘管它可能已被定製為不同的外觀。如果您使用的是 Windows，
+您的提示將類似於 <code>C:\source_code&gt;</code>。</p></div><h4 id="rails-rails"><a class="anchorlink" href="#rails-rails">3.1 安裝 Rails</a></h4><p>在安裝 Rails 之前，您應該檢查以確保您的系統具有
+安裝了適當的先決條件。這些包括：</p>
+<ul>
+<li>Ruby</li>
+<li>SQLite3</li>
+<li>Node.js</li>
+<li>Yarn</li>
+</ul>
+<h5 id="ruby"><a class="anchorlink" href="#ruby">3.1.1 安裝 Ruby</a></h5><p>開啟命令列提示符。在 macOS 上開啟 Terminal.app；在 Windows 上選擇
+從開始選單中“執行”並輸入 <code>cmd.exe</code>。任何以 a 開頭的命令
+美元符號 <code>$</code> 應該在命令列中執行。驗證您是否擁有
+當前版本的 Ruby 已安裝：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">ruby</span> <span class="nt">--version</span>
+<span class="go">ruby 2.7.0
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="ruby --version
+">Copy</button>
+</div>
+<p>Rails 需要 Ruby 2.7.0 或更高版本。最好使用最新的 Ruby 版本。
+如果返回的版本號小於該數字（例如 2.3.7 或 1.8.7），
+您需要安裝 Ruby 的新副本。</p><p>要在 Windows 上安裝 Rails，您首先需要安裝 <a href="https://rubyinstaller.org/">Ruby 安裝程式</a>。</p><p>有關大多數作業系統的更多安裝方法，請檢視
+<a href="https://www.ruby-lang.org/en/documentation/installation/">ruby-lang.org</a>。</p><h5 id="sqlite3"><a class="anchorlink" href="#sqlite3">3.1.2 安裝 SQLite3</a></h5><p>您還需要安裝 SQLite3 資料庫。
+許多流行的類 UNIX 作業系統都附帶了可接受的 SQLite3 版本。
+其他人可以在 <a href="https://www.sqlite.org">SQLite3 網站</a> 找到安裝說明。</p><p>驗證它是否已正確安裝並在您的負載 <code>PATH</code> 中：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">sqlite3</span> <span class="nt">--version</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="sqlite3 --version
+">Copy</button>
+</div>
+<p>程式應該報告它的版本。</p><h5 id="node-js-yarn"><a class="anchorlink" href="#node-js-yarn">3.1.3 安裝 Node.js 和 Yarn</a></h5><p>最後，您需要安裝 Node.js 和 Yarn 來管理應用程式的 JavaScript。</p><p>在 <a href="https://nodejs.org/en/download/">Node.js 網站</a> 上找到安裝說明和
+使用以下命令驗證它是否正確安裝：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">node</span> <span class="nt">--version</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="node --version
+">Copy</button>
+</div>
+<p>你的 Node.js 執行時的版本應該被打印出來。確保它更大
+比 8.16.0。</p><p>安裝Yarn，按照安裝
+<a href="https://classic.yarnpkg.com/en/docs/install">Yarn 網站</a> 上的說明。</p><p>執行此命令應打印出 Yarn 版本：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">yarn</span> <span class="nt">--version</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="yarn --version
+">Copy</button>
+</div>
+<p>如果顯示“1.22.0”之類的內容，則說明 Yarn 已正確安裝。</p><h5 id="rails-rails-rails"><a class="anchorlink" href="#rails-rails-rails">3.1.4 安裝 Rails</a></h5><p>要安裝 Rails，請使用 RubyGems 提供的 <code>gem install</code> 命令：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">gem install rails</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="gem install rails
+">Copy</button>
+</div>
+<p>要驗證您是否正確安裝了所有內容，您應該能夠
+在新終端中執行以下命令：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">rails</span> <span class="nt">--version</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rails --version
+">Copy</button>
+</div>
+<p>如果它顯示類似“Rails 7.0.0”的內容，您就可以繼續了。</p><h4 id=""><a class="anchorlink" href="#">3.2 建立部落格應用程式</a></h4><p>Rails 附帶了許多稱為產生器的指令碼，這些指令碼的目標在於使
+通過建立開始所需的一切，您的開發生活更輕鬆
+從事特定的任務。其中之一是新的應用程式產生器，
+這將為您提供一個全新的 Rails 應用程式的基礎，以便
+你不必自己寫。</p><p>要使用此產生器，請開啟終端，導航到您擁有的目錄
+建立檔案和執行的許可權：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">rails </span>new blog
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rails new blog
+">Copy</button>
+</div>
+<p>這將在 <code>blog</code> 目錄中建立一個名為 Blog 的 Rails 應用程式和
+使用安裝 <code>Gemfile</code> 中已經提到的 gem 依賴項
+<code>bundle install</code>。</p><p>提示：您可以看到 Rails 應用程式的所有命令列選項
+產生器通過執行 <code>rails new --help</code> 來接受。</p><p>建立部落格應用程式後，切換到其資料夾：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>blog
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="cd blog
+">Copy</button>
+</div>
+<p><code>blog</code> 目錄將有許多產生的檔案和資料夾，它們使
+向上 Rails 應用程式的結構。本教程中的大部分工作將
+發生在 <code>app</code> 資料夾中，但這裡有每個功能的基本概述
+Rails 預設建立的檔案和資料夾：</p>
+<table>
+<thead>
+<tr>
+<th>檔案/資料夾</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>app/</td>
+<td>包含應用程式的 controllers、models、views、helpers、郵件程式、渠道、作業和資產。在本指南的其餘部分，您將重點關注此資料夾。</td>
+</tr>
+<tr>
+<td>bin/</td>
+<td>包含用於啟動應用程式的 <code>rails</code> 指令碼，並且可以包含用於設定、更新、部署或執行​​應用程式的其他指令碼。</td>
+</tr>
+<tr>
+<td>config/</td>
+<td>包含應用程式路由、資料庫等的設定。這在 <a href="configuring.html">設定 Rails 應用程式</a> 中有更詳細的介紹。</td>
+</tr>
+<tr>
+<td>config.ru</td>
+<td>Rack 用於啟動應用程式的根據 Rack 的伺服器的設定。關於Rack的更多資訊，請參見<a href="https://rack.github.io/">Rack網站</a>。</td>
+</tr>
+<tr>
+<td>db/</td>
+<td>包含您當前的資料庫模式，以及資料庫 migrations。</td>
+</tr>
+<tr>
+<td>Gemfile<br>Gemfile.lock</td>
+<td>這些檔案允許您指定 Rails 應用程式需要哪些 gem 依賴項。這些檔案由 Bundler gem 使用。有關 Bundler 的更多資訊，請參閱 <a href="https://bundler.io">Bundler 網站</a>。</td>
+</tr>
+<tr>
+<td>lib/</td>
+<td>為您的應用程式擴充套件了 modules。</td>
+</tr>
+<tr>
+<td>log/</td>
+<td>應用程式日誌檔案。</td>
+</tr>
+<tr>
+<td>public/</td>
+<td>包含靜態檔案和編譯資產。當您的應用程式執行時，此目錄將按原樣公開。</td>
+</tr>
+<tr>
+<td>Rakefile</td>
+<td>該檔案定位並載入可以從命令列執行的任務。任務定義在 Rails 的整個元件中都有定義。您應該通過將檔案新增到應用程式的 <code>lib/tasks</code> 目錄來新增您自己的任務，而不是更改 <code>Rakefile</code>。</td>
+</tr>
+<tr>
+<td>README.md</td>
+<td>這是您的應用程式的簡要說明手冊。您應該編輯此檔案以告訴其他人您的應用程式是做什麼的，如何設定它，等等。</td>
+</tr>
+<tr>
+<td>storage/</td>
+<td>用於磁碟服務的Active Storage 檔案。這在 <a href="active_storage_overview.html">Active Storage Overview</a> 中有介紹。</td>
+</tr>
+<tr>
+<td>test/</td>
+<td>單元測試、夾具和其他測試裝置。這些在<a href="testing.html">測試Rails應用程式</a>中有介紹。</td>
+</tr>
+<tr>
+<td>tmp/</td>
+<td>臨時檔案（如快取和 pid 檔案）。</td>
+</tr>
+<tr>
+<td>vendor/</td>
+<td>所有第三方程式碼的地方。在典型的 Rails 應用程式中，這包括供應商 gems。</td>
+</tr>
+<tr>
+<td>.gitignore</td>
+<td>這個檔案告訴 git 它應該忽略哪些檔案（或模式）。有關忽略檔案的更多資訊，請參閱 <a href="https://help.github.com/articles/ignoring-files">GitHub - 忽略檔案</a>。</td>
+</tr>
+<tr>
+<td>.ruby-version</td>
+<td>此檔案包含預設的 Ruby 版本。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rails"><a class="anchorlink" href="#rails">4 你好，Rails！</a></h3><p>首先，讓我們快速在螢幕上顯示一些文字。為此，您需要
+讓您的 Rails 應用程式伺服器執行。</p><h4 id="web"><a class="anchorlink" href="#web">4.1 啟動 Web 伺服器</a></h4><p>您實際上已經有一個功能正常的 Rails 應用程式。要看到它，你需要
+在您的開發機器上啟動一個 Web 伺服器。您可以通過執行
+<code>blog</code> 目錄中的以下命令：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>server
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails server
+">Copy</button>
+</div>
+<p>提示：如果您使用的是 Windows，則必須在 <code>bin</code> 下傳遞指令碼
+資料夾直接到 Ruby 直譯器，例如<code>ruby bin\rails server</code>。</p><p>提示：JavaScript 資產壓縮需要您
+在你的系統上有一個可用的 JavaScript 執行時，如果沒有
+在執行時，您將在資產壓縮期間看到 <code>execjs</code> 錯誤。
+通常 macOS 和 Windows 都安裝了 JavaScript 執行時。
+<code>therubyrhino</code> 是 JRuby 使用者的推薦執行時，由
+在 JRuby 下產生的應用程式中預設為 <code>Gemfile</code>。你可以調查
+<a href="https://github.com/rails/execjs#readme">ExecJS</a> 支援的所有執行時。</p><p>這將啟動 Puma，一個預設與 Rails 一起分發的 Web 伺服器。檢視
+您在 action 中的應用程式，開啟瀏覽器視窗並導航到
+<a href="http://localhost:3000">http://localhost:3000</a>。您應該會看到 Rails 預設資訊頁面：</p><p>！[耶！你在Rails！螢幕截圖]（圖片/getting_started/rails_welcome.png）</p><p>當您想停止 Web 伺服器時，請在終端視窗中按 Ctrl+C
+它正在執行。在開發環境中，Rails一般不會
+要求您重新啟動伺服器；您在檔案中所做的更改將是
+由伺服器自動拾取。</p><p>“耶！你在 Rails！”頁面是新 Rails 的 <em>smoke test</em>
+應用程式：它確保您的軟體設定正確
+足以提供一個頁面。</p><h4 id="rails"><a class="anchorlink" href="#rails">4.2 說“你好”，Rails</a></h4><p>要讓 Rails 說“你好”，你至少需要建立一個 <em>route</em>，一個
+<em>controller</em> 帶有一個 <em>action</em> 和一個 <em>view</em>。路由將請求對映到
+controller action。 A controller action 執行必要的工作來處理
+請求，併為 view 準備任何資料。 A view 以所需的方式顯示資料
+格式。</p><p>在實現方面：路由是用 Ruby <a href="https://en.wikipedia.org/wiki/Domain-specific_language">DSL
+（特定領域語言）</a>。
+Controller 是 Ruby 類，它們的公共方法是 actions。還有views
+是模板，通常用 HTML 和 Ruby 混合編寫。</p><p>讓我們首先在我們的路由檔案 <code>config/routes.rb</code> 中新增一個路由
+<code>Rails.application.routes.draw</code> 塊的頂部：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">routes</span><span class="p">.</span><span class="nf">draw</span> <span class="k">do</span>
+  <span class="n">get</span> <span class="s2">"/articles"</span><span class="p">,</span> <span class="ss">to: </span><span class="s2">"articles#index"</span>
+
+  <span class="c1"># For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Rails.application.routes.draw do
+  get "/articles", to: "articles#index"
+
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+end
+'>Copy</button>
+</div>
+<p>上面的路由聲明瞭 <code>GET /articles</code> 請求被對映到了 <code>index</code>
+action 中的 <code>ArticlesController</code>。</p><p>要建立 <code>ArticlesController</code> 及其 <code>index</code> action，我們將執行 controller
+產生器（使用 <code>--skip-routes</code> 選項，因為我們已經有了一個
+合適的路線）：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate controller Articles index <span class="nt">--skip-routes</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate controller Articles index --skip-routes
+">Copy</button>
+</div>
+<p>Rails 會為你建立幾個檔案：</p><div class="code_container">
+<pre><code class="highlight plaintext">create  app/controllers/articles_controller.rb
+invoke  erb
+create    app/views/articles
+create    app/views/articles/index.html.erb
+invoke  test_unit
+create    test/controllers/articles_controller_test.rb
+invoke  helper
+create    app/helpers/articles_helper.rb
+invoke    test_unit
+invoke  assets
+invoke    scss
+create      app/assets/stylesheets/articles.scss
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="create  app/controllers/articles_controller.rb
+invoke  erb
+create    app/views/articles
+create    app/views/articles/index.html.erb
+invoke  test_unit
+create    test/controllers/articles_controller_test.rb
+invoke  helper
+create    app/helpers/articles_helper.rb
+invoke    test_unit
+invoke  assets
+invoke    scss
+create      app/assets/stylesheets/articles.scss
+">Copy</button>
+</div>
+<p>其中最重要的是 controller 檔案，
+<code>app/controllers/articles_controller.rb</code>。讓我們來看看它：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ArticlesController &lt; ApplicationController
+  def index
+  end
+end
+">Copy</button>
+</div>
+<p><code>index</code> action 為空。當 action 未顯式呈現 view 時
+（或以其他方式觸發 HTTP 回應），Rails 將自動呈現 view
+匹配 controller 和 action 的名稱。公約結束
+設定！ View 位於 <code>app/views</code> 目錄中。所以<code>index</code>
+action 預設會渲染 <code>app/views/articles/index.html.erb</code>。</p><p>讓我們開啟 <code>app/views/articles/index.html.erb</code>，並將其內容替換為：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;h1&gt;</span>Hello, Rails!<span class="nt">&lt;/h1&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;h1&gt;Hello, Rails!&lt;/h1&gt;
+">Copy</button>
+</div>
+<p>如果您之前停止了 Web 伺服器以執行 controller 產生器，
+用 <code>bin/rails server</code> 重新啟動它。現在訪問 <a href="http://localhost:3000/articles">http://localhost:3000/articles</a>，
+並看到我們顯示的文字！</p><h4 id=""><a class="anchorlink" href="#">4.3 設定應用首頁</a></h4><p>目前，<a href="http://localhost:3000">http://localhost:3000</a> 仍然顯示“Yay！You're on Rails！”。
+讓我們顯示我們的“你好，Rails！” <a href="http://localhost:3000">http://localhost:3000</a> 的文字也是如此。去做
+所以，我們將新增一個路由，將我們的應用程式的<em>根路徑</em>對映到
+適當的 controller 和 action。</p><p>我們開啟<code>config/routes.rb</code>，在頂部新增如下<code>root</code>路由
+<code>Rails.application.routes.draw</code> 塊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">routes</span><span class="p">.</span><span class="nf">draw</span> <span class="k">do</span>
+  <span class="n">root</span> <span class="s2">"articles#index"</span>
+
+  <span class="n">get</span> <span class="s2">"/articles"</span><span class="p">,</span> <span class="ss">to: </span><span class="s2">"articles#index"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Rails.application.routes.draw do
+  root "articles#index"
+
+  get "/articles", to: "articles#index"
+end
+'>Copy</button>
+</div>
+<p>現在我們可以看到我們的“你好，Rails！”當我們訪問 <a href="http://localhost:3000">http://localhost:3000</a> 時的文字，
+確認 <code>root</code> 路由也對映到 <code>index</code> action
+<code>ArticlesController</code>。</p><p>提示：要了解有關路由的更多資訊，請參閱 [Rails 從外向內路由](
+路由.html）。</p><h3 id="mvc"><a class="anchorlink" href="#mvc">5 MVC 和你</a></h3><p>到目前為止，我們已經討論了路由，controllers、actions 和 views。所有這些
+是遵循 <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC (Model-View-Controller)</a> 模式。
+MVC 是一種設計模式，它將應用程式的職責劃分為
+使其更容易推理。 Rails 按照慣例遵循此設計模式。</p><p>由於我們有一個 controller 和一個 view 可以使用，讓我們產生下一個
+件：model。</p><h4 id="mvc-model"><a class="anchorlink" href="#mvc-model">5.1 產生 Model</a></h4><p><em>model</em> 是一個 Ruby 類，用於表示資料。此外，models
+可以通過一個名為 Rails 的特性與應用程式的資料庫進行互動
+<em>Active Record</em>。</p><p>要定義 model，我們將使用 model 產生器：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate model Article title:string body:text
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate model Article title:string body:text
+">Copy</button>
+</div>
+<div class="note"><p>Model 名稱是<strong>單數</strong>，因為實例化的模型代表
+單個數據記錄。為了幫助記住這個約定，想想你會如何
+呼叫model的建構函式：我們要寫<code>Article.new(...)</code>，<strong>不是</strong>
+<code>Articles.new(...)</code>。</p></div><p>這將建立幾個檔案：</p><div class="code_container">
+<pre><code class="highlight plaintext">invoke  active_record
+create    db/migrate/&lt;timestamp&gt;_create_articles.rb
+create    app/models/article.rb
+invoke    test_unit
+create      test/models/article_test.rb
+create      test/fixtures/articles.yml
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="invoke  active_record
+create    db/migrate/&lt;timestamp&gt;_create_articles.rb
+create    app/models/article.rb
+invoke    test_unit
+create      test/models/article_test.rb
+create      test/fixtures/articles.yml
+">Copy</button>
+</div>
+<p>我們將關注的兩個檔案是 migration 檔案
+(<code>db/migrate/&lt;timestamp&gt;_create_articles.rb</code>) 和 model 檔案
+(<code>app/models/article.rb</code>)。</p><h4 id="migrations"><a class="anchorlink" href="#migrations">5.2 資料庫 Migrations</a></h4><p><em>Migrations</em> 用於更改應用程式資料庫的結構。在
+Rails 應用程式，migrations 寫在 Ruby 中，以便它們可以
+與資料庫無關。</p><p>讓我們看看我們新建的 migration 檔案的內容：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">CreateArticles</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="p">[</span><span class="mf">7.0</span><span class="p">]</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="ss">:articles</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:title</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">text</span> <span class="ss">:body</span>
+
+      <span class="n">t</span><span class="p">.</span><span class="nf">timestamps</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CreateArticles &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :articles do |t|
+      t.string :title
+      t.text :body
+
+      t.timestamps
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>對 <code>create_table</code> 的呼叫指定了 <code>articles</code> 表應該如何
+建造。預設情況下，<code>create_table</code> 方法新增一個 <code>id</code> 列作為
+自動遞增主 key。所以表中的第一條記錄會有一個
+<code>id</code> 為 1，下一條記錄的 <code>id</code> 將為 2，依此類推。</p><p>在 <code>create_table</code> 的塊內，定義了兩列：<code>title</code> 和
+<code>body</code>。這些是由產生器新增的，因為我們將它們包含在我們的
+產生命令 (<code>bin/rails generate model Article title:string body:text</code>)。</p><p>該塊的最後一行是對 <code>t.timestamps</code> 的呼叫。該方法定義
+兩個名為 <code>created_at</code> 和 <code>updated_at</code> 的附加列。正如我們將看到的，
+Rails 會為我們管理這些，當我們建立或更新一個時設定 values
+model 物件。</p><p>讓我們使用以下命令執行我們的 migration：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:migrate
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails db:migrate
+">Copy</button>
+</div>
+<p>該命令將顯示指示表已建立的輸出：</p><div class="code_container">
+<pre><code class="highlight plaintext">==  CreateArticles: migrating ===================================
+-- create_table(:articles)
+   -&gt; 0.0018s
+==  CreateArticles: migrated (0.0018s) ==========================
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="==  CreateArticles: migrating ===================================
+-- create_table(:articles)
+   -&gt; 0.0018s
+==  CreateArticles: migrated (0.0018s) ==========================
+">Copy</button>
+</div>
+<p>提示：要了解有關遷移的更多資訊，請參閱 [Active Record Migrations](
+active_record_migrations.html）。</p><p>現在我們可以使用 model 與表進行互動。</p><h4 id="model"><a class="anchorlink" href="#model">5.3 使用 Model 與資料庫互動</a></h4><p>為了稍微玩一下我們的 model，我們將使用 Rails 的一個特性，稱為
+<em>安慰</em>。控制檯是一個和 <code>irb</code> 一樣的互動式編碼環境，但是
+它還會自動載入 Rails 和我們的應用程式程式碼。</p><p>讓我們用這個命令啟動控制檯：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>console
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails console
+">Copy</button>
+</div>
+<p>您應該會看到一個 <code>irb</code> 提示，例如：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="go">Loading development environment (Rails 7.0.0)
+</span><span class="gp">irb(main):001:0&gt;</span><span class="w">
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="">Copy</button>
+</div>
+<p>在這個提示下，我們可以初始化一個新的 <code>Article</code> 物件：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">title: </span><span class="s2">"Hello Rails"</span><span class="p">,</span> <span class="ss">body: </span><span class="s2">"I am on Rails!"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='article = Article.new(title: "Hello Rails", body: "I am on Rails!")
+'>Copy</button>
+</div>
+<p>重要的是要注意我們只<em>初始化</em>了這個物件。這個物件
+根本沒有儲存到資料庫中。它僅在控制檯中可用
+片刻。要將物件儲存到資料庫，我們必須呼叫 [<code>save</code>](
+<a href="https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-save%EF%BC%89%EF%BC%9A">https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-save）：</a></p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">article</span><span class="p">.</span><span class="nf">save</span>
+<span class="go">(0.1ms)  begin transaction
+Article Create (0.4ms)  INSERT INTO "articles" ("title", "body", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["title", "Hello Rails"], ["body", "I am on Rails!"], ["created_at", "2020-01-18 23:47:30.734416"], ["updated_at", "2020-01-18 23:47:30.734416"]]
+(0.9ms)  commit transaction
+</span><span class="p">=&gt;</span> <span class="kp">true</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="article.save
+">Copy</button>
+</div>
+<p>上面的輸出顯示了一個 <code>INSERT INTO "articles" ...</code> 資料庫查詢。這
+表示文章已插入到我們的表中。如果我們採取
+再次檢視 <code>article</code> 物件，我們看到發生了一些有趣的事情：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="n">article</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Article</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">title: </span><span class="s2">"Hello Rails"</span><span class="p">,</span> <span class="ss">body: </span><span class="s2">"I am on Rails!"</span><span class="p">,</span> <span class="ss">created_at: </span><span class="s2">"2020-01-18 23:47:30"</span><span class="p">,</span> <span class="ss">updated_at: </span><span class="s2">"2020-01-18 23:47:30"</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="article
+">Copy</button>
+</div>
+<p>現在設定了物件的 <code>id</code>、<code>created_at</code> 和 <code>updated_at</code> 屬性。
+當我們儲存物件時，Rails 為我們做了這個。</p><p>當我們想從資料庫中獲取這篇文章時，我們可以呼叫<a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/FinderMethods.html#method-i-find"><code>find</code></a>
+在 model 上並將 <code>id</code> 作為引數傳遞：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">Article</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">title: </span><span class="s2">"Hello Rails"</span><span class="p">,</span> <span class="ss">body: </span><span class="s2">"I am on Rails!"</span><span class="p">,</span> <span class="ss">created_at: </span><span class="s2">"2020-01-18 23:47:30"</span><span class="p">,</span> <span class="ss">updated_at: </span><span class="s2">"2020-01-18 23:47:30"</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Article.find(1)
+">Copy</button>
+</div>
+<p>當我們想從資料庫中獲取所有文章時，我們可以呼叫 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Scoping/Named/ClassMethods.html#method-i-all"><code>all</code></a>
+在 model 上：</p><div class="code_container">
+<pre><code class="highlight irb"><span class="gp">irb&gt;</span><span class="w"> </span><span class="no">Article</span><span class="p">.</span><span class="nf">all</span>
+<span class="p">=&gt;</span> <span class="kt">#&lt;</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Relation</span> <span class="p">[</span><span class="kt">#&lt;</span><span class="no">Article</span> <span class="ss">id: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">title: </span><span class="s2">"Hello Rails"</span><span class="p">,</span> <span class="ss">body: </span><span class="s2">"I am on Rails!"</span><span class="p">,</span> <span class="ss">created_at: </span><span class="s2">"2020-01-18 23:47:30"</span><span class="p">,</span> <span class="ss">updated_at: </span><span class="s2">"2020-01-18 23:47:30"</span><span class="kt">&gt;</span><span class="p">]</span><span class="kt">&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Article.all
+">Copy</button>
+</div>
+<p>此方法返回 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Relation.html"><code>ActiveRecord::Relation</code></a> 物件，其中
+您可以將其視為超強陣列。</p><p>提示：要了解有關 models 的更多資訊，請參閱 <a href="active_record_basics.html">Active Record 基礎知識</a> 和 [Active Record 查詢介面](
+active_record_querying.html）。</p><p>Models 是 MVC 難題的最後一塊。接下來，我們將連線所有
+拼湊在一起。</p><h4 id=""><a class="anchorlink" href="#">5.4 顯示文章列表</a></h4><p>讓我們回到我們在 <code>app/controllers/articles_controller.rb</code> 中的 controller，然後
+更改 <code>index</code> action 以從資料庫中獲取所有文章：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">all</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ArticlesController &lt; ApplicationController
+  def index
+    @articles = Article.all
+  end
+end
+">Copy</button>
+</div>
+<p>Controller 實例變數可以被 view 訪問。這意味著我們可以
+在 <code>app/views/articles/index.html.erb</code> 中引用 <code>@articles</code>。讓我們開啟那個
+檔案，並將其內容替換為：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>Articles<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@articles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;h1&gt;Articles&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;% @articles.each do |article| %&gt;
+    &lt;li&gt;
+      &lt;%= article.title %&gt;
+    &lt;/li&gt;
+  &lt;% end %&gt;
+&lt;/ul&gt;
+">Copy</button>
+</div>
+<p>上面的程式碼是 HTML 和 <em>ERB</em> 的混合體。 ERB 是一個模板系統
+評估嵌入在文件中的 Ruby 程式碼。在這裡，我們可以看到兩種型別的 ERB
+標籤：<code>&lt;% %&gt;</code> 和 <code>&lt;%= %&gt;</code>。 <code>&lt;% %&gt;</code> 標籤的意思是“評估封閉的 Ruby
+程式碼。” <code>&lt;%= %&gt;</code> 標籤的意思是“評估封閉的 Ruby 程式碼，並輸出
+value 它返回。”你可以在正常 Ruby 程式中編寫的任何內容都可以
+在這些 ERB 標籤內，雖然通常最好保留 ERB 標籤的內容
+簡而言之，為了可讀性。</p><p>由於我們不想輸出由 <code>@articles.each</code> 返回的 value，我們已經
+將該程式碼包含在 <code>&lt;% %&gt;</code> 中。但是，因為我們<em>確實</em>想要輸出 value
+由 <code>article.title</code> 返回（對於每篇文章），我們已將該程式碼包含在
+<code>&lt;%= %&gt;</code>。</p><p>我們可以通過訪問 <a href="http://localhost:3000">http://localhost:3000</a> 來檢視最終結果。 （記住
+<code>bin/rails server</code> 必須正在執行！）當我們這樣做時會發生以下情況：</p><p>1.瀏覽器發出請求：<code>GET http://localhost:3000</code>。
+2. 我們的 Rails 應用程式接收到這個請求。
+3. Rails路由器將根路由對映到<code>ArticlesController</code>的<code>index</code> action。
+4. <code>index</code> action 使用<code>Article</code> model 來獲取資料庫中的所有文章。
+5. Rails 自動渲染 <code>app/views/articles/index.html.erb</code> view。
+6. view 中的ERB 程式碼被評估以輸出HTML。
+7. 伺服器將包含 HTML 的回應傳送回瀏覽器。</p><p>我們已經將所有 MVC 部分連線在一起，我們有了我們的第一個 controller
+action！接下來，我們將轉到第二個 action。</p><h3 id="crudit-crudit"><a class="anchorlink" href="#crudit-crudit">6 CRUDit CRUDit 到期的地方</a></h3><p>幾乎所有的 Web 應用程式都涉及 <a href="https://en.wikipedia.org/wiki/Create,_read,_update,_and_delete">CRUD（建立、讀取、更新和刪除）</a> 操作。你
+甚至可能會發現您的應用程式所做的大部分工作都是 CRUD。 Rails
+承認這一點，並提供許多功能來幫助簡化執行 CRUD 的程式碼。</p><p>讓我們通過新增更多功能開始探索這些功能
+應用。</p><h4 id=""><a class="anchorlink" href="#">6.1 顯示單篇文章</a></h4><p>我們目前有一個 view 列出了我們資料庫中的所有文章。讓我們新增一個
+新的 view 顯示單個文章的標題和正文。</p><p>我們首先新增一條對映到新 controller action（我們
+接下來會補充）。開啟 <code>config/routes.rb</code>，並插入此處顯示的最後一條路線：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">routes</span><span class="p">.</span><span class="nf">draw</span> <span class="k">do</span>
+  <span class="n">root</span> <span class="s2">"articles#index"</span>
+
+  <span class="n">get</span> <span class="s2">"/articles"</span><span class="p">,</span> <span class="ss">to: </span><span class="s2">"articles#index"</span>
+  <span class="n">get</span> <span class="s2">"/articles/:id"</span><span class="p">,</span> <span class="ss">to: </span><span class="s2">"articles#show"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Rails.application.routes.draw do
+  root "articles#index"
+
+  get "/articles", to: "articles#index"
+  get "/articles/:id", to: "articles#show"
+end
+'>Copy</button>
+</div>
+<p>新路由是另一個 <code>get</code> 路由，但它的路徑中有一些額外的東西：
+<code>:id</code>。這指定了一個路由<em>引數</em>。路由引數捕獲一個段
+請求的路徑，並將該 value 放入 <code>params</code> 雜湊中，即
+可通過 controller action 訪問。例如，在處理像這樣的請求時
+<code>GET http://localhost:3000/articles/1</code>、<code>1</code> 將被捕獲為 value
+<code>:id</code>，然後可以作為 <code>show</code> action 中的 <code>params[:id]</code> 訪問
+<code>ArticlesController</code>。</p><p>現在讓我們在 <code>index</code> action 下方新增 <code>show</code> action
+<code>app/controllers/articles_controller.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">all</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ArticlesController &lt; ApplicationController
+  def index
+    @articles = Article.all
+  end
+
+  def show
+    @article = Article.find(params[:id])
+  end
+end
+">Copy</button>
+</div>
+<p><code>show</code> action 呼叫 <code>Article.find</code>（<a href="#using-a-model-to-interact-with-the-database">提到
+以前</a>) 與捕獲的 ID
+通過路由引數。返回的文章存放在<code>@article</code>
+實例變數，所以它可以被 view 訪問。預設情況下，<code>show</code>
+action 將呈現 <code>app/views/articles/show.html.erb</code>。</p><p>讓我們建立 <code>app/views/articles/show.html.erb</code>，內容如下：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;h1&gt;&lt;%= @article.title %&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;%= @article.body %&gt;&lt;/p&gt;
+">Copy</button>
+</div>
+<p>現在我們訪問<a href="http://localhost:3000/articles/1">http://localhost:3000/articles/1</a>就可以看到文章了！</p><p>最後，讓我們新增一個方便的方法來訪問文章頁面。我們將連結
+<code>app/views/articles/index.html.erb</code> 中每篇文章的標題到其頁面：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>Articles<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@articles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/articles/</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;Articles&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;% @articles.each do |article| %&gt;
+    &lt;li&gt;
+      &lt;a href="/articles/&lt;%= article.id %&gt;"&gt;
+        &lt;%= article.title %&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+  &lt;% end %&gt;
+&lt;/ul&gt;
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">6.2 資源豐富的路由</a></h4><p>到目前為止，我們已經介紹了 CRUD 的“R”（讀取）。我們最終將包含“C”
+（建立）、“U”（更新）和“D”（刪除）。正如您可能已經猜到的那樣，我們會做
+所以通過新增新的路由，controller actions 和 views。每當我們有這樣的
+路由的組合，controller actions 和 views 一起工作
+對實體執行 CRUD 操作，我們稱該實體為 <em>資源</em>。為了
+例如，在我們的應用程式中，我們會說一篇文章是一種資源。</p><p>Rails 提供了一個名為 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Routing/Mapper/Resources.html#method-i-resources"><code>resources</code></a>
+對映資源集合的所有正常路線，例如
+文章。因此，在我們繼續“C”、“U”和“D”部分之前，讓我們替換
+<code>config/routes.rb</code> 和 <code>resources</code> 中的兩條 <code>get</code> 路由：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">routes</span><span class="p">.</span><span class="nf">draw</span> <span class="k">do</span>
+  <span class="n">root</span> <span class="s2">"articles#index"</span>
+
+  <span class="n">resources</span> <span class="ss">:articles</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Rails.application.routes.draw do
+  root "articles#index"
+
+  resources :articles
+end
+'>Copy</button>
+</div>
+<p>我們可以通過執行 <code>bin/rails routes</code> 命令來檢查映射了哪些路由：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>routes
+<span class="gp">      Prefix Verb   URI Pattern                  Controller#</span>Action
+<span class="gp">        root GET    /                            articles#</span>index
+<span class="gp">    articles GET    /articles(.:format)          articles#</span>index
+<span class="gp"> new_article GET    /articles/new(.:format)      articles#</span>new
+<span class="gp">     article GET    /articles/:id(.:format)      articles#</span>show
+<span class="gp">             POST   /articles(.:format)          articles#</span>create
+<span class="gp">edit_article GET    /articles/:id/edit(.:format) articles#</span>edit
+<span class="gp">             PATCH  /articles/:id(.:format)      articles#</span>update
+<span class="gp">             DELETE /articles/:id(.:format)      articles#</span>destroy
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails routes
+">Copy</button>
+</div>
+<p><code>resources</code> 方法還設定了我們可以使用的 URL 和路徑 helper 方法
+使我們的程式碼不依賴於特定的路由設定。 values
+在上面的“字首”列中加上字尾 <code>_url</code> 或 <code>_path</code> 形成名稱
+其中 helpers。例如，<code>article_path</code> 助手返回
+<code>"/articles/#{article.id}"</code> 當給定一篇文章時。我們可以用它來整理我們的
+<code>app/views/articles/index.html.erb</code> 中的連結：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>Articles<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@articles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;Articles&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;% @articles.each do |article| %&gt;
+    &lt;li&gt;
+      &lt;a href="&lt;%= article_path(article) %&gt;"&gt;
+        &lt;%= article.title %&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+  &lt;% end %&gt;
+&lt;/ul&gt;
+'>Copy</button>
+</div>
+<p>但是，我們將通過使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to"><code>link_to</code></a>
+helper。 <code>link_to</code> helper 呈現一個連結，其第一個引數作為
+連結的文字及其作為連結目的地的第二個引數。如果我們通過一個
+model 物件作為第二個引數，<code>link_to</code> 會呼叫相應的路徑
+helper 將物件轉換為路徑。例如，如果我們傳遞一篇文章，
+<code>link_to</code> 將呼叫 <code>article_path</code>。所以<code>app/views/articles/index.html.erb</code>
+變成：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>Articles<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@articles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;h1&gt;Articles&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;% @articles.each do |article| %&gt;
+    &lt;li&gt;
+      &lt;%= link_to article.title, article %&gt;
+    &lt;/li&gt;
+  &lt;% end %&gt;
+&lt;/ul&gt;
+">Copy</button>
+</div>
+<p>好的！</p><p>提示：要了解有關路由的更多資訊，請參閱 [Rails 從外向內路由](
+路由.html）。</p><h4 id=""><a class="anchorlink" href="#">6.3 建立新文章</a></h4><p>現在我們轉到 CRUD 的“C”（建立）。通常，在 Web 應用程式中，
+建立新資源是一個多步驟的過程。首先，使用者請求一個表單
+填寫。然後，使用者提交表單。如果沒有錯誤，那麼
+資源已建立並顯示某種確認。否則，表格
+重新顯示錯誤訊息，並重復該過程。</p><p>在 Rails 應用程式中，這些步驟通常由 controller 的
+<code>new</code> 和 <code>create</code> actions。讓我們新增這些 actions 的典型實現
+到 <code>app/controllers/articles_controller.rb</code>，低於 <code>show</code> action：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">all</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">new</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">title: </span><span class="s2">"..."</span><span class="p">,</span> <span class="ss">body: </span><span class="s2">"..."</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">redirect_to</span> <span class="vi">@article</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">status: :unprocessable_entity</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ArticlesController &lt; ApplicationController
+  def index
+    @articles = Article.all
+  end
+
+  def show
+    @article = Article.find(params[:id])
+  end
+
+  def new
+    @article = Article.new
+  end
+
+  def create
+    @article = Article.new(title: "...", body: "...")
+
+    if @article.save
+      redirect_to @article
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+end
+'>Copy</button>
+</div>
+<p><code>new</code> action 實例化一個新文章，但不儲存它。本文
+將在構建表單時在 view 中使用。預設情況下，<code>new</code> action
+將渲染 <code>app/views/articles/new.html.erb</code>，我們接下來將建立它。</p><p><code>create</code> action 實例化一篇新文章，標題為 values
+身體，並試圖挽救它。如果文章儲存成功，則action
+將瀏覽器重定向到位於 <code>"http://localhost:3000/articles/#{@article.id}"</code> 的文章頁面。
+否則，action 通過渲染 <code>app/views/articles/new.html.erb</code> 重新顯示錶單
+使用狀態程式碼 4XX 使應用程式與 <a href="https://github.com/hotwired/turbo-rails">Turbo</a> 一起正常工作。
+這裡的標題和正文是虛擬的 values。在我們建立好表格之後，我們會來
+返回並更改這些。</p><div class="note"><p><a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/Redirecting.html#method-i-redirect_to"><code>redirect_to</code></a>
+將導致瀏覽器發出新請求，
+而 <a href="https://api.rubyonrails.org/v7.0.0/classes/AbstractController/Rendering.html#method-i-render"><code>render</code></a>
+為當前請求呈現指定的 view。
+在改變資料庫或應用程式狀態後使用 <code>redirect_to</code> 很重要。
+否則，如果使用者重新整理頁面，瀏覽器會發出相同的請求，並且會重複修改。</p></div><h5 id=""><a class="anchorlink" href="#">6.3.1 使用表單產生器</a></h5><p>我們將使用 Rails 的一個稱為 <em>表單構建器</em> 的功能來建立我們的表單。使用
+一個表單構建器，我們可以編寫最少的程式碼來輸出一個表單
+完全設定並遵循 Rails 約定。</p><p>讓我們使用以下內容建立 <code>app/views/articles/new.html.erb</code>：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>New Article<span class="nt">&lt;/h1&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@article</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:title</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:title</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:body</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;h1&gt;New Article&lt;/h1&gt;
+
+&lt;%= form_with model: @article do |form| %&gt;
+  &lt;div&gt;
+    &lt;%= form.label :title %&gt;&lt;br&gt;
+    &lt;%= form.text_field :title %&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;%= form.label :body %&gt;&lt;br&gt;
+    &lt;%= form.text_area :body %&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;%= form.submit %&gt;
+  &lt;/div&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p><a href="https://api.rubyonrails.org/v7.0.0/classes/ActionView/Helpers/FormHelper.html#method-i-form_with"><code>form_with</code></a>
+helper 方法實例化一個表單構建器。在 <code>form_with</code> 塊中我們呼叫
+像 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionView/Helpers/FormBuilder.html#method-i-label"><code>label</code></a> 這樣的方法
+和 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionView/Helpers/FormBuilder.html#method-i-text_field"><code>text_field</code></a>
+在表單構建器上輸出適當的表單元素。</p><p>我們的 <code>form_with</code> 呼叫的結果輸出將如下所示：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/articles"</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"authenticity_token"</span> <span class="na">value=</span><span class="s">"..."</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"article_title"</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/label&gt;&lt;br&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"article[title]"</span> <span class="na">id=</span><span class="s">"article_title"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"article_body"</span><span class="nt">&gt;</span>Body<span class="nt">&lt;/label&gt;&lt;br&gt;</span>
+    <span class="nt">&lt;textarea</span> <span class="na">name=</span><span class="s">"article[body]"</span> <span class="na">id=</span><span class="s">"article_body"</span><span class="nt">&gt;&lt;/textarea&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">name=</span><span class="s">"commit"</span> <span class="na">value=</span><span class="s">"Create Article"</span> <span class="na">data-disable-with=</span><span class="s">"Create Article"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form action="/articles" accept-charset="UTF-8" method="post"&gt;
+  &lt;input type="hidden" name="authenticity_token" value="..."&gt;
+
+  &lt;div&gt;
+    &lt;label for="article_title"&gt;Title&lt;/label&gt;&lt;br&gt;
+    &lt;input type="text" name="article[title]" id="article_title"&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;label for="article_body"&gt;Body&lt;/label&gt;&lt;br&gt;
+    &lt;textarea name="article[body]" id="article_body"&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;input type="submit" name="commit" value="Create Article" data-disable-with="Create Article"&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>提示：要了解有關表單構建器的更多資訊，請參閱 [Action View 表單 Helpers](
+form_helpers.html）。</p><h5 id=""><a class="anchorlink" href="#">6.3.2 使用強引數</a></h5><p>提交的表單資料被放入 <code>params</code> Hash，與捕獲的路由一起
+引數。因此，<code>create</code> action 可以通過以下方式訪問提交的標題
+<code>params[:article][:title]</code> 和通過 <code>params[:article][:body]</code> 提交的正文。
+我們可以將這些 values 單獨傳遞給 <code>Article.new</code>，但這將是
+冗長且可能容易出錯。隨著我們新增更多，情況會變得更糟
+領域。</p><p>相反，我們將傳遞一個包含 values 的單個雜湊。然而，我們必須
+仍然指定該雜湊中允許使用的 values。否則，惡意使用者
+可能會提交額外的表單欄位並覆蓋私人資料。實際上，
+如果我們將未經過濾的 <code>params[:article]</code> 雜湊直接傳遞給 <code>Article.new</code>，
+Rails 會引發一個 <code>ForbiddenAttributesError</code> 來提醒我們這個問題。
+因此，我們將使用 Rails 的一個稱為 <em>強引數</em> 的特性來過濾 <code>params</code>。
+將其視為 <a href="https://en.wikipedia.org/wiki/Strong_and_weak_typing">強型別</a>
+對於 <code>params</code>。</p><p>讓我們在 <code>app/controllers/articles_controller.rb</code> 底部新增一個私有方法
+名為 <code>article_params</code> 過濾 <code>params</code>。讓我們改變 <code>create</code> 來使用
+它：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">all</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">new</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">redirect_to</span> <span class="vi">@article</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">status: :unprocessable_entity</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">article_params</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:article</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ArticlesController &lt; ApplicationController
+  def index
+    @articles = Article.all
+  end
+
+  def show
+    @article = Article.find(params[:id])
+  end
+
+  def new
+    @article = Article.new
+  end
+
+  def create
+    @article = Article.new(article_params)
+
+    if @article.save
+      redirect_to @article
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+    def article_params
+      params.require(:article).permit(:title, :body)
+    end
+end
+">Copy</button>
+</div>
+<p>提示：要了解有關強引數的更多資訊，請參閱 <a href="action_controller_overview.html#strong-parameters">Action Controller Overview §
+強引數</a>。</p><h5 id=""><a class="anchorlink" href="#">6.3.3 驗證和顯示錯誤訊息</a></h5><p>正如我們所見，建立資源是一個多步驟的過程。處理無效
+使用者輸入是該過程的另一個步驟。 Rails 提供了一個名為
+<em>validations</em> 幫助我們處理無效的使用者輸入。驗證是規則
+在儲存 model 物件之前檢查。如果任何檢查失敗，
+儲存將被中止，並且適當的錯誤訊息將被新增到
+model 物件的 <code>errors</code> 屬性。</p><p>讓我們在 <code>app/models/article.rb</code> 中為我們的 model 新增一些驗證：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+  <span class="n">validates</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">10</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Article &lt; ApplicationRecord
+  validates :title, presence: true
+  validates :body, presence: true, length: { minimum: 10 }
+end
+">Copy</button>
+</div>
+<p>第一個驗證宣告 <code>title</code> value 必須存在。因為
+<code>title</code> 是一個字串，這意味著 <code>title</code> value 必須至少包含一個
+非空白字元。</p><p>第二個驗證宣告 <code>body</code> value 也必須存在。
+此外，它還宣告 <code>body</code> value 必須至少為 10 個字元
+長。</p><div class="note"><p>您可能想知道 <code>title</code> 和 <code>body</code> 屬性是在哪裡定義的。
+Active Record 自動為每個表列定義了 model 屬性，所以
+您不必在 model 檔案中宣告這些屬性。</p></div><p>驗證到位後，讓我們將 <code>app/views/articles/new.html.erb</code> 修改為
+顯示 <code>title</code> 和 <code>body</code> 的任何錯誤訊息：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>New Article<span class="nt">&lt;/h1&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@article</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:title</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:title</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages_for</span><span class="p">(</span><span class="ss">:title</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">message</span> <span class="cp">%&gt;</span><span class="nt">&lt;/div&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages_for</span><span class="p">(</span><span class="ss">:body</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">message</span> <span class="cp">%&gt;</span><span class="nt">&lt;/div&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;h1&gt;New Article&lt;/h1&gt;
+
+&lt;%= form_with model: @article do |form| %&gt;
+  &lt;div&gt;
+    &lt;%= form.label :title %&gt;&lt;br&gt;
+    &lt;%= form.text_field :title %&gt;
+    &lt;% @article.errors.full_messages_for(:title).each do |message| %&gt;
+      &lt;div&gt;&lt;%= message %&gt;&lt;/div&gt;
+    &lt;% end %&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;%= form.label :body %&gt;&lt;br&gt;
+    &lt;%= form.text_area :body %&gt;&lt;br&gt;
+    &lt;% @article.errors.full_messages_for(:body).each do |message| %&gt;
+      &lt;div&gt;&lt;%= message %&gt;&lt;/div&gt;
+    &lt;% end %&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;%= form.submit %&gt;
+  &lt;/div&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p><a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveModel/Errors.html#method-i-full_messages_for"><code>full_messages_for</code></a>
+方法返回指定的使用者友好的錯誤訊息陣列
+屬性。如果該屬性沒有錯誤，則陣列將為空。</p><p>要了解所有這些是如何協同工作的，讓我們再看一下
+<code>new</code> 和 <code>create</code> controller actions：</p><div class="code_container">
+<pre><code class="highlight ruby">  <span class="k">def</span> <span class="nf">new</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">redirect_to</span> <span class="vi">@article</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">status: :unprocessable_entity</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="  def new
+    @article = Article.new
+  end
+
+  def create
+    @article = Article.new(article_params)
+
+    if @article.save
+      redirect_to @article
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+">Copy</button>
+</div>
+<p>當我們訪問 <a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a> 時，<code>GET /articles/new</code>
+請求對映到 <code>new</code> action。 <code>new</code> action 不嘗試儲存
+<code>@article</code>。因此，不檢查驗證，不會有錯誤
+訊息。</p><p>當我們提交表單時，將 <code>POST /articles</code> 請求對映到 <code>create</code>
+action。 <code>create</code> action <em>確實</em>嘗試儲存 <code>@article</code>。所以，
+驗證<em>已</em>檢查。如果任何驗證失敗，則 <code>@article</code> 將不會被
+儲存，<code>app/views/articles/new.html.erb</code> 會報錯
+帶有狀態程式碼 4XX 的訊息，以便應用程式與 <a href="https://github.com/hotwired/turbo-rails">Turbo</a> 一起正常工作。</p><p>提示：要了解有關驗證的更多資訊，請參閱 [Active Record 驗證](
+active_record_validations.html）。要了解有關驗證錯誤訊息的更多資訊，
+請參閱 [Active Record 驗證 § 處理驗證錯誤](
+active_record_validations.html#working-with-validation-errors）。</p><h5 id="-"><a class="anchorlink" href="#-">6.3.4 收尾</a></h5><p>我們現在可以通過訪問 <a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a> 建立一篇文章。
+最後，讓我們從底部連結到該頁面
+<code>app/views/articles/index.html.erb</code>：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>Articles<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@articles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"New Article"</span><span class="p">,</span> <span class="n">new_article_path</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;Articles&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;% @articles.each do |article| %&gt;
+    &lt;li&gt;
+      &lt;%= link_to article.title, article %&gt;
+    &lt;/li&gt;
+  &lt;% end %&gt;
+&lt;/ul&gt;
+
+&lt;%= link_to "New Article", new_article_path %&gt;
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">6.4 更新文章</a></h4><p>我們已經介紹了 CRUD 的“CR”。現在讓我們繼續討論“U”（更新）。更新中
+資源與建立資源非常相似。它們都是多步驟的
+過程。首先，使用者請求一個表單來編輯資料。然後，使用者
+提交表單。如果沒有錯誤，則更新資源。別的，
+表單將重新顯示錯誤訊息，並重復該過程。</p><p>這些步驟通常由 controller 的 <code>edit</code> 和 <code>update</code> 處理
+actions。讓我們將這些 actions 的典型實現新增到
+<code>app/controllers/articles_controller.rb</code>，低於 <code>create</code> action：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">all</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">new</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">redirect_to</span> <span class="vi">@article</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">status: :unprocessable_entity</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">edit</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">update</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+      <span class="n">redirect_to</span> <span class="vi">@article</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">status: :unprocessable_entity</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">article_params</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:article</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ArticlesController &lt; ApplicationController
+  def index
+    @articles = Article.all
+  end
+
+  def show
+    @article = Article.find(params[:id])
+  end
+
+  def new
+    @article = Article.new
+  end
+
+  def create
+    @article = Article.new(article_params)
+
+    if @article.save
+      redirect_to @article
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @article = Article.find(params[:id])
+  end
+
+  def update
+    @article = Article.find(params[:id])
+
+    if @article.update(article_params)
+      redirect_to @article
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  private
+    def article_params
+      params.require(:article).permit(:title, :body)
+    end
+end
+">Copy</button>
+</div>
+<p>注意 <code>edit</code> 和 <code>update</code> actions 與 <code>new</code> 和 <code>create</code> 的相似之處
+actions。</p><p><code>edit</code> action 從資料庫中獲取文章，並將其儲存在
+<code>@article</code> 以便在構建表單時可以使用它。預設情況下，<code>edit</code>
+action 將呈現 <code>app/views/articles/edit.html.erb</code>。</p><p><code>update</code> action（重新）從資料庫中獲取文章，並嘗試
+使用由 <code>article_params</code> 過濾的提交表單資料更新它。如果不
+驗證失敗，更新成功，action 重定向瀏覽器
+到文章頁面。否則，action 會重新顯示錶單並出現錯誤
+訊息，通過使用狀態程式碼 4XX 呈現 <code>app/views/articles/edit.html.erb</code>
+使應用程式與 <a href="https://github.com/hotwired/turbo-rails">Turbo</a> 一起正常工作。</p><h5 id="partials-view"><a class="anchorlink" href="#partials-view">6.4.1 使用 Partials 共享 View 程式碼</a></h5><p>我們的 <code>edit</code> 表單看起來與我們的 <code>new</code> 表單相同。甚至程式碼將是
+同樣，感謝 Rails 表單構建器和足智多謀的路由。表單產生器
+自動設定表單以發出適當型別的請求，根據
+關於 model 物件之前是否已儲存。</p><p>因為程式碼是相同的，我們將把它分解成一個共享的
+view 稱為<em>部分</em>。讓我們建立 <code>app/views/articles/_form.html.erb</code>
+以下內容：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="n">article</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:title</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:title</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="n">article</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages_for</span><span class="p">(</span><span class="ss">:title</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">message</span> <span class="cp">%&gt;</span><span class="nt">&lt;/div&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%</span> <span class="n">article</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages_for</span><span class="p">(</span><span class="ss">:body</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">message</span> <span class="cp">%&gt;</span><span class="nt">&lt;/div&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: article do |form| %&gt;
+  &lt;div&gt;
+    &lt;%= form.label :title %&gt;&lt;br&gt;
+    &lt;%= form.text_field :title %&gt;
+    &lt;% article.errors.full_messages_for(:title).each do |message| %&gt;
+      &lt;div&gt;&lt;%= message %&gt;&lt;/div&gt;
+    &lt;% end %&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;%= form.label :body %&gt;&lt;br&gt;
+    &lt;%= form.text_area :body %&gt;&lt;br&gt;
+    &lt;% article.errors.full_messages_for(:body).each do |message| %&gt;
+      &lt;div&gt;&lt;%= message %&gt;&lt;/div&gt;
+    &lt;% end %&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;%= form.submit %&gt;
+  &lt;/div&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>上面的程式碼和我們在<code>app/views/articles/new.html.erb</code>中的表格一樣，
+除了所有出現的 <code>@article</code> 都被 <code>article</code> 替換。
+由於部分是共享程式碼，因此最好不要依賴它們
+由 controller action 設定的特定實例變數。相反，我們將通過
+文章以區域性變數作為區域性變數。</p><p>讓我們更新 <code>app/views/articles/new.html.erb</code> 以通過 [<code>render</code>](
+<a href="https://api.rubyonrails.org/classes/ActionView/Helpers/RenderingHelper.html#method-i-render%EF%BC%89%EF%BC%9A">https://api.rubyonrails.org/classes/ActionView/Helpers/RenderingHelper.html#method-i-render）：</a></p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>New Article<span class="nt">&lt;/h1&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">"form"</span><span class="p">,</span> <span class="ss">article: </span><span class="vi">@article</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;New Article&lt;/h1&gt;
+
+&lt;%= render "form", article: @article %&gt;
+'>Copy</button>
+</div>
+<div class="note"><p>部分的檔名必須以 ** 和** 下劃線為字首，例如
+<code>_form.html.erb</code>。但是在渲染時，它被引用<strong>沒有</strong>
+下劃線，例如<code>render "form"</code>。</p></div><p>現在，讓我們建立一個非常相似的 <code>app/views/articles/edit.html.erb</code>：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>Edit Article<span class="nt">&lt;/h1&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">"form"</span><span class="p">,</span> <span class="ss">article: </span><span class="vi">@article</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;Edit Article&lt;/h1&gt;
+
+&lt;%= render "form", article: @article %&gt;
+'>Copy</button>
+</div>
+<p>提示：要了解有關部分的更多資訊，請參閱 <a href="layouts_and_rendering.html#using-partials">Rails 中的佈局和渲染§使用
+部分</a>。</p><h5 id=""><a class="anchorlink" href="#">6.4.2 收尾</a></h5><p>我們現在可以通過訪問其編輯頁面來更新文章，例如
+<a href="http://localhost:3000/articles/1/edit">http://localhost:3000/articles/1/edit</a>。最後，讓我們連結到編輯
+<code>app/views/articles/show.html.erb</code> 底部的頁面：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Edit"</span><span class="p">,</span> <span class="n">edit_article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;&lt;%= @article.title %&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;%= @article.body %&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;%= link_to "Edit", edit_article_path(@article) %&gt;&lt;/li&gt;
+&lt;/ul&gt;
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">6.5 刪除文章</a></h4><p>最後，我們到達 CRUD 的“D”（刪除）。刪除資源更簡單
+過程而不是建立或更新。它只需要一個路由和一個 controller
+action。我們足智多謀的路由 (<code>resources :articles</code>) 已經提供了
+路由，將 <code>DELETE /articles/:id</code> 請求對映到 <code>destroy</code> action
+<code>ArticlesController</code>。</p><p>所以，讓我們新增一個典型的 <code>destroy</code> action 到 <code>app/controllers/articles_controller.rb</code>，
+在 <code>update</code> action 下方：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">all</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">new</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">redirect_to</span> <span class="vi">@article</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">status: :unprocessable_entity</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">edit</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">update</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+      <span class="n">redirect_to</span> <span class="vi">@article</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">status: :unprocessable_entity</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">destroy</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+    <span class="vi">@article</span><span class="p">.</span><span class="nf">destroy</span>
+
+    <span class="n">redirect_to</span> <span class="n">root_path</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">article_params</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:article</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ArticlesController &lt; ApplicationController
+  def index
+    @articles = Article.all
+  end
+
+  def show
+    @article = Article.find(params[:id])
+  end
+
+  def new
+    @article = Article.new
+  end
+
+  def create
+    @article = Article.new(article_params)
+
+    if @article.save
+      redirect_to @article
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @article = Article.find(params[:id])
+  end
+
+  def update
+    @article = Article.find(params[:id])
+
+    if @article.update(article_params)
+      redirect_to @article
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+
+    redirect_to root_path
+  end
+
+  private
+    def article_params
+      params.require(:article).permit(:title, :body)
+    end
+end
+">Copy</button>
+</div>
+<p><code>destroy</code> action 從資料庫中獲取文章，並呼叫 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveRecord/Persistence.html#method-i-destroy"><code>destroy</code></a>
+在上面。然後，它將瀏覽器重定向到根路徑。</p><p>我們選擇重定向到根路徑，因為這是我們的主要訪問
+文章點。但是，在其他情況下，您可能會選擇重定向到
+例如<code>articles_path</code>。</p><p>現在讓我們在 <code>app/views/articles/show.html.erb</code> 底部新增一個連結，以便
+我們可以從它自己的頁面中刪除一篇文章：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Edit"</span><span class="p">,</span> <span class="n">edit_article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Destroy"</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span>
+                  <span class="ss">method: :delete</span><span class="p">,</span>
+                  <span class="ss">data: </span><span class="p">{</span> <span class="ss">confirm: </span><span class="s2">"Are you sure?"</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;&lt;%= @article.title %&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;%= @article.body %&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;%= link_to "Edit", edit_article_path(@article) %&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;%= link_to "Destroy", article_path(@article),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %&gt;&lt;/li&gt;
+&lt;/ul&gt;
+'>Copy</button>
+</div>
+<p>在上面的程式碼中，我們向 <code>link_to</code> 傳遞了一些額外的選項。這
+<code>method: :delete</code> 選項導致連結發出 <code>DELETE</code> 請求而不是
+<code>GET</code> 請求。 <code>data: { confirm: "Are you sure?" }</code> 選項會導致
+單擊連結時出現的確認對話方塊。如果使用者取消
+對話方塊，請求被中止。這兩個選項都由一個功能提供支援
+Rails 稱為 <em>Unobtrusive JavaScript</em> (UJS)。 JavaScript 檔案
+實現這些行為預設包含在新的 Rails 應用程式中。</p><p>提示：要了解有關 Unobtrusive JavaScript 的更多資訊，請參閱 <a href="working_with_javascript_in_rails.html">Working With JavaScript in
+Rails</a>。</p><p>就是這樣！我們現在可以列出、顯示、建立、更新和刪除文章！
+不可CRUDable！</p><h3 id="model"><a class="anchorlink" href="#model">7 新增第二個 Model</a></h3><p>是時候嚮應用程式新增第二個 model 了。第二個 model 將處理
+對文章的評論。</p><h4 id="model-model"><a class="anchorlink" href="#model-model">7.1 產生 Model</a></h4><p>我們將看到與之前建立時使用的相同的產生器
+<code>Article</code> model。這次我們將建立一個 <code>Comment</code> model 來儲存一個
+參考一篇文章。在終端中執行此命令：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate model Comment commenter:string body:text article:references
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate model Comment commenter:string body:text article:references
+">Copy</button>
+</div>
+<p>此命令將產生四個檔案：</p>
+<table>
+<thead>
+<tr>
+<th>檔案</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>db/migrate/20140120201010_create_comments.rb</td>
+<td>Migration 在您的資料庫中建立評論表（您的姓名將包含不同的時間戳）</td>
+</tr>
+<tr>
+<td>app/models/comment.rb</td>
+<td>評論模型</td>
+</tr>
+<tr>
+<td>測試/models/comment_test.rb</td>
+<td>評論模型的測試工具</td>
+</tr>
+<tr>
+<td>測試/夾具/comments.yml</td>
+<td>用於測試的示例註釋</td>
+</tr>
+</tbody>
+</table>
+<p>首先看一下<code>app/models/comment.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">belongs_to</span> <span class="ss">:article</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Comment &lt; ApplicationRecord
+  belongs_to :article
+end
+">Copy</button>
+</div>
+<p>這與您之前看到的 <code>Article</code> model 非常相似。差別
+是行 <code>belongs_to :article</code>，它設定了一個 Active Record <em>association</em>。
+您將在本指南的下一部分中瞭解一些關於 associations 的知識。</p><p>bash 命令中使用的 (<code>:references</code>) key 字是 models 的特殊資料型別。
+它會在您的資料庫表上建立一個新列，並使用提供的 model 名稱附加 <code>_id</code>
+可以容納整數 values。為了更好地理解，分析
+執行 migration 後的 <code>db/schema.rb</code> 檔案。</p><p>除了model，Rails還做了一個migration來建立
+對應的資料庫表：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">CreateComments</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="p">[</span><span class="mf">7.0</span><span class="p">]</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="ss">:comments</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:commenter</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">text</span> <span class="ss">:body</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">references</span> <span class="ss">:article</span><span class="p">,</span> <span class="ss">null: </span><span class="kp">false</span><span class="p">,</span> <span class="ss">foreign_key: </span><span class="kp">true</span>
+
+      <span class="n">t</span><span class="p">.</span><span class="nf">timestamps</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CreateComments &lt; ActiveRecord::Migration[7.0]
+  def change
+    create_table :comments do |t|
+      t.string :commenter
+      t.text :body
+      t.references :article, null: false, foreign_key: true
+
+      t.timestamps
+    end
+  end
+end
+">Copy</button>
+</div>
+<p><code>t.references</code> 行建立了一個名為 <code>article_id</code> 的整數列，一個索引
+對於它，以及指向 <code>articles</code> 的 <code>id</code> 列的外部 key 約束
+桌子。繼續執行 migration：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>db:migrate
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails db:migrate
+">Copy</button>
+</div>
+<p>Rails 足夠聰明，只執行尚未執行的 migrations
+針對當前資料庫執行，因此在這種情況下，您將只看到：</p><div class="code_container">
+<pre><code class="highlight plaintext">==  CreateComments: migrating =================================================
+-- create_table(:comments)
+   -&gt; 0.0115s
+==  CreateComments: migrated (0.0119s) ========================================
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="==  CreateComments: migrating =================================================
+-- create_table(:comments)
+   -&gt; 0.0115s
+==  CreateComments: migrated (0.0119s) ========================================
+">Copy</button>
+</div>
+<h4 id="model"><a class="anchorlink" href="#model">7.2 關聯 Model</a></h4><p>Active Record associations讓你輕鬆宣告兩者的關係
+models。在評論和文章的情況下，你可以寫出
+這樣的關係：</p>
+<ul>
+<li>每條評論屬於一篇文章。</li>
+<li>一篇文章可以有很多評論。</li>
+</ul>
+<p>其實這和Rails用來宣告這個的語法很接近
+association。您已經看到了 <code>Comment</code> model 中的程式碼行
+(app/models/comment.rb) 使每條評論都屬於一篇文章：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">belongs_to</span> <span class="ss">:article</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Comment &lt; ApplicationRecord
+  belongs_to :article
+end
+">Copy</button>
+</div>
+<p>您需要編輯 <code>app/models/article.rb</code> 以新增
+association：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:comments</span>
+
+  <span class="n">validates</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+  <span class="n">validates</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">10</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Article &lt; ApplicationRecord
+  has_many :comments
+
+  validates :title, presence: true
+  validates :body, presence: true, length: { minimum: 10 }
+end
+">Copy</button>
+</div>
+<p>這兩個宣告啟用了一些自動行為。例如，如果
+你有一個包含文章的實例變數 <code>@article</code>，你可以檢索
+屬於該文章的所有評論作為陣列使用
+<code>@article.comments</code>。</p><p>提示：有關 Active Record associations 的更多資訊，請參閱 <a href="association_basics.html">Active Record
+Associations</a> 指南。</p><h4 id=""><a class="anchorlink" href="#">7.3 新增評論路由</a></h4><p>與 <code>articles</code> controller 一樣，我們需要新增一條路由，以便 Rails
+知道我們想導航到哪裡檢視 <code>comments</code>。開啟
+再次 <code>config/routes.rb</code> 檔案，編輯如下：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">routes</span><span class="p">.</span><span class="nf">draw</span> <span class="k">do</span>
+  <span class="n">root</span> <span class="s2">"articles#index"</span>
+
+  <span class="n">resources</span> <span class="ss">:articles</span> <span class="k">do</span>
+    <span class="n">resources</span> <span class="ss">:comments</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Rails.application.routes.draw do
+  root "articles#index"
+
+  resources :articles do
+    resources :comments
+  end
+end
+'>Copy</button>
+</div>
+<p>這會在 <code>articles</code> 中建立 <code>comments</code> 作為<em>巢狀資源</em>。這是
+捕獲之間存在的層次關係的另一部分
+文章和評論。</p><p>提示：有關路由的更多資訊，請參閱 <a href="routing.html">Rails 路由</a>
+指導。</p><h4 id="controller"><a class="anchorlink" href="#controller">7.4 產生 Controller</a></h4><p>有了model，您就可以將注意力轉向建立匹配
+controller。同樣，我們將使用之前使用的相同產生器：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate controller Comments
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate controller Comments
+">Copy</button>
+</div>
+<p>這將建立四個檔案和一個空目錄：</p>
+<table>
+<thead>
+<tr>
+<th>檔案/目錄</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>app/controllers/comments_controller.rb</td>
+<td>評論控制器</td>
+</tr>
+<tr>
+<td>應用程式/檢視/評論/</td>
+<td>controller 的 View 存放在這裡</td>
+</tr>
+<tr>
+<td>測試/controllers/comments_controller_test.rb</td>
+<td>控制器測試</td>
+</tr>
+<tr>
+<td>app/helpers/comments_helper.rb</td>
+<td>view 幫助檔案</td>
+</tr>
+<tr>
+<td>應用程式/資產/樣式表/comments.scss</td>
+<td>controller 的級聯樣式表</td>
+</tr>
+</tbody>
+</table>
+<p>與任何部落格一樣，我們的讀者將在之後直接發表評論
+閱讀文章，一旦他們添加了評論，就會被髮回
+到文章顯示頁面檢視他們現在列出的評論。正因如此，我們的
+<code>CommentsController</code> 是提供一種建立評論和刪除的方法
+垃圾評論到達時。</p><p>首先，我們將連線文章顯示模板
+(<code>app/views/articles/show.html.erb</code>) 讓我們做一個新的評論：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Edit"</span><span class="p">,</span> <span class="n">edit_article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Destroy"</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span>
+                  <span class="ss">method: :delete</span><span class="p">,</span>
+                  <span class="ss">data: </span><span class="p">{</span> <span class="ss">confirm: </span><span class="s2">"Are you sure?"</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>Add a comment:<span class="nt">&lt;/h2&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="p">[</span> <span class="vi">@article</span><span class="p">,</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">build</span> <span class="p">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:commenter</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:commenter</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:body</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;&lt;%= @article.title %&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;%= @article.body %&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;%= link_to "Edit", edit_article_path(@article) %&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;%= link_to "Destroy", article_path(@article),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Add a comment:&lt;/h2&gt;
+&lt;%= form_with model: [ @article, @article.comments.build ] do |form| %&gt;
+  &lt;p&gt;
+    &lt;%= form.label :commenter %&gt;&lt;br&gt;
+    &lt;%= form.text_field :commenter %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= form.label :body %&gt;&lt;br&gt;
+    &lt;%= form.text_area :body %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= form.submit %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>這會在 <code>Article</code> 顯示頁面上新增一個表單，該表單通過以下方式建立新評論
+呼叫 <code>CommentsController</code> <code>create</code> action。此處的 <code>form_with</code> 呼叫使用
+一個數組，它將構建一個巢狀路由，例如 <code>/articles/1/comments</code>。</p><p>讓我們在 <code>app/controllers/comments_controller.rb</code> 中連線 <code>create</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">CommentsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:article_id</span><span class="p">])</span>
+    <span class="vi">@comment</span> <span class="o">=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="n">comment_params</span><span class="p">)</span>
+    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">comment_params</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:comment</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:commenter</span><span class="p">,</span> <span class="ss">:body</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CommentsController &lt; ApplicationController
+  def create
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.create(comment_params)
+    redirect_to article_path(@article)
+  end
+
+  private
+    def comment_params
+      params.require(:comment).permit(:commenter, :body)
+    end
+end
+">Copy</button>
+</div>
+<p>你會在這裡看到比在 controller 中看到的複雜一點
+文章。這是您設定的巢狀的副作用。每個請求
+對於評論必須保留評論所附文章的 track，
+因此初始呼叫 <code>Article</code> model 的 <code>find</code> 方法來獲取
+有問題的文章。</p><p>此外，該程式碼利用了一些可用於
+association。我們在 <code>@article.comments</code> 上使用 <code>create</code> 方法來建立和
+儲存評論。這將自動連結評論，使其屬於
+那篇特定的文章。</p><p>發表新評論後，我們會將使用者傳送回原始文章
+使用 <code>article_path(@article)</code> helper。正如我們已經看到的，這呼叫
+<code>ArticlesController</code> 的 <code>show</code> action 依次呈現
+<code>show.html.erb</code> 模板。這是我們想要顯示評論的地方，所以讓我們
+將其新增到 <code>app/views/articles/show.html.erb</code>。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Edit"</span><span class="p">,</span> <span class="n">edit_article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Destroy"</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span>
+                  <span class="ss">method: :delete</span><span class="p">,</span>
+                  <span class="ss">data: </span><span class="p">{</span> <span class="ss">confirm: </span><span class="s2">"Are you sure?"</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>Comments<span class="nt">&lt;/h2&gt;</span>
+<span class="cp">&lt;%</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">comment</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="nt">&lt;strong&gt;</span>Commenter:<span class="nt">&lt;/strong&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">comment</span><span class="p">.</span><span class="nf">commenter</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+
+  <span class="nt">&lt;p&gt;</span>
+    <span class="nt">&lt;strong&gt;</span>Comment:<span class="nt">&lt;/strong&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">comment</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>Add a comment:<span class="nt">&lt;/h2&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="p">[</span> <span class="vi">@article</span><span class="p">,</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">build</span> <span class="p">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:commenter</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:commenter</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:body</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;&lt;%= @article.title %&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;%= @article.body %&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;%= link_to "Edit", edit_article_path(@article) %&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;%= link_to "Destroy", article_path(@article),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Comments&lt;/h2&gt;
+&lt;% @article.comments.each do |comment| %&gt;
+  &lt;p&gt;
+    &lt;strong&gt;Commenter:&lt;/strong&gt;
+    &lt;%= comment.commenter %&gt;
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    &lt;strong&gt;Comment:&lt;/strong&gt;
+    &lt;%= comment.body %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+
+&lt;h2&gt;Add a comment:&lt;/h2&gt;
+&lt;%= form_with model: [ @article, @article.comments.build ] do |form| %&gt;
+  &lt;p&gt;
+    &lt;%= form.label :commenter %&gt;&lt;br&gt;
+    &lt;%= form.text_field :commenter %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= form.label :body %&gt;&lt;br&gt;
+    &lt;%= form.text_area :body %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= form.submit %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>現在您可以將文章和評論新增到您的部落格，並讓它們顯示在
+正確的地方。</p><p><img src="images/getting_started/article_with_comments.png" alt="帶評論的文章"></p><h3 id=""><a class="anchorlink" href="#">8 重構</a></h3><p>現在我們有文章和評論工作，看看
+<code>app/views/articles/show.html.erb</code> 模板。它變得漫長而尷尬。我們
+可以使用partials來清理它。</p><h4 id=""><a class="anchorlink" href="#">8.1 渲染部分集合</a></h4><p>首先，我們將製作一個評論部分提取顯示所有評論
+文章。建立檔案 <code>app/views/comments/_comment.html.erb</code> 並將
+下面進入它：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;p&gt;</span>
+  <span class="nt">&lt;strong&gt;</span>Commenter:<span class="nt">&lt;/strong&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">comment</span><span class="p">.</span><span class="nf">commenter</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+  <span class="nt">&lt;strong&gt;</span>Comment:<span class="nt">&lt;/strong&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">comment</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;p&gt;
+  &lt;strong&gt;Commenter:&lt;/strong&gt;
+  &lt;%= comment.commenter %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;strong&gt;Comment:&lt;/strong&gt;
+  &lt;%= comment.body %&gt;
+&lt;/p&gt;
+">Copy</button>
+</div>
+<p>然後你可以改變 <code>app/views/articles/show.html.erb</code> 看起來像
+下列的：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Edit"</span><span class="p">,</span> <span class="n">edit_article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Destroy"</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span>
+                  <span class="ss">method: :delete</span><span class="p">,</span>
+                  <span class="ss">data: </span><span class="p">{</span> <span class="ss">confirm: </span><span class="s2">"Are you sure?"</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>Comments<span class="nt">&lt;/h2&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">render</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">comments</span> <span class="cp">%&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>Add a comment:<span class="nt">&lt;/h2&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="p">[</span> <span class="vi">@article</span><span class="p">,</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">build</span> <span class="p">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:commenter</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:commenter</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:body</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;&lt;%= @article.title %&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;%= @article.body %&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;%= link_to "Edit", edit_article_path(@article) %&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;%= link_to "Destroy", article_path(@article),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Comments&lt;/h2&gt;
+&lt;%= render @article.comments %&gt;
+
+&lt;h2&gt;Add a comment:&lt;/h2&gt;
+&lt;%= form_with model: [ @article, @article.comments.build ] do |form| %&gt;
+  &lt;p&gt;
+    &lt;%= form.label :commenter %&gt;&lt;br&gt;
+    &lt;%= form.text_field :commenter %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= form.label :body %&gt;&lt;br&gt;
+    &lt;%= form.text_area :body %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= form.submit %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>這現在將在 <code>app/views/comments/_comment.html.erb</code> 中渲染一次
+對於 <code>@article.comments</code> 集合中的每條評論。作為 <code>render</code>
+方法迭代 <code>@article.comments</code> 集合，它分配每個
+對與部分名稱相同的區域性變數進行註釋，在這種情況下
+<code>comment</code>，然後在partial中提供給我們展示。</p><h4 id=""><a class="anchorlink" href="#">8.2 渲染部分表單</a></h4><p>讓我們也將新的評論部分移到它自己的部分。又是你
+建立一個檔案 <code>app/views/comments/_form.html.erb</code>，其中包含：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="p">[</span> <span class="vi">@article</span><span class="p">,</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">build</span> <span class="p">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:commenter</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:commenter</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:body</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: [ @article, @article.comments.build ] do |form| %&gt;
+  &lt;p&gt;
+    &lt;%= form.label :commenter %&gt;&lt;br&gt;
+    &lt;%= form.text_field :commenter %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= form.label :body %&gt;&lt;br&gt;
+    &lt;%= form.text_area :body %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= form.submit %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>然後你讓 <code>app/views/articles/show.html.erb</code> 看起來像下面這樣：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Edit"</span><span class="p">,</span> <span class="n">edit_article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Destroy"</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span>
+                  <span class="ss">method: :delete</span><span class="p">,</span>
+                  <span class="ss">data: </span><span class="p">{</span> <span class="ss">confirm: </span><span class="s2">"Are you sure?"</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>Comments<span class="nt">&lt;/h2&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">render</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">comments</span> <span class="cp">%&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>Add a comment:<span class="nt">&lt;/h2&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">'comments/form'</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;h1&gt;&lt;%= @article.title %&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;%= @article.body %&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;%= link_to &quot;Edit&quot;, edit_article_path(@article) %&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;%= link_to &quot;Destroy&quot;, article_path(@article),
+                  method: :delete,
+                  data: { confirm: &quot;Are you sure?&quot; } %&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Comments&lt;/h2&gt;
+&lt;%= render @article.comments %&gt;
+
+&lt;h2&gt;Add a comment:&lt;/h2&gt;
+&lt;%= render 'comments/form' %&gt;
+">Copy</button>
+</div>
+<p>第二個渲染只是定義了我們要渲染的部分模板，
+<code>comments/form</code>。 Rails 足夠聰明，可以發現其中的正斜槓
+字串並意識到您想在其中呈現 <code>_form.html.erb</code> 檔案
+<code>app/views/comments</code> 目錄。</p><p><code>@article</code> 物件可用於在 view 中呈現的任何部分，因為
+我們將其定義為實例變數。</p><h4 id=""><a class="anchorlink" href="#">8.3 使用問題</a></h4><p>關注點是一種使大型 controllers 或 models 更易於理解和管理的方法。當多個 models（或 controllers）共享相同的關注點時，這也具有可重用性的優勢。關注點是使用 modules 實現的，這些方法包含表示模型或控制器負責的定義明確的功能部分的方法。在其他語言中，modules 通常被稱為 mixin。</p><p>您可以在 controller 或 model 中使用關注點，就像使用任何 module 一樣。當您第一次使用 <code>rails new blog</code> 建立您的應用程式時，在 <code>app/</code> 中建立了兩個資料夾以及其餘資料夾：</p><div class="code_container">
+<pre><code class="highlight plaintext">app/controllers/concerns
+app/models/concerns
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="app/controllers/concerns
+app/models/concerns
+">Copy</button>
+</div>
+<p>給定的部落格文章可能有多種狀態 - 例如，它可能對所有人可見（即 <code>public</code>），或僅對作者可見（即 <code>private</code>）。它也可能對所有人隱藏但仍然可以檢索（即 <code>archived</code>）。評論可以類似地隱藏或可見。這可以使用每個 model 中的 <code>status</code> 列來表示。</p><p>在 <code>article</code> model 中，在執行 migration 以新增 <code>status</code> 列後，您可以新增：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:comments</span>
+
+  <span class="n">validates</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+  <span class="n">validates</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">10</span> <span class="p">}</span>
+
+  <span class="no">VALID_STATUSES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'public'</span><span class="p">,</span> <span class="s1">'private'</span><span class="p">,</span> <span class="s1">'archived'</span><span class="p">]</span>
+
+  <span class="n">validates</span> <span class="ss">:status</span><span class="p">,</span> <span class="ss">inclusion: </span><span class="p">{</span> <span class="ss">in: </span><span class="no">VALID_STATUSES</span> <span class="p">}</span>
+
+  <span class="k">def</span> <span class="nf">archived?</span>
+    <span class="n">status</span> <span class="o">==</span> <span class="s1">'archived'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Article &lt; ApplicationRecord
+  has_many :comments
+
+  validates :title, presence: true
+  validates :body, presence: true, length: { minimum: 10 }
+
+  VALID_STATUSES = ['public', 'private', 'archived']
+
+  validates :status, inclusion: { in: VALID_STATUSES }
+
+  def archived?
+    status == 'archived'
+  end
+end
+">Copy</button>
+</div>
+<p>並在 <code>Comment</code> model 中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">belongs_to</span> <span class="ss">:article</span>
+
+  <span class="no">VALID_STATUSES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'public'</span><span class="p">,</span> <span class="s1">'private'</span><span class="p">,</span> <span class="s1">'archived'</span><span class="p">]</span>
+
+  <span class="n">validates</span> <span class="ss">:status</span><span class="p">,</span> <span class="ss">inclusion: </span><span class="p">{</span> <span class="ss">in: </span><span class="no">VALID_STATUSES</span> <span class="p">}</span>
+
+  <span class="k">def</span> <span class="nf">archived?</span>
+    <span class="n">status</span> <span class="o">==</span> <span class="s1">'archived'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Comment &lt; ApplicationRecord
+  belongs_to :article
+
+  VALID_STATUSES = ['public', 'private', 'archived']
+
+  validates :status, inclusion: { in: VALID_STATUSES }
+
+  def archived?
+    status == 'archived'
+  end
+end
+">Copy</button>
+</div>
+<p>然後，在我們的 <code>index</code> action 模板（<code>app/views/articles/index.html.erb</code>）中，我們將使用 <code>archived?</code> 方法來避免顯示任何已存檔的文章：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>Articles<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@articles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">unless</span> <span class="n">article</span><span class="p">.</span><span class="nf">archived?</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"New Article"</span><span class="p">,</span> <span class="n">new_article_path</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;Articles&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;% @articles.each do |article| %&gt;
+    &lt;% unless article.archived? %&gt;
+      &lt;li&gt;
+        &lt;%= link_to article.title, article %&gt;
+      &lt;/li&gt;
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+&lt;/ul&gt;
+
+&lt;%= link_to "New Article", new_article_path %&gt;
+'>Copy</button>
+</div>
+<p>同樣，在我們的評論部分 view (<code>app/views/comments/_comment.html.erb</code>) 中，我們將使用 <code>archived?</code> 方法來避免顯示任何已存檔的評論：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%</span> <span class="k">unless</span> <span class="n">comment</span><span class="p">.</span><span class="nf">archived?</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    <span class="nt">&lt;strong&gt;</span>Commenter:<span class="nt">&lt;/strong&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">comment</span><span class="p">.</span><span class="nf">commenter</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+
+  <span class="nt">&lt;p&gt;</span>
+    <span class="nt">&lt;strong&gt;</span>Comment:<span class="nt">&lt;/strong&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">comment</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;% unless comment.archived? %&gt;
+  &lt;p&gt;
+    &lt;strong&gt;Commenter:&lt;/strong&gt;
+    &lt;%= comment.commenter %&gt;
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    &lt;strong&gt;Comment:&lt;/strong&gt;
+    &lt;%= comment.body %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>但是，現在再看一下我們的models，就會發現邏輯是重複的。如果將來我們增加部落格的功能 - 例如，包括私人訊息 - 我們可能會發現自己再次複製邏輯。這就是擔憂派上用場的地方。</p><p>一個關注點只負責模型職責的一個集中子集；我們關注的方法都將與模型的可見性相關。讓我們稱我們的新關注點 (module) <code>Visible</code>。我們可以在 <code>app/models/concerns</code> 中建立一個名為 <code>visible.rb</code> 的新檔案，並存儲在 models 中複製的所有狀態方法。</p><p><code>app/models/concerns/visible.rb</code></p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">Visible</span>
+  <span class="k">def</span> <span class="nf">archived?</span>
+    <span class="n">status</span> <span class="o">==</span> <span class="s1">'archived'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="module Visible
+  def archived?
+    status == 'archived'
+  end
+end
+">Copy</button>
+</div>
+<p>我們可以將狀態驗證新增到關注點中，但這稍微複雜一些，因為驗證是在類級別呼叫的方法。 <code>ActiveSupport::Concern</code>（<a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveSupport/Concern.html">API 指南</a>）為我們提供了一種更簡單的方法來包含它們：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">Visible</span>
+  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+
+  <span class="no">VALID_STATUSES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'public'</span><span class="p">,</span> <span class="s1">'private'</span><span class="p">,</span> <span class="s1">'archived'</span><span class="p">]</span>
+
+  <span class="n">included</span> <span class="k">do</span>
+    <span class="n">validates</span> <span class="ss">:status</span><span class="p">,</span> <span class="ss">inclusion: </span><span class="p">{</span> <span class="ss">in: </span><span class="no">VALID_STATUSES</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">archived?</span>
+    <span class="n">status</span> <span class="o">==</span> <span class="s1">'archived'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="module Visible
+  extend ActiveSupport::Concern
+
+  VALID_STATUSES = ['public', 'private', 'archived']
+
+  included do
+    validates :status, inclusion: { in: VALID_STATUSES }
+  end
+
+  def archived?
+    status == 'archived'
+  end
+end
+">Copy</button>
+</div>
+<p>現在，我們可以從每個 model 中刪除重複的邏輯，而是包含我們新的 <code>Visible</code> module：</p><p>在 <code>app/models/article.rb</code> 中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="kp">include</span> <span class="no">Visible</span>
+
+  <span class="n">has_many</span> <span class="ss">:comments</span>
+
+  <span class="n">validates</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+  <span class="n">validates</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">10</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Article &lt; ApplicationRecord
+  include Visible
+
+  has_many :comments
+
+  validates :title, presence: true
+  validates :body, presence: true, length: { minimum: 10 }
+end
+">Copy</button>
+</div>
+<p>在 <code>app/models/comment.rb</code> 中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="kp">include</span> <span class="no">Visible</span>
+
+  <span class="n">belongs_to</span> <span class="ss">:article</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Comment &lt; ApplicationRecord
+  include Visible
+
+  belongs_to :article
+end
+">Copy</button>
+</div>
+<p>類方法也可以新增到關注點中。如果我們想在我們的主頁上顯示公共文章或評論的數量，我們可能會向 Visible 新增一個類方法，如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">Visible</span>
+  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+
+  <span class="no">VALID_STATUSES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'public'</span><span class="p">,</span> <span class="s1">'private'</span><span class="p">,</span> <span class="s1">'archived'</span><span class="p">]</span>
+
+  <span class="n">included</span> <span class="k">do</span>
+    <span class="n">validates</span> <span class="ss">:status</span><span class="p">,</span> <span class="ss">inclusion: </span><span class="p">{</span> <span class="ss">in: </span><span class="no">VALID_STATUSES</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">class_methods</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">public_count</span>
+      <span class="n">where</span><span class="p">(</span><span class="ss">status: </span><span class="s1">'public'</span><span class="p">).</span><span class="nf">count</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">archived?</span>
+    <span class="n">status</span> <span class="o">==</span> <span class="s1">'archived'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="module Visible
+  extend ActiveSupport::Concern
+
+  VALID_STATUSES = ['public', 'private', 'archived']
+
+  included do
+    validates :status, inclusion: { in: VALID_STATUSES }
+  end
+
+  class_methods do
+    def public_count
+      where(status: 'public').count
+    end
+  end
+
+  def archived?
+    status == 'archived'
+  end
+end
+">Copy</button>
+</div>
+<p>然後在 view 中，你可以像呼叫任何類方法一樣呼叫它：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>Articles<span class="nt">&lt;/h1&gt;</span>
+
+Our blog has <span class="cp">&lt;%=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">public_count</span> <span class="cp">%&gt;</span> articles and counting!
+
+<span class="nt">&lt;ul&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@articles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">unless</span> <span class="n">article</span><span class="p">.</span><span class="nf">archived?</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"New Article"</span><span class="p">,</span> <span class="n">new_article_path</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;h1&gt;Articles&lt;/h1&gt;
+
+Our blog has &lt;%= Article.public_count %&gt; articles and counting!
+
+&lt;ul&gt;
+  &lt;% @articles.each do |article| %&gt;
+    &lt;% unless article.archived? %&gt;
+      &lt;li&gt;
+        &lt;%= link_to article.title, article %&gt;
+      &lt;/li&gt;
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+&lt;/ul&gt;
+
+&lt;%= link_to "New Article", new_article_path %&gt;
+'>Copy</button>
+</div>
+<p>在我們的應用程式新增 <code>status</code> 列之前，還需要執行一些步驟。首先，讓我們執行以下 migrations 將 <code>status</code> 新增到 <code>Articles</code> 和 <code>Comments</code>：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration AddStatusToArticles status:string
+<span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate migration AddStatusToComments status:string
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate migration AddStatusToArticles status:string
+bin/rails generate migration AddStatusToComments status:string
+">Copy</button>
+</div>
+<p>提示：要了解有關遷移的更多資訊，請參閱 [Active Record Migrations](
+active_record_migrations.html）。</p><p>我們還必須允許 <code>:status</code> key 作為強引數的一部分，在 <code>app/controllers/articles_controller.rb</code> 中：</p><div class="code_container">
+<pre><code class="highlight ruby">  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">article_params</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:article</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:status</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="  private
+    def article_params
+      params.require(:article).permit(:title, :body, :status)
+    end
+">Copy</button>
+</div>
+<p>在 <code>app/controllers/comments_controller.rb</code> 中：</p><div class="code_container">
+<pre><code class="highlight ruby">  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">comment_params</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:comment</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:commenter</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:status</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="  private
+    def comment_params
+      params.require(:comment).permit(:commenter, :body, :status)
+    end
+">Copy</button>
+</div>
+<p>最後，我們將在表單中新增一個選擇框，讓使用者在建立新文章或發表新評論時選擇狀態。我們也可以指定預設狀態為 <code>public</code>。在 <code>app/views/articles/_form.html.erb</code> 中，我們可以新增：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;div&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:status</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">select</span> <span class="ss">:status</span><span class="p">,</span> <span class="p">[</span><span class="s1">'public'</span><span class="p">,</span> <span class="s1">'private'</span><span class="p">,</span> <span class="s1">'archived'</span><span class="p">],</span> <span class="ss">selected: </span><span class="s1">'public'</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;div&gt;
+  &lt;%= form.label :status %&gt;&lt;br&gt;
+  &lt;%= form.select :status, ['public', 'private', 'archived'], selected: 'public' %&gt;
+&lt;/div&gt;
+">Copy</button>
+</div>
+<p>在 <code>app/views/comments/_form.html.erb</code> 中：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;p&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:status</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">select</span> <span class="ss">:status</span><span class="p">,</span> <span class="p">[</span><span class="s1">'public'</span><span class="p">,</span> <span class="s1">'private'</span><span class="p">,</span> <span class="s1">'archived'</span><span class="p">],</span> <span class="ss">selected: </span><span class="s1">'public'</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;p&gt;
+  &lt;%= form.label :status %&gt;&lt;br&gt;
+  &lt;%= form.select :status, ['public', 'private', 'archived'], selected: 'public' %&gt;
+&lt;/p&gt;
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">9 刪除評論</a></h3><p>部落格的另一個重要功能是能夠刪除垃圾評論。去做
+為此，我們需要在 view 和 <code>destroy</code> 中實現某種連結
+action 在 <code>CommentsController</code> 中。</p><p>首先，讓我們在
+<code>app/views/comments/_comment.html.erb</code> 部分：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;p&gt;</span>
+  <span class="nt">&lt;strong&gt;</span>Commenter:<span class="nt">&lt;/strong&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">comment</span><span class="p">.</span><span class="nf">commenter</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+  <span class="nt">&lt;strong&gt;</span>Comment:<span class="nt">&lt;/strong&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">comment</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Destroy Comment'</span><span class="p">,</span> <span class="p">[</span><span class="n">comment</span><span class="p">.</span><span class="nf">article</span><span class="p">,</span> <span class="n">comment</span><span class="p">],</span>
+              <span class="ss">method: :delete</span><span class="p">,</span>
+              <span class="ss">data: </span><span class="p">{</span> <span class="ss">confirm: </span><span class="s2">"Are you sure?"</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;p&gt;
+  &lt;strong&gt;Commenter:&lt;/strong&gt;
+  &lt;%= comment.commenter %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;strong&gt;Comment:&lt;/strong&gt;
+  &lt;%= comment.body %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;%= link_to 'Destroy Comment', [comment.article, comment],
+              method: :delete,
+              data: { confirm: &quot;Are you sure?&quot; } %&gt;
+&lt;/p&gt;
+">Copy</button>
+</div>
+<p>點選這個新的“銷燬評論”連結將觸發<code>DELETE
+/articles/:article_id/comments/:id</code> to our <code>CommentsController</code>，然後可以
+用這個找到我們要刪除的評論，所以我們新增一個<code>destroy</code> action
+到我們的 controller (<code>app/controllers/comments_controller.rb</code>)：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">CommentsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:article_id</span><span class="p">])</span>
+    <span class="vi">@comment</span> <span class="o">=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="n">comment_params</span><span class="p">)</span>
+    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">destroy</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:article_id</span><span class="p">])</span>
+    <span class="vi">@comment</span> <span class="o">=</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+    <span class="vi">@comment</span><span class="p">.</span><span class="nf">destroy</span>
+    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">comment_params</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:comment</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:commenter</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:status</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CommentsController &lt; ApplicationController
+  def create
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.create(comment_params)
+    redirect_to article_path(@article)
+  end
+
+  def destroy
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.find(params[:id])
+    @comment.destroy
+    redirect_to article_path(@article)
+  end
+
+  private
+    def comment_params
+      params.require(:comment).permit(:commenter, :body, :status)
+    end
+end
+">Copy</button>
+</div>
+<p><code>destroy</code> action 會找到我們正在看的文章，找到評論
+在 <code>@article.comments</code> 集合中，然後將其從
+資料庫並將我們傳送回該文章的節目 action。</p><h4 id=""><a class="anchorlink" href="#">9.1 刪除關聯物件</a></h4><p>如果你刪除一篇文章，它的相關評論也需要被刪除
+刪除，否則它們只會佔用資料庫中的空間。 Rails 允許
+您可以使用 association 的 <code>dependent</code> 選項來實現這一點。修改
+第model、<code>app/models/article.rb</code>，如下：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="kp">include</span> <span class="no">Visible</span>
+
+  <span class="n">has_many</span> <span class="ss">:comments</span><span class="p">,</span> <span class="ss">dependent: :destroy</span>
+
+  <span class="n">validates</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+  <span class="n">validates</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">length: </span><span class="p">{</span> <span class="ss">minimum: </span><span class="mi">10</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Article &lt; ApplicationRecord
+  include Visible
+
+  has_many :comments, dependent: :destroy
+
+  validates :title, presence: true
+  validates :body, presence: true, length: { minimum: 10 }
+end
+">Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">10 安全</a></h3><h4 id=""><a class="anchorlink" href="#">10.1 基本認證</a></h4><p>如果您要線上釋出您的部落格，任何人都可以新增、編輯和
+刪除文章或刪除評論。</p><p>Rails 提供了一個 HTTP 身份驗證系統，可以很好地工作
+這個情況。</p><p>在 <code>ArticlesController</code> 中，我們需要有一種方法來阻止訪問
+各種 actions 如果此人未通過身份驗證。這裡我們可以使用 Rails
+<code>http_basic_authenticate_with</code> 方法，允許訪問請求的
+action 如果該方法允許的話。</p><p>要使用身份驗證系統，我們在頂部指定它
+<code>ArticlesController</code> 在 <code>app/controllers/articles_controller.rb</code> 中。在我們的例子中，
+我們希望使用者在除 <code>index</code> 和 <code>show</code> 之外的每個 action 上進行身份驗證，
+所以我們這樣寫：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+  <span class="n">http_basic_authenticate_with</span> <span class="ss">name: </span><span class="s2">"dhh"</span><span class="p">,</span> <span class="ss">password: </span><span class="s2">"secret"</span><span class="p">,</span> <span class="ss">except: </span><span class="p">[</span><span class="ss">:index</span><span class="p">,</span> <span class="ss">:show</span><span class="p">]</span>
+
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">all</span>
+  <span class="k">end</span>
+
+  <span class="c1"># snippet for brevity</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ArticlesController &lt; ApplicationController
+
+  http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
+
+  def index
+    @articles = Article.all
+  end
+
+  # snippet for brevity
+'>Copy</button>
+</div>
+<p>我們還希望只允許經過身份驗證的使用者刪除評論，因此在
+<code>CommentsController</code> (<code>app/controllers/comments_controller.rb</code>) 我們這樣寫：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">CommentsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+  <span class="n">http_basic_authenticate_with</span> <span class="ss">name: </span><span class="s2">"dhh"</span><span class="p">,</span> <span class="ss">password: </span><span class="s2">"secret"</span><span class="p">,</span> <span class="ss">only: :destroy</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:article_id</span><span class="p">])</span>
+    <span class="c1"># ...</span>
+  <span class="k">end</span>
+
+  <span class="c1"># snippet for brevity</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class CommentsController &lt; ApplicationController
+
+  http_basic_authenticate_with name: "dhh", password: "secret", only: :destroy
+
+  def create
+    @article = Article.find(params[:article_id])
+    # ...
+  end
+
+  # snippet for brevity
+'>Copy</button>
+</div>
+<p>現在，如果您嘗試建立一篇新文章，您將看到一個基本的 HTTP
+身份驗證挑戰：</p><p><img src="images/getting_started/challenge.png" alt="基本 HTTP 身份驗證挑戰"></p><p>其他身份驗證方法可用於 Rails 應用程式。兩種流行
+Rails 的身份驗證外掛是
+<a href="https://github.com/plataformatec/devise">設計</a> rails 引擎和
+<a href="https://github.com/binarylogic/authlogic">Authlogic</a> 寶石，
+與其他一些人一起。</p><h4 id=""><a class="anchorlink" href="#">10.2 其他安全注意事項</a></h4><p>安全性，尤其是在 Web 應用程式中，是一個廣泛而詳細的領域。安全
+在您的 Rails 應用程式中有更深入的介紹
+<a href="security.html">Ruby 上的 Rails 安全指南</a>。</p><h3 id=""><a class="anchorlink" href="#">11 下一步是什麼？</a></h3><p>現在您已經看到了您的第一個 Rails 應用程式，您應該可以隨意
+更新它並自行試驗。</p><p>請記住，您不必在沒有幫助的情況下做所有事情。當您需要幫助時
+使用 Rails 啟動並執行，請隨時諮詢這些支援
+資源：</p>
+<ul>
+<li><a href="index.html">Ruby 上的 Rails 指南</a></li>
+<li>Rails 郵件列表上的 <a href="https://discuss.rubyonrails.org/c/rubyonrails-talk">Ruby</a>
+</li>
+<li>irc.freenode.net 上的 <a href="irc://irc.freenode.net/#rubyonrails">#rubyonrails</a> 頻道</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">12 設定問題</a></h3><p>使用 Rails 的最簡單方法是將所有外部資料儲存為 UTF-8。如果
+你沒有，Ruby 庫和 Rails 通常能夠轉換你的原生
+資料轉換為 UTF-8，但這並不總是可靠的，所以你最好
+確保所有外部資料都是 UTF-8。</p><p>如果您在這方面犯了錯誤，最常見的症狀是黑色
+瀏覽器中出現帶有問號的菱形。另一種常見的
+症狀是出現像“Ã¼”這樣的字元而不是“ü”。 Rails 取一個數
+減輕這些問題的常見原因的內部步驟
+自動檢測和糾正。但是，如果您有外部資料
+不儲存為 UTF-8，它偶爾會導致這些型別的問題
+無法被 Rails 自動檢測並糾正。</p><p>兩個非常常見的非 UTF-8 資料來源：</p>
+<ul>
+<li>你的文字編輯器：大多數文字編輯器（如TextMate），預設儲存
+檔案為 UTF-8。如果您的文字編輯器沒有，這可能會導致特殊的
+您在模板中輸入的字元（例如 é）以顯示為菱形
+瀏覽器裡面有一個問號。這也適用於您的 i18n
+翻譯檔案。大多數尚未預設為 UTF-8 的編輯器（例如
+Dreamweaver 的某些版本）提供了一種將預設值更改為 UTF-8 的方法。做
+所以。</li>
+<li>您的資料庫：Rails 預設將您資料庫中的資料轉換為 UTF-8
+在邊界。但是，如果您的資料庫在內部沒有使用 UTF-8，它
+可能無法儲存使用者輸入的所有字元。例如，
+如果您的資料庫在內部使用 Latin-1，並且您的使用者輸入俄語，
+希伯來文或日文字元，一旦進入，資料將永遠丟失
+資料庫。如果可能，請使用 UTF-8 作為資料庫的內部儲存。</li>
+</ul>
+
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

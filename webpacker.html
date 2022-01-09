@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>打包機 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="打包機 — Ruby on Rails Guides" />
+  <meta name="description" content="打包機本指南將向您展示如何安裝和使用 Webpacker 為 Rails 應用程式的客戶端打包 JavaScript、CSS 和其他資產。閱讀本指南後，您將瞭解： Webpacker 做什麼以及為什麼它與鏈輪不同。 如何安裝 Webpacker 並將其與您選擇的框架整合。 如何將 Webpacker 用於 JavaScript 資產。 如何將 Webpacker 用於 CSS 資產。 如何將 Webpacker 用於靜態資產。 如何部署使用 Webpacker 的站點。 如何在備用的 Rails 上下文中使用 Webpacker，例如引擎或 Docker 容器。" />
+  <meta property="og:description" content="打包機本指南將向您展示如何安裝和使用 Webpacker 為 Rails 應用程式的客戶端打包 JavaScript、CSS 和其他資產。閱讀本指南後，您將瞭解： Webpacker 做什麼以及為什麼它與鏈輪不同。 如何安裝 Webpacker 並將其與您選擇的框架整合。 如何將 Webpacker 用於 JavaScript 資產。 如何將 Webpacker 用於 CSS 資產。 如何將 Webpacker 用於靜態資產。 如何部署使用 Webpacker 的站點。 如何在備用的 Rails 上下文中使用 Webpacker，例如引擎或 Docker 容器。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>打包機</h2><p>本指南將向您展示如何安裝和使用 Webpacker 為 Rails 應用程式的客戶端打包 JavaScript、CSS 和其他資產。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>Webpacker 做什麼以及為什麼它與鏈輪不同。</li>
+<li>如何安裝 Webpacker 並將其與您選擇的框架整合。</li>
+<li>如何將 Webpacker 用於 JavaScript 資產。</li>
+<li>如何將 Webpacker 用於 CSS 資產。</li>
+<li>如何將 Webpacker 用於靜態資產。</li>
+<li>如何部署使用 Webpacker 的站點。</li>
+<li>如何在備用的 Rails 上下文中使用 Webpacker，例如引擎或 Docker 容器。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#webpacker">什麼是 Webpacker？</a>
+
+<ul>
+<li><a href="#webpack">什麼是webpack？</a></li>
+<li><a href="#webpacker-sprockets">Webpacker 與 Sprockets 有何不同？</a></li>
+</ul>
+</li>
+<li><a href="#webpacker">安裝 Webpacker</a></li>
+<li>
+<a href="#">用法</a>
+
+<ul>
+<li><a href="#javascript-webpacker">在 JavaScript 中使用 Webpacker</a></li>
+<li><a href="#css-webpacker">為 CSS 使用 Webpacker</a></li>
+<li><a href="#webpacker">使用 Webpacker 處理靜態資產</a></li>
+<li><a href="#module-hmr">熱 Module 更換 (HMR)</a></li>
+</ul>
+</li>
+<li><a href="#webpacker">不同環境下的Webpacker</a></li>
+<li>
+<a href="#webpacker">在開發中執行 Webpacker</a>
+
+<ul>
+<li><a href="#webpacker">部署 Webpacker</a></li>
+</ul>
+</li>
+<li><a href="#">附加檔案</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="webpacker"><a class="anchorlink" href="#webpacker">1 什麼是 Webpacker？</a></h3><p>Webpacker 是 <a href="https://webpack.js.org">webpack</a> 構建系統的 Rails 包裝器，提供標準的 webpack 設定和合理的預設值。</p><h4 id="webpack"><a class="anchorlink" href="#webpack">1.1 什麼是webpack？</a></h4><p>webpack 或任何前端構建系統的目標是讓您以一種方便開發人員的方式編寫前端程式碼，然後以一種方便瀏覽器的方式打包這些程式碼。使用 webpack，您可以管理 JavaScript、CSS 和靜態資產，如影象或字型。 Webpack 將允許您編寫程式碼、引用應用程式中的其他程式碼、轉換程式碼並將程式碼組合成易於下載的包。</p><p>有關資訊，請參閱 <a href="https://webpack.js.org">webpack 文件</a>。</p><h4 id="webpacker-sprockets"><a class="anchorlink" href="#webpacker-sprockets">1.2 Webpacker 與 Sprockets 有何不同？</a></h4><p>Rails 還附帶了鏈輪，這是一種資產打包工具，其功能與 Webpacker 重疊。這兩種工具都會將您的 JavaScript 編譯成瀏覽器友好的檔案，並在生產中縮小和指紋它們。在開發環境中，Sprockets 和 Webpacker 允許您增量更改檔案。</p><p>鏈輪設計用於與 Rails 一起使用，整合起來更簡單一些。特別是，可以通過 Ruby gem 將程式碼新增到 Sprockets。然而，webpack 更擅長與更多當前的 JavaScript 工具和 NPM 包整合，並允許更廣泛的整合。新的 Rails 應用程式設定為對 JavaScript 使用 webpack，對 CSS 使用 Sprockets，儘管您可以在 webpack 中執行 CSS。</p><p>如果您想使用 NPM 包和/或想要訪問最新的 JavaScript 功能和工具，您應該在新專案中選擇 Webpacker 而不是 Sprockets。對於 migration 可能成本較高的遺留應用程式，如果您想使用 Gems 進行整合，或者如果您要打包的程式碼量非常少，您應該選擇 Sprockets 而不是 Webpacker。</p><p>如果您熟悉 Sprockets，以下指南可能會讓您對如何翻譯有所瞭解。請注意，每個工具的結構略有不同，並且這些概念不會直接相互對映。</p>
+<table>
+<thead>
+<tr>
+<th>任務</th>
+<th>鏈輪</th>
+<th>網路打包器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>附加 JavaScript</td>
+<td>javascript_include_tag</td>
+<td>javascript_pack_tag</td>
+</tr>
+<tr>
+<td>附加 CSS</td>
+<td>stylesheet_link_tag</td>
+<td>stylesheet_pack_tag</td>
+</tr>
+<tr>
+<td>圖片連結</td>
+<td>image_url</td>
+<td>image_pack_tag</td>
+</tr>
+<tr>
+<td>連結到資產</td>
+<td>asset_url</td>
+<td>asset_pack_tag</td>
+</tr>
+<tr>
+<td>需要指令碼</td>
+<td>//= 需要</td>
+<td>import 或需要</td>
+</tr>
+</tbody>
+</table>
+<h3 id="webpacker"><a class="anchorlink" href="#webpacker">2 安裝 Webpacker</a></h3><p>要使用 Webpacker，您必須安裝 Yarn 包管理器，版本 1.x 或更高版本，並且您必須安裝 Node.js，版本 10.13.0 或更高版本。</p><div class="note"><p>Webpacker 依賴於 NPM 和 Yarn。 NPM，Node 包管理器登錄檔，是釋出和下載開源 JavaScript 專案的主要儲存庫，適用於 Node.js 和瀏覽器執行時。它類似於 ruby​​gems.org 的 Ruby gems。 Yarn 是一個命令列實用程式，可以安裝和管理 JavaScript 依賴項，就像 Bundler 為 Ruby 所做的那樣。</p></div><p>要在新專案中包含 Webpacker，請將 <code>--webpack</code> 新增到 <code>rails new</code> 命令。要將 Webpacker 新增到現有專案，請將 <code>webpacker</code> gem 新增到專案的 <code>Gemfile</code>，執行 <code>bundle install</code>，然後執行 ​​<code>bin/rails webpacker:install</code>。</p><p>安裝 Webpacker 會建立以下本地檔案：</p>
+<table>
+<thead>
+<tr>
+<th>檔案</th>
+<th>位置</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JavaScript 資料夾</td>
+<td><code>app/javascript</code></td>
+<td>前端源的地方</td>
+</tr>
+<tr>
+<td>Webpacker 設定</td>
+<td><code>config/webpacker.yml</code></td>
+<td>設定Webpacker gem</td>
+</tr>
+<tr>
+<td>Babel 設定</td>
+<td><code>babel.config.js</code></td>
+<td>
+<a href="https://babeljs.io">Babel</a> JavaScript 編譯器的設定</td>
+</tr>
+<tr>
+<td>PostCSS 設定</td>
+<td><code>postcss.config.js</code></td>
+<td>
+<a href="https://postcss.org">PostCSS</a> CSS 後處理器的設定</td>
+</tr>
+<tr>
+<td>瀏覽器列表</td>
+<td><code>.browserslistrc</code></td>
+<td>
+<a href="https://github.com/browserslist/browserslist">Browserlist</a> 管理目標瀏覽器設定</td>
+</tr>
+</tbody>
+</table>
+<p>安裝還會呼叫 <code>yarn</code> 包管理器，建立一個 <code>package.json</code> 檔案，其中列出了一組基本的包，並使用 Yarn 來安裝這些依賴項。</p><h3 id=""><a class="anchorlink" href="#">3 用法</a></h3><h4 id="javascript-webpacker"><a class="anchorlink" href="#javascript-webpacker">3.1 在 JavaScript 中使用 Webpacker</a></h4><p>安裝了 Webpacker 後，<code>app/javascript/packs</code> 目錄中的任何 JavaScript 檔案都會預設編譯為自己的包檔案。</p><p>因此，如果您有一個名為 <code>app/javascript/packs/application.js</code> 的檔案，Webpacker 將建立一個名為 <code>application</code> 的包，您可以使用程式碼 <code>&lt;%= javascript_pack_tag "application" %&gt;</code> 將其新增到 Rails 應用程式中。有了它，在開發中，Rails 每次更改時都會重新編譯 <code>application.js</code> 檔案，並且您載入使用該包的頁面。通常，實際 <code>packs</code> 目錄中的檔案將是一個主要載入其他檔案的清單，但它也可以包含任意 JavaScript 程式碼。</p><p>Webpacker 為您建立的預設包將連結到 Rails 的預設 JavaScript 包（如果它們已包含在專案中）：</p><div class="code_container">
+<pre><code class="highlight plaintext">import Rails from "@rails/ujs"
+import Turbolinks from "turbolinks"
+import * as ActiveStorage from "@rails/activestorage"
+import "channels"
+
+Rails.start()
+Turbolinks.start()
+ActiveStorage.start()
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='import Rails from "@rails/ujs"
+import Turbolinks from "turbolinks"
+import * as ActiveStorage from "@rails/activestorage"
+import "channels"
+
+Rails.start()
+Turbolinks.start()
+ActiveStorage.start()
+'>Copy</button>
+</div>
+<p>您需要包含一個包，該包需要這些包才能在您的 Rails 應用程式中使用它們。</p><p>需要注意的是，<code>app/javascript/packs</code>目錄下只能放置webpack入口檔案； Webpack 會為每個入口點建立一個單獨的依賴圖，因此大量的包會增加編譯開銷。儘管 Webpacker 不會對如何構建原始碼設定任何限制或提出任何建議，但您的資產原始碼的其餘部分應位於此目錄之外。下面是一個例子：</p><div class="code_container">
+<pre><code class="highlight sh">app/javascript:
+  ├── packs:
+  │   <span class="c"># only webpack entry files here</span>
+  │   └── application.js
+  │   └── application.css
+  └── src:
+  │   └── my_component.js
+  └── stylesheets:
+  │   └── my_styles.css
+  └── images:
+      └── logo.svg
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="app/javascript:
+  ├── packs:
+  │   # only webpack entry files here
+  │   └── application.js
+  │   └── application.css
+  └── src:
+  │   └── my_component.js
+  └── stylesheets:
+  │   └── my_styles.css
+  └── images:
+      └── logo.svg
+">Copy</button>
+</div>
+<p>通常，包檔案本身主要是一個清單，它使用 <code>import</code> 或 <code>require</code> 來載入必要的檔案，也可能會進行一些初始化。</p><p>如果要更改這些目錄，可以調整<code>config/webpacker.yml</code>檔案中的<code>source_path</code>（預設為<code>app/javascript</code>）和<code>source_entry_path</code>（預設為<code>packs</code>）。</p><p>在原始檔中，<code>import</code> 語句相對於執行匯入的檔案進行解析，因此 <code>import Bar from "./foo"</code> 在與當前檔案相同的目錄中找到一個 <code>foo.js</code> 檔案，而 <code>import Bar from "../src/foo"</code> 在名為 <code>src</code> 的同級目錄中找到一個檔案。</p><h4 id="css-webpacker"><a class="anchorlink" href="#css-webpacker">3.2 為 CSS 使用 Webpacker</a></h4><p>開箱即用，Webpacker 使用 PostCSS 處理器支援 CSS 和 SCSS。</p><p>要在您的包中包含 CSS 程式碼，首先將您的 CSS 檔案包含在您的頂級包檔案中，就像它是一個 JavaScript 檔案一樣。因此，如果您的 CSS 頂級清單在 <code>app/javascript/styles/styles.scss</code> 中，您可以使用 <code>import styles/styles</code> 匯入它。這告訴 webpack 在下載中包含你的 CSS 檔案。要在頁面中實際載入它，請在 view 中包含 <code>&lt;%= stylesheet_pack_tag "application" %&gt;</code>，其中 <code>application</code> 與您使用的包名稱相同。</p><p>如果您使用的是 CSS 框架，則可以按照說明將框架作為 NPM module 使用 <code>yarn</code>（通常為 <code>yarn add &lt;framework&gt;</code>）載入到 Webpacker 中。框架應該有關於將其匯入 CSS 或 SCSS 檔案的說明。</p><h4 id="webpacker"><a class="anchorlink" href="#webpacker">3.3 使用 Webpacker 處理靜態資產</a></h4><p>預設的 Webpacker <a href="https://github.com/rails/webpacker/blob/master/lib/install/config/webpacker.yml#L21">設定</a> 應該對靜態資產開箱即用。
+該設定包括多個影象和字型檔案格式擴充套件，允許 webpack 將它們包含在產生的 <code>manifest.json</code> 檔案中。</p><p>使用 webpack，可以直接在 JavaScript 檔案中匯入靜態資產。匯入的 value 表示資產的 URL。例如：</p><div class="code_container">
+<pre><code class="highlight javascript"><span class="k">import</span> <span class="nx">myImageUrl</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../images/my-image.jpg</span><span class="dl">'</span>
+
+<span class="c1">// ...</span>
+<span class="kd">let</span> <span class="nx">myImage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
+<span class="nx">myImage</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">myImageUrl</span><span class="p">;</span>
+<span class="nx">myImage</span><span class="p">.</span><span class="nx">alt</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">I'm a Webpacker-bundled image</span><span class="dl">"</span><span class="p">;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">myImage</span><span class="p">);</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="import myImageUrl from '../images/my-image.jpg'
+
+// ...
+let myImage = new Image();
+myImage.src = myImageUrl;
+myImage.alt = &quot;I'm a Webpacker-bundled image&quot;;
+document.body.appendChild(myImage);
+">Copy</button>
+</div>
+<p>如果您需要從 Rails view 引用 Webpacker 靜態資產，則需要從 Webpacker 捆綁的 JavaScript 檔案中明確要求這些資產。與 Sprockets 不同，Webpacker 預設不會匯入您的靜態資源。預設的 <code>app/javascript/packs/application.js</code> 檔案有一個用於從給定目錄匯入檔案的模板，您可以為每個要在其中放置靜態檔案的目錄取消註釋。這些目錄與 <code>app/javascript</code> 相關。該模板使用目錄 <code>images</code>，但您可以使用 <code>app/javascript</code> 中的任何內容：</p><div class="code_container">
+<pre><code class="highlight plaintext">const images = require.context("../images", true)
+const imagePath = name =&gt; images(name, true)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='const images = require.context("../images", true)
+const imagePath = name =&gt; images(name, true)
+'>Copy</button>
+</div>
+<p>靜態資源將輸出到 <code>public/packs/media</code> 下的目錄中。例如，位於 <code>app/javascript/images/my-image.jpg</code> 並匯入的影象將在 <code>public/packs/media/images/my-image-abcd1234.jpg</code> 輸出。要在 Rails view 中為該影象渲染影象標記，請使用 <code>image_pack_tag 'media/images/my-image.jpg</code>。</p><p>靜態資源的Webpacker ActionView helpers對應的asset pipeline helpers如下表：</p>
+<table>
+<thead>
+<tr>
+<th>ActionView helper</th>
+<th>Webpacker helper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>favicon_link_tag</td>
+<td>favicon_pack_tag</td>
+</tr>
+<tr>
+<td>image_tag</td>
+<td>image_pack_tag</td>
+</tr>
+</tbody>
+</table>
+<p>此外，通用 helper <code>asset_pack_path</code> 獲取檔案的本地位置並返回其 Webpacker 位置以用於 Rails views。</p><p>您還可以通過直接從 <code>app/javascript</code> 中的 CSS 檔案引用檔案來訪問影象。</p><p>Rails 引擎中的 ### Webpacker</p><p>從 Webpacker 版本 6 開始，Webpacker 不是“引擎感知的”，這意味著 Webpacker 在 Rails 引擎中使用時不具有與鏈輪相同的功能。</p><p>鼓勵希望支援使用 Webpacker 的消費者的 Rails 引擎的 Gem 作者將前端資產作為 NPM 包分發到 gem 本身，並提供說明（或安裝程式）來演示主機應用程式應該如何整合。這種方法的一個很好的例子是 <a href="https://github.com/AlchemyCMS/alchemy_cms">Alchemy CMS</a>。</p><h4 id="module-hmr"><a class="anchorlink" href="#module-hmr">3.4 熱 Module 更換 (HMR)</a></h4><p>Webpacker 開箱即用地支援帶有 webpack-dev-server 的 HMR，您可以通過在 <code>webpacker.yml</code> 中設定 dev_server/hmr 選項來切換它。</p><p>檢視 <a href="https://webpack.js.org/configuration/dev-server/#devserver-hot">webpack 在 DevServer 上的文件</a> 瞭解更多資訊。</p><p>要使用 React 支援 HMR，您需要新增 react-hot-loader。檢視 <a href="https://gaearon.github.io/react-hot-loader/getstarted/">React Hot Loader 的 <em>Getting Started</em> 指南</a>。</p><p>如果您沒有執行 webpack-dev-server，請不要忘記禁用 HMR；否則，您將收到樣式表的“未找到錯誤”。</p><h3 id="webpacker"><a class="anchorlink" href="#webpacker">4 不同環境下的Webpacker</a></h3><p>Webpacker 預設有 <code>development</code>、<code>test</code> 和 <code>production</code> 三種環境。您可以在 <code>webpacker.yml</code> 檔案中新增其他環境設定，併為每個環境設定不同的預設值。 Webpacker 還將載入檔案 <code>config/webpack/&lt;environment&gt;.js</code> 以進行額外的環境設定。</p><h3 id="webpacker"><a class="anchorlink" href="#webpacker">5 在開發中執行 Webpacker</a></h3><p>Webpacker 附帶了兩個要在開發中執行的 binstub 檔案：<code>./bin/webpack</code> 和 <code>./bin/webpack-dev-server</code>。兩者都是標準 <code>webpack.js</code> 和 <code>webpack-dev-server.js</code> 可執行檔案的瘦包裝器，並確保根據您的環境載入正確的設定檔案和環境變數。</p><p>預設情況下，當 Rails 頁面載入時，Webpacker 會在開發中按需自動編譯。這意味著您不必執行任何單獨的程序，並且編譯錯誤將被記錄到標準的 Rails 日誌中。您可以通過在 <code>config/webpacker.yml</code> 檔案中更改為 <code>compile: false</code> 來更改此設定。執行 <code>bin/webpack</code> 將強制編譯您的包。</p><p>如果你想使用實時程式碼重新載入或有足夠多的 JavaScript 以至於按需編譯太慢，你需要執行 <code>./bin/webpack-dev-server</code> 或 <code>ruby ./bin/webpack-dev-server</code>。此過程將監視 <code>app/javascript/packs/*.js</code> 檔案中的更改並自動重新編譯並重新載入瀏覽器以進行匹配。</p><p>Windows 使用者需要在與 <code>bundle exec rails server</code> 分開的終端中執行這些命令。</p><p>一旦你啟動了這個開發伺服器，Webpacker 將自動開始將所有 webpack 資產請求代理到這個伺服器。當您停止伺服器時，它將恢復為按需編譯。</p><p><a href="https://github.com/rails/webpacker">Webpacker 文件</a> 提供了有關可用於控制 <code>webpack-dev-server</code> 的環境變數的資訊。請參閱 <a href="https://github.com/rails/webpacker#development">rails/webpacker 文件中關於 webpack-dev-server 使用的附加說明</a>。</p><h4 id="webpacker"><a class="anchorlink" href="#webpacker">5.1 部署 Webpacker</a></h4><p>Webpacker 將 <code>webpacker:compile</code> 任務新增到 <code>assets:precompile</code> rake 任務，因此任何使用 <code>assets:precompile</code> 的現有部署管道都應該可以工作。編譯任務將編譯包並將它們放置在 <code>public/packs</code> 中。</p><h3 id=""><a class="anchorlink" href="#">6 附加檔案</a></h3><p>有關高階主題的更多資訊，例如將 Webpacker 與流行框架一起使用，請參閱 <a href="https://github.com/rails/webpacker">Webpacker 文件</a>。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

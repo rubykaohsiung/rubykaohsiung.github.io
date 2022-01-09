@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Action View 概述 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Action View 概述 — Ruby on Rails Guides" />
+  <meta name="description" content="Action View 概述閱讀本指南後，您將瞭解： Action View 是什麼以及如何在 Rails 中使用它。 如何最好地使用模板、部分和佈局。 如何使用本地化的 views。" />
+  <meta property="og:description" content="Action View 概述閱讀本指南後，您將瞭解： Action View 是什麼以及如何在 Rails 中使用它。 如何最好地使用模板、部分和佈局。 如何使用本地化的 views。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Action View 概述</h2><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>Action View 是什麼以及如何在 Rails 中使用它。</li>
+<li>如何最好地使用模板、部分和佈局。</li>
+<li>如何使用本地化的 views。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#action-view">Action View 是什麼？</a></li>
+<li><a href="#rails-action-view">在 Rails 中使用 Action View</a></li>
+<li>
+<a href="#">模板、區域性和佈局</a>
+
+<ul>
+<li><a href="#">模板</a></li>
+<li><a href="#">區域性</a></li>
+<li><a href="#">佈局</a></li>
+</ul>
+</li>
+<li><a href="#">部分佈局</a></li>
+<li>
+<a href="#view">View 路徑</a>
+
+<ul>
+<li><a href="#view">前置 view 路徑</a></li>
+<li><a href="#view">追加 view 路徑</a></li>
+</ul>
+</li>
+<li><a href="#helpers">Helpers</a></li>
+<li><a href="#views">本地化的 Views</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="action-view"><a class="anchorlink" href="#action-view">1 Action View 是什麼？</a></h3><p>在 Rails 中，Web 請求由 <a href="action_controller_overview.html">Action Controller</a> 和 Action View 處理。通常，Action Controller 涉及與資料庫通訊並在必要時執行 CRUD actions。 Action View 然後負責編譯回應。</p><p>Action View 模板是在與 HTML 混合的標籤中使用嵌入的 Ruby 編寫的。為了避免模板程式碼混亂，一些幫助類提供了表單、日期和字串的通用行為。隨著應用程式的發展，嚮應用程式新增新的 helpers 也很容易。</p><div class="note"><p>Action View 的某些特性與 Active Record 相關，但這並不意味著 Action View 依賴於 Active Record。 Action View 是一個獨立的包，可以與任何型別的 Ruby 庫一起使用。</p></div><h3 id="rails-action-view"><a class="anchorlink" href="#rails-action-view">2 在 Rails 中使用 Action View</a></h3><p>對於每個 controller，在 <code>app/views</code> 目錄中有一個關聯的目錄，該目錄包含構成與該 controller 關聯的 views 的模板檔案。這些檔案用於顯示由每個 controller action 產生的檢視。</p><p>讓我們來看看 Rails 在使用 scaffold 生成器建立新資源時預設做了什麼：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>generate scaffold article
+<span class="go">      [...]
+      invoke  scaffold_controller
+      create    app/controllers/articles_controller.rb
+      invoke    erb
+      create      app/views/articles
+      create      app/views/articles/index.html.erb
+      create      app/views/articles/edit.html.erb
+      create      app/views/articles/show.html.erb
+      create      app/views/articles/new.html.erb
+      create      app/views/articles/_form.html.erb
+      [...]
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails generate scaffold article
+">Copy</button>
+</div>
+<p>There is a naming convention for views in Rails. Typically, the views share their name with the associated controller action, as you can see above.
+例如，<code>articles_controller.rb</code> 的索引 controller action 將使用 <code>app/views/articles</code> 目錄中的 <code>index.html.erb</code> view 檔案。
+返回給客戶端的完整 HTML 由此 ERB 檔案、包裝它的佈局模板以及 view 可能引用的所有部分的組合組成。在本指南中，您將找到關於這三個元件中的每一個的更詳細的文件。</p><h3 id=""><a class="anchorlink" href="#">3 模板、區域性和佈局</a></h3><p>如前所述，最終的 HTML 輸出是三個 Rails 元素的組合：<code>Templates</code>、<code>Partials</code> 和 <code>Layouts</code>。
+下面是他們每個人的簡要介紹 view。</p><h4 id=""><a class="anchorlink" href="#">3.1 模板</a></h4><p>Action View 模板可以用多種方式編寫。如果模板檔案具有 <code>.erb</code> 副檔名，則它使用 ERB（嵌入式 Ruby）和 HTML 的混合。如果模板檔案具有 <code>.builder</code> 副檔名，則使用 <code>Builder::XmlMarkup</code> 庫。</p><p>Rails 支援多種模板系統，並使用副檔名來區分它們。例如，使用 ERB 模板系統的 HTML 檔案將使用 <code>.html.erb</code> 作為副檔名。</p><h5 id="erb"><a class="anchorlink" href="#erb">3.1.1 ERB</a></h5><p>在 ERB 模板中，可以使用 <code>&lt;% %&gt;</code> 和 <code>&lt;%= %&gt;</code> 標籤包含 Ruby 程式碼。 <code>&lt;% %&gt;</code> 標籤用於執行不返回任何內容（例如條件、迴圈或塊）的 Ruby 程式碼，而 <code>&lt;%= %&gt;</code> 標籤用於需要輸出時。</p><p>考慮以下名稱迴圈：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;h1&gt;</span>Names of all the people<span class="nt">&lt;/h1&gt;</span>
+<span class="cp">&lt;%</span> <span class="vi">@people</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">person</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  Name: <span class="cp">&lt;%=</span> <span class="n">person</span><span class="p">.</span><span class="nf">name</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;h1&gt;Names of all the people&lt;/h1&gt;
+&lt;% @people.each do |person| %&gt;
+  Name: &lt;%= person.name %&gt;&lt;br&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>使用正常嵌入標籤 (<code>&lt;% %&gt;</code>) 設定迴圈，並使用輸出嵌入標籤 (<code>&lt;%= %&gt;</code>) 插入名稱。請注意，這不僅僅是一個使用建議：正常輸出函式（例如 <code>print</code> 和 <code>puts</code> 不會透過 ERB 模板渲染到 view。所以這是錯誤的：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="c">&lt;%# WRONG %&gt;</span>
+Hi, Mr. <span class="cp">&lt;%</span> <span class="nb">puts</span> <span class="s2">"Frodo"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%# WRONG %&gt;
+Hi, Mr. &lt;% puts "Frodo" %&gt;
+'>Copy</button>
+</div>
+<p>要抑制前導和尾隨空格，您可以將 <code>&lt;%-</code> <code>-%&gt;</code> 與 <code>&lt;%</code> 和 <code>%&gt;</code> 互換使用。</p><h5 id=""><a class="anchorlink" href="#">3.1.2 生成器</a></h5><p>Builder 模板是 ERB 的更具程式性的替代方案。它們對於生成 XML 內容特別有用。名為 <code>xml</code> 的 XmlMarkup 物件可自動用於副檔名為 <code>.builder</code> 的模板。</p><p>以下是一些基本示例：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">xml</span><span class="p">.</span><span class="nf">em</span><span class="p">(</span><span class="s2">"emphasized"</span><span class="p">)</span>
+<span class="n">xml</span><span class="p">.</span><span class="nf">em</span> <span class="p">{</span> <span class="n">xml</span><span class="p">.</span><span class="nf">b</span><span class="p">(</span><span class="s2">"emph &amp; bold"</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">xml</span><span class="p">.</span><span class="nf">a</span><span class="p">(</span><span class="s2">"A Link"</span><span class="p">,</span> <span class="s2">"href"</span> <span class="o">=&gt;</span> <span class="s2">"https://rubyonrails.org"</span><span class="p">)</span>
+<span class="n">xml</span><span class="p">.</span><span class="nf">target</span><span class="p">(</span><span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"compile"</span><span class="p">,</span> <span class="s2">"option"</span> <span class="o">=&gt;</span> <span class="s2">"fast"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='xml.em("emphasized")
+xml.em { xml.b("emph &amp; bold") }
+xml.a("A Link", "href" =&gt; "https://rubyonrails.org")
+xml.target("name" =&gt; "compile", "option" =&gt; "fast")
+'>Copy</button>
+</div>
+<p>這將產生：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;em&gt;</span>emphasized<span class="nt">&lt;/em&gt;</span>
+<span class="nt">&lt;em&gt;&lt;b&gt;</span>emph <span class="ni">&amp;amp;</span> bold<span class="nt">&lt;/b&gt;&lt;/em&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://rubyonrails.org"</span><span class="nt">&gt;</span>A link<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;target</span> <span class="na">option=</span><span class="s">"fast"</span> <span class="na">name=</span><span class="s">"compile"</span> <span class="nt">/&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;em&gt;emphasized&lt;/em&gt;
+&lt;em&gt;&lt;b&gt;emph &amp;amp; bold&lt;/b&gt;&lt;/em&gt;
+&lt;a href="https://rubyonrails.org"&gt;A link&lt;/a&gt;
+&lt;target option="fast" name="compile" /&gt;
+'>Copy</button>
+</div>
+<p>任何帶有塊的方法都將被視為在塊中帶有巢狀標記的 XML 標記標記。例如，以下內容：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">xml</span><span class="p">.</span><span class="nf">div</span> <span class="p">{</span>
+  <span class="n">xml</span><span class="p">.</span><span class="nf">h1</span><span class="p">(</span><span class="vi">@person</span><span class="p">.</span><span class="nf">name</span><span class="p">)</span>
+  <span class="n">xml</span><span class="p">.</span><span class="nf">p</span><span class="p">(</span><span class="vi">@person</span><span class="p">.</span><span class="nf">bio</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="xml.div {
+  xml.h1(@person.name)
+  xml.p(@person.bio)
+}
+">Copy</button>
+</div>
+<p>會產生類似的東西：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;div&gt;</span>
+  <span class="nt">&lt;h1&gt;</span>David Heinemeier Hansson<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;p&gt;</span>A product of Danish Design during the Winter of '79...<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;div&gt;
+  &lt;h1&gt;David Heinemeier Hansson&lt;/h1&gt;
+  &lt;p&gt;A product of Danish Design during the Winter of '79...&lt;/p&gt;
+&lt;/div&gt;
+">Copy</button>
+</div>
+<p>以下是 Basecamp 上實際使用的完整 RSS 示例：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">xml</span><span class="p">.</span><span class="nf">rss</span><span class="p">(</span><span class="s2">"version"</span> <span class="o">=&gt;</span> <span class="s2">"2.0"</span><span class="p">,</span> <span class="s2">"xmlns:dc"</span> <span class="o">=&gt;</span> <span class="s2">"http://purl.org/dc/elements/1.1/"</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">xml</span><span class="p">.</span><span class="nf">channel</span> <span class="k">do</span>
+    <span class="n">xml</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="vi">@feed_title</span><span class="p">)</span>
+    <span class="n">xml</span><span class="p">.</span><span class="nf">link</span><span class="p">(</span><span class="vi">@url</span><span class="p">)</span>
+    <span class="n">xml</span><span class="p">.</span><span class="nf">description</span> <span class="s2">"Basecamp: Recent items"</span>
+    <span class="n">xml</span><span class="p">.</span><span class="nf">language</span> <span class="s2">"en-us"</span>
+    <span class="n">xml</span><span class="p">.</span><span class="nf">ttl</span> <span class="s2">"40"</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="vi">@recent_items</span>
+      <span class="n">xml</span><span class="p">.</span><span class="nf">item</span> <span class="k">do</span>
+        <span class="n">xml</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="n">item_title</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+        <span class="n">xml</span><span class="p">.</span><span class="nf">description</span><span class="p">(</span><span class="n">item_description</span><span class="p">(</span><span class="n">item</span><span class="p">))</span> <span class="k">if</span> <span class="n">item_description</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">xml</span><span class="p">.</span><span class="nf">pubDate</span><span class="p">(</span><span class="n">item_pubDate</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+        <span class="n">xml</span><span class="p">.</span><span class="nf">guid</span><span class="p">(</span><span class="vi">@person</span><span class="p">.</span><span class="nf">firm</span><span class="p">.</span><span class="nf">account</span><span class="p">.</span><span class="nf">url</span> <span class="o">+</span> <span class="vi">@recent_items</span><span class="p">.</span><span class="nf">url</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+        <span class="n">xml</span><span class="p">.</span><span class="nf">link</span><span class="p">(</span><span class="vi">@person</span><span class="p">.</span><span class="nf">firm</span><span class="p">.</span><span class="nf">account</span><span class="p">.</span><span class="nf">url</span> <span class="o">+</span> <span class="vi">@recent_items</span><span class="p">.</span><span class="nf">url</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+        <span class="n">xml</span><span class="p">.</span><span class="nf">tag!</span><span class="p">(</span><span class="s2">"dc:creator"</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="nf">author_name</span><span class="p">)</span> <span class="k">if</span> <span class="n">item_has_creator?</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='xml.rss("version" =&gt; "2.0", "xmlns:dc" =&gt; "http://purl.org/dc/elements/1.1/") do
+  xml.channel do
+    xml.title(@feed_title)
+    xml.link(@url)
+    xml.description "Basecamp: Recent items"
+    xml.language "en-us"
+    xml.ttl "40"
+
+    for item in @recent_items
+      xml.item do
+        xml.title(item_title(item))
+        xml.description(item_description(item)) if item_description(item)
+        xml.pubDate(item_pubDate(item))
+        xml.guid(@person.firm.account.url + @recent_items.url(item))
+        xml.link(@person.firm.account.url + @recent_items.url(item))
+        xml.tag!("dc:creator", item.author_name) if item_has_creator?(item)
+      end
+    end
+  end
+end
+'>Copy</button>
+</div>
+<h5 id="jbuilder"><a class="anchorlink" href="#jbuilder">3.1.3 Jbuilder</a></h5><p><a href="https://github.com/rails/jbuilder">Jbuilder</a> 是一個寶石
+由 Rails 團隊維護幷包含在預設的 Rails <code>Gemfile</code> 中。
+它類似於 Builder，但用於生成 JSON，而不是 XML。</p><p>如果沒有，可以將以下內容新增到 <code>Gemfile</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">gem</span> <span class="s1">'jbuilder'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="gem 'jbuilder'
+">Copy</button>
+</div>
+<p>一個名為 <code>json</code> 的 Jbuilder 物件會自動提供給模板使用
+<code>.jbuilder</code> 擴充套件。</p><p>這是一個基本示例：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">json</span><span class="p">.</span><span class="nf">name</span><span class="p">(</span><span class="s2">"Alex"</span><span class="p">)</span>
+<span class="n">json</span><span class="p">.</span><span class="nf">email</span><span class="p">(</span><span class="s2">"alex@example.com"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='json.name("Alex")
+json.email("alex@example.com")
+'>Copy</button>
+</div>
+<p>會產生：</p><div class="code_container">
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Alex"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alex@example.com"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text='{
+  "name": "Alex",
+  "email": "alex@example.com"
+}
+'>Copy</button>
+</div>
+<p>請參閱 <a href="https://github.com/rails/jbuilder#jbuilder">Jbuilder 文件</a> 瞭解
+更多示例和資訊。</p><h5 id=""><a class="anchorlink" href="#">3.1.4 模板快取</a></h5><p>預設情況下，Rails 會將每個模板編譯為一個方法來呈現它。在開發環境中，當你修改一個模板時，Rails 會檢查檔案的修改時間並重新編譯它。</p><h4 id=""><a class="anchorlink" href="#">3.2 區域性</a></h4><p>部分模板——通常簡稱為“部分”——是另一種將渲染過程分解為更易於管理的塊的工具。使用部分，您可以從模板中提取程式碼片段以分離檔案，並在整個模板中重複使用它們。</p><h5 id=""><a class="anchorlink" href="#">3.2.1 命名部分</a></h5><p>要將部分渲染為 view 的一部分，請使用 view 中的 <code>render</code> 方法：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">"menu"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render "menu" %&gt;
+'>Copy</button>
+</div>
+<p>這將在正在渲染的檢視中渲染一個名為 <code>_menu.html.erb</code> 的檔案。注意前導下劃線字元：partials 用前導下劃線命名，以差別於正常的 views，即使它們被引用時沒有下劃線。即使您從另一個資料夾中提取部分內容也是如此：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">"shared/menu"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render "shared/menu" %&gt;
+'>Copy</button>
+</div>
+<p>該程式碼將從 <code>app/views/shared/_menu.html.erb</code> 中提取部分內容。</p><h5 id="partials-views"><a class="anchorlink" href="#partials-views">3.2.2 使用 Partials 來簡化 Views</a></h5><p>使用部分的一種方法是將它們視為子程式的等價物；一種將細節移出 view 的方法，以便您可以更輕鬆地掌握正在發生的事情。例如，您可能有一個如下所示的 view：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">"shared/ad_banner"</span> <span class="cp">%&gt;</span>
+
+<span class="nt">&lt;h1&gt;</span>Products<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>Here are a few of our fine products:<span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;%</span> <span class="vi">@products</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">product</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s2">"product"</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">product: </span><span class="n">product</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">"shared/footer"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render "shared/ad_banner" %&gt;
+
+&lt;h1&gt;Products&lt;/h1&gt;
+
+&lt;p&gt;Here are a few of our fine products:&lt;/p&gt;
+&lt;% @products.each do |product| %&gt;
+  &lt;%= render partial: "product", locals: { product: product } %&gt;
+&lt;% end %&gt;
+
+&lt;%= render "shared/footer" %&gt;
+'>Copy</button>
+</div>
+<p>在這裡，<code>_ad_banner.html.erb</code> 和 <code>_footer.html.erb</code> 部分可以包含在應用程式中的許多頁面之間共享的內容。當您專注於特定頁面時，您無需檢視這些部分的詳細資訊。</p><h5 id="render-partial-locals"><a class="anchorlink" href="#render-partial-locals">3.2.3 <code>render</code> 沒有 <code>partial</code> 和 <code>locals</code> 選項</a></h5><p>在上面的例子中，<code>render</code> 有 2 個選項：<code>partial</code> 和 <code>locals</code>。但是如果
+這些是您要傳遞的唯一選項，您可以跳過使用這些選項。
+例如，而不是：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s2">"product"</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">product: </span><span class="vi">@product</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render partial: "product", locals: { product: @product } %&gt;
+'>Copy</button>
+</div>
+<p>你也可以這樣做：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">"product"</span><span class="p">,</span> <span class="ss">product: </span><span class="vi">@product</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render "product", product: @product %&gt;
+'>Copy</button>
+</div>
+<h5 id="as-object"><a class="anchorlink" href="#as-object">3.2.4 <code>as</code> 和 <code>object</code> 選項</a></h5><p>預設情況下，<code>ActionView::Partials::PartialRenderer</code> 的物件位於與模板同名的區域性變數中。所以，給定：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s2">"product"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render partial: "product" %&gt;
+'>Copy</button>
+</div>
+<p>在 <code>_product</code> 部分中，我們將在區域性變數 <code>product</code> 中得到 <code>@product</code>，
+好像我們寫過：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s2">"product"</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">product: </span><span class="vi">@product</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render partial: "product", locals: { product: @product } %&gt;
+'>Copy</button>
+</div>
+<p><code>object</code>選項可以直接指定哪個物件渲染到partial中；當模板的物件在別處（例如在不同的實例變數或區域性變數中）時很有用。</p><p>例如，而不是：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s2">"product"</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">product: </span><span class="vi">@item</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render partial: "product", locals: { product: @item } %&gt;
+'>Copy</button>
+</div>
+<p>我們會這樣做：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s2">"product"</span><span class="p">,</span> <span class="ss">object: </span><span class="vi">@item</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render partial: "product", object: @item %&gt;
+'>Copy</button>
+</div>
+<p>使用 <code>as</code> 選項，我們可以為所述區域性變數指定不同的名稱。例如，如果我們希望它是 <code>item</code> 而不是 <code>product</code> 我們會這樣做：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s2">"product"</span><span class="p">,</span> <span class="ss">object: </span><span class="vi">@item</span><span class="p">,</span> <span class="ss">as: </span><span class="s2">"item"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render partial: "product", object: @item, as: "item" %&gt;
+'>Copy</button>
+</div>
+<p>這相當於</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s2">"product"</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">item: </span><span class="vi">@item</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render partial: "product", locals: { item: @item } %&gt;
+'>Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">3.2.5 渲染集合</a></h5><p>通常，模板需要遍歷集合併為每個元素呈現子模板。此模式已作為單一方法實現，該方法接受陣列併為陣列中的每個元素呈現部分。</p><p>所以這個渲染所有產品的例子：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%</span> <span class="vi">@products</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">product</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s2">"product"</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">product: </span><span class="n">product</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;% @products.each do |product| %&gt;
+  &lt;%= render partial: "product", locals: { product: product } %&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>可以改寫成一行：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s2">"product"</span><span class="p">,</span> <span class="ss">collection: </span><span class="vi">@products</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render partial: "product", collection: @products %&gt;
+'>Copy</button>
+</div>
+<p>當使用集合呼叫區域性時，區域性的各個實例可以透過以區域性命名的變數訪問正在呈現的集合成員。本例中partial為<code>_product</code>，在其中可以參考<code>product</code>獲取正在渲染的集合成員。</p><p>您可以使用速記語法來呈現集合。假設 <code>@products</code> 是 <code>Product</code> 實例的集合，您可以簡單地編寫以下內容來產生相同的結果：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="vi">@products</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= render @products %&gt;
+">Copy</button>
+</div>
+<p>Rails 透過檢視集合中的模型名稱來確定要使用的部分名稱，在本例中為 <code>Product</code>。事實上，你甚至可以使用這個速記來渲染由不同 models 的實例組成的集合，Rails 會為集合的每個成員選擇合適的部分。</p><h5 id=""><a class="anchorlink" href="#">3.2.6 墊片模板</a></h5><p>您還可以使用 <code>:spacer_template</code> 選項指定要在主要部分的實例之間呈現的第二部分：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="vi">@products</span><span class="p">,</span> <span class="ss">spacer_template: </span><span class="s2">"product_ruler"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;%= render partial: @products, spacer_template: "product_ruler" %&gt;
+'>Copy</button>
+</div>
+<p>Rails 將在每對 <code>_product</code> 部分之間渲染 <code>_product_ruler</code> 部分（沒有傳遞給它的資料）。</p><h4 id=""><a class="anchorlink" href="#">3.3 佈局</a></h4><p>佈局可用於圍繞 Rails controller actions 的結果渲染一個通用的 view 模板。通常，Rails 應用程式將有幾個頁面將在其中呈現的佈局。例如，一個站點可能有一個用於登入使用者的佈局，另一個用於站點的營銷或銷售端。登入的使用者佈局可能包括頂級導航，它應該存在於許多 controller actions 中。 SaaS 應用程式的銷售佈局可能包括“定價”和“聯絡我們”頁面等內容的頂級導航。您希望每個佈局都有不同的外觀和感覺。您可以在 <a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a> 指南中詳細瞭解佈局。</p><h3 id=""><a class="anchorlink" href="#">4 部分佈局</a></h3><p>Partials 可以應用自己的佈局。這些佈局與應用於 controller action 的佈局不同，但它們的工作方式相似。</p><p>假設我們要在頁面上顯示一篇文章，為了顯示目的，該文章應該包含在 <code>div</code> 中。首先，我們將建立一個新的 <code>Article</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Article</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">body: </span><span class="s1">'Partial Layouts are cool!'</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Article.create(body: 'Partial Layouts are cool!')
+">Copy</button>
+</div>
+<p>在 <code>show</code> 模板中，我們將渲染包裹在 <code>box</code> 佈局中的 <code>_article</code> 部分：</p><p><strong>文章/show.html.erb</strong></p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">partial: </span><span class="s1">'article'</span><span class="p">,</span> <span class="ss">layout: </span><span class="s1">'box'</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">article: </span><span class="vi">@article</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= render partial: 'article', layout: 'box', locals: { article: @article } %&gt;
+">Copy</button>
+</div>
+<p><code>box</code> 佈局簡單地將 <code>_article</code> 部分包裝在 <code>div</code> 中：</p><p><strong>文章/_box.html.erb</strong></p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">'box'</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;div class='box'&gt;
+  &lt;%= yield %&gt;
+&lt;/div&gt;
+">Copy</button>
+</div>
+<p>請注意，部分佈局可以訪問傳遞到 <code>render</code> 呼叫中的本地 <code>article</code> 變數。但是，與應用程式範圍的佈局不同，部分佈局仍然具有下劃線字首。</p><p>您還可以在部分佈局中呈現程式碼塊，而不是呼叫 <code>yield</code>。例如，如果我們沒有 <code>_article</code> 部分，我們可以這樣做：</p><p><strong>文章/show.html.erb</strong></p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%</span> <span class="n">render</span><span class="p">(</span><span class="ss">layout: </span><span class="s1">'box'</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">article: </span><span class="vi">@article</span> <span class="p">})</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div&gt;</span>
+    <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;% render(layout: 'box', locals: { article: @article }) do %&gt;
+  &lt;div&gt;
+    &lt;p&gt;&lt;%= article.body %&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>假設我們使用上面相同的 <code>_box</code> 部分，這將產生與前一個示例相同的輸出。</p><h3 id="view"><a class="anchorlink" href="#view">5 View 路徑</a></h3><p>渲染回應時，controller 需要解析不同的位置
+views 位於。預設情況下，它只在 <code>app/views</code> 目錄中查詢。</p><p>我們可以新增其他位置並在解決時給它們一定的優先順序
+使用 <code>prepend_view_path</code> 和 <code>append_view_path</code> 方法的路徑。</p><h4 id="view"><a class="anchorlink" href="#view">5.1 前置 view 路徑</a></h4><p>例如，當我們想將 views 放在不同的
+子域的目錄。</p><p>我們可以使用以下方法來做到這一點：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">prepend_view_path</span> <span class="s2">"app/views/</span><span class="si">#{</span><span class="n">request</span><span class="p">.</span><span class="nf">subdomain</span><span class="si">}</span><span class="s2">"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='prepend_view_path "app/views/#{request.subdomain}"
+'>Copy</button>
+</div>
+<p>那麼在解析views的時候，Action View會先在這個目錄中查詢。</p><h4 id="view"><a class="anchorlink" href="#view">5.2 追加 view 路徑</a></h4><p>同樣，我們可以附加路徑：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">append_view_path</span> <span class="s2">"app/views/direct"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='append_view_path "app/views/direct"
+'>Copy</button>
+</div>
+<p>這會將 <code>app/views/direct</code> 新增到查詢路徑的末尾。</p><h3 id="helpers"><a class="anchorlink" href="#helpers">6 Helpers</a></h3><p>Rails 提供了許多 helper 方法與 Action View 一起使用。其中包括以下方法：</p>
+<ul>
+<li>格式化日期、字串和數字</li>
+<li>建立指向影象、影片、樣式表等的 HTML 連結...</li>
+<li>消毒內容</li>
+<li>建立表單</li>
+<li>本地化內容</li>
+</ul>
+<p>您可以在 <a href="action_view_helpers.html">Action View Helpers
+指南</a> 和 <a href="form_helpers.html">Action View 表格 Helpers
+指南</a>。</p><h3 id="views"><a class="anchorlink" href="#views">7 本地化的 Views</a></h3><p>Action View 能夠根據當前語言環境呈現不同的模板。</p><p>例如，假設您有一個 <code>ArticlesController</code> 和一個節目 action。預設情況下，呼叫此 action 將呈現 <code>app/views/articles/show.html.erb</code>。但是如果你設定了 <code>I18n.locale = :de</code>，那麼 <code>app/views/articles/show.de.html.erb</code> 將被渲染。如果本地化模板不存在，則將使用未修飾的版本。這意味著您不需要為所有情況提供本地化的 views，但如果可用，它們將是首選和使用的。</p><p>您可以使用相同的技術來本地化公共目錄中的救援檔案。例如，設定 <code>I18n.locale = :de</code> 並建立 <code>public/500.de.html</code> 和 <code>public/404.de.html</code> 將允許您擁有本地化的救援頁面。</p><p>由於 Rails 不限制用於設定 I18n.locale 的 symbols，因此您可以利用此係統根據您喜歡的任何內容顯示不同的內容。例如，假設您有一些“專家”使用者應該看到與“普通”使用者不同的頁面。您可以將以下內容新增到 <code>app/controllers/application.rb</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">before_action</span> <span class="ss">:set_expert_locale</span>
+
+<span class="k">def</span> <span class="nf">set_expert_locale</span>
+  <span class="no">I18n</span><span class="p">.</span><span class="nf">locale</span> <span class="o">=</span> <span class="ss">:expert</span> <span class="k">if</span> <span class="n">current_user</span><span class="p">.</span><span class="nf">expert?</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="before_action :set_expert_locale
+
+def set_expert_locale
+  I18n.locale = :expert if current_user.expert?
+end
+">Copy</button>
+</div>
+<p>然後你可以建立像 <code>app/views/articles/show.expert.html.erb</code> 這樣的特殊 views 只顯示給專家使用者。</p><p>您可以閱讀有關 Rails 國際化 (I18n) API <a href="i18n.html">此處</a> 的更多資訊。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

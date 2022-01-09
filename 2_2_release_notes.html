@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ruby on Rails 2.2 發行說明 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Ruby on Rails 2.2 發行說明 — Ruby on Rails Guides" />
+  <meta name="description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Ruby on Rails 2.2 發行說明Rails 2.2 提供了幾個新的和改進的特性。此列表涵蓋了主要升級，但不包括每個小錯誤修復和更改。如果您想檢視所有內容，請檢視 GitHub 上主 Rails 儲存庫中的 提交列表。與 Rails 一起，2.2 標誌著 Ruby on Rails 指南 的釋出，這是正在進行的 Rails Guides hackfest 的第一個成果/指導）。該站點將提供 Rails 主要功能的高質量文件。" />
+  <meta property="og:description" content="不要在 GITHUB 上閱讀此檔案，指南釋出在 https://guides.rubyonrails.org.Ruby on Rails 2.2 發行說明Rails 2.2 提供了幾個新的和改進的特性。此列表涵蓋了主要升級，但不包括每個小錯誤修復和更改。如果您想檢視所有內容，請檢視 GitHub 上主 Rails 儲存庫中的 提交列表。與 Rails 一起，2.2 標誌著 Ruby on Rails 指南 的釋出，這是正在進行的 Rails Guides hackfest 的第一個成果/指導）。該站點將提供 Rails 主要功能的高質量文件。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <p><strong>不要在 GITHUB 上閱讀此檔案，指南釋出在 <a href="https://guides.rubyonrails.org">https://guides.rubyonrails.org</a>.</strong></p><h2>Ruby on Rails 2.2 發行說明</h2><p>Rails 2.2 提供了幾個新的和改進的特性。此列表涵蓋了主要升級，但不包括每個小錯誤修復和更改。如果您想檢視所有內容，請檢視 GitHub 上主 Rails 儲存庫中的 <a href="https://github.com/rails/rails/commits/2-2-stable">提交列表</a>。</p><p>與 Rails 一起，2.2 標誌著 <a href="https://guides.rubyonrails.org/">Ruby on Rails 指南</a> 的釋出，這是正在進行的 <a href="http://hackfest.rubyonrails.org">Rails Guides hackfest</a> 的第一個成果/指導）。該站點將提供 Rails 主要功能的高質量文件。</p>
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#">基礎設施</a>
+
+<ul>
+<li><a href="#">國際化</a></li>
+<li><a href="#ruby-1-9-jruby">與 Ruby 1.9 和 JRuby 的相容性</a></li>
+</ul>
+</li>
+<li><a href="#">文件</a></li>
+<li><a href="#http-etag">更好地與 HTTP 整合：開箱即用的 ETag 支援</a></li>
+<li><a href="#">執行緒安全</a></li>
+<li>
+<a href="#active-record">Active Record</a>
+
+<ul>
+<li><a href="#migrations">交易Migrations</a></li>
+<li><a href="#">連線池</a></li>
+<li><a href="#">連線表條件的雜湊</a></li>
+<li><a href="#">新動態查詢器</a></li>
+<li><a href="#associations">Associations 尊重私有/受保護範圍</a></li>
+<li><a href="#active-record">其他Active Record 更改</a></li>
+</ul>
+</li>
+<li>
+<a href="#action-controller">Action Controller</a>
+
+<ul>
+<li><a href="#">淺層路由巢狀</a></li>
+<li><a href="#">成員或集合路由的方法陣列</a></li>
+<li><a href="#action">具有特定 Action 的資源</a></li>
+<li><a href="#action-controller">其他 Action Controller 更改</a></li>
+</ul>
+</li>
+<li><a href="#action-view">Action View</a></li>
+<li><a href="#action">Action 郵寄者</a></li>
+<li>
+<a href="#active-support">Active Support</a>
+
+<ul>
+<li><a href="#">記憶</a></li>
+<li><a href="#each-with-object">each_with_object</a></li>
+<li><a href="#">帶字首的委託</a></li>
+<li><a href="#other-active-support-changes">Other Active Support Changes</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id=""><a class="anchorlink" href="#">1 基礎設施</a></h3><p>Rails 2.2 是基礎設施的一個重要版本，它使 Rails 保持與世界其他地方的聯絡。</p><h4 id=""><a class="anchorlink" href="#">1.1 國際化</a></h4><p>Rails 2.2 提供了一個簡單的國際化系統（或 i18n，對於那些厭倦了打字的人）。</p>
+<ul>
+<li>主要貢獻者：Rails i18 團隊</li>
+<li>更多資訊 ：
+
+<ul>
+<li><a href="http://rails-i18n.org">Rails i18 官方網站</a></li>
+<li><a href="https://web.archive.org/web/20140407075019/http://www.artweb-design.de/2008/7/18/finally-ruby-on-rails-gets-internationalized">最後。 Ruby on Rails 國際化</a></li>
+<li><a href="https://github.com/clemens/i18n_demo_app">Localizing Rails : Demo application</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="ruby-1-9-jruby"><a class="anchorlink" href="#ruby-1-9-jruby">1.2 與 Ruby 1.9 和 JRuby 的相容性</a></h4><p>除了執行緒安全之外，還做了很多工作來使 Rails 能夠很好地與 JRuby 和即將推出的 Ruby 1.9 配合使用。由於 Ruby 1.9 是一個不斷變化的目標，在邊緣 Ruby 上執行邊緣 Rails 仍然是一個命中註定的命題，但 Rails 已準備好在 Ruby 1.9 釋出時過渡到 Ruby 1.9。</p><h3 id=""><a class="anchorlink" href="#">2 文件</a></h3><p>Rails 的內部文件，以程式碼註釋的形式，在很多地方都得到了改進。此外，<a href="https://guides.rubyonrails.org/">Ruby on Rails 指南</a> 專案是有關主要 Rails 元件資訊的權威來源。在第一個正式版本中，指南頁面包括：</p>
+<ul>
+<li><a href="getting_started.html">Rails 入門</a></li>
+<li><a href="active_record_migrations.html">Rails 資料庫Migrations</a></li>
+<li><a href="association_basics.html">Active Record Associations</a></li>
+<li><a href="active_record_querying.html">Active Record 查詢介面</a></li>
+<li><a href="layouts_and_rendering.html">Rails 中的佈局和渲染</a></li>
+<li><a href="form_helpers.html">Action View 表單Helpers</a></li>
+<li><a href="routing.html">Rails 從外向內路由</a></li>
+<li><a href="action_controller_overview.html">Action Controller 概覽</a></li>
+<li><a href="caching_with_rails.html">Rails 快取</a></li>
+<li><a href="testing.html">測試 Rails 應用程式指南</a></li>
+<li><a href="security.html">保護 Rails 應用程式</a></li>
+<li><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></li>
+<li><a href="plugins.html">建立Rails外掛的基礎</a></li>
+</ul>
+<p>總而言之，這些指南為初級和中級 Rails 開發人員提供了數萬字的指導。</p><p>如果您想在本地生成這些指南，請在您的應用程式中：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">rake </span>doc:guides
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rake doc:guides
+">Copy</button>
+</div>
+<p>這會將指南放在 <code>Rails.root/doc/guides</code> 中，你可以透過在你喜歡的瀏覽器中開啟 <code>Rails.root/doc/guides/index.html</code> 立即開始衝浪。</p>
+<ul>
+<li>主要貢獻來自 <a href="http://advogato.org/person/fxn/diary.html">Xavier Noria</a> 和 <a href="http://izumi.plan99.net/blog/">Hongli Lai</a>。</li>
+<li>更多資訊：
+
+<ul>
+<li><a href="http://hackfest.rubyonrails.org/guide">Rails Guides hackfest</a></li>
+<li><a href="https://weblog.rubyonrails.org/2008/5/2/help-improve-rails-documentation-on-git-branch">幫助改進 Git 分支上的 Rails 文件</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="http-etag"><a class="anchorlink" href="#http-etag">3 更好地與 HTTP 整合：開箱即用的 ETag 支援</a></h3><p>支援 HTTP 標頭中的 ETag 和上次修改時間戳意味著 Rails 現在可以在收到對最近未修改的資源的請求時發回空回應。這允許您檢查是否需要傳送回應。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">show_with_respond_to_block</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+
+    <span class="c1"># If the request sends headers that differs from the options provided to stale?, then</span>
+    <span class="c1"># the request is indeed stale and the respond_to block is triggered (and the options</span>
+    <span class="c1"># to the stale? call is set on the response).</span>
+    <span class="c1">#</span>
+    <span class="c1"># If the request headers match, then the request is fresh and the respond_to block is</span>
+    <span class="c1"># not triggered. Instead, the default render will occur, which will check the last-modified</span>
+    <span class="c1"># and etag headers and conclude that it only needs to send a "304 Not Modified" instead</span>
+    <span class="c1"># of rendering the template.</span>
+    <span class="k">if</span> <span class="n">stale?</span><span class="p">(</span><span class="ss">:last_modified</span> <span class="o">=&gt;</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">published_at</span><span class="p">.</span><span class="nf">utc</span><span class="p">,</span> <span class="ss">:etag</span> <span class="o">=&gt;</span> <span class="vi">@article</span><span class="p">)</span>
+      <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="n">wants</span><span class="o">|</span>
+        <span class="c1"># normal response processing</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show_with_implied_render</span>
+    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+
+    <span class="c1"># Sets the response headers and checks them against the request, if the request is stale</span>
+    <span class="c1"># (i.e. no match of either etag or last-modified), then the default render of the template happens.</span>
+    <span class="c1"># If the request is fresh, then the default render will return a "304 Not Modified"</span>
+    <span class="c1"># instead of rendering the template.</span>
+    <span class="n">fresh_when</span><span class="p">(</span><span class="ss">:last_modified</span> <span class="o">=&gt;</span> <span class="vi">@article</span><span class="p">.</span><span class="nf">published_at</span><span class="p">.</span><span class="nf">utc</span><span class="p">,</span> <span class="ss">:etag</span> <span class="o">=&gt;</span> <span class="vi">@article</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ArticlesController &lt; ApplicationController
+  def show_with_respond_to_block
+    @article = Article.find(params[:id])
+
+    # If the request sends headers that differs from the options provided to stale?, then
+    # the request is indeed stale and the respond_to block is triggered (and the options
+    # to the stale? call is set on the response).
+    #
+    # If the request headers match, then the request is fresh and the respond_to block is
+    # not triggered. Instead, the default render will occur, which will check the last-modified
+    # and etag headers and conclude that it only needs to send a "304 Not Modified" instead
+    # of rendering the template.
+    if stale?(:last_modified =&gt; @article.published_at.utc, :etag =&gt; @article)
+      respond_to do |wants|
+        # normal response processing
+      end
+    end
+  end
+
+  def show_with_implied_render
+    @article = Article.find(params[:id])
+
+    # Sets the response headers and checks them against the request, if the request is stale
+    # (i.e. no match of either etag or last-modified), then the default render of the template happens.
+    # If the request is fresh, then the default render will return a "304 Not Modified"
+    # instead of rendering the template.
+    fresh_when(:last_modified =&gt; @article.published_at.utc, :etag =&gt; @article)
+  end
+end
+'>Copy</button>
+</div>
+<h3 id=""><a class="anchorlink" href="#">4 執行緒安全</a></h3><p>為使 Rails 執行緒安全所做的工作正在 Rails 2.2 中推出。根據您的 Web 伺服器基礎架構，這意味著您可以使用記憶體中更少的 Rails 副本處理更多請求，從而提高伺服器效能並提高多核利用率。</p><p>要在應用程式的生產模式下啟用多執行緒排程，請在“config/environments/production.rb”中新增以下行：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">threadsafe!</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.threadsafe!
+">Copy</button>
+</div>
+
+<ul>
+<li>更多資訊 ：
+
+<ul>
+<li><a href="http://m.onkey.org/2008/10/23/thread-safety-for-your-rails">Rails 的執行緒安全</a></li>
+<li><a href="https://weblog.rubyonrails.org/2008/8/16/josh-peek-officially-joins-the-rails-core">執行緒安全專案公告</a></li>
+<li><a href="http://blog.headius.com/2008/08/qa-what-thread-safe-rails-means.html">Q/A: 什麼是執行緒安全 Rails</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="active-record"><a class="anchorlink" href="#active-record">5 Active Record</a></h3><p>這裡有兩個重要的補充要討論：事務遷移和池化資料庫事務。連線表條件還有一個新的（更乾淨的）語法，以及一些較小的改進。</p><h4 id="migrations"><a class="anchorlink" href="#migrations">5.1 交易Migrations</a></h4><p>從歷史上看，多步 Rails 遷移一直是麻煩的根源。如果遷移過程中出現問題，錯誤之前的所有內容都會更改資料庫，錯誤之後的所有內容都不會應用。此外，遷移版本被儲存為已執行，這意味著在修復問題後不能簡單地透過 <code>rake db:migrate:redo</code> 重新執行它。事務性遷移透過將遷移步驟包裝在 DDL 事務中來改變這一點，因此如果其中任何一個失敗，整個遷移將被撤消。在 Rails 2.2 中，PostgreSQL 開箱即用地支援事務遷移。該程式碼將來可以擴充套件到其他資料庫型別——IBM 已經對其進行了擴充套件以支援 DB2 介面卡。</p>
+<ul>
+<li>主要貢獻者：<a href="http://about.adamwiggins.com/">Adam Wiggins</a>
+</li>
+<li>更多資訊：
+
+<ul>
+<li><a href="http://adam.heroku.com/past/2008/9/3/ddl_transactions/">DDL 交易</a></li>
+<li><a href="http://db2onrails.com/2008/11/08/a-major-milestone-for-db2-on-rails/">DB2 on Rails 的一個重要里程碑</a></li>
+</ul>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">5.2 連線池</a></h4><p>連線池讓 Rails 將資料庫請求分佈在將增長到最大大小的資料庫連線池中（預設為 5，但您可以向您的 <code>database.yml</code> 新增一個 <code>pool</code> 鍵來調整它）。這有助於消除支援許多併發使用者的應用程式中的瓶頸。還有一個 <code>wait_timeout</code>，預設為 5 秒後放棄。 <code>ActiveRecord::Base.connection_pool</code> 可讓您在需要時直接訪問池。</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">development</span><span class="pi">:</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">mysql</span>
+  <span class="na">username</span><span class="pi">:</span> <span class="s">root</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">sample_development</span>
+  <span class="na">pool</span><span class="pi">:</span> <span class="m">10</span>
+  <span class="na">wait_timeout</span><span class="pi">:</span> <span class="m">10</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="development:
+  adapter: mysql
+  username: root
+  database: sample_development
+  pool: 10
+  wait_timeout: 10
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://blog.nicksieger.com/">Nick Sieger</a>
+</li>
+<li>更多資訊：
+
+<ul>
+<li><a href="http://archives.ryandaigle.com/articles/2008/9/7/what-s-new-in-edge-rails-connection-pools">Edge Rails 的新特性：連線池</a></li>
+</ul>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">5.3 連線表條件的雜湊</a></h4><p>您現在可以使用雜湊在連線表上指定條件。如果您需要跨複雜連線進行查詢，這將有很大幫助。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Photo</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:product</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Product</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:photos</span>
+<span class="k">end</span>
+
+<span class="c1"># Get all products with copyright-free photos:</span>
+<span class="no">Product</span><span class="p">.</span><span class="nf">all</span><span class="p">(</span><span class="ss">:joins</span> <span class="o">=&gt;</span> <span class="ss">:photos</span><span class="p">,</span> <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:photos</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:copyright</span> <span class="o">=&gt;</span> <span class="kp">false</span> <span class="p">}})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Photo &lt; ActiveRecord::Base
+  belongs_to :product
+end
+
+class Product &lt; ActiveRecord::Base
+  has_many :photos
+end
+
+# Get all products with copyright-free photos:
+Product.all(:joins =&gt; :photos, :conditions =&gt; { :photos =&gt; { :copyright =&gt; false }})
+">Copy</button>
+</div>
+
+<ul>
+<li>更多資訊：
+
+<ul>
+<li>[Edge Rails 的新功能：輕鬆連線表條件](<a href="http://archives.ryandaigle.com/articles/2008/7/7/what-s-new-in-edge-rails-easy-join-table-%E7%8B%80%E6%B3%81%EF%BC%89">http://archives.ryandaigle.com/articles/2008/7/7/what-s-new-in-edge-rails-easy-join-table-狀況）</a>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">5.4 新動態查詢器</a></h4><p>Active Record 的動態查詢器系列中添加了兩組新方法。</p><h5 id="find-last-by-attribute"><a class="anchorlink" href="#find-last-by-attribute">5.4.1 <code>find_last_by_attribute</code></a></h5><p><code>find_last_by_attribute</code> 方法等價於 <code>Model.last(:conditions =&gt; {:attribute =&gt; value})</code></p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Get the last user who signed up from London</span>
+<span class="no">User</span><span class="p">.</span><span class="nf">find_last_by_city</span><span class="p">(</span><span class="s1">'London'</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Get the last user who signed up from London
+User.find_last_by_city('London')
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://www.workingwithrails.com/person/9147-emilio-tagua">Emilio Tagua</a>
+</li>
+</ul>
+<h5 id="find-by-attribute"><a class="anchorlink" href="#find-by-attribute">5.4.2 <code>find_by_attribute！</code></a></h5><p>新的爆炸！ <code>find_by_attribute!</code> 的版本等價於 <code>Model.first(:conditions =&gt; {:attribute =&gt; value}) || raise ActiveRecord::RecordNotFound</code> 如果找不到匹配的記錄，則此方法不會返回 <code>nil</code>，而是在找不到匹配項時引發異常。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Raise ActiveRecord::RecordNotFound exception if 'Moby' hasn't signed up yet!</span>
+<span class="no">User</span><span class="p">.</span><span class="nf">find_by_name!</span><span class="p">(</span><span class="s1">'Moby'</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# Raise ActiveRecord::RecordNotFound exception if 'Moby' hasn't signed up yet!
+User.find_by_name!('Moby')
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://blog.hasmanythrough.com">Josh Susser</a>
+</li>
+</ul>
+<h4 id="associations"><a class="anchorlink" href="#associations">5.5 Associations 尊重私有/受保護範圍</a></h4><p>Active Record 關聯代理現在尊重代理物件上的方法範圍。以前（給定 User has_one :account）<code>@user.account.private_method</code> 會呼叫關聯 Account 物件上的私有方法。這在 Rails 2.2 中失敗了；如果你需要這個功能，你應該使用<code>@user.account.send(:private_method)</code>（或者將方法設為public而不是private或protected）。請注意，如果您覆蓋 <code>method_missing</code>，您還應該覆蓋 <code>respond_to</code> 以匹配行為，以便關聯正常執行。</p>
+<ul>
+<li>主要貢獻者：Adam Milligan</li>
+<li>更多資訊：
+
+<ul>
+<li>[Rails 2.2 更改：Association 代理上的私有方法是私有的](<a href="http://afreshcup.com/2008/10/24/rails-22-change-private-methods-on-association-proxies-are-%E7%A7%81%E4%BA%BA%E7%9A%84/%EF%BC%89">http://afreshcup.com/2008/10/24/rails-22-change-private-methods-on-association-proxies-are-私人的/）</a>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="active-record"><a class="anchorlink" href="#active-record">5.6 其他Active Record 更改</a></h4>
+<ul>
+<li>
+<code>rake db:migrate:redo</code> 現在接受一個可選的 VERSION 來針對特定的重做遷移</li>
+<li>設定 <code>config.active_record.timestamped_migrations = false</code> 以使用數字字首而不是 UTC 時間戳進行遷移。</li>
+<li>計數器快取列（對於用<code>:counter_cache =&gt; true</code> 宣告的關聯）不再需要初始化為零。</li>
+<li>
+<code>ActiveRecord::Base.human_name</code> 用於模型名稱的國際化感知人性化翻譯</li>
+</ul>
+<h3 id="action-controller"><a class="anchorlink" href="#action-controller">6 Action Controller</a></h3><p>在控制器方面，有一些更改將有助於整理您的路線。路由引擎也有一些內部變化，以降低複雜應用程式的記憶體使用量。</p><h4 id=""><a class="anchorlink" href="#">6.1 淺層路由巢狀</a></h4><p>淺層路由巢狀為眾所周知的使用深層巢狀資源的困難提供瞭解決方案。使用淺巢狀，您只需提供足夠的資訊來唯一標識您要使用的資源。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">map</span><span class="p">.</span><span class="nf">resources</span> <span class="ss">:publishers</span><span class="p">,</span> <span class="ss">:shallow</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">publisher</span><span class="o">|</span>
+  <span class="n">publisher</span><span class="p">.</span><span class="nf">resources</span> <span class="ss">:magazines</span> <span class="k">do</span> <span class="o">|</span><span class="n">magazine</span><span class="o">|</span>
+    <span class="n">magazine</span><span class="p">.</span><span class="nf">resources</span> <span class="ss">:photos</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="map.resources :publishers, :shallow =&gt; true do |publisher|
+  publisher.resources :magazines do |magazine|
+    magazine.resources :photos
+  end
+end
+">Copy</button>
+</div>
+<p>這將能夠識別（除其他外）這些路線：</p><div class="code_container">
+<pre><code class="highlight plaintext">/publishers/1           ==&gt; publisher_path(1)
+/publishers/1/magazines ==&gt; publisher_magazines_path(1)
+/magazines/2            ==&gt; magazine_path(2)
+/magazines/2/photos     ==&gt; magazines_photos_path(2)
+/photos/3               ==&gt; photo_path(3)
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="/publishers/1           ==&gt; publisher_path(1)
+/publishers/1/magazines ==&gt; publisher_magazines_path(1)
+/magazines/2            ==&gt; magazine_path(2)
+/magazines/2/photos     ==&gt; magazines_photos_path(2)
+/photos/3               ==&gt; photo_path(3)
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://www.unwwwired.net/">S.布倫特福克納</a>
+</li>
+<li>更多資訊：
+
+<ul>
+<li><a href="routing.html#nested-resources">Rails 從外向內路由</a></li>
+<li><a href="http://archives.ryandaigle.com/articles/2008/9/7/what-s-new-in-edge-rails-shallow-routes">Edge Rails 的新特性：淺層路由</a></li>
+</ul>
+</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">6.2 成員或集合路由的方法陣列</a></h4><p>您現在可以為新成員或集合路由提供一系列方法。這消除了在需要處理多個動詞時必須將路由定義為接受任何動詞的煩惱。對於 Rails 2.2，這是一個合法的路由宣告：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">map</span><span class="p">.</span><span class="nf">resources</span> <span class="ss">:photos</span><span class="p">,</span> <span class="ss">:collection</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:search</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:get</span><span class="p">,</span> <span class="ss">:post</span><span class="p">]</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="map.resources :photos, :collection =&gt; { :search =&gt; [:get, :post] }
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://brennandunn.com/">Brennan Dunn</a>
+</li>
+</ul>
+<h4 id="action"><a class="anchorlink" href="#action">6.3 具有特定 Action 的資源</a></h4><p>預設情況下，當您使用 <code>map.resources</code> 建立路由時，Rails 會為七個預設操作（索引、顯示、建立、新建、編輯、更新和銷燬）生成路由。但是這些路由中的每一個都會佔用應用程式中的記憶體，並導致 Rails 生成額外的路由邏輯。現在你可以使用 <code>:only</code> 和 <code>:except</code> 選項來微調 Rails 將為資源生成的路由。您可以提供單個操作、一組操作或特殊的 <code>:all</code> 或 <code>:none</code> 選項。這些選項由巢狀資源繼承。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">map</span><span class="p">.</span><span class="nf">resources</span> <span class="ss">:photos</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:index</span><span class="p">,</span> <span class="ss">:show</span><span class="p">]</span>
+<span class="n">map</span><span class="p">.</span><span class="nf">resources</span> <span class="ss">:products</span><span class="p">,</span> <span class="ss">:except</span> <span class="o">=&gt;</span> <span class="ss">:destroy</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="map.resources :photos, :only =&gt; [:index, :show]
+map.resources :products, :except =&gt; :destroy
+">Copy</button>
+</div>
+
+<ul>
+<li>主要貢獻者：<a href="http://experthuman.com/">Tom Stuart</a>
+</li>
+</ul>
+<h4 id="action-controller"><a class="anchorlink" href="#action-controller">6.4 其他 Action Controller 更改</a></h4>
+<ul>
+<li>您現在可以輕鬆地<a href="http://m.onkey.org/2008/7/20/rescue-from-dispatching">顯示自定義錯誤頁面</a> 路由請求時引發的異常。</li>
+<li>HTTP Accept 標頭現在預設禁用。您應該更喜歡使用格式化的 URL（例如<code>/customers/1.xml</code>）來指示您想要的格式。如果您需要 Accept 標頭，您可以使用 <code>config.action_controller.use_accept_header = true</code> 重新開啟它們。</li>
+<li>基準資料現在以毫秒為單位報告，而不是幾分之一秒</li>
+<li>Rails 現在支援僅 HTTP cookie（並將它們用於會話），這有助於減輕較新瀏覽器中的一些跨站點指令碼風險。</li>
+<li>
+<code>redirect_to</code> 現在完全支援 URI 方案（例如，您可以重定向到 svn`ssh: URI）。</li>
+<li>
+<code>render</code> 現在支援 <code>:js</code> 選項以使用正確的 mime 型別渲染普通的 JavaScript。</li>
+<li>已加強請求偽造保護，僅適用於 HTML 格式的內容請求。</li>
+<li>如果傳遞的引數為零，多型 URL 的行為會更明智。例如，使用 nil 日期呼叫 <code>polymorphic_path([@project, @date, @area])</code> 將為您提供 <code>project_area_path</code>。</li>
+</ul>
+<h3 id="action-view"><a class="anchorlink" href="#action-view">7 Action View</a></h3>
+<ul>
+<li>
+<code>javascript_include_tag</code> 和 <code>stylesheet_link_tag</code> 支援一個新的 <code>:recursive</code> 選項與 <code>:all</code> 一起使用，這樣你就可以用一行程式碼載入整個檔案樹。</li>
+<li>包含的 Prototype JavaScript 庫已升級到 1.6.0.3 版。</li>
+<li>
+<code>RJS#page.reload</code> 透過 JavaScript 重新載入瀏覽器的當前位置</li>
+<li>
+<code>atom_feed</code> 助手現在採用 <code>:instruct</code> 選項，讓您插入 XML 處理指令。</li>
+</ul>
+<h3 id="action"><a class="anchorlink" href="#action">8 Action 郵寄者</a></h3><p>Action 郵件程式現在支援郵件程式佈局。透過提供適當命名的佈局，您可以使您的 HTML 電子郵件與瀏覽器中的檢視一樣漂亮 - 例如，<code>CustomerMailer</code> 類期望使用 <code>layouts/customer_mailer.html.erb</code>。</p>
+<ul>
+<li>更多資訊：
+
+<ul>
+<li><a href="http://archives.ryandaigle.com/articles/2008/9/7/what-s-new-in-edge-rails-mailer-layouts">Edge Rails 的新增功能：郵件程式佈局</a></li>
+</ul>
+</li>
+</ul>
+<p>Action Mailer 現在透過自動開啟 STARTTLS 為 GMail 的 SMTP 伺服器提供內建支援。這需要安裝 Ruby 1.8.7。</p><h3 id="active-support"><a class="anchorlink" href="#active-support">9 Active Support</a></h3><p>Active Support 現在為 Rails 應用程式提供內建記憶、<code>each_with_object</code> 方法、對委託的字首支援以及各種其他新的實用方法。</p><h4 id=""><a class="anchorlink" href="#">9.1 記憶</a></h4><p>Memoization 是一種初始化方法，然後將其值隱藏起來以備重複使用的模式。您可能已經在自己的應用程式中使用過這種模式：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">full_name</span>
+  <span class="vi">@full_name</span> <span class="o">||=</span> <span class="s2">"</span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='def full_name
+  @full_name ||= "#{first_name} #{last_name}"
+end
+'>Copy</button>
+</div>
+<p>Memoization 可以讓你以宣告的方式處理這個任務：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Memoizable</span>
+
+<span class="k">def</span> <span class="nf">full_name</span>
+  <span class="s2">"</span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="n">memoize</span> <span class="ss">:full_name</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='extend ActiveSupport::Memoizable
+
+def full_name
+  "#{first_name} #{last_name}"
+end
+memoize :full_name
+'>Copy</button>
+</div>
+<p>memoization 的其他功能包括 <code>unmemoize</code>、<code>unmemoize_all</code> 和 <code>memoize_all</code> 以開啟或關閉備忘錄。</p>
+<ul>
+<li>主要貢獻者：<a href="http://joshpeek.com/">Josh Peek</a>
+</li>
+<li>更多資訊：
+
+<ul>
+<li><a href="http://archives.ryandaigle.com/articles/2008/7/16/what-s-new-in-edge-rails-memoization">Edge Rails 的新功能：輕鬆記憶</a></li>
+<li><a href="http://www.railway.at/articles/2008/09/20/a-guide-to-memoization">備忘錄-什麼？記憶指南</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="each-with-object"><a class="anchorlink" href="#each-with-object">9.2 each_with_object</a></h4><p><code>each_with_object</code> 方法使用從 Ruby 1.9 向後移植的方法提供了 <code>inject</code> 的替代方法。它遍歷一個集合，將當前元素和備忘錄傳遞到塊中。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="sx">%w(foo bar)</span><span class="p">.</span><span class="nf">each_with_object</span><span class="p">({})</span> <span class="p">{</span> <span class="o">|</span><span class="n">str</span><span class="p">,</span> <span class="n">hsh</span><span class="o">|</span> <span class="n">hsh</span><span class="p">[</span><span class="n">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">str</span><span class="p">.</span><span class="nf">upcase</span> <span class="p">}</span> <span class="c1"># =&gt; {'foo' =&gt; 'FOO', 'bar' =&gt; 'BAR'}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="%w(foo bar).each_with_object({}) { |str, hsh| hsh[str] = str.upcase } # =&gt; {'foo' =&gt; 'FOO', 'bar' =&gt; 'BAR'}
+">Copy</button>
+</div>
+<p>主要貢獻者：<a href="http://therealadam.com/">Adam Keys</a></p><h4 id=""><a class="anchorlink" href="#">9.3 帶字首的委託</a></h4><p>如果您將行為從一個類委託給另一個類，您現在可以指定將用於標識委託方法的字首。例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Vendor</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_one</span> <span class="ss">:account</span>
+  <span class="n">delegate</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:account</span><span class="p">,</span> <span class="ss">:prefix</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Vendor &lt; ActiveRecord::Base
+  has_one :account
+  delegate :email, :password, :to =&gt; :account, :prefix =&gt; true
+end
+">Copy</button>
+</div>
+<p>這將產生委託方法 <code>vendor#account_email</code> 和 <code>vendor#account_password</code>。您還可以指定自定義字首：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Vendor</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_one</span> <span class="ss">:account</span>
+  <span class="n">delegate</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:account</span><span class="p">,</span> <span class="ss">:prefix</span> <span class="o">=&gt;</span> <span class="ss">:owner</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Vendor &lt; ActiveRecord::Base
+  has_one :account
+  delegate :email, :password, :to =&gt; :account, :prefix =&gt; :owner
+end
+">Copy</button>
+</div>
+<p>This will produce delegated methods <code>vendor#owner_email</code> and <code>vendor#owner_password</code>.</p><p>Lead Contributor: <a href="http://workingwithrails.com/person/5830-daniel-schierbeck">Daniel Schierbeck</a></p><h4 id="other-active-support-changes"><a class="anchorlink" href="#other-active-support-changes">9.4 Other Active Support Changes</a></h4>
+<ul>
+<li>Extensive updates to <code>ActiveSupport::Multibyte</code>, including Ruby 1.9 compatibility fixes.</li>
+<li>The addition of <code>ActiveSupport::Rescuable</code> allows any class to mix in the <code>rescue_from</code> syntax.</li>
+<li>
+<code>past?</code>, <code>today?</code> and <code>future?</code> for <code>Date</code> and <code>Time</code> classes to facilitate date/time comparisons.</li>
+<li>
+<code>Array#second</code> through <code>Array#fifth</code> as aliases for <code>Array#[1]</code> through <code>Array#[4]</code>
+</li>
+<li>
+<code>Enumerable#many?</code> to encapsulate <code>collection.size &gt; 1</code>
+</li>
+<li>
+<code>Inflector#parameterize</code> produces a URL-ready version of its input, for use in <code>to_param</code>.</li>
+<li>
+<code>Time#advance</code> recognizes fractional days and weeks, so you can do <code>1.7.weeks.ago</code>, <code>1.5.hours.since</code>, and so on.</li>
+<li>The included TzInfo library has been upgraded to version 0.3.12.</li>
+</ul>
+
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

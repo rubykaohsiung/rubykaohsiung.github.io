@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rails 上 Rack — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Rails 上 Rack — Ruby on Rails Guides" />
+  <meta name="description" content="Rails 上 Rack本指南包含了 Rails 與 Rack 的整合以及與其他 Rack 元件的介面。閱讀本指南後，您將瞭解： 如何在您的 Rails 應用程式中使用 Rack 中介軟體。 Action Pack 的內部中介軟體堆疊。 如何定義自定義中介軟體堆疊。" />
+  <meta property="og:description" content="Rails 上 Rack本指南包含了 Rails 與 Rack 的整合以及與其他 Rack 元件的介面。閱讀本指南後，您將瞭解： 如何在您的 Rails 應用程式中使用 Rack 中介軟體。 Action Pack 的內部中介軟體堆疊。 如何定義自定義中介軟體堆疊。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Rails 上 Rack</h2><p>本指南包含了 Rails 與 Rack 的整合以及與其他 Rack 元件的介面。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何在您的 Rails 應用程式中使用 Rack 中介軟體。</li>
+<li>Action Pack 的內部中介軟體堆疊。</li>
+<li>如何定義自定義中介軟體堆疊。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#rack">Rack簡介</a></li>
+<li>
+<a href="#rails-rack">Rails 上 Rack</a>
+
+<ul>
+<li><a href="#rails-rack">Rails 應用程式的 Rack 物件</a></li>
+<li><a href="#bin-rails-server"><code>bin/rails server</code></a></li>
+<li><a href="#rackup"><code>rackup</code></a></li>
+<li><a href="#">開發和自動重灌</a></li>
+</ul>
+</li>
+<li>
+<a href="#action-dispatcher-middleware-stack">Action Dispatcher Middleware Stack</a>
+
+<ul>
+<li><a href="#">檢查中介軟體堆疊</a></li>
+<li><a href="#">設定中介軟體棧</a></li>
+<li><a href="#">內部中介軟體棧</a></li>
+</ul>
+</li>
+<li>
+<a href="#">資源</a>
+
+<ul>
+<li><a href="#rack">學習Rack</a></li>
+<li><a href="#">理解中介軟體</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <div class="warning"><p>本指南假定您瞭解 Rack 協議和 Rack 概念，例如中介軟體、URL 對映和 <code>Rack::Builder</code>。</p></div><h3 id="rack"><a class="anchorlink" href="#rack">1 Rack簡介</a></h3><p>Rack 為在 Ruby 中開發 Web 應用程式提供了一個最小的、模組化的和適應性強的介面。通過以儘可能簡單的方式包裝 HTTP 請求和回應，它將用於 Web 伺服器、Web 框架和軟體（所謂的中介軟體）的 API 統一併提煉為單個方法呼叫。</p><p>解釋 Rack 的工作原理不在本指南的範圍內。如果你
+不熟悉Rack的基礎知識，你應該檢視<a href="#resources">資源</a>
+以下部分。</p><h3 id="rails-rack"><a class="anchorlink" href="#rails-rack">2 Rails 上 Rack</a></h3><h4 id="rails-rack"><a class="anchorlink" href="#rails-rack">2.1 Rails 應用程式的 Rack 物件</a></h4><p><code>Rails.application</code> 是 Rails 的主要 Rack 應用程式物件
+應用。任何 Rack 相容的網路伺服器都應該使用
+<code>Rails.application</code> 物件為 Rails 應用程式提供服務。</p><h4 id="bin-rails-server"><a class="anchorlink" href="#bin-rails-server">2.2 <code>bin/rails server</code></a></h4><p><code>bin/rails server</code> 完成建立 <code>Rack::Server</code> 物件和啟動 Web 伺服器的基本工作。</p><p>以下是 <code>bin/rails server</code> 如何建立 <code>Rack::Server</code> 的實例</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="o">::</span><span class="no">Server</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">tap</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="o">|</span>
+  <span class="nb">require</span> <span class="no">APP_PATH</span>
+  <span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">root</span><span class="p">)</span>
+  <span class="n">server</span><span class="p">.</span><span class="nf">start</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails::Server.new.tap do |server|
+  require APP_PATH
+  Dir.chdir(Rails.application.root)
+  server.start
+end
+">Copy</button>
+</div>
+<p><code>Rails::Server</code> 繼承自 <code>Rack::Server</code> 並以這種方式呼叫 <code>Rack::Server#start</code> 方法：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Server</span> <span class="o">&lt;</span> <span class="o">::</span><span class="no">Rack</span><span class="o">::</span><span class="no">Server</span>
+  <span class="k">def</span> <span class="nf">start</span>
+    <span class="c1"># ...</span>
+    <span class="k">super</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Server &lt; ::Rack::Server
+  def start
+    # ...
+    super
+  end
+end
+">Copy</button>
+</div>
+<h4 id="rackup"><a class="anchorlink" href="#rackup">2.3 <code>rackup</code></a></h4><p>要使用 <code>rackup</code> 而不是 Rails' <code>bin/rails server</code>，您可以將以下內容放入 Rails 應用程式根目錄的 <code>config.ru</code> 中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># Rails.root/config.ru</span>
+<span class="nb">require_relative</span> <span class="s2">"config/environment"</span>
+<span class="n">run</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# Rails.root/config.ru
+require_relative "config/environment"
+run Rails.application
+'>Copy</button>
+</div>
+<p>並啟動伺服器：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span>rackup config.ru
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rackup config.ru
+">Copy</button>
+</div>
+<p>要了解有關不同 <code>rackup</code> 選項的更多資訊，您可以執行：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span>rackup <span class="nt">--help</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="rackup --help
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">2.4 開發和自動重灌</a></h4><p>中介軟體載入一次，不會被監控更改。您必須重新啟動伺服器才能在正在執行的應用程式中反映更改。</p><h3 id="action-dispatcher-middleware-stack"><a class="anchorlink" href="#action-dispatcher-middleware-stack">3 Action Dispatcher Middleware Stack</a></h3><p>許多 Action Dispatcher 的內部元件是作為 Rack 中介軟體實現的。 <code>Rails::Application</code> 使用 <code>ActionDispatch::MiddlewareStack</code> 結合各種內外中介軟體，形成一個完整的 Rails Rack 應用。</p><div class="note"><p><code>ActionDispatch::MiddlewareStack</code> 是 Rails'相當於 <code>Rack::Builder</code>，
+但的目標在於提供更好的靈活性和更多功能，以滿足 Rails 的要求。</p></div><h4 id=""><a class="anchorlink" href="#">3.1 檢查中介軟體堆疊</a></h4><p>Rails 有一個方便的命令來檢查正在使用的中介軟體堆疊：</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>middleware
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails middleware
+">Copy</button>
+</div>
+<p>對於新產生的 Rails 應用程式，這可能會產生如下結果：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Sendfile</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Static</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Executor</span>
+<span class="n">use</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Cache</span><span class="o">::</span><span class="no">Strategy</span><span class="o">::</span><span class="no">LocalCache</span><span class="o">::</span><span class="no">Middleware</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">MethodOverride</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">RequestId</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">RemoteIp</span>
+<span class="n">use</span> <span class="no">Sprockets</span><span class="o">::</span><span class="no">Rails</span><span class="o">::</span><span class="no">QuietAssets</span>
+<span class="n">use</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Rack</span><span class="o">::</span><span class="no">Logger</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">ShowExceptions</span>
+<span class="n">use</span> <span class="no">WebConsole</span><span class="o">::</span><span class="no">Middleware</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">DebugExceptions</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">ActionableExceptions</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Reloader</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Callbacks</span>
+<span class="n">use</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="o">::</span><span class="no">CheckPending</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Cookies</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">CookieStore</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Flash</span>
+<span class="n">use</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">ContentSecurityPolicy</span><span class="o">::</span><span class="no">Middleware</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Head</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">ConditionalGet</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">ETag</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">TempfileReaper</span>
+<span class="n">run</span> <span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="p">.</span><span class="nf">routes</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="use Rack::Sendfile
+use ActionDispatch::Static
+use ActionDispatch::Executor
+use ActiveSupport::Cache::Strategy::LocalCache::Middleware
+use Rack::MethodOverride
+use ActionDispatch::RequestId
+use ActionDispatch::RemoteIp
+use Sprockets::Rails::QuietAssets
+use Rails::Rack::Logger
+use ActionDispatch::ShowExceptions
+use WebConsole::Middleware
+use ActionDispatch::DebugExceptions
+use ActionDispatch::ActionableExceptions
+use ActionDispatch::Reloader
+use ActionDispatch::Callbacks
+use ActiveRecord::Migration::CheckPending
+use ActionDispatch::Cookies
+use ActionDispatch::Session::CookieStore
+use ActionDispatch::Flash
+use ActionDispatch::ContentSecurityPolicy::Middleware
+use Rack::Head
+use Rack::ConditionalGet
+use Rack::ETag
+use Rack::TempfileReaper
+run MyApp::Application.routes
+">Copy</button>
+</div>
+<p>此處顯示的預設中介軟體（以及其他一些中介軟體）均在下面的 <a href="#internal-middleware-stack">內部中介軟體</a> 部分中進行了總結。</p><h4 id=""><a class="anchorlink" href="#">3.2 設定中介軟體棧</a></h4><p>Rails 提供了一個簡單的設定介面 <code>config.middleware</code>，用於通過 <code>application.rb</code> 或環境特定的設定檔案 <code>environments/&lt;environment&gt;.rb</code> 新增、刪除和修改中介軟體堆疊中的中介軟體。</p><h5 id=""><a class="anchorlink" href="#">3.2.1 新增中介軟體</a></h5><p>您可以使用以下任一方法向中介軟體堆疊新增新的中介軟體：</p>
+<ul>
+<li><p><code>config.middleware.use(new_middleware, args)</code> - 在中介軟體堆疊的底部新增新的中介軟體。</p></li>
+<li><p><code>config.middleware.insert_before(existing_middleware, new_middleware, args)</code> - 在中介軟體堆疊中指定的現有中介軟體之前新增新中介軟體。</p></li>
+<li><p><code>config.middleware.insert_after(existing_middleware, new_middleware, args)</code> - 在中介軟體堆疊中指定的現有中介軟體之後新增新的中介軟體。</p></li>
+</ul>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/應用程式.rb</span>
+
+<span class="c1"># 將 Rack::BounceFavicon 推到底部</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">BounceFavicon</span>
+
+<span class="c1"># 在 ActionDispatch::Executor 後新增 Lifo::Cache。</span>
+<span class="c1"># 將 { page_cache: false } 引數傳遞給 Lifo::Cache。</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">insert_after</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Executor</span><span class="p">,</span> <span class="no">Lifo</span><span class="o">::</span><span class="no">Cache</span><span class="p">,</span> <span class="ss">page_cache: </span><span class="kp">false</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 設定/應用程式.rb
+
+# 將 Rack::BounceFavicon 推到底部
+config.middleware.use Rack::BounceFavicon
+
+# 在 ActionDispatch::Executor 後新增 Lifo::Cache。
+# 將 { page_cache: false } 引數傳遞給 Lifo::Cache。
+config.middleware.insert_after ActionDispatch::Executor, Lifo::Cache, page_cache: false
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">3.2.2 交換中介軟體</a></h5><p>您可以使用 <code>config.middleware.swap</code> 交換中介軟體堆疊中的現有中介軟體。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/應用程式.rb</span>
+
+<span class="c1"># 用 Lifo::ShowExceptions 替換 ActionDispatch::ShowExceptions</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">swap</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">ShowExceptions</span><span class="p">,</span> <span class="no">Lifo</span><span class="o">::</span><span class="no">ShowExceptions</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 設定/應用程式.rb
+
+# 用 Lifo::ShowExceptions 替換 ActionDispatch::ShowExceptions
+config.middleware.swap ActionDispatch::ShowExceptions, Lifo::ShowExceptions
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">3.2.3 刪除中介軟體</a></h5><p>將以下行新增到您的應用程式設定中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/應用程式.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">delete</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Executor</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 設定/應用程式.rb
+config.middleware.delete ActionDispatch::Executor
+">Copy</button>
+</div>
+<p>現在，如果您檢查中介軟體堆疊，您會發現 <code>ActionDispatch::Executor</code> 是
+不是它的一部分。</p><div class="code_container">
+<pre><code class="highlight console"><span class="gp">$</span><span class="w"> </span><span class="nb">bin/rails </span>middleware
+<span class="go">(in /Users/lifo/Rails/blog)
+use ActionDispatch::Static
+</span><span class="gp">use #</span>&lt;ActiveSupport::Cache::Strategy::LocalCache::Middleware:0x00000001c304c8&gt;
+<span class="c">...
+</span><span class="go">run Rails.application.routes
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="bin/rails middleware
+">Copy</button>
+</div>
+<p>如果要刪除 session 相關的中介軟體，請執行以下操作：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/應用程式.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">delete</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Cookies</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">delete</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">CookieStore</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">delete</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Flash</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 設定/應用程式.rb
+config.middleware.delete ActionDispatch::Cookies
+config.middleware.delete ActionDispatch::Session::CookieStore
+config.middleware.delete ActionDispatch::Flash
+">Copy</button>
+</div>
+<p>並刪除瀏覽器相關的中介軟體，</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/應用程式.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">delete</span> <span class="no">Rack</span><span class="o">::</span><span class="no">MethodOverride</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 設定/應用程式.rb
+config.middleware.delete Rack::MethodOverride
+">Copy</button>
+</div>
+<p>如果您希望在嘗試刪除不存在的專案時引發錯誤，請改用 <code>delete!</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/應用程式.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">delete!</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Executor</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 設定/應用程式.rb
+config.middleware.delete! ActionDispatch::Executor
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">3.3 內部中介軟體棧</a></h4><p>Action Controller 的大部分功能都是作為中介軟體實現的。以下列表解釋了它們中的每一個的目的：</p><p><strong><code>Rack::Sendfile</code></strong></p>
+<ul>
+<li>設定伺服器特定的 X-Sendfile 標頭。通過 <code>config.action_dispatch.x_sendfile_header</code> 選項設定它。</li>
+</ul>
+<p><strong><code>ActionDispatch::Static</code></strong></p>
+<ul>
+<li>用於從公共目錄提供靜態檔案。如果 <code>config.public_file_server.enabled</code> 是 <code>false</code>，則禁用。</li>
+</ul>
+<p><strong><code>Rack::Lock</code></strong></p>
+<ul>
+<li>將 <code>env["rack.multithread"]</code> 標誌設定為 <code>false</code> 並將應用程式包裝在互斥鎖中。</li>
+</ul>
+<p><strong><code>ActionDispatch::Executor</code></strong></p>
+<ul>
+<li>用於開發過程中執行緒安全程式碼重新載入。</li>
+</ul>
+<p><strong><code>ActiveSupport::Cache::Strategy::LocalCache::Middleware</code></strong></p>
+<ul>
+<li>用於記憶體快取。此快取不是執行緒安全的。</li>
+</ul>
+<p><strong><code>Rack::MethodOverride</code></strong></p>
+<ul>
+<li>如果設定了 <code>params[:_method]</code>，則允許覆蓋該方法。這是支援 PUT 和 DELETE HTTP 方法型別的中介軟體。</li>
+</ul>
+<p><strong><code>ActionDispatch::RequestId</code></strong></p>
+<ul>
+<li>為回應提供唯一的 <code>X-Request-Id</code> 標頭並啟用 <code>ActionDispatch::Request#request_id</code> 方法。</li>
+</ul>
+<p><strong><code>ActionDispatch::RemoteIp</code></strong></p>
+<ul>
+<li>檢查 IP 欺騙攻擊。</li>
+</ul>
+<p><strong><code>Sprockets::Rails::QuietAssets</code></strong></p>
+<ul>
+<li>禁止資產請求的記錄器輸出。</li>
+</ul>
+<p><strong><code>Rails::Rack::Logger</code></strong></p>
+<ul>
+<li>通知日誌請求已經開始。請求完成後，重新整理所有日誌。</li>
+</ul>
+<p><strong><code>ActionDispatch::ShowExceptions</code></strong></p>
+<ul>
+<li>拯救應用程式返回的任何異常並呼叫一個異常應用程式，該應用程式將以終端使用者的格式包裝它。</li>
+</ul>
+<p><strong><code>ActionDispatch::DebugExceptions</code></strong></p>
+<ul>
+<li>負責記錄異常並在請求是本地的情況下顯示除錯頁面。</li>
+</ul>
+<p><strong><code>ActionDispatch::ActionableExceptions</code></strong></p>
+<ul>
+<li>提供了一種從 Rails 的錯誤頁面排程 actions 的方法。</li>
+</ul>
+<p><strong><code>ActionDispatch::Reloader</code></strong></p>
+<ul>
+<li>提供準備和清理callbacks，的目標在於幫助開發過程中重新載入程式碼。</li>
+</ul>
+<p><strong><code>ActionDispatch::Callbacks</code></strong></p>
+<ul>
+<li>提供 callbacks 在分派請求之前和之後執行。</li>
+</ul>
+<p><strong><code>ActiveRecord::Migration::CheckPending</code></strong></p>
+<ul>
+<li>檢查掛起的 migrations 並在任何 migrations 掛起時引發 <code>ActiveRecord::PendingMigrationError</code>。</li>
+</ul>
+<p><strong><code>ActionDispatch::Cookies</code></strong></p>
+<ul>
+<li>為請求設定 cookies。</li>
+</ul>
+<p><strong><code>ActionDispatch::Session::CookieStore</code></strong></p>
+<ul>
+<li>負責將session儲存在cookies中。</li>
+</ul>
+<p><strong><code>ActionDispatch::Flash</code></strong></p>
+<ul>
+<li>設定快閃記憶體 keys。僅當 <code>config.action_controller.session_store</code> 設定為 value 時可用。</li>
+</ul>
+<p><strong><code>ActionDispatch::ContentSecurityPolicy::Middleware</code></strong></p>
+<ul>
+<li>提供 DSL 來設定 Content-Security-Policy 標頭。</li>
+</ul>
+<p><strong><code>Rack::Head</code></strong></p>
+<ul>
+<li>將 HEAD 請求轉換為 <code>GET</code> 請求併為它們提供服務。</li>
+</ul>
+<p><strong><code>Rack::ConditionalGet</code></strong></p>
+<ul>
+<li>新增對“Conditional <code>GET</code>”的支援，以便在頁面未更改時伺服器不回應任何內容。</li>
+</ul>
+<p><strong><code>Rack::ETag</code></strong></p>
+<ul>
+<li>在所有字串主體上新增 ETag 標頭。 ETag 用於驗證快取。</li>
+</ul>
+<p><strong><code>Rack::TempfileReaper</code></strong></p>
+<ul>
+<li>清理用於緩衝多部分請求的臨時檔案。</li>
+</ul>
+<p>提示：可以在您的自定義 Rack 堆疊中使用上述任何中介軟體。</p><h3 id=""><a class="anchorlink" href="#">4 資源</a></h3><h4 id="rack"><a class="anchorlink" href="#rack">4.1 學習Rack</a></h4>
+<ul>
+<li><a href="https://rack.github.io">Rack官方網站</a></li>
+<li><a href="http://chneukirchen.org/blog/archive/2007/02/introducing-rack.html">介紹Rack</a></li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">4.2 理解中介軟體</a></h4>
+<ul>
+<li><a href="http://railscasts.com/episodes/151-rack-middleware">Railscast on Rack Middlewares</a></li>
+</ul>
+
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

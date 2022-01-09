@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rails 國際化 (I18n) API — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Rails 國際化 (I18n) API — Ruby on Rails Guides" />
+  <meta name="description" content="Rails 國際化 (I18n) APIRuby I18n（internationalization 的簡寫）gem 在 Rails（從 Rails 2.2 開始）隨 Ruby 一起提供，提供了一個易於使用和可擴充套件的框架，用於將您的應用程式翻譯成英語或自定義語言以外的單一語言 在您的應用程式中提供多語言支援。“國際化”的過程通常意味著從您的應用程式中提取所有字串和其他特定於語言環境的位（例如日期或貨幣格式）。 “本地化”的過程意味著為這些位提供翻譯和本地化格式。1因此，在國際化您的 Rails 應用程式的過程中，您必須： 確保您支援 i18n。 告訴 Rails 哪裡可以找到語言環境字典。 告訴 Rails 如何設定、保留和切換語言環境。 在 localizing 您的應用程式的過程中，您可能需要做以下三件事： 替換或補充 Rails 的預設語言環境 - 例如日期和時間格式、月份名稱、Active Record model 名稱等。 將應用程式中的字串抽象為 keyed 字典 - 例如Flash 訊息、views 中的靜態文字等。 將產生的字典儲存在某處。 本指南將引導您瞭解 I18n API，幷包含有關如何從一開始就國際化 Rails 應用程式的教程。閱讀本指南後，您將瞭解： I18n 如何在 Rails 上的 Ruby 中工作 如何以各種方式將I18n正確使用到RESTful應用中 如何使用 I18n 翻譯 Active Record 錯誤或 Action Mailer 電子郵件主題 一些其他工具可以進一步完成您的應用程式的翻譯過程" />
+  <meta property="og:description" content="Rails 國際化 (I18n) APIRuby I18n（internationalization 的簡寫）gem 在 Rails（從 Rails 2.2 開始）隨 Ruby 一起提供，提供了一個易於使用和可擴充套件的框架，用於將您的應用程式翻譯成英語或自定義語言以外的單一語言 在您的應用程式中提供多語言支援。“國際化”的過程通常意味著從您的應用程式中提取所有字串和其他特定於語言環境的位（例如日期或貨幣格式）。 “本地化”的過程意味著為這些位提供翻譯和本地化格式。1因此，在國際化您的 Rails 應用程式的過程中，您必須： 確保您支援 i18n。 告訴 Rails 哪裡可以找到語言環境字典。 告訴 Rails 如何設定、保留和切換語言環境。 在 localizing 您的應用程式的過程中，您可能需要做以下三件事： 替換或補充 Rails 的預設語言環境 - 例如日期和時間格式、月份名稱、Active Record model 名稱等。 將應用程式中的字串抽象為 keyed 字典 - 例如Flash 訊息、views 中的靜態文字等。 將產生的字典儲存在某處。 本指南將引導您瞭解 I18n API，幷包含有關如何從一開始就國際化 Rails 應用程式的教程。閱讀本指南後，您將瞭解： I18n 如何在 Rails 上的 Ruby 中工作 如何以各種方式將I18n正確使用到RESTful應用中 如何使用 I18n 翻譯 Active Record 錯誤或 Action Mailer 電子郵件主題 一些其他工具可以進一步完成您的應用程式的翻譯過程" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Rails 國際化 (I18n) API</h2><p>Ruby I18n（<em>internationalization</em> 的簡寫）gem 在 Rails（從 Rails 2.2 開始）隨 Ruby 一起提供，提供了一個易於使用和可擴充套件的框架，用於<strong>將您的應用程式翻譯成英語或自定義語言以外的單一語言</strong> <strong>在您的應用程式中提供多語言支援</strong>。</p><p>“國際化”的過程通常意味著從您的應用程式中提取所有字串和其他特定於語言環境的位（例如日期或貨幣格式）。 “本地化”的過程意味著為這些位提供翻譯和本地化格式。<sup class="footnote" id="footnote-1-ref"><a href="#footnote-1">1</a></sup></p><p>因此，在<em>國際化</em>您的 Rails 應用程式的過程中，您必須：</p>
+<ul>
+<li>確保您支援 i18n。</li>
+<li>告訴 Rails 哪裡可以找到語言環境字典。</li>
+<li>告訴 Rails 如何設定、保留和切換語言環境。</li>
+</ul>
+<p>在 <em>localizing</em> 您的應用程式的過程中，您可能需要做以下三件事：</p>
+<ul>
+<li>替換或補充 Rails 的預設語言環境 - 例如日期和時間格式、月份名稱、Active Record model 名稱等。</li>
+<li>將應用程式中的字串抽象為 keyed 字典 - 例如Flash 訊息、views 中的靜態文字等。</li>
+<li>將產生的字典儲存在某處。</li>
+</ul>
+<p>本指南將引導您瞭解 I18n API，幷包含有關如何從一開始就國際化 Rails 應用程式的教程。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>I18n 如何在 Rails 上的 Ruby 中工作</li>
+<li>如何以各種方式將I18n正確使用到RESTful應用中</li>
+<li>如何使用 I18n 翻譯 Active Record 錯誤或 Action Mailer 電子郵件主題</li>
+<li>一些其他工具可以進一步完成您的應用程式的翻譯過程</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#rails-ruby-i18n">Rails 上的 Ruby 中的 I18n 如何工作</a>
+
+<ul>
+<li><a href="#">圖書館整體架構</a></li>
+<li><a href="#i18n-api">公共 I18n API</a></li>
+</ul>
+</li>
+<li>
+<a href="#rails">為國際化設定 Rails 應用程式</a>
+
+<ul>
+<li><a href="#i18n-module">設定 I18n Module</a></li>
+<li><a href="#">跨請求管理語言環境</a></li>
+</ul>
+</li>
+<li>
+<a href="#">國際化和本地化</a>
+
+<ul>
+<li><a href="#">抽象本地化程式碼</a></li>
+<li><a href="#">提供國際化字串的翻譯</a></li>
+<li><a href="#">將變數傳遞給翻譯</a></li>
+<li><a href="#">新增日期/時間格式</a></li>
+<li><a href="#">其他語言環境的屈折規則</a></li>
+<li><a href="#views">本地化 Views</a></li>
+<li><a href="#">語言環境檔案的組織</a></li>
+</ul>
+</li>
+<li>
+<a href="#i18n-api-overview">I18n API 特性的 Overview</a>
+
+<ul>
+<li><a href="#">查詢翻譯</a></li>
+<li><a href="#">複數</a></li>
+<li><a href="#">設定和傳遞語言環境</a></li>
+<li><a href="#html">使用安全的 HTML 翻譯</a></li>
+<li><a href="#active-record-model">Active Record Model 的翻譯</a></li>
+<li><a href="#action-mailer">Action Mailer 電子郵件主題的翻譯</a></li>
+<li><a href="#i18n-view">其他提供 I18n 支援的內建方法的 view</a></li>
+</ul>
+</li>
+<li><a href="#">如何儲存您的自定義翻譯</a></li>
+<li>
+<a href="#i18n">自定義您的 I18n 設定</a>
+
+<ul>
+<li><a href="#">使用不同的後端</a></li>
+<li><a href="#">使用不同的異常處理程式</a></li>
+</ul>
+</li>
+<li><a href="#model">翻譯 Model 內容</a></li>
+<li><a href="#">結論</a></li>
+<li><a href="#rails-i18n">為 Rails I18n 做貢獻</a></li>
+<li><a href="#">資源</a></li>
+<li><a href="#">作者</a></li>
+<li><a href="#">腳註</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <div class="note"><p>Ruby I18n 框架為您提供了 Rails 應用程式國際化/本地化的所有必要手段。您還可以使用各種可用的 gem 來新增其他功能或特性。有關更多資訊，請參閱 <a href="https://github.com/svenfuchs/rails-i18n">rails-i18n gem</a>。</p></div><h3 id="rails-ruby-i18n"><a class="anchorlink" href="#rails-ruby-i18n">1 Rails 上的 Ruby 中的 I18n 如何工作</a></h3><p>國際化是一個複雜的問題。自然語言在很多方面（例如在複數規則上）不同，以至於很難提供一次解決所有問題的工具。因此，Rails I18n API 側重於：</p>
+<ul>
+<li>提供開箱即用的英語和類似語言支援</li>
+<li>可以輕鬆地為其他語言定製和擴充套件所有內容</li>
+</ul>
+<p>作為此解決方案的一部分，** Rails 框架中的每個靜態字串** - 例如Active Record 驗證訊息、時間和日期格式 - <strong>已國際化</strong>。 Rails 應用程式的 <em>Localization</em> 意味著以所需語言為這些字串定義翻譯的 values。</p><p>要在您的應用程式中本地化儲存和更新 <em>content</em>（例如翻譯部落格文章），請參閱 <a href="#translating-model-content">翻譯 model 內容</a> 部分。</p><h4 id=""><a class="anchorlink" href="#">1.1 圖書館整體架構</a></h4><p>因此，Ruby I18n gem 分為兩部分：</p>
+<ul>
+<li>i18n 框架的公共 API - 一個 Ruby module 帶有定義庫如何工作的公共方法</li>
+<li>實現這些方法的預設後端（有意命名為 <em>Simple</em> 後端）</li>
+</ul>
+<p>作為使用者，您應該始終只訪問 I18n module 上的公共方法，但瞭解後端的功能很有用。</p><div class="note"><p>可以將隨附的 Simple 後端替換為更強大的後端，該後端可以將翻譯資料儲存在關係資料庫、GetText 字典或類似資料庫中。請參閱下面的 <a href="#using-different-backends">使用不同的後端</a> 部分。</p></div><h4 id="i18n-api"><a class="anchorlink" href="#i18n-api">1.2 公共 I18n API</a></h4><p>I18n API 最重要的方法是：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">translate</span> <span class="c1"># Lookup text translations</span>
+<span class="n">localize</span>  <span class="c1"># Localize Date and Time objects to local formats</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="translate # Lookup text translations
+localize  # Localize Date and Time objects to local formats
+">Copy</button>
+</div>
+<p>它們具有別名 #t 和 #l，因此您可以像這樣使用它們：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'store.title'</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">l</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t 'store.title'
+I18n.l Time.now
+">Copy</button>
+</div>
+<p>還有以下屬性的屬性讀取器和寫入器：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">load_path</span>                 <span class="c1"># Announce your custom translation files</span>
+<span class="n">locale</span>                    <span class="c1"># Get and set the current locale</span>
+<span class="n">default_locale</span>            <span class="c1"># Get and set the default locale</span>
+<span class="n">available_locales</span>         <span class="c1"># Permitted locales available for the application</span>
+<span class="n">enforce_available_locales</span> <span class="c1"># Enforce locale permission (true or false)</span>
+<span class="n">exception_handler</span>         <span class="c1"># Use a different exception_handler</span>
+<span class="n">backend</span>                   <span class="c1"># Use a different backend</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="load_path                 # Announce your custom translation files
+locale                    # Get and set the current locale
+default_locale            # Get and set the default locale
+available_locales         # Permitted locales available for the application
+enforce_available_locales # Enforce locale permission (true or false)
+exception_handler         # Use a different exception_handler
+backend                   # Use a different backend
+">Copy</button>
+</div>
+<p>因此，讓我們在接下來的章節中從頭開始國際化一個簡單的 Rails 應用程式！</p><h3 id="rails"><a class="anchorlink" href="#rails">2 為國際化設定 Rails 應用程式</a></h3><p>有幾個步驟可以啟動並執行對 Rails 應用程式的 I18n 支援。</p><h4 id="i18n-module"><a class="anchorlink" href="#i18n-module">2.1 設定 I18n Module</a></h4><p>遵循<em>約定優於設定</em>的理念，Rails I18n 提供了合理的預設翻譯字串。當需要不同的翻譯字串時，它們可以被覆蓋。</p><p>Rails 自動將 <code>config/locales</code> 目錄中的所有 <code>.rb</code> 和 <code>.yml</code> 檔案新增到<strong>翻譯載入路徑</strong>。</p><p>此目錄中的預設 <code>en.yml</code> 語言環境包含一對示例翻譯字串：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">en</span><span class="pi">:</span>
+  <span class="na">hello</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Hello</span><span class="nv"> </span><span class="s">world"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='en:
+  hello: "Hello world"
+'>Copy</button>
+</div>
+<p>這意味著，在 <code>:en</code> 語言環境中，key <em>hello</em> 將對映到 <em>Hello world</em> 字串。 Rails 中的每個字串都以這種方式國際化，例如參見 <a href="https://github.com/rails/rails/blob/main/activemodel/lib/active_model/locale/en.yml">​​<code>activemodel/lib/active_model/locale/en.yml</code></a> 檔案中的 Active Model 驗證訊息或 <a href="https://github.com/rails/rails/blob/main/activesupport/lib/active_support/locale/en.yml"><code>activesupport/lib/active_support/locale/en.yml</code></a> 檔案中的時間和日期格式。您可以使用 YAML 或標準 Ruby 雜湊將翻譯儲存在預設（簡單）後端中。</p><p>I18n 庫將使用 <strong>English</strong> 作為 <strong>預設語言環境</strong>，即如果未設定不同的語言環境，則 <code>:en</code> 將用於查詢翻譯。</p><div class="note"><p>i18n 庫對語言環境 keys（經過 <a href="https://groups.google.com/g/rails-i18n/c/FN7eLH2-lHA">一些討論</a>）採取了<strong>實用的方法</strong>，僅包括 <em>locale</em>（“語言”）部分，如 <code>:en</code>、<code>:pl</code> 或 <code>:pl</code> 部分，而不包括 keys 部分，而不是 ZHTW_THZ3傳統上用於分隔“語言”和“區域設定”或“方言”。許多國際應用程式僅使用語言環境的“語言”元素，例如 <code>:cs</code>、<code>:th</code> 或 <code>:es</code>（用於捷克語、泰語和西班牙語）。但是，不同語言組內也存在可能很重要的地區差異。例如，在 <code>:"en-US"</code> 語言環境中，您將使用 $ 作為貨幣 symbol，而在 <code>:"en-GB"</code> 中，您將使用 £ 作為貨幣。沒有什麼能阻止您以這種方式分離區域和其他設定：您只需要在 <code>:"en-GB"</code> 字典中提供完整的“英語 - 英國”語言環境。</p></div><p><strong>translations load path</strong> (<code>I18n.load_path</code>) 是將自動載入的檔案路徑陣列。設定此路徑允許自定義翻譯目錄結構和檔案命名方案。</p><div class="note"><p>當第一次查詢翻譯時，後端會延遲載入這些翻譯。即使在翻譯已經宣佈之後，這個後端也可以與其他東西交換。</p></div><p>您可以更改預設語言環境以及在 <code>config/application.rb</code> 中設定翻譯載入路徑，如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">i18n</span><span class="p">.</span><span class="nf">load_path</span> <span class="o">+=</span> <span class="no">Dir</span><span class="p">[</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'my'</span><span class="p">,</span> <span class="s1">'locales'</span><span class="p">,</span> <span class="s1">'*.{rb,yml}'</span><span class="p">)]</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">i18n</span><span class="p">.</span><span class="nf">default_locale</span> <span class="o">=</span> <span class="ss">:de</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
+config.i18n.default_locale = :de
+">Copy</button>
+</div>
+<p>在查詢任何翻譯之前必須指定載入路徑。要從初始化程式而不是 <code>config/application.rb</code> 更改預設語言環境：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># config/initializers/locale.rb</span>
+
+<span class="c1"># I18n 庫應該在哪裡搜尋翻譯檔案</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">load_path</span> <span class="o">+=</span> <span class="no">Dir</span><span class="p">[</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'lib'</span><span class="p">,</span> <span class="s1">'locale'</span><span class="p">,</span> <span class="s1">'*.{rb,yml}'</span><span class="p">)]</span>
+
+<span class="c1"># 可用於應用程式的允許區域設定</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">available_locales</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:en</span><span class="p">,</span> <span class="ss">:pt</span><span class="p">]</span>
+
+<span class="c1"># 將預設語言環境設定為 :en 以外的其他內容</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">default_locale</span> <span class="o">=</span> <span class="ss">:pt</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/initializers/locale.rb
+
+# I18n 庫應該在哪裡搜尋翻譯檔案
+I18n.load_path += Dir[Rails.root.join('lib', 'locale', '*.{rb,yml}')]
+
+# 可用於應用程式的允許區域設定
+I18n.available_locales = [:en, :pt]
+
+# 將預設語言環境設定為 :en 以外的其他內容
+I18n.default_locale = :pt
+">Copy</button>
+</div>
+<p>請注意，直接附加到 <code>I18n.load_path</code> 而不是應用程式設定的 i18n 將<em>不</em>覆蓋來自外部 gem 的翻譯。</p><h4 id=""><a class="anchorlink" href="#">2.2 跨請求管理語言環境</a></h4><p>本地化應用程式可能需要提供對多種語言環境的支援。為此，應在每個請求的開頭設定語言環境，以便在該請求的生命週期內使用所需的語言環境翻譯所有字串。</p><p>除非使用 <code>I18n.locale=</code> 或 <code>I18n.with_locale</code>，否則所有翻譯都使用預設語言環境。</p><p>如果 <code>I18n.locale</code> 沒有在每個控制器中一致設定，則它可能會洩漏到由同一執行緒/程序提供的後續請求中。例如，在一個 POST 請求中執行 <code>I18n.locale = :es</code> 將對所有以後對 controllers 的未設定區域設定的請求產生影響，但僅在該特定執行緒/程序中有效。因此，您可以使用沒有此洩漏問題的 <code>I18n.with_locale</code> 而不是 <code>I18n.locale =</code>。</p><p>可以在 <code>ApplicationController</code> 中的 <code>around_action</code> 中設定語言環境：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">around_action</span> <span class="ss">:switch_locale</span>
+
+<span class="k">def</span> <span class="nf">switch_locale</span><span class="p">(</span><span class="o">&amp;</span><span class="n">action</span><span class="p">)</span>
+  <span class="n">locale</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:locale</span><span class="p">]</span> <span class="o">||</span> <span class="no">I18n</span><span class="p">.</span><span class="nf">default_locale</span>
+  <span class="no">I18n</span><span class="p">.</span><span class="nf">with_locale</span><span class="p">(</span><span class="n">locale</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">action</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="around_action :switch_locale
+
+def switch_locale(&amp;action)
+  locale = params[:locale] || I18n.default_locale
+  I18n.with_locale(locale, &amp;action)
+end
+">Copy</button>
+</div>
+<p>此示例使用 URL 查詢引數來設定區域設定（例如 <code>http://example.com/books?locale=pt</code>）來說明這一點。使用這種方法，<code>http://localhost:3000?locale=pt</code> 呈現葡萄牙語本地化，而 <code>http://localhost:3000?locale=de</code> 載入德語本地化。</p><p>可以使用多種不同方法中的一種來設定語言環境。</p><h5 id=""><a class="anchorlink" href="#">2.2.1 從域名設定語言環境</a></h5><p>您可以選擇的一種方法是根據應用程式執行的域名設定區域設定。例如，我們希望 <code>www.example.com</code> 載入英語（或預設）語言環境，而 <code>www.example.es</code> 載入西班牙語語言環境。因此<em>頂級域名</em>用於區域設定。這有幾個優點：</p>
+<ul>
+<li>語言環境是 URL <em>obvious</em> 的一部分。</li>
+<li>人們直觀地掌握內容將使用哪種語言顯示。</li>
+<li>在Rails中實現非常簡單。</li>
+<li>搜尋引擎似乎喜歡不同語言的內容存在於不同的、相互關聯的域中。</li>
+</ul>
+<p>您可以在 <code>ApplicationController</code> 中像這樣實現它：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">around_action</span> <span class="ss">:switch_locale</span>
+
+<span class="k">def</span> <span class="nf">switch_locale</span><span class="p">(</span><span class="o">&amp;</span><span class="n">action</span><span class="p">)</span>
+  <span class="n">locale</span> <span class="o">=</span> <span class="n">extract_locale_from_tld</span> <span class="o">||</span> <span class="no">I18n</span><span class="p">.</span><span class="nf">default_locale</span>
+  <span class="no">I18n</span><span class="p">.</span><span class="nf">with_locale</span><span class="p">(</span><span class="n">locale</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">action</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># 從頂級域獲取 locale 或者如果這樣的 locale 不可用則返回 +nil+</span>
+<span class="c1"># 你必須輸入如下內容：</span>
+<span class="c1"># 127.0.0.1 應用程式.com</span>
+<span class="c1"># 127.0.0.1 應用程式.it</span>
+<span class="c1"># 127.0.0.1 應用程式.pl</span>
+<span class="c1"># 在您的 /etc/hosts 檔案中在本地嘗試此操作</span>
+<span class="k">def</span> <span class="nf">extract_locale_from_tld</span>
+  <span class="n">parsed_locale</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="nf">host</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">'.'</span><span class="p">).</span><span class="nf">last</span>
+  <span class="no">I18n</span><span class="p">.</span><span class="nf">available_locales</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_s</span><span class="p">).</span><span class="nf">include?</span><span class="p">(</span><span class="n">parsed_locale</span><span class="p">)</span> <span class="p">?</span> <span class="n">parsed_locale</span> <span class="p">:</span> <span class="kp">nil</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="around_action :switch_locale
+
+def switch_locale(&amp;action)
+  locale = extract_locale_from_tld || I18n.default_locale
+  I18n.with_locale(locale, &amp;action)
+end
+
+# 從頂級域獲取 locale 或者如果這樣的 locale 不可用則返回 +nil+
+# 你必須輸入如下內容：
+# 127.0.0.1 應用程式.com
+# 127.0.0.1 應用程式.it
+# 127.0.0.1 應用程式.pl
+# 在您的 /etc/hosts 檔案中在本地嘗試此操作
+def extract_locale_from_tld
+  parsed_locale = request.host.split('.').last
+  I18n.available_locales.map(&amp;:to_s).include?(parsed_locale) ? parsed_locale : nil
+end
+">Copy</button>
+</div>
+<p>我們還可以以非常相似的方式從 <em>subdomain</em> 設定語言環境：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 從請求子域中獲取區域設定程式碼（如 http://it.application.local:3000）</span>
+<span class="c1"># 你必須輸入如下內容：</span>
+<span class="c1"># 127.0.0.1 gr.application.local</span>
+<span class="c1"># 在您的 /etc/hosts 檔案中在本地嘗試此操作</span>
+<span class="k">def</span> <span class="nf">extract_locale_from_subdomain</span>
+  <span class="n">parsed_locale</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="nf">subdomains</span><span class="p">.</span><span class="nf">first</span>
+  <span class="no">I18n</span><span class="p">.</span><span class="nf">available_locales</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_s</span><span class="p">).</span><span class="nf">include?</span><span class="p">(</span><span class="n">parsed_locale</span><span class="p">)</span> <span class="p">?</span> <span class="n">parsed_locale</span> <span class="p">:</span> <span class="kp">nil</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 從請求子域中獲取區域設定程式碼（如 http://it.application.local:3000）
+# 你必須輸入如下內容：
+# 127.0.0.1 gr.application.local
+# 在您的 /etc/hosts 檔案中在本地嘗試此操作
+def extract_locale_from_subdomain
+  parsed_locale = request.subdomains.first
+  I18n.available_locales.map(&amp;:to_s).include?(parsed_locale) ? parsed_locale : nil
+end
+">Copy</button>
+</div>
+<p>如果您的應用程式包含區域設定切換選單，那麼您將在其中包含以下內容：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">link_to</span><span class="p">(</span><span class="s2">"Deutsch"</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="no">APP_CONFIG</span><span class="p">[</span><span class="ss">:deutsch_website_url</span><span class="p">]</span><span class="si">}#{</span><span class="n">request</span><span class="p">.</span><span class="nf">env</span><span class="p">[</span><span class="s1">'PATH_INFO'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="link_to(&quot;Deutsch&quot;, &quot;#{APP_CONFIG[:deutsch_website_url]}#{request.env['PATH_INFO']}&quot;)
+">Copy</button>
+</div>
+<p>假設您將 <code>APP_CONFIG[:deutsch_website_url]</code> 設定為某些 value，例如 <code>http://www.application.de</code>。</p><p>此解決方案具有上述優點，但是，您可能無法或可能不想在不同域上提供不同的本地化（“語言版本”）。最明顯的解決方案是在 URL 引數（或請求路徑）中包含區域設定程式碼。</p><h5 id="url"><a class="anchorlink" href="#url">2.2.2 從 URL 引數設定語言環境</a></h5><p>設定（和傳遞）區域設定的最常用方法是將其包含在 URL 引數中，就像我們在第一個示例中的 <code>I18n.with_locale(params[:locale], &amp;action)</code> <em>around_action</em> 中所做的那樣。在這種情況下，我們希望有像 <code>www.example.com/books?locale=ja</code> 或 <code>www.example.com/ja/books</code> 這樣的 URL。</p><p>這種方法具有與從域名設定區域設定幾乎相同的一組優點：即它是 RESTful 並且與全球資訊網的其餘部分一致。不過，它確實需要更多的工作來實現。</p><p>從 <code>params</code> 獲取語言環境並進行相應設定並不難；將它包含在每個 URL 中，從而<strong>通過請求</strong>傳遞它。在每個 URL 中包含顯式選項，例如<code>link_to(books_url(locale: I18n.locale))</code>，當然會很乏味，而且可能是不可能的。</p><p>Rails 在其 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Routing/Mapper/Base.html#method-i-default_url_options"><code>ApplicationController#default_url_options</code></a> 中包含用於“集中有關 URL 的動態決策”的基礎結構，這在這種情況下非常有用：它使我們能夠為 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Routing/UrlFor.html#method-i-url_for"><code>url_for</code></a> 和 (<a href="https://api.rubyonrails.org/classes/ActionDispatch/Routing/UrlFor.html#method-i-url_for">https://api.rubyonrails.org/classes/ActionDispatch/Routing/UrlFor.html#method-i-url_for</a>) 設定“預設值”（依賴於它的實現方法）覆蓋 <code>default_url_options</code>）。</p><p>我們可以在 <code>ApplicationController</code> 中包含這樣的內容，然後：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/controllers/application_controller.rb</span>
+<span class="k">def</span> <span class="nf">default_url_options</span>
+  <span class="p">{</span> <span class="ss">locale: </span><span class="no">I18n</span><span class="p">.</span><span class="nf">locale</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/controllers/application_controller.rb
+def default_url_options
+  { locale: I18n.locale }
+end
+">Copy</button>
+</div>
+<p>每個依賴於 <code>url_for</code> 的輔助方法（例如，helpers 用於命名路由，如 <code>root_path</code> 或 <code>root_url</code>，資源路由如 <code>books_path</code> 或 <code>books_url</code> 等）現在將 ** 自動在查詢字串中包含語言環境：ZWZHT **，如下所示。</p><p>您可能對此感到滿意。但是，當區域設定“掛起”在應用程式中每個 URL 的末尾時，它確實會影響 URL 的可讀性。此外，從架構的角度來看，區域設定通常在應用程式域的其他部分之上的層次結構：URL 應該反映這一點。</p><p>您可能希望 URL 看起來像這樣：<code>http://www.example.com/en/books</code>（載入英語語言環境）和 <code>http://www.example.com/nl/books</code>（載入荷蘭語語言環境）。這可以通過上面的“覆蓋 <code>default_url_options</code>”策略來實現：你只需要使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Routing/Mapper/Scoping.html"><code>scope</code></a> 設定你的路線：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/路由.rb</span>
+<span class="n">scope</span> <span class="s2">"/:locale"</span> <span class="k">do</span>
+  <span class="n">resources</span> <span class="ss">:books</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# 設定/路由.rb
+scope "/:locale" do
+  resources :books
+end
+'>Copy</button>
+</div>
+<p>現在，當您呼叫 <code>books_path</code> 方法時，您應該得到 <code>"/en/books"</code>（對於預設語言環境）。像 <code>http://localhost:3001/nl/books</code> 這樣的 URL 應該載入荷蘭語語言環境，然後，隨後對 <code>books_path</code> 的呼叫應該返回 <code>"/nl/books"</code>（因為語言環境已更改）。</p><p>警告。由於每個請求都會快取 <code>default_url_options</code> 的返回 value，因此無法在每次迭代中設定相應 <code>I18n.locale</code> 的迴圈中呼叫 helpers 來產生區域設定選擇器中的 URL。相反，保持 <code>I18n.locale</code> 不變，並將顯式 <code>:locale</code> 選項傳遞給幫助程式，或編輯 <code>request.original_fullpath</code>。</p><p>如果您不想在路由中強制使用語言環境，您可以使用可選的路徑範圍（由括號表示），如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/路由.rb</span>
+<span class="n">scope</span> <span class="s2">"(:locale)"</span><span class="p">,</span> <span class="ss">locale: </span><span class="sr">/en|nl/</span><span class="err"> d</span><span class="sr">o</span>
+  <span class="n">resources</span> <span class="ss">:books</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# 設定/路由.rb
+scope "(:locale)", locale: /en|nl/ do
+  resources :books
+end
+'>Copy</button>
+</div>
+<p>使用這種方法，在沒有語言環境的情況下訪問諸如 <code>http://localhost:3001/books</code> 之類的資源時，您將不會獲得 <code>Routing Error</code>。當您想在未指定時使用預設語言環境時，這很有用。</p><p>當然，您需要特別注意應用程式的根 URL（通常是“主頁”或“儀表板”）。像 <code>http://localhost:3001/nl</code> 這樣的 URL 不會自動工作，因為 <code>routes.rb</code> 中的 <code>root to: "dashboard#index"</code> 宣告沒有考慮區域設定。 （沒錯：只有一個“根”URL。）</p><p>您可能需要對映這樣的 URL：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/路由.rb</span>
+<span class="n">get</span> <span class="s1">'/:locale'</span> <span class="o">=&gt;</span> <span class="s1">'dashboard#index'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 設定/路由.rb
+get '/:locale' =&gt; 'dashboard#index'
+">Copy</button>
+</div>
+<p>請特別注意 ** 路線的順序**，因此此路線宣告不會“吃掉”其他路線。 （您可能想直接在 <code>root :to</code> 宣告之前新增它。）</p><div class="note"><p>檢視各種簡化路由工作的 gem：<a href="https://github.com/svenfuchs/routing-filter/tree/master">routing_filter</a>、<a href="https://github.com/francesc/rails-translate-routes">rails-translate-routes</a>、<a href="https://github.com/enriclluelles/route_translator">route_translator</a>。</p></div><h5 id=""><a class="anchorlink" href="#">2.2.3 從使用者首選項設定語言環境</a></h5><p>具有經過身份驗證的使用者的應用程式可以允許使用者通過應用程式的介面設定區域設定首選項。使用這種方法，使用者選擇的區域設定首選項會保留在資料庫中，並用於為該使用者的已驗證請求設定區域設定。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">around_action</span> <span class="ss">:switch_locale</span>
+
+<span class="k">def</span> <span class="nf">switch_locale</span><span class="p">(</span><span class="o">&amp;</span><span class="n">action</span><span class="p">)</span>
+  <span class="n">locale</span> <span class="o">=</span> <span class="n">current_user</span><span class="p">.</span><span class="nf">try</span><span class="p">(</span><span class="ss">:locale</span><span class="p">)</span> <span class="o">||</span> <span class="no">I18n</span><span class="p">.</span><span class="nf">default_locale</span>
+  <span class="no">I18n</span><span class="p">.</span><span class="nf">with_locale</span><span class="p">(</span><span class="n">locale</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">action</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="around_action :switch_locale
+
+def switch_locale(&amp;action)
+  locale = current_user.try(:locale) || I18n.default_locale
+  I18n.with_locale(locale, &amp;action)
+end
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">2.2.4 選擇隱式語言環境</a></h5><p>當尚未為請求設定顯式語言環境時（例如通過上述方法之一），應用程式應嘗試推斷所需的語言環境。</p><h6 id=""><a class="anchorlink" href="#">2.2.4.1 從語言頭推斷語言環境</a></h6><p><code>Accept-Language</code> HTTP 標頭指示請求回應的首選語言。瀏覽器 <a href="https://www.w3.org/International/questions/qa-lang-priorities">根據使用者的語言首選項設定此標題 value</a>，使其成為推斷區域設定時的首選。</p><p>使用 <code>Accept-Language</code> 標頭的一個簡單實現是：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">switch_locale</span><span class="p">(</span><span class="o">&amp;</span><span class="n">action</span><span class="p">)</span>
+  <span class="n">logger</span><span class="p">.</span><span class="nf">debug</span> <span class="s2">"* Accept-Language: </span><span class="si">#{</span><span class="n">request</span><span class="p">.</span><span class="nf">env</span><span class="p">[</span><span class="s1">'HTTP_ACCEPT_LANGUAGE'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+  <span class="n">locale</span> <span class="o">=</span> <span class="n">extract_locale_from_accept_language_header</span>
+  <span class="n">logger</span><span class="p">.</span><span class="nf">debug</span> <span class="s2">"* Locale set to '</span><span class="si">#{</span><span class="n">locale</span><span class="si">}</span><span class="s2">'"</span>
+  <span class="no">I18n</span><span class="p">.</span><span class="nf">with_locale</span><span class="p">(</span><span class="n">locale</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">action</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="kp">private</span>
+  <span class="k">def</span> <span class="nf">extract_locale_from_accept_language_header</span>
+    <span class="n">request</span><span class="p">.</span><span class="nf">env</span><span class="p">[</span><span class="s1">'HTTP_ACCEPT_LANGUAGE'</span><span class="p">].</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/^[a-z]{2}/</span><span class="err">).f</span><span class="sr">i</span><span class="n">rst</span>
+  <span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def switch_locale(&amp;action)
+  logger.debug &quot;* Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}&quot;
+  locale = extract_locale_from_accept_language_header
+  logger.debug &quot;* Locale set to '#{locale}'&quot;
+  I18n.with_locale(locale, &amp;action)
+end
+
+private
+  def extract_locale_from_accept_language_header
+    request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+  end
+">Copy</button>
+</div>
+<p>在實踐中，需要更健壯的程式碼才能可靠地做到這一點。 Iain Hecker 的 <a href="https://github.com/iain/http_accept_language/tree/master">http_accept_language</a> 庫或 Ryan Tomayko 的 <a href="https://github.com/rack/rack-contrib/blob/master/lib/rack/contrib/locale.rb">locale</a> Rack 中介軟體為這個問題提供瞭解決方案。</p><h6 id="ip"><a class="anchorlink" href="#ip">2.2.4.2 從 IP 地理位置推斷區域設定</a></h6><p>發出請求的客戶端的 IP 地址可用於推斷客戶端的區域，從而推斷其區域設定。諸如 <a href="https://dev.maxmind.com/geoip/geolite2-free-geolocation-data">GeoLite2 Country</a> 之類的服務或 <a href="https://github.com/alexreisner/geocoder">geocoder</a> 之類的 gem 可用於實現這種方法。</p><p>通常，這種方法遠不如使用語言標頭可靠，並且不推薦用於大多數 Web 應用程式。</p><h5 id="session-cookie"><a class="anchorlink" href="#session-cookie">2.2.5 從 Session 或 Cookie 儲存區域設定</a></h5><div class="warning"><p>您可能想將所選語言環境儲存在 <em>session</em> 或 <em>cookie</em> 中。但是，<strong>不要這樣做</strong>。區域設定應該是透明的並且是 URL 的一部分。這樣您就不會打破人們對網路本身的基本假設：如果您向朋友傳送 URL，他們應該看到與您相同的頁面和內容。一個花哨的詞是你正在 <a href="https://en.wikipedia.org/wiki/Representational_State_Transfer"><em>RESTful</em></a>。在 <a href="https://www.infoq.com/articles/rest-introduction">Stefan Tilkov 的文章</a> 中閱讀有關 RESTful 方法的更多資訊。有時這條規則有例外，下面將討論這些例外。</p></div><h3 id=""><a class="anchorlink" href="#">3 國際化和本地化</a></h3><p>行！現在您已經在 Rails 應用程式上初始化了對 Ruby 的 I18n 支援，並告訴它使用哪個區域設定以及如何在請求之間保留它。</p><p>接下來，我們需要通過抽象每個特定於語言環境的元素來<em>國際化</em>我們的應用程式。最後，我們需要通過為這些摘要提供必要的翻譯來<em>本地化</em>它。</p><p>給出以下示例：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/路由.rb</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">routes</span><span class="p">.</span><span class="nf">draw</span> <span class="k">do</span>
+  <span class="n">root</span> <span class="ss">to: </span><span class="s2">"home#index"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# 設定/路由.rb
+Rails.application.routes.draw do
+  root to: "home#index"
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/controllers/application_controller.rb</span>
+<span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="n">around_action</span> <span class="ss">:switch_locale</span>
+
+  <span class="k">def</span> <span class="nf">switch_locale</span><span class="p">(</span><span class="o">&amp;</span><span class="n">action</span><span class="p">)</span>
+    <span class="n">locale</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:locale</span><span class="p">]</span> <span class="o">||</span> <span class="no">I18n</span><span class="p">.</span><span class="nf">default_locale</span>
+    <span class="no">I18n</span><span class="p">.</span><span class="nf">with_locale</span><span class="p">(</span><span class="n">locale</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">action</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/controllers/application_controller.rb
+class ApplicationController &lt; ActionController::Base
+
+  around_action :switch_locale
+
+  def switch_locale(&amp;action)
+    locale = params[:locale] || I18n.default_locale
+    I18n.with_locale(locale, &amp;action)
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/controllers/home_controller.rb</span>
+<span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="n">flash</span><span class="p">[</span><span class="ss">:notice</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Hello Flash"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# app/controllers/home_controller.rb
+class HomeController &lt; ApplicationController
+  def index
+    flash[:notice] = "Hello Flash"
+  end
+end
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight erb"><span class="c">&lt;!-- app/views/home/index.html.erb --&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Hello World<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="p">[</span><span class="ss">:notice</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;!-- app/views/home/index.html.erb --&gt;
+&lt;h1&gt;Hello World&lt;/h1&gt;
+&lt;p&gt;&lt;%= flash[:notice] %&gt;&lt;/p&gt;
+">Copy</button>
+</div>
+<p><img src="images/i18n/demo_untranslated.png" alt="rails i18n 演示未翻譯"></p><h4 id=""><a class="anchorlink" href="#">3.1 抽象本地化程式碼</a></h4><p>在我們的程式碼中，有兩個用英語編寫的字串將在我們的回應中呈現（“Hello Flash”和“Hello World”）。要國際化此程式碼，需要將這些字串替換為對 Rails' <code>#t</code> helper 的呼叫，併為每個字串使用適當的 key：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># app/controllers/home_controller.rb</span>
+<span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="n">flash</span><span class="p">[</span><span class="ss">:notice</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="ss">:hello_flash</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# app/controllers/home_controller.rb
+class HomeController &lt; ApplicationController
+  def index
+    flash[:notice] = t(:hello_flash)
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight erb"><span class="c">&lt;!-- app/views/home/index.html.erb --&gt;</span>
+<span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span> <span class="ss">:hello_world</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="p">[</span><span class="ss">:notice</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;!-- app/views/home/index.html.erb --&gt;
+&lt;h1&gt;&lt;%= t :hello_world %&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;%= flash[:notice] %&gt;&lt;/p&gt;
+">Copy</button>
+</div>
+<p>現在，當渲染此 view 時，它會顯示一條錯誤訊息，告訴您 keys <code>:hello_world</code> 和 <code>:hello_flash</code> 的翻譯丟失。</p><p><img src="images/i18n/demo_translation_missing.png" alt="rails i18n 演示翻譯缺失"></p><div class="note"><p>Rails 將 <code>t</code> (<code>translate</code>) helper 方法新增到您的 views 中，這樣您就無需一直拼寫 <code>I18n.t</code>。此外，此 helper 將捕獲丟失的翻譯並將產生的錯誤訊息包裝到 <code>&lt;span class="translation_missing"&gt;</code> 中。</p></div><h4 id=""><a class="anchorlink" href="#">3.2 提供國際化字串的翻譯</a></h4><p>將缺失的翻譯新增到翻譯詞典檔案中：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/locales/en.yml</span>
+<span class="na">en</span><span class="pi">:</span>
+  <span class="na">hello_world</span><span class="pi">:</span> <span class="s">Hello world!</span>
+  <span class="na">hello_flash</span><span class="pi">:</span> <span class="s">Hello flash!</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/locales/en.yml
+en:
+  hello_world: Hello world!
+  hello_flash: Hello flash!
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/locales/pirate.yml</span>
+<span class="na">pirate</span><span class="pi">:</span>
+  <span class="na">hello_world</span><span class="pi">:</span> <span class="s">Ahoy World</span>
+  <span class="na">hello_flash</span><span class="pi">:</span> <span class="s">Ahoy Flash</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/locales/pirate.yml
+pirate:
+  hello_world: Ahoy World
+  hello_flash: Ahoy Flash
+">Copy</button>
+</div>
+<p>因為 <code>default_locale</code> 沒有改變，翻譯使用 <code>:en</code> 語言環境，回應呈現英文字串：</p><p><img src="images/i18n/demo_translated_en.png" alt="rails i18n 演示翻譯成英文"></p><p>如果通過 URL 設定了盜版語言環境 (<code>http://localhost:3000?locale=pirate</code>)，則回應會呈現盜版字串：</p><p><img src="images/i18n/demo_translated_pirate.png" alt="rails i18n 演示翻譯為海盜"></p><div class="note"><p>新增新的語言環境檔案時需要重新啟動伺服器。</p></div><p>您可以使用 YAML (<code>.yml</code>) 或普通的 Ruby (<code>.rb</code>) 檔案將您的翻譯儲存在 SimpleStore 中。 YAML 是 Rails 開發人員的首選。但是，它有一個很大的缺點。 YAML 對空格和特殊字元非常敏感，因此應用程式可能無法正確載入您的字典。 Ruby 檔案將在第一次請求時使您的應用程式崩潰，因此您可以輕鬆找到問題所在。 （如果您在使用 YAML 詞典時遇到任何“奇怪的問題”，請嘗試將詞典的相關部分放入 Ruby 檔案中。）</p><p>如果您的翻譯儲存在 YAML 檔案中，則必須對某些 keys 進行轉義。他們是：</p>
+<ul>
+<li>真，開，是</li>
+<li>假，關閉，沒有</li>
+</ul>
+<p>例子：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/locales/en.yml</span>
+<span class="na">en</span><span class="pi">:</span>
+  <span class="na">success</span><span class="pi">:</span>
+    <span class="s1">'</span><span class="s">true'</span><span class="pi">:</span>  <span class="s1">'</span><span class="s">True!'</span>
+    <span class="s1">'</span><span class="s">on'</span><span class="pi">:</span>    <span class="s1">'</span><span class="s">On!'</span>
+    <span class="s1">'</span><span class="s">false'</span><span class="pi">:</span> <span class="s1">'</span><span class="s">False!'</span>
+  <span class="na">failure</span><span class="pi">:</span>
+    <span class="na">true</span><span class="pi">:</span>    <span class="s1">'</span><span class="s">True!'</span>
+    <span class="na">off</span><span class="pi">:</span>     <span class="s1">'</span><span class="s">Off!'</span>
+    <span class="na">false</span><span class="pi">:</span>   <span class="s1">'</span><span class="s">False!'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/locales/en.yml
+en:
+  success:
+    'true':  'True!'
+    'on':    'On!'
+    'false': 'False!'
+  failure:
+    true:    'True!'
+    off:     'Off!'
+    false:   'False!'
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'success.true'</span>  <span class="c1"># =&gt; 'True!'</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'success.on'</span>    <span class="c1"># =&gt; 'On!'</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'success.false'</span> <span class="c1"># =&gt; 'False!'</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'failure.false'</span> <span class="c1"># =&gt; Translation Missing</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'failure.off'</span>   <span class="c1"># =&gt; Translation Missing</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'failure.true'</span>  <span class="c1"># =&gt; Translation Missing</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t 'success.true'  # =&gt; 'True!'
+I18n.t 'success.on'    # =&gt; 'On!'
+I18n.t 'success.false' # =&gt; 'False!'
+I18n.t 'failure.false' # =&gt; Translation Missing
+I18n.t 'failure.off'   # =&gt; Translation Missing
+I18n.t 'failure.true'  # =&gt; Translation Missing
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">3.3 將變數傳遞給翻譯</a></h4><p>成功國際化應用程式的一個 key 考慮因素是
+在抽象本地化時避免對語法規則做出錯誤的假設
+程式碼。在一個語言環境中看似基本的語法規則在某些地方可能並不適用
+另一個。</p><p>下面的例子顯示了不正確的 absstraction，其中假設是
+關於翻譯的不同部分的排序。注意 Rails
+提供了一個 <code>number_to_currency</code> helper 來處理以下情況。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="c">&lt;!-- app/views/products/show.html.erb --&gt;</span>
+<span class="cp">&lt;%=</span> <span class="s2">"</span><span class="si">#{</span><span class="n">t</span><span class="p">(</span><span class="s1">'currency'</span><span class="p">)</span><span class="si">}#{</span><span class="vi">@product</span><span class="p">.</span><span class="nf">price</span><span class="si">}</span><span class="s2">"</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;!-- app/views/products/show.html.erb --&gt;
+&lt;%= &quot;#{t('currency')}#{@product.price}&quot; %&gt;
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/locales/en.yml</span>
+<span class="na">en</span><span class="pi">:</span>
+  <span class="na">currency</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# config/locales/en.yml
+en:
+  currency: "$"
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/locales/es.yml</span>
+<span class="na">es</span><span class="pi">:</span>
+  <span class="na">currency</span><span class="pi">:</span> <span class="s2">"</span><span class="s">€"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# config/locales/es.yml
+es:
+  currency: "€"
+'>Copy</button>
+</div>
+<p>如果產品的價格是 10，那麼西班牙語的正確翻譯是“10 €”
+而不是“€10”，但 abstraction 不能給它。</p><p>為了建立合適的 absstraction，I18n gem 附帶了一個稱為變數的功能
+允許您在翻譯定義中使用變數的插值和
+將這些變數的 values 傳遞給翻譯方法。</p><p>正確的 absstraction 如下例所示：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="c">&lt;!-- app/views/products/show.html.erb --&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">'product_price'</span><span class="p">,</span> <span class="ss">price: </span><span class="vi">@product</span><span class="p">.</span><span class="nf">price</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;!-- app/views/products/show.html.erb --&gt;
+&lt;%= t('product_price', price: @product.price) %&gt;
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/locales/en.yml</span>
+<span class="na">en</span><span class="pi">:</span>
+  <span class="na">product_price</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$%{price}"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# config/locales/en.yml
+en:
+  product_price: "$%{price}"
+'>Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/locales/es.yml</span>
+<span class="na">es</span><span class="pi">:</span>
+  <span class="na">product_price</span><span class="pi">:</span> <span class="s2">"</span><span class="s">%{price}</span><span class="nv"> </span><span class="s">€"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# config/locales/es.yml
+es:
+  product_price: "%{price} €"
+'>Copy</button>
+</div>
+<p>所有語法和標點符號的決定都是在定義本身中做出的，所以
+abstraction 可以給出正確的翻譯。</p><div class="note"><p><code>default</code> 和 <code>scope</code> key 字是保留字，不能用作
+變數名。如果使用，則會引發 <code>I18n::ReservedInterpolationKey</code> 異常。
+如果翻譯需要一個插值變數，但尚未通過
+到 <code>#translate</code>，會引發 <code>I18n::MissingInterpolationArgument</code> 異常。</p></div><h4 id=""><a class="anchorlink" href="#">3.4 新增日期/時間格式</a></h4><p>行！現在讓我們向 view 新增時間戳，以便我們也可以演示 <strong>日期/時間本地化</strong> 功能。要本地化時間格式，您將時間物件傳遞給 <code>I18n.l</code> 或（最好）使用 Rails' <code>#l</code> helper。您可以通過傳遞 <code>:format</code> 選項來選擇一種格式 - 預設情況下使用 <code>:default</code> 格式。</p><div class="code_container">
+<pre><code class="highlight erb"><span class="c">&lt;!-- app/views/home/index.html.erb --&gt;</span>
+<span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span> <span class="ss">:hello_world</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="p">[</span><span class="ss">:notice</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">l</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">,</span> <span class="ss">format: :short</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;!-- app/views/home/index.html.erb --&gt;
+&lt;h1&gt;&lt;%= t :hello_world %&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;%= flash[:notice] %&gt;&lt;/p&gt;
+&lt;p&gt;&lt;%= l Time.now, format: :short %&gt;&lt;/p&gt;
+">Copy</button>
+</div>
+<p>在我們的盜版翻譯檔案中，讓我們新增一個時間格式（它已經存在於 Rails 英語預設值中）：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/locales/pirate.yml</span>
+<span class="na">pirate</span><span class="pi">:</span>
+  <span class="na">time</span><span class="pi">:</span>
+    <span class="na">formats</span><span class="pi">:</span>
+      <span class="na">short</span><span class="pi">:</span> <span class="s2">"</span><span class="s">arrrround</span><span class="nv"> </span><span class="s">%H'ish"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/locales/pirate.yml
+pirate:
+  time:
+    formats:
+      short: &quot;arrrround %H'ish&quot;
+">Copy</button>
+</div>
+<p>所以這會給你：</p><p><img src="images/i18n/demo_localized_pirate.png" alt="rails i18n 演示本地化盜版時間"></p><p>提示：現在您可能需要新增更多日期/時間格式，以使 I18n 後端按預期工作（至少對於“海盜”語言環境而言）。當然，很有可能有人已經通過<strong>為您的語言環境翻譯 Rails' 預設值</strong> 來完成所有工作。請參閱 GitHub 上的 <a href="https://github.com/svenfuchs/rails-i18n/tree/master/rails/locale">rails-i18n 儲存庫</a> 以獲取各種語言環境檔案的存檔。當您將此類檔案放入 <code>config/locales/</code> 目錄時，它們將自動可供使用。</p><h4 id=""><a class="anchorlink" href="#">3.5 其他語言環境的屈折規則</a></h4><p>Rails 允許您為英語以外的語言環境定義屈折規則（例如單數和複數規則）。在 <code>config/initializers/inflections.rb</code> 中，您可以為多個語言環境定義這些規則。初始化程式包含一個預設示例，用於為英語指定附加規則；按照您認為合適的其他語言環境遵循該格式。</p><h4 id="views"><a class="anchorlink" href="#views">3.6 本地化 Views</a></h4><p>假設您的應用程式中有一個 <em>BooksController</em>。您的 <em>index</em> action 在 <code>app/views/books/index.html.erb</code> 模板中呈現內容。當你把這個模板的<em>localized variant</em>: <code>index.es.html.erb</code> 放在同一個目錄中時，Rails 將在這個模板中渲染內容，當語言環境設定為 <code>:es</code> 時。當語言環境設定為預設語言環境時，將使用通用 <code>index.html.erb</code> view。 （未來的 Rails 版本很可能會將這種 <em>automagic</em> 本地化帶到 <code>public</code> 等中的資產中。）</p><p>您可以使用此功能，例如當處理大量靜態內容時，將其放入 YAML 或 Ruby 字典中會很笨拙。但是請記住，您稍後要對模板進行的任何更改都必須傳播到所有這些。</p><h4 id=""><a class="anchorlink" href="#">3.7 語言環境檔案的組織</a></h4><p>當您使用 i18n 庫附帶的預設 SimpleStore 時，
+字典儲存在磁碟上的純文字檔案中。放置翻譯
+對於每個區域設定的一個檔案中的應用程式的所有部分可能很難
+管理。您可以將這些檔案儲存在對您有意義的層次結構中。</p><p>例如，您的 <code>config/locales</code> 目錄可能如下所示：</p><div class="code_container">
+<pre><code class="highlight plaintext">|-defaults
+|---es.yml
+|---en.yml
+|-models
+|---book
+|-----es.yml
+|-----en.yml
+|-views
+|---defaults
+|-----es.yml
+|-----en.yml
+|---books
+|-----es.yml
+|-----en.yml
+|---users
+|-----es.yml
+|-----en.yml
+|---navigation
+|-----es.yml
+|-----en.yml
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="|-defaults
+|---es.yml
+|---en.yml
+|-models
+|---book
+|-----es.yml
+|-----en.yml
+|-views
+|---defaults
+|-----es.yml
+|-----en.yml
+|---books
+|-----es.yml
+|-----en.yml
+|---users
+|-----es.yml
+|-----en.yml
+|---navigation
+|-----es.yml
+|-----en.yml
+">Copy</button>
+</div>
+<p>這樣，您可以將 model 和 model 屬性名稱與 views 中的文字分開，並將所有這些與“預設值”（例如日期和時間格式）分開。 i18n 庫的其他商店可以提供不同的這種分離方法。</p><div class="note"><p>Rails 中的預設語言環境載入機制不會載入巢狀字典中的語言環境檔案，就像我們在這裡一樣。因此，要使其正常工作，我們必須明確告訴 Rails 進一步檢視：</p></div><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 設定/應用程式.rb</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">i18n</span><span class="p">.</span><span class="nf">load_path</span> <span class="o">+=</span> <span class="no">Dir</span><span class="p">[</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'config'</span><span class="p">,</span> <span class="s1">'locales'</span><span class="p">,</span> <span class="s1">'**'</span><span class="p">,</span> <span class="s1">'*.{rb,yml}'</span><span class="p">)]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 設定/應用程式.rb
+config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+">Copy</button>
+</div>
+<h3 id="i18n-api-overview"><a class="anchorlink" href="#i18n-api-overview">4 I18n API 特性的 Overview</a></h3><p>您現在應該對使用 i18n 庫有很好的瞭解並知道如何
+國際化一個基本的 Rails 應用程式。在接下來的章節中，我們將
+更深入地介紹其功能。</p><p>這些章節將展示使用 <code>I18n.translate</code> 方法以及 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionView/Helpers/TranslationHelper.html#method-i-translate"><code>translate</code> view helper 方法</a> 的示例（注意 view helper 方法提供的附加功能）。</p><p>包含的功能如下：</p>
+<ul>
+<li>查詢翻譯</li>
+<li>將資料插入翻譯</li>
+<li>多元化翻譯</li>
+<li>使用安全的 HTML 翻譯（僅限 view helper 方法）</li>
+<li>本地化日期、數字、貨幣等。</li>
+</ul>
+<h4 id=""><a class="anchorlink" href="#">4.1 查詢翻譯</a></h4><h5 id="key"><a class="anchorlink" href="#key">4.1.1 基本查詢、範圍和巢狀 Key</a></h5><p>翻譯由 keys 查詢，它可以是 Symbol 或字串，因此這些呼叫是等效的：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:message</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'message'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t :message
+I18n.t 'message'
+">Copy</button>
+</div>
+<p><code>translate</code> 方法還採用 <code>:scope</code> 選項，該選項可以包含一個或多個額外的 keys，用於指定翻譯鍵的“名稱空間”或範圍：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:record_invalid</span><span class="p">,</span> <span class="ss">scope: </span><span class="p">[</span><span class="ss">:activerecord</span><span class="p">,</span> <span class="ss">:errors</span><span class="p">,</span> <span class="ss">:messages</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t :record_invalid, scope: [:activerecord, :errors, :messages]
+">Copy</button>
+</div>
+<p>這將在 Active Record 錯誤訊息中查詢 <code>:record_invalid</code> 訊息。</p><p>此外，鍵和範圍都可以指定為點分隔的 keys，如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">translate</span> <span class="s2">"activerecord.errors.messages.record_invalid"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='I18n.translate "activerecord.errors.messages.record_invalid"
+'>Copy</button>
+</div>
+<p>因此，以下呼叫是等效的：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'activerecord.errors.messages.record_invalid'</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'errors.messages.record_invalid'</span><span class="p">,</span> <span class="ss">scope: :activerecord</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:record_invalid</span><span class="p">,</span> <span class="ss">scope: </span><span class="s1">'activerecord.errors.messages'</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:record_invalid</span><span class="p">,</span> <span class="ss">scope: </span><span class="p">[</span><span class="ss">:activerecord</span><span class="p">,</span> <span class="ss">:errors</span><span class="p">,</span> <span class="ss">:messages</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t 'activerecord.errors.messages.record_invalid'
+I18n.t 'errors.messages.record_invalid', scope: :activerecord
+I18n.t :record_invalid, scope: 'activerecord.errors.messages'
+I18n.t :record_invalid, scope: [:activerecord, :errors, :messages]
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">4.1.2 預設值</a></h5><p>當給出 <code>:default</code> 選項時，如果缺少翻譯，將返回其 value：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:missing</span><span class="p">,</span> <span class="ss">default: </span><span class="s1">'Not here'</span>
+<span class="c1"># =&gt; '不在這裡'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t :missing, default: 'Not here'
+# =&gt; '不在這裡'
+">Copy</button>
+</div>
+<p>如果 <code>:default</code> 值是 Symbol，它將被用作 key 並進行翻譯。一個可以預設提供多個 values。將返回第一個產生值的值。</p><p>例如，以下首先嚐試翻譯 key <code>:missing</code>，然後是 key <code>:also_missing.</code> 由於兩者都沒有產生結果，將返回字串“Not here”：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:missing</span><span class="p">,</span> <span class="ss">default: </span><span class="p">[</span><span class="ss">:also_missing</span><span class="p">,</span> <span class="s1">'Not here'</span><span class="p">]</span>
+<span class="c1"># =&gt; '不在這裡'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t :missing, default: [:also_missing, 'Not here']
+# =&gt; '不在這裡'
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">4.1.3 批量和名稱空間查詢</a></h5><p>要一次查詢多個翻譯，可以傳遞一個 keys 陣列：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="p">[</span><span class="ss">:odd</span><span class="p">,</span> <span class="ss">:even</span><span class="p">],</span> <span class="ss">scope: </span><span class="s1">'errors.messages'</span>
+<span class="c1"># =&gt; [“必須是奇數”，“必須是偶數”]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t [:odd, :even], scope: 'errors.messages'
+# =&gt; [“必須是奇數”，“必須是偶數”]
+">Copy</button>
+</div>
+<p>此外，key 可以轉換為分組轉換的（可能巢狀的）雜湊。例如，可以接收 <em>all</em> Active Record 錯誤訊息作為雜湊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'activerecord.errors.messages'</span>
+<span class="c1"># =&gt; {:inclusion=&gt;"未包含在列表中", :exclusion=&gt; ... }</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t 'activerecord.errors.messages'
+# =&gt; {:inclusion=&gt;&quot;未包含在列表中&quot;, :exclusion=&gt; ... }
+">Copy</button>
+</div>
+<p>如果要對翻譯的批量雜湊執行插值，則需要將 <code>deep_interpolation: true</code> 作為引數傳遞。當您有以下字典時：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">en</span><span class="pi">:</span>
+  <span class="na">welcome</span><span class="pi">:</span>
+    <span class="na">title</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Welcome!"</span>
+    <span class="na">content</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Welcome</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">%{app_name}"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='en:
+  welcome:
+    title: "Welcome!"
+    content: "Welcome to the %{app_name}"
+'>Copy</button>
+</div>
+<p>那麼巢狀插值將在沒有設定的情況下被忽略：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'welcome'</span><span class="p">,</span> <span class="ss">app_name: </span><span class="s1">'book store'</span>
+<span class="c1"># =&gt; {:title=&gt;"歡迎！", :content=&gt;"歡迎來到 %{app_name}"}</span>
+
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'welcome'</span><span class="p">,</span> <span class="ss">deep_interpolation: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">app_name: </span><span class="s1">'book store'</span>
+<span class="c1"># =&gt; {:title=&gt;"歡迎光臨！", :content=&gt;"歡迎光臨書店"}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t 'welcome', app_name: 'book store'
+# =&gt; {:title=&gt;&quot;歡迎！&quot;, :content=&gt;&quot;歡迎來到 %{app_name}&quot;}
+
+I18n.t 'welcome', deep_interpolation: true, app_name: 'book store'
+# =&gt; {:title=&gt;&quot;歡迎光臨！&quot;, :content=&gt;&quot;歡迎光臨書店&quot;}
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">4.1.4 “懶惰”查詢</a></h5><p>Rails 實現了一種在 <em>views</em> 中查詢語言環境的便捷方法。當您有以下字典時：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">es</span><span class="pi">:</span>
+  <span class="na">books</span><span class="pi">:</span>
+    <span class="na">index</span><span class="pi">:</span>
+      <span class="na">title</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Título"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='es:
+  books:
+    index:
+      title: "Título"
+'>Copy</button>
+</div>
+<p>你可以像這樣查詢 <code>books.index.title</code> value <strong>inside</strong> <code>app/views/books/index.html.erb</code> 模板（注意點）：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">t</span> <span class="s1">'.title'</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= t '.title' %&gt;
+">Copy</button>
+</div>
+<div class="note"><p>部分自動翻譯範圍僅可從 <code>translate</code> view helper 方法中使用。</p></div><p>controllers 中也可以使用“惰性”查詢：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">en</span><span class="pi">:</span>
+  <span class="na">books</span><span class="pi">:</span>
+    <span class="na">create</span><span class="pi">:</span>
+      <span class="na">success</span><span class="pi">:</span> <span class="s">Book created!</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="en:
+  books:
+    create:
+      success: Book created!
+">Copy</button>
+</div>
+<p>這對於設定 flash 訊息很有用，例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">BooksController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="c1"># ...</span>
+    <span class="n">redirect_to</span> <span class="n">books_url</span><span class="p">,</span> <span class="ss">notice: </span><span class="n">t</span><span class="p">(</span><span class="s1">'.success'</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class BooksController &lt; ApplicationController
+  def create
+    # ...
+    redirect_to books_url, notice: t('.success')
+  end
+end
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">4.2 複數</a></h4><p>在許多語言中——包括英語——只有兩種形式，單數和複數，因為
+給定的字串，例如“1 條訊息”和“2 條訊息”。其他語言（<a href="http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#ar">阿拉伯語</a>、<a href="http://www.unicode.org/cldr/charts/%20latest/supplemental/language_plural_rules.html#ja">日語</a>、<a href="http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#ru">Russian</a> 等等）有不同的語法，這些語法有額外的或更少的<a href="http://cldr.unicode.org/index/cldr-spec/plural-rules">複數形式</a>。因此，I18n API 提供了靈活的複數功能。</p><p><code>:count</code> 插值變數有一個特殊的作用，它既被插值到翻譯中，又用於根據翻譯中定義的複數規則從翻譯中選擇複數。
+多元化後端。預設情況下，僅應用英語複數規則。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">backend</span><span class="p">.</span><span class="nf">store_translations</span> <span class="ss">:en</span><span class="p">,</span> <span class="ss">inbox: </span><span class="p">{</span>
+  <span class="ss">zero: </span><span class="s1">'no messages'</span><span class="p">,</span> <span class="c1"># optional</span>
+  <span class="ss">one: </span><span class="s1">'one message'</span><span class="p">,</span>
+  <span class="ss">other: </span><span class="s1">'%{count} messages'</span>
+<span class="p">}</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">translate</span> <span class="ss">:inbox</span><span class="p">,</span> <span class="ss">count: </span><span class="mi">2</span>
+<span class="c1"># =&gt; '2 條訊息'</span>
+
+<span class="no">I18n</span><span class="p">.</span><span class="nf">translate</span> <span class="ss">:inbox</span><span class="p">,</span> <span class="ss">count: </span><span class="mi">1</span>
+<span class="c1"># =&gt; '一條訊息'</span>
+
+<span class="no">I18n</span><span class="p">.</span><span class="nf">translate</span> <span class="ss">:inbox</span><span class="p">,</span> <span class="ss">count: </span><span class="mi">0</span>
+<span class="c1"># =&gt; '沒有訊息'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.backend.store_translations :en, inbox: {
+  zero: 'no messages', # optional
+  one: 'one message',
+  other: '%{count} messages'
+}
+I18n.translate :inbox, count: 2
+# =&gt; '2 條訊息'
+
+I18n.translate :inbox, count: 1
+# =&gt; '一條訊息'
+
+I18n.translate :inbox, count: 0
+# =&gt; '沒有訊息'
+">Copy</button>
+</div>
+<p><code>:en</code> 中的複數演算法很簡單：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">lookup_key</span> <span class="o">=</span> <span class="ss">:zero</span> <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">entry</span><span class="p">.</span><span class="nf">has_key?</span><span class="p">(</span><span class="ss">:zero</span><span class="p">)</span>
+<span class="n">lookup_key</span> <span class="o">||=</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">?</span> <span class="ss">:one</span> <span class="p">:</span> <span class="ss">:other</span>
+<span class="n">entry</span><span class="p">[</span><span class="n">lookup_key</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="lookup_key = :zero if count == 0 &amp;&amp; entry.has_key?(:zero)
+lookup_key ||= count == 1 ? :one : :other
+entry[lookup_key]
+">Copy</button>
+</div>
+<p>表示為 <code>:one</code> 的翻譯被視為單數，而 <code>:other</code> 被視為複數。如果計數為零，並且存在 <code>:zero</code> 條目，則將使用它而不是 <code>:other</code>。</p><p>如果對 key 的查詢沒有返回適合複數的 Hash，則會引發 <code>I18n::InvalidPluralizationData</code> 異常。</p><h5 id=""><a class="anchorlink" href="#">4.2.1 特定於語言環境的規則</a></h5><p>I18n gem 提供了一個 Pluralization 後端，可用於啟用特定於語言環境的規則。包括它
+到 Simple 後端，然後將本地化的複數演算法新增到翻譯儲存中，如 <code>i18n.plural.rule</code>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="o">::</span><span class="no">Backend</span><span class="o">::</span><span class="no">Simple</span><span class="p">.</span><span class="nf">include</span><span class="p">(</span><span class="no">I18n</span><span class="o">::</span><span class="no">Backend</span><span class="o">::</span><span class="no">Pluralization</span><span class="p">)</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">backend</span><span class="p">.</span><span class="nf">store_translations</span> <span class="ss">:pt</span><span class="p">,</span> <span class="ss">i18n: </span><span class="p">{</span> <span class="ss">plural: </span><span class="p">{</span> <span class="ss">rule: </span><span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">].</span><span class="nf">include?</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">?</span> <span class="ss">:one</span> <span class="p">:</span> <span class="ss">:other</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">backend</span><span class="p">.</span><span class="nf">store_translations</span> <span class="ss">:pt</span><span class="p">,</span> <span class="ss">apples: </span><span class="p">{</span> <span class="ss">one: </span><span class="s1">'one or none'</span><span class="p">,</span> <span class="ss">other: </span><span class="s1">'more than one'</span> <span class="p">}</span>
+
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:apples</span><span class="p">,</span> <span class="ss">count: </span><span class="mi">0</span><span class="p">,</span> <span class="ss">locale: :pt</span>
+<span class="c1"># =&gt; '一個或一個'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n::Backend::Simple.include(I18n::Backend::Pluralization)
+I18n.backend.store_translations :pt, i18n: { plural: { rule: lambda { |n| [0, 1].include?(n) ? :one : :other } } }
+I18n.backend.store_translations :pt, apples: { one: 'one or none', other: 'more than one' }
+
+I18n.t :apples, count: 0, locale: :pt
+# =&gt; '一個或一個'
+">Copy</button>
+</div>
+<p>或者，單獨的 gem <a href="https://github.com/svenfuchs/rails-i18n">rails-i18n</a> 可用於提供更完整的特定於語言環境的複數規則集。</p><h4 id=""><a class="anchorlink" href="#">4.3 設定和傳遞語言環境</a></h4><p>區域設定可以偽全域性設定為 <code>I18n.locale</code>（使用 <code>Thread.current</code>，例如 <code>Time.zone</code>），也可以作為選項傳遞給 <code>#translate</code> 和 <code>#localize</code>。</p><p>如果沒有傳遞語言環境，則使用 <code>I18n.locale</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">locale</span> <span class="o">=</span> <span class="ss">:de</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:foo</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">l</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.locale = :de
+I18n.t :foo
+I18n.l Time.now
+">Copy</button>
+</div>
+<p>顯式傳遞語言環境：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:foo</span><span class="p">,</span> <span class="ss">locale: :de</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">l</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">,</span> <span class="ss">locale: :de</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t :foo, locale: :de
+I18n.l Time.now, locale: :de
+">Copy</button>
+</div>
+<p><code>I18n.locale</code> 預設為 <code>I18n.default_locale</code>，預設為 :<code>en</code>。預設語言環境可以這樣設定：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">default_locale</span> <span class="o">=</span> <span class="ss">:de</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.default_locale = :de
+">Copy</button>
+</div>
+<h4 id="html"><a class="anchorlink" href="#html">4.4 使用安全的 HTML 翻譯</a></h4><p>Key 帶有“_html”字尾和名為“html”的鍵被標記為 HTML 安全。當您在 views 中使用它們時，HTML 不會被轉義。</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># config/locales/en.yml</span>
+<span class="na">en</span><span class="pi">:</span>
+  <span class="na">welcome</span><span class="pi">:</span> <span class="s">&lt;b&gt;welcome!&lt;/b&gt;</span>
+  <span class="na">hello_html</span><span class="pi">:</span> <span class="s">&lt;b&gt;hello!&lt;/b&gt;</span>
+  <span class="na">title</span><span class="pi">:</span>
+    <span class="na">html</span><span class="pi">:</span> <span class="s">&lt;b&gt;title!&lt;/b&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# config/locales/en.yml
+en:
+  welcome: &lt;b&gt;welcome!&lt;/b&gt;
+  hello_html: &lt;b&gt;hello!&lt;/b&gt;
+  title:
+    html: &lt;b&gt;title!&lt;/b&gt;
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight erb"><span class="c">&lt;!-- app/views/home/index.html.erb --&gt;</span>
+<span class="nt">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">'welcome'</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">raw</span> <span class="n">t</span><span class="p">(</span><span class="s1">'welcome'</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">'hello_html'</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">'title.html'</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/div&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;!-- app/views/home/index.html.erb --&gt;
+&lt;div&gt;&lt;%= t('welcome') %&gt;&lt;/div&gt;
+&lt;div&gt;&lt;%= raw t('welcome') %&gt;&lt;/div&gt;
+&lt;div&gt;&lt;%= t('hello_html') %&gt;&lt;/div&gt;
+&lt;div&gt;&lt;%= t('title.html') %&gt;&lt;/div&gt;
+">Copy</button>
+</div>
+<p>不過，插值會根據需要進行轉義。例如，給定：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">en</span><span class="pi">:</span>
+  <span class="na">welcome_html</span><span class="pi">:</span> <span class="s2">"</span><span class="s">&lt;b&gt;Welcome</span><span class="nv"> </span><span class="s">%{username}!&lt;/b&gt;"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='en:
+  welcome_html: "&lt;b&gt;Welcome %{username}!&lt;/b&gt;"
+'>Copy</button>
+</div>
+<p>您可以安全地傳遞使用者設定的使用者名稱：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="c">&lt;%# This is safe, it is going to be escaped if needed. %&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">'welcome_html'</span><span class="p">,</span> <span class="ss">username: </span><span class="vi">@current_user</span><span class="p">.</span><span class="nf">username</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%# This is safe, it is going to be escaped if needed. %&gt;
+&lt;%= t('welcome_html', username: @current_user.username) %&gt;
+">Copy</button>
+</div>
+<p>另一方面，安全字串是逐字插入的。</p><div class="note"><p>自動轉換為 HTML 安全翻譯文字只能從 <code>translate</code> view helper 方法中使用。</p></div><p><img src="images/i18n/demo_html_safe.png" alt="i18n 演示 html 安全"></p><h4 id="active-record-model"><a class="anchorlink" href="#active-record-model">4.5 Active Record Model 的翻譯</a></h4><p>您可以使用 <code>Model.model_name.human</code> 和 <code>Model.human_attribute_name(attribute)</code> 方法透明地查詢 model 和屬性名稱的翻譯。</p><p>例如，當您新增以下翻譯時：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">en</span><span class="pi">:</span>
+  <span class="na">activerecord</span><span class="pi">:</span>
+    <span class="na">models</span><span class="pi">:</span>
+      <span class="na">user</span><span class="pi">:</span> <span class="s">Customer</span>
+    <span class="na">attributes</span><span class="pi">:</span>
+      <span class="na">user</span><span class="pi">:</span>
+        <span class="na">login</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Handle"</span>
+      <span class="c1"># will translate User attribute "login" as "Handle"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='en:
+  activerecord:
+    models:
+      user: Customer
+    attributes:
+      user:
+        login: "Handle"
+      # will translate User attribute "login" as "Handle"
+'>Copy</button>
+</div>
+<p>然後 <code>User.model_name.human</code> 將返回“客戶”，而 <code>User.human_attribute_name("login")</code> 將返回“控制代碼”。</p><p>您還可以為 model 名稱設定複數形式，新增如下：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">en</span><span class="pi">:</span>
+  <span class="na">activerecord</span><span class="pi">:</span>
+    <span class="na">models</span><span class="pi">:</span>
+      <span class="na">user</span><span class="pi">:</span>
+        <span class="na">one</span><span class="pi">:</span> <span class="s">Customer</span>
+        <span class="na">other</span><span class="pi">:</span> <span class="s">Customers</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="en:
+  activerecord:
+    models:
+      user:
+        one: Customer
+        other: Customers
+">Copy</button>
+</div>
+<p>然後 <code>User.model_name.human(count: 2)</code> 將返回“客戶”。使用 <code>count: 1</code> 或不使用引數將返回“客戶”。</p><p>如果您需要訪問給定 model 中的巢狀屬性，則應將這些屬性巢狀在翻譯檔案的 model 級別的 <code>model/attribute</code> 下：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">en</span><span class="pi">:</span>
+  <span class="na">activerecord</span><span class="pi">:</span>
+    <span class="na">attributes</span><span class="pi">:</span>
+      <span class="s">user/role</span><span class="pi">:</span>
+        <span class="na">admin</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Admin"</span>
+        <span class="na">contributor</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Contributor"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='en:
+  activerecord:
+    attributes:
+      user/role:
+        admin: "Admin"
+        contributor: "Contributor"
+'>Copy</button>
+</div>
+<p>然後 <code>User.human_attribute_name("role.admin")</code> 將返回“管理員”。</p><div class="note"><p>如果您使用的類包含 <code>ActiveModel</code> 且不繼承自 <code>ActiveRecord::Base</code>，請將上述 key 路徑中的 <code>activerecord</code> 替換為 <code>activemodel</code>。</p></div><h5 id=""><a class="anchorlink" href="#">4.5.1 錯誤訊息範圍</a></h5><p>Active Record 驗證錯誤訊息也可以輕鬆翻譯。 Active Record 為您提供了幾個名稱空間，您可以在其中放置訊息翻譯，以便為某些 models、屬性和/或驗證提供不同的訊息和翻譯。它還透明地考慮了單表繼承。</p><p>這為您提供了非常強大的方法，可以根據應用程式的需要靈活地調整訊息。</p><p>考慮一個 User model 對 name 屬性進行驗證，如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class User &lt; ApplicationRecord
+  validates :name, presence: true
+end
+">Copy</button>
+</div>
+<p>在這種情況下，錯誤訊息的 key 是 <code>:blank</code>。 Active Record 將在名稱空間中查詢這個 key：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">models</span><span class="p">.</span><span class="nf">[</span><span class="n">model_name</span><span class="p">].</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">[</span><span class="n">attribute_name</span><span class="p">]</span>
+<span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">models</span><span class="p">.</span><span class="nf">[</span><span class="n">model_name</span><span class="p">]</span>
+<span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">messages</span>
+<span class="n">errors</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">[</span><span class="n">attribute_name</span><span class="p">]</span>
+<span class="n">errors</span><span class="p">.</span><span class="nf">messages</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="activerecord.errors.models.[model_name].attributes.[attribute_name]
+activerecord.errors.models.[model_name]
+activerecord.errors.messages
+errors.attributes.[attribute_name]
+errors.messages
+">Copy</button>
+</div>
+<p>因此，在我們的示例中，它將按此順序嘗試以下 keys 並返回第一個結果：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">models</span><span class="p">.</span><span class="nf">user</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">blank</span>
+<span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">models</span><span class="p">.</span><span class="nf">user</span><span class="p">.</span><span class="nf">blank</span>
+<span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">blank</span>
+<span class="n">errors</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">blank</span>
+<span class="n">errors</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">blank</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="activerecord.errors.models.user.attributes.name.blank
+activerecord.errors.models.user.blank
+activerecord.errors.messages.blank
+errors.attributes.name.blank
+errors.messages.blank
+">Copy</button>
+</div>
+<p>當您的 models 額外使用繼承時，將在繼承鏈中查詢訊息。</p><p>例如，您可能有一個從 User 繼承的 Admin model：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Admin</span> <span class="o">&lt;</span> <span class="no">User</span>
+  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class Admin &lt; User
+  validates :name, presence: true
+end
+">Copy</button>
+</div>
+<p>然後 Active Record 將按以下順序查詢訊息：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">models</span><span class="p">.</span><span class="nf">admin</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">blank</span>
+<span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">models</span><span class="p">.</span><span class="nf">admin</span><span class="p">.</span><span class="nf">blank</span>
+<span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">models</span><span class="p">.</span><span class="nf">user</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">blank</span>
+<span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">models</span><span class="p">.</span><span class="nf">user</span><span class="p">.</span><span class="nf">blank</span>
+<span class="n">activerecord</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">blank</span>
+<span class="n">errors</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">blank</span>
+<span class="n">errors</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">blank</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="activerecord.errors.models.admin.attributes.name.blank
+activerecord.errors.models.admin.blank
+activerecord.errors.models.user.attributes.name.blank
+activerecord.errors.models.user.blank
+activerecord.errors.messages.blank
+errors.attributes.name.blank
+errors.messages.blank
+">Copy</button>
+</div>
+<p>通過這種方式，您可以為模型繼承鏈和屬性、models 或預設範圍中不同點的各種錯誤訊息提供特殊翻譯。</p><h5 id=""><a class="anchorlink" href="#">4.5.2 錯誤資訊插值</a></h5><p>已翻譯的 model 名稱、已翻譯的屬性名稱和 value 始終可用於插值，分別為 <code>model</code>、<code>attribute</code> 和 <code>value</code>。</p><p>因此，例如，您可以使用像這樣的屬性名稱：<code>"Please fill in your %{attribute}"</code>，而不是預設的錯誤訊息 <code>"cannot be blank"</code>。</p>
+<ul>
+<li>
+<code>count</code>，如果可用，可用於複數形式（如果存在）：</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>驗證</th>
+<th>帶選項</th>
+<th>留言</th>
+<th>插值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>確認</td>
+<td>-</td>
+<td>:確認</td>
+<td>屬性</td>
+</tr>
+<tr>
+<td>驗收</td>
+<td>-</td>
+<td>:接受</td>
+<td>-</td>
+</tr>
+<tr>
+<td>存在</td>
+<td>-</td>
+<td>:空白</td>
+<td>-</td>
+</tr>
+<tr>
+<td>缺席</td>
+<td>-</td>
+<td>:現在</td>
+<td>-</td>
+</tr>
+<tr>
+<td>長度</td>
+<td>:in, :in</td>
+<td>:too_short</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>長度</td>
+<td>:in, :in</td>
+<td>:too_long</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>長度</td>
+<td>：是</td>
+<td>:錯誤長度</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>長度</td>
+<td>：最低</td>
+<td>:too_short</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>長度</td>
+<td>:最大</td>
+<td>:too_long</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>獨特性</td>
+<td>-</td>
+<td>：採取</td>
+<td>-</td>
+</tr>
+<tr>
+<td>格式</td>
+<td>-</td>
+<td>：無效</td>
+<td>-</td>
+</tr>
+<tr>
+<td>包容</td>
+<td>-</td>
+<td>:包含</td>
+<td>-</td>
+</tr>
+<tr>
+<td>排除</td>
+<td>-</td>
+<td>:排除</td>
+<td>-</td>
+</tr>
+<tr>
+<td>關聯</td>
+<td>-</td>
+<td>：無效</td>
+<td>-</td>
+</tr>
+<tr>
+<td>非可選 association</td>
+<td>-</td>
+<td>：需要</td>
+<td>-</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>-</td>
+<td>:not_a_number</td>
+<td>-</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>:大於</td>
+<td>:大於</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>:greater_than_or_equal_to</td>
+<td>:greater_than_or_equal_to</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>:equal_to</td>
+<td>:equal_to</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>:小於</td>
+<td>:小於</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>:less_than_or_equal_to</td>
+<td>:less_than_or_equal_to</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>:other_than</td>
+<td>:other_than</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>:only_整數</td>
+<td>:not_an_integer</td>
+<td>-</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>:in</td>
+<td>:in</td>
+<td>計數</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>：奇怪</td>
+<td>：奇怪</td>
+<td>-</td>
+</tr>
+<tr>
+<td>數量</td>
+<td>:偶</td>
+<td>:偶</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="action-mailer"><a class="anchorlink" href="#action-mailer">4.6 Action Mailer 電子郵件主題的翻譯</a></h4><p>如果您沒有將主題傳遞給 <code>mail</code> 方法，則 Action Mailer 將嘗試查詢
+它在你的翻譯中。執行的查詢將使用模式
+<code>&lt;mailer_scope&gt;.&lt;action_name&gt;.subject</code> 來構造 key。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># user_mailer.rb</span>
+<span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ActionMailer</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">welcome</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="c1">#...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# user_mailer.rb
+class UserMailer &lt; ActionMailer::Base
+  def welcome(user)
+    #...
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="na">en</span><span class="pi">:</span>
+  <span class="na">user_mailer</span><span class="pi">:</span>
+    <span class="na">welcome</span><span class="pi">:</span>
+      <span class="na">subject</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Welcome</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Rails</span><span class="nv"> </span><span class="s">Guides!"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='en:
+  user_mailer:
+    welcome:
+      subject: "Welcome to Rails Guides!"
+'>Copy</button>
+</div>
+<p>要將引數傳送到插值，請使用郵件程式上的 <code>default_i18n_subject</code> 方法。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># user_mailer.rb</span>
+<span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">ActionMailer</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">welcome</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">mail</span><span class="p">(</span><span class="ss">to: </span><span class="n">user</span><span class="p">.</span><span class="nf">email</span><span class="p">,</span> <span class="ss">subject: </span><span class="n">default_i18n_subject</span><span class="p">(</span><span class="ss">user: </span><span class="n">user</span><span class="p">.</span><span class="nf">name</span><span class="p">))</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# user_mailer.rb
+class UserMailer &lt; ActionMailer::Base
+  def welcome(user)
+    mail(to: user.email, subject: default_i18n_subject(user: user.name))
+  end
+end
+">Copy</button>
+</div>
+<div class="code_container">
+<pre><code class="highlight yaml"><span class="na">en</span><span class="pi">:</span>
+  <span class="na">user_mailer</span><span class="pi">:</span>
+    <span class="na">welcome</span><span class="pi">:</span>
+      <span class="na">subject</span><span class="pi">:</span> <span class="s2">"</span><span class="s">%{user},</span><span class="nv"> </span><span class="s">welcome</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Rails</span><span class="nv"> </span><span class="s">Guides!"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='en:
+  user_mailer:
+    welcome:
+      subject: "%{user}, welcome to Rails Guides!"
+'>Copy</button>
+</div>
+<h4 id="i18n-view"><a class="anchorlink" href="#i18n-view">4.7 其他提供 I18n 支援的內建方法的 view</a></h4><p>Rails 使用固定字串和其他本地化，例如幾個 helpers 中的格式字串和其他格式資訊。這裡有一個簡短的關於 view 的內容。</p><h5 id="action-view-helper"><a class="anchorlink" href="#action-view-helper">4.7.1 Action View Helper 方法</a></h5>
+<ul>
+<li><p><code>distance_of_time_in_words</code> 對其結果進行翻譯和複數化，並插入秒數、分鐘數、小時數等。請參閱 <a href="https://github.com/rails/rails/blob/main/actionview/lib/action_view/locale/en.yml#L4">datetime.distance_in_words</a> 翻譯。</p></li>
+<li><p><code>datetime_select</code> 和 <code>select_month</code> 使用翻譯的月份名稱來填充產生的選擇標籤。有關翻譯，請參閱 <a href="https://github.com/rails/rails/blob/main/activesupport/lib/active_support/locale/en.yml#L15">date.month_names</a>。 <code>datetime_select</code> 還會從 <a href="https://github.com/rails/rails/blob/main/activesupport/lib/active_support/locale/en.yml#L18">date.order</a> 中查詢訂單選項（除非您明確傳遞該選項）。所有日期選擇 helpers 使用 <a href="https://github.com/rails/rails/blob/main/actionview/lib/action_view/locale/en.yml#L39">datetime.prompts</a> 範圍內的翻譯來翻譯提示（如果適用）。</p></li>
+<li><p><code>number_to_currency</code>、<code>number_with_precision</code>、<code>number_to_percentage</code>、<code>number_with_delimiter</code> 和 <code>number_to_human_size</code> helpers 使用位於 <a href="https://github.com/rails/rails/blob/main/activesupport/lib/active_support/locale/en.yml#L37">number</a> 範圍內的數字格式設定。</p></li>
+</ul>
+<h5 id="active-model"><a class="anchorlink" href="#active-model">4.7.2 Active Model 方法</a></h5>
+<ul>
+<li><p><code>model_name.human</code> 和 <code>human_attribute_name</code> 使用模型名稱和屬性名稱的翻譯，如果在 <a href="https://github.com/rails/rails/blob/main/activerecord/lib/active_record/locale/en.yml#L36">activerecord.models</a> 範圍內可用。它們還支援對繼承類名稱的轉換（例如用於 STI），如上面“錯誤訊息範圍”中所述。</p></li>
+<li><p><code>ActiveModel::Errors#generate_message</code>（由 Active Model 驗證使用，但也可以手動使用）使用 <code>model_name.human</code> 和 <code>human_attribute_name</code>（見上文）。它還翻譯錯誤訊息並支援繼承類名稱的翻譯，如上面“錯誤訊息範圍”中所述。</p></li>
+<li><p><code>ActiveModel::Errors#full_messages</code> 使用將從 <a href="https://github.com/rails/rails/blob/main/activemodel/lib/active_model/locale/en.yml#L4">errors.format</a>（預設為 <code>"%{attribute} %{message}"</code>）查詢的分隔符將屬性名稱新增到錯誤訊息中。</p></li>
+</ul>
+<h5 id="active-support"><a class="anchorlink" href="#active-support">4.7.3 Active Support 方法</a></h5>
+<ul>
+<li>
+<code>Array#to_sentence</code> 使用 <a href="https://github.com/rails/rails/blob/main/activesupport/lib/active_support/locale/en.yml#L33">support.array</a> 範圍中給出的格式設定。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">5 如何儲存您的自定義翻譯</a></h3><p>Active Support 附帶的簡單後端允許您以普通 Ruby 和 YAML 格式儲存翻譯。<sup class="footnote" id="footnote-2-ref"><a href="#footnote-2">2</a></sup></p><p>例如，提供翻譯的 Ruby 雜湊可以如下所示：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="p">{</span>
+  <span class="ss">pt: </span><span class="p">{</span>
+    <span class="ss">foo: </span><span class="p">{</span>
+      <span class="ss">bar: </span><span class="s2">"baz"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='{
+  pt: {
+    foo: {
+      bar: "baz"
+    }
+  }
+}
+'>Copy</button>
+</div>
+<p>等效的 YAML 檔案如下所示：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">pt</span><span class="pi">:</span>
+  <span class="na">foo</span><span class="pi">:</span>
+    <span class="na">bar</span><span class="pi">:</span> <span class="s">baz</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="pt:
+  foo:
+    bar: baz
+">Copy</button>
+</div>
+<p>如您所見，在這兩種情況下，頂級 key 都是語言環境。 <code>:foo</code> 是名稱空間 key 和 <code>:bar</code> 是翻譯“baz”的 key。</p><p>這是 Active Support <code>en.yml</code> 翻譯 YAML 檔案中的“真實”示例：</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="na">en</span><span class="pi">:</span>
+  <span class="na">date</span><span class="pi">:</span>
+    <span class="na">formats</span><span class="pi">:</span>
+      <span class="na">default</span><span class="pi">:</span> <span class="s2">"</span><span class="s">%Y-%m-%d"</span>
+      <span class="na">short</span><span class="pi">:</span> <span class="s2">"</span><span class="s">%b</span><span class="nv"> </span><span class="s">%d"</span>
+      <span class="na">long</span><span class="pi">:</span> <span class="s2">"</span><span class="s">%B</span><span class="nv"> </span><span class="s">%d,</span><span class="nv"> </span><span class="s">%Y"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='en:
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+'>Copy</button>
+</div>
+<p>因此，以下所有等效查詢都將返回 <code>:short</code> 日期格式 <code>"%b %d"</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'date.formats.short'</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="s1">'formats.short'</span><span class="p">,</span> <span class="ss">scope: :date</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:short</span><span class="p">,</span> <span class="ss">scope: </span><span class="s1">'date.formats'</span>
+<span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:short</span><span class="p">,</span> <span class="ss">scope: </span><span class="p">[</span><span class="ss">:date</span><span class="p">,</span> <span class="ss">:formats</span><span class="p">]</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t 'date.formats.short'
+I18n.t 'formats.short', scope: :date
+I18n.t :short, scope: 'date.formats'
+I18n.t :short, scope: [:date, :formats]
+">Copy</button>
+</div>
+<p>通常我們建議使用 YAML 作為儲存翻譯的格式。但是，在某些情況下，您希望將 Ruby lambdas 儲存為區域設定資料的一部分，例如用於特殊日期格式。</p><h3 id="i18n"><a class="anchorlink" href="#i18n">6 自定義您的 I18n 設定</a></h3><h4 id=""><a class="anchorlink" href="#">6.1 使用不同的後端</a></h4><p>由於幾個原因，隨 Active Support 一起提供的簡單後端只做“可能工作的最簡單的事情”<em>for Ruby on Rails</em><sup class="footnote" id="footnote-3-ref"><a href="#footnote-3">3</a></sup> ...這意味著它只能保證適用於英語，作為副作用，語言與英語非常相似。此外，簡單後端只能讀取翻譯，但不能將它們動態儲存為任何格式。</p><p>不過，這並不意味著您會受到這些限制的困擾。 Ruby I18n gem 通過將後端實例傳遞給 <code>I18n.backend=</code> 設定器，可以非常輕鬆地將簡單後端實現與更適合您需求的其他東西交換。</p><p>例如，您可以將 Simple 後端替換為 Chain 後端以將多個後端連結在一起。當您想使用帶有簡單後端的標準翻譯但將自定義應用程式翻譯儲存在資料庫或其他後端時，這很有用。</p><p>使用 Chain 後端，您可以使用 Active Record 後端並回退到（預設）簡單後端：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">backend</span> <span class="o">=</span> <span class="no">I18n</span><span class="o">::</span><span class="no">Backend</span><span class="o">::</span><span class="no">Chain</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">I18n</span><span class="o">::</span><span class="no">Backend</span><span class="o">::</span><span class="no">ActiveRecord</span><span class="p">.</span><span class="nf">new</span><span class="p">,</span> <span class="no">I18n</span><span class="p">.</span><span class="nf">backend</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.backend = I18n::Backend::Chain.new(I18n::Backend::ActiveRecord.new, I18n.backend)
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">6.2 使用不同的異常處理程式</a></h4><p>I18n API 定義了以下異常，當發生相應的意外情況時，後端會引發這些異常：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">MissingTranslationData</span>       <span class="c1"># no translation was found for the requested key</span>
+<span class="no">InvalidLocale</span>                <span class="c1"># the locale set to I18n.locale is invalid (e.g. nil)</span>
+<span class="no">InvalidPluralizationData</span>     <span class="c1"># a count option was passed but the translation data is not suitable for pluralization</span>
+<span class="no">MissingInterpolationArgument</span> <span class="c1"># the translation expects an interpolation argument that has not been passed</span>
+<span class="no">ReservedInterpolationKey</span>     <span class="c1"># the translation contains a reserved interpolation variable name (i.e. one of: scope, default)</span>
+<span class="no">UnknownFileType</span>              <span class="c1"># the backend does not know how to handle a file type that was added to I18n.load_path</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="MissingTranslationData       # no translation was found for the requested key
+InvalidLocale                # the locale set to I18n.locale is invalid (e.g. nil)
+InvalidPluralizationData     # a count option was passed but the translation data is not suitable for pluralization
+MissingInterpolationArgument # the translation expects an interpolation argument that has not been passed
+ReservedInterpolationKey     # the translation contains a reserved interpolation variable name (i.e. one of: scope, default)
+UnknownFileType              # the backend does not know how to handle a file type that was added to I18n.load_path
+">Copy</button>
+</div>
+<p>當這些異常在後端丟擲時，I18n API 將捕獲所有這些異常，並將它們傳遞給 default_exception_handler 方法。此方法將重新引發除 <code>MissingTranslationData</code> 異常之外的所有異常。當一個 <code>MissingTranslationData</code> 異常被捕獲時，它將返回包含缺少的 key/範圍的異常的錯誤訊息字串。</p><p>這樣做的原因是在開發過程中，您通常希望 views 仍然呈現，即使缺少翻譯。</p><p>不過，在其他情況下，您可能希望更改此行為。例如。預設異常處理不允許在自動化測試期間輕鬆捕獲丟失的翻譯。為此，可以指定不同的異常處理程式。指定的異常處理程式必須是 I18n module 上的方法或具有 <code>call</code> 方法的類：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">I18n</span>
+  <span class="k">class</span> <span class="nc">JustRaiseExceptionHandler</span> <span class="o">&lt;</span> <span class="no">ExceptionHandler</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">locale</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">exception</span><span class="p">.</span><span class="nf">is_a?</span><span class="p">(</span><span class="no">MissingTranslation</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">exception</span><span class="p">.</span><span class="nf">to_exception</span>
+      <span class="k">else</span>
+        <span class="k">super</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">I18n</span><span class="p">.</span><span class="nf">exception_handler</span> <span class="o">=</span> <span class="no">I18n</span><span class="o">::</span><span class="no">JustRaiseExceptionHandler</span><span class="p">.</span><span class="nf">new</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="module I18n
+  class JustRaiseExceptionHandler &lt; ExceptionHandler
+    def call(exception, locale, key, options)
+      if exception.is_a?(MissingTranslation)
+        raise exception.to_exception
+      else
+        super
+      end
+    end
+  end
+end
+
+I18n.exception_handler = I18n::JustRaiseExceptionHandler.new
+">Copy</button>
+</div>
+<p>這隻會重新引發 <code>MissingTranslationData</code> 異常，將所有其他輸入傳遞給預設異常處理程式。</p><p>但是，如果您使用 <code>I18n::Backend::Pluralization</code>，此處理程式也會引發 <code>I18n::MissingTranslationData: translation missing: en.i18n.plural.rule</code> 異常，通常應忽略該異常以回退到英語語言環境的預設複數規則。為了避免這種情況，您可以對翻譯 key 使用額外的檢查：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">if</span> <span class="n">exception</span><span class="p">.</span><span class="nf">is_a?</span><span class="p">(</span><span class="no">MissingTranslation</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">key</span><span class="p">.</span><span class="nf">to_s</span> <span class="o">!=</span> <span class="s1">'i18n.plural.rule'</span>
+  <span class="k">raise</span> <span class="n">exception</span><span class="p">.</span><span class="nf">to_exception</span>
+<span class="k">else</span>
+  <span class="k">super</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="if exception.is_a?(MissingTranslation) &amp;&amp; key.to_s != 'i18n.plural.rule'
+  raise exception.to_exception
+else
+  super
+end
+">Copy</button>
+</div>
+<p>預設行為不太理想的另一個示例是 Rails TranslationHelper，它提供了方法 <code>#t</code>（以及 <code>#translate</code>）。當在此上下文中發生 <code>MissingTranslationData</code> 異常時，幫助程式將訊息包裝到具有 CSS 類 <code>translation_missing</code> 的 span 中。</p><p>為此，無論通過設定 <code>:raise</code> 選項定義了什麼異常處理程式，helper 都會強制 <code>I18n#translate</code> 引發異常：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">I18n</span><span class="p">.</span><span class="nf">t</span> <span class="ss">:foo</span><span class="p">,</span> <span class="ss">raise: </span><span class="kp">true</span> <span class="c1"># always re-raises exceptions from the backend</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="I18n.t :foo, raise: true # always re-raises exceptions from the backend
+">Copy</button>
+</div>
+<h3 id="model"><a class="anchorlink" href="#model">7 翻譯 Model 內容</a></h3><p>本指南中描述的 I18n API 主要用於翻譯介面字串。如果您想翻譯 model 內容（例如部落格文章），您將需要不同的解決方案來幫助解決這個問題。</p><p>幾個 gem 可以幫助解決這個問題：</p>
+<ul>
+<li>
+<a href="https://github.com/shioyama/mobility">Mobility</a>：提供支援以多種格式儲存翻譯，包括翻譯表、json列（PostgreSQL）等。</li>
+<li>
+<a href="https://github.com/barsoom/traco">Traco</a>：儲存在model表本身中的可翻譯列</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">8 結論</a></h3><p>在這一點上，您應該對 Rails 上的 Ruby 中的 I18n 支援如何工作有一個很好的 overview，並準備開始翻譯您的專案。</p><h3 id="rails-i18n"><a class="anchorlink" href="#rails-i18n">9 為 Rails I18n 做貢獻</a></h3><p>Rails 上的 Ruby 中的 I18n 支援是在 2.2 版中引入的，並且仍在不斷髮展。該專案遵循 Rails 上的良好 Ruby 開發傳統，首先在 gem 和實際應用程式中發展解決方案，然後才挑選出最廣泛有用的功能中的最佳品種以包含在核心中。</p><p>因此，我們鼓勵每個人在 gem 或其他庫中嘗試新的想法和功能，並將它們提供給社群。 （不要忘記在我們的 <a href="https://groups.google.com/forum/#!forum/rails-i18n">郵件列表</a> 上宣佈您的工作！）</p><p>如果您發現 Rails 上 Ruby 的 <a href="https://github.com/svenfuchs/rails-i18n/tree/master/rails/locale">示例翻譯資料</a> 儲存庫中缺少您自己的語言環境（語言），請 <a href="https://github.com/guides/fork-a-project-and-submit-your-modifications"><em>fork</em></a> 儲存庫，新增您的資料，然後傳送 [拉取請求]ZHTW_url_2_WTH</p><h3 id=""><a class="anchorlink" href="#">10 資源</a></h3>
+<ul>
+<li>
+<a href="https://groups.google.com/g/rails-i18n">Google group: rails-i18n</a> - 專案的郵件列表。</li>
+<li>
+<a href="https://github.com/svenfuchs/rails-i18n">GitHub: rails-i18n</a> - 程式碼儲存庫併為 rails-i18n 專案釋出 tracker。最重要的是，您可以為 Rails 找到許多 <a href="https://github.com/svenfuchs/rails-i18n/tree/master/rails/locale">示例翻譯</a>，它們在大多數情況下都適用於您的應用程式。</li>
+<li>
+<a href="https://github.com/svenfuchs/i18n">GitHub: i18n</a> - 程式碼儲存庫併為 i18n gem 釋出 tracker。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">11 作者</a></h3>
+<ul>
+<li>
+<a href="http://svenfuchs.com">Sven Fuchs</a>（原作者）</li>
+<li><a href="http://www.karmi.cz">Karel Minařík</a></li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">12 腳註</a></h3><p class="footnote" id="footnote-1"><a href="#footnote-1-ref"><sup>1</sup></a> 或者，引用 <a href="https://en.wikipedia.org/wiki/Internationalization_and_localization">Wikipedia</a>: <em>"國際化是設計軟體應用程式的過程，以便它可以適應各種語言和地區，而無需進行工程更改。本地化是使軟體適應特定環境的過程通過新增特定於區域設定的元件和翻譯文字來區域或語言。”</em></p><p>[<sup>2]:其他後端可能允許或要求使用其他格式，例如GetText</sup> 後端可能允許讀取 GetText 檔案。</p><p>[<sup>3]:其中一個原因是我們不希望為不需要任何</sup> I18n 功能的應用程式暗示任何不必要的負載，因此我們需要保持 I18n 庫儘可能簡單，適用於英語。另一個原因是幾乎不可能為所有現有語言的 I18n 相關的所有問題實現一個通用的解決方案。因此，無論如何，允許我們輕鬆交換整個實現的解決方案是合適的。這也使試驗自定義功能和擴充套件變得更加容易。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>

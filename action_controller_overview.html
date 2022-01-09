@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Action Controller 概述 — Ruby on Rails Guides</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbolinks-track="reload">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="javascripts/turbolinks.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/clipboard.js" data-turbolinks-track="reload"></script>
+  <script src="javascripts/guides.js" data-turbolinks-track="reload"></script>
+  <meta property="og:title" content="Action Controller 概述 — Ruby on Rails Guides" />
+  <meta name="description" content="Action Controller 概述在本指南中，您將瞭解 controllers 如何工作以及它們如何適應您的應用程式中的請求週期。閱讀本指南後，您將瞭解： 如何透過 controller 追蹤請求（request）的流程。 如何限制傳送至 controller 的引數（parameters）。 如何以及為什麼將資料儲存在 session 或 cookies 之中。 如何使用過濾器在請求處理期間執行程式碼。 如何使用 Action Controller 內建的 HTTP 認證。 如何將資料直接串流（stream）到使用者的瀏覽器。 如何過濾敏感引數，使它們不會出現在應用程式的紀錄檔中。 如何處理請求處理過程中可能出現的異常。" />
+  <meta property="og:description" content="Action Controller 概述在本指南中，您將瞭解 controllers 如何工作以及它們如何適應您的應用程式中的請求週期。閱讀本指南後，您將瞭解： 如何透過 controller 追蹤請求（request）的流程。 如何限制傳送至 controller 的引數（parameters）。 如何以及為什麼將資料儲存在 session 或 cookies 之中。 如何使用過濾器在請求處理期間執行程式碼。 如何使用 Action Controller 內建的 HTTP 認證。 如何將資料直接串流（stream）到使用者的瀏覽器。 如何過濾敏感引數，使它們不會出現在應用程式的紀錄檔中。 如何處理請求處理過程中可能出現的異常。" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Ruby on Rails Guides" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4223" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="guide">
+  <div>
+    <div id="version-badge">v7.0.0</div>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">更多資訊請前往 <a href="https://rubyonrails.org/">rubyonrails.org:</a> </strong>
+      <span class="red-button more-info-button">
+        更多在 Ruby on Rails
+      </span>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://weblog.rubyonrails.org/">部落格</a></li>
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">指南</a></li>
+        <li class="more-info"><a href="https://api.rubyonrails.org/">API</a></li>
+        <li class="more-info"><a href="https://discuss.rubyonrails.org/">論壇</a></li>
+        <li class="more-info"><a href="https://github.com/rails/rails">在 GitHub 上做出貢獻</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="返回首頁">Guides.rubyonrails.org</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">首頁</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">手冊目錄</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <dl class="guides-section-container">
+                <div class="guides-section">
+                  <dt>從這裡開始</dt>
+                  <dd><a href="getting_started.html">Rails 入門</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Models</dt>
+                  <dd><a href="active_record_basics.html">Active Record 基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record 遷移 (Migrations)</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record 驗證 (Validations)</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record 回呼 (Callbacks)</a></dd>
+                  <dd><a href="association_basics.html">Active Record 關聯 (Associations)</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record 查詢介面</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Views</dt>
+                  <dd><a href="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</a></dd>
+                  <dd><a href="form_helpers.html">Action View 表單 Helpers</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>Controllers</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller 概述</a></dd>
+                  <dd><a href="routing.html">Rails 從外到內路由</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>其他元件</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support 核心擴充套件</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer 基礎知識</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job 基礎</a></dd>
+                  <dd><a href="active_storage_overview.html">Active Storage 概述</a></dd>
+                  <dd><a href="action_cable_overview.html">Action Cable 概述</a></dd>
+                  <dd><a href="webpacker.html">Webpacker</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>深入研究</dt>
+                  <dd><a href="i18n.html">Rails 國際化 (I18n) API</a></dd>
+                  <dd><a href="testing.html">測試 Rails 應用程式</a></dd>
+                  <dd><a href="security.html">保護 Rails 應用程式</a></dd>
+                  <dd><a href="debugging_rails_applications.html">除錯 Rails 應用程式</a></dd>
+                  <dd><a href="configuring.html">設定 Rails 應用程式</a></dd>
+                  <dd><a href="command_line.html">Rails 命令列</a></dd>
+                  <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                  <dd><a href="autoloading_and_reloading_constants.html">自動載入和重新載入常量</a></dd>
+                  <dd><a href="caching_with_rails.html">使用 Rails 快取</a></dd>
+                  <dd><a href="api_app.html">將 Rails 用於僅 API 的應用程式</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>擴充 rails</dt>
+                  <dd><a href="rails_on_rack.html">Rails on Rack</a></dd>
+                  <dd><a href="generators.html">建立和自定義 Rails 產生器和模板</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>貢獻</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">API 文件指南</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">指南指南</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>政策</dt>
+                  <dd><a href="maintenance_policy.html">維修政策</a></dd>
+                </div>
+                <div class="guides-section">
+                  <dt>發行說明</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</a></dd>
+                  <dd><a href="6_1_release_notes.html">6.1 版 - 2020 年 12 月</a></dd>
+                  <dd><a href="6_0_release_notes.html">6.0 版 - 2019 年 8 月</a></dd>
+                  <dd><a href="5_2_release_notes.html">5.2 版 - 2018 年 4 月</a></dd>
+                  <dd><a href="5_1_release_notes.html">5.1 版 - 2017 年 4 月</a></dd>
+                  <dd><a href="5_0_release_notes.html">5.0 版 - 2016 年 6 月</a></dd>
+                  <dd><a href="4_2_release_notes.html">4.2 版 - 2014 年 12 月</a></dd>
+                  <dd><a href="4_1_release_notes.html">4.1 版 - 2014 年 4 月</a></dd>
+                  <dd><a href="4_0_release_notes.html">4.0 版 - 2013 年 6 月</a></dd>
+                  <dd><a href="3_2_release_notes.html">3.2 版 - 2012 年 1 月</a></dd>
+                  <dd><a href="3_1_release_notes.html">3.1 版 - 2011 年 8 月</a></dd>
+                  <dd><a href="3_0_release_notes.html">3.0 版 - 2010 年 8 月</a></dd>
+                  <dd><a href="2_3_release_notes.html">2.3 版 - 2009 年 3 月</a></dd>
+                  <dd><a href="2_2_release_notes.html">2.2 版 - 2008 年 11 月</a></dd>
+                </div>
+            </dl>
+          </div>
+        </li>
+        <li><a class="nav-item" href="contributing_to_ruby_on_rails.html">貢獻</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">手冊目錄</option>
+              <optgroup label="從這裡開始">
+                  <option value="getting_started.html">Rails 入門</option>
+              </optgroup>
+              <optgroup label="Models">
+                  <option value="active_record_basics.html">Active Record 基礎</option>
+                  <option value="active_record_migrations.html">Active Record 遷移 (Migrations)</option>
+                  <option value="active_record_validations.html">Active Record 驗證 (Validations)</option>
+                  <option value="active_record_callbacks.html">Active Record 回呼 (Callbacks)</option>
+                  <option value="association_basics.html">Active Record 關聯 (Associations)</option>
+                  <option value="active_record_querying.html">Active Record 查詢介面</option>
+              </optgroup>
+              <optgroup label="Views">
+                  <option value="layouts_and_rendering.html">Rails 中的版面配置(Layouts)和算繪(Rendering)</option>
+                  <option value="form_helpers.html">Action View 表單 Helpers</option>
+              </optgroup>
+              <optgroup label="Controllers">
+                  <option value="action_controller_overview.html">Action Controller 概述</option>
+                  <option value="routing.html">Rails 從外到內路由</option>
+              </optgroup>
+              <optgroup label="其他元件">
+                  <option value="active_support_core_extensions.html">Active Support 核心擴充套件</option>
+                  <option value="action_mailer_basics.html">Action Mailer 基礎知識</option>
+                  <option value="active_job_basics.html">Active Job 基礎</option>
+                  <option value="active_storage_overview.html">Active Storage 概述</option>
+                  <option value="action_cable_overview.html">Action Cable 概述</option>
+                  <option value="webpacker.html">Webpacker</option>
+              </optgroup>
+              <optgroup label="深入研究">
+                  <option value="i18n.html">Rails 國際化 (I18n) API</option>
+                  <option value="testing.html">測試 Rails 應用程式</option>
+                  <option value="security.html">保護 Rails 應用程式</option>
+                  <option value="debugging_rails_applications.html">除錯 Rails 應用程式</option>
+                  <option value="configuring.html">設定 Rails 應用程式</option>
+                  <option value="command_line.html">Rails 命令列</option>
+                  <option value="asset_pipeline.html">Asset Pipeline</option>
+                  <option value="autoloading_and_reloading_constants.html">自動載入和重新載入常量</option>
+                  <option value="caching_with_rails.html">使用 Rails 快取</option>
+                  <option value="api_app.html">將 Rails 用於僅 API 的應用程式</option>
+              </optgroup>
+              <optgroup label="擴充 rails">
+                  <option value="rails_on_rack.html">Rails on Rack</option>
+                  <option value="generators.html">建立和自定義 Rails 產生器和模板</option>
+              </optgroup>
+              <optgroup label="貢獻">
+                  <option value="contributing_to_ruby_on_rails.html">在 Rails 上為 Ruby 做貢獻</option>
+                  <option value="api_documentation_guidelines.html">API 文件指南</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">指南指南</option>
+              </optgroup>
+              <optgroup label="政策">
+                  <option value="maintenance_policy.html">維修政策</option>
+              </optgroup>
+              <optgroup label="發行說明">
+                  <option value="upgrading_ruby_on_rails.html">在 Rails 上升級 Ruby</option>
+                  <option value="6_1_release_notes.html">6.1 版 - 2020 年 12 月</option>
+                  <option value="6_0_release_notes.html">6.0 版 - 2019 年 8 月</option>
+                  <option value="5_2_release_notes.html">5.2 版 - 2018 年 4 月</option>
+                  <option value="5_1_release_notes.html">5.1 版 - 2017 年 4 月</option>
+                  <option value="5_0_release_notes.html">5.0 版 - 2016 年 6 月</option>
+                  <option value="4_2_release_notes.html">4.2 版 - 2014 年 12 月</option>
+                  <option value="4_1_release_notes.html">4.1 版 - 2014 年 4 月</option>
+                  <option value="4_0_release_notes.html">4.0 版 - 2013 年 6 月</option>
+                  <option value="3_2_release_notes.html">3.2 版 - 2012 年 1 月</option>
+                  <option value="3_1_release_notes.html">3.1 版 - 2011 年 8 月</option>
+                  <option value="3_0_release_notes.html">3.0 版 - 2010 年 8 月</option>
+                  <option value="2_3_release_notes.html">2.3 版 - 2009 年 3 月</option>
+                  <option value="2_2_release_notes.html">2.2 版 - 2008 年 11 月</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2>Action Controller 概述</h2><p>在本指南中，您將瞭解 controllers 如何工作以及它們如何適應您的應用程式中的請求週期。</p><p>閱讀本指南後，您將瞭解：</p>
+<ul>
+<li>如何透過 controller 追蹤請求（request）的流程。</li>
+<li>如何限制傳送至 controller 的引數（parameters）。</li>
+<li>如何以及為什麼將資料儲存在 session 或 cookies 之中。</li>
+<li>如何使用過濾器在請求處理期間執行程式碼。</li>
+<li>如何使用 Action Controller 內建的 HTTP 認證。</li>
+<li>如何將資料直接串流（stream）到使用者的瀏覽器。</li>
+<li>如何過濾敏感引數，使它們不會出現在應用程式的紀錄檔中。</li>
+<li>如何處理請求處理過程中可能出現的異常。</li>
+</ul>
+
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#controller">Controller 有什麼作用？</a></li>
+<li><a href="#controller">Controller 命名約定</a></li>
+<li><a href="#actions">方法和 Actions</a></li>
+<li>
+<a href="#">引數</a>
+
+<ul>
+<li><a href="#">雜湊和陣列引數</a></li>
+<li><a href="#json">JSON 引數</a></li>
+<li><a href="#">路由引數</a></li>
+<li><a href="#default-url-options"><code>default_url_options</code></a></li>
+<li><a href="#">強引數</a></li>
+</ul>
+</li>
+<li>
+<a href="#session">Session</a>
+
+<ul>
+<li><a href="#session">訪問 Session</a></li>
+<li><a href="#lash">Ｆlash</a></li>
+</ul>
+</li>
+<li><a href="#cookies">Cookies</a></li>
+<li><a href="#xml-json">呈現 XML 和 JSON 資料</a></li>
+<li>
+<a href="#">過濾器</a>
+
+<ul>
+<li><a href="#">過濾器後和過濾器周圍</a></li>
+<li><a href="#">其他使用過濾器的方法</a></li>
+</ul>
+</li>
+<li><a href="#">請求偽造保護</a></li>
+<li>
+<a href="#">請求和回應物件</a>
+
+<ul>
+<li><a href="#request"><code>request</code> 物件</a></li>
+<li><a href="#response"><code>response</code> 物件</a></li>
+</ul>
+</li>
+<li>
+<a href="#http">HTTP 身份驗證</a>
+
+<ul>
+<li><a href="#http">HTTP 基本認證</a></li>
+<li><a href="#http">HTTP 摘要認證</a></li>
+<li><a href="#http-token">HTTP Token 認證</a></li>
+</ul>
+</li>
+<li>
+<a href="#">流媒體和檔案下載</a>
+
+<ul>
+<li><a href="#">傳送檔案</a></li>
+<li><a href="#restful">RESTful 下載</a></li>
+<li><a href="#">任意資料的直播</a></li>
+</ul>
+</li>
+<li>
+<a href="#">日誌過濾</a>
+
+<ul>
+<li><a href="#">引數過濾</a></li>
+<li><a href="#">重定向過濾</a></li>
+</ul>
+</li>
+<li>
+<a href="#">救援</a>
+
+<ul>
+<li><a href="#500-404">預設的 500 和 404 模板</a></li>
+<li><a href="#rescue-from"><code>rescue_from</code></a></li>
+</ul>
+</li>
+<li><a href="#https">強制HTTPS協議</a></li>
+</ol>
+
+          </div>
+
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="controller"><a class="anchorlink" href="#controller">1 Controller 有什麼作用？</a></h3><p>Action Controller 是 <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> 中的 C。在路由器確定用於請求的 controller 後，controller 負責理解請求併產生適當的輸出。幸運的是，Action Controller 為您完成了大部分基礎工作，並使用智慧約定使這儘可能簡單。</p><p>對於大多數傳統的 <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTful</a> 應用程式，controller 將接收請求（作為開發人員的您是不可見的），從 model 獲取或儲存資料，並使用一個 view 來建立 HTML 輸出。如果你的 controller 需要做一些不同的事情，那不是問題，這只是 controller 最常見的工作方式。</p><p>因此，可以將 controller 視為 models 和 views 之間的中間人。它使模型資料可用於檢視，因此它可以向用戶顯示該資料，並將使用者資料儲存或更新到模型中。</p><div class="note"><p>有關路由過程的更多詳細資訊，請參閱 <a href="routing.html">Rails Routing from the Outside In</a>。</p></div><h3 id="controller"><a class="anchorlink" href="#controller">2 Controller 命名約定</a></h3><p>Rails 中 controllers 的命名約定有利於控制器名稱中最後一個單詞的複數形式，儘管它不是嚴格要求的（例如 <code>ApplicationController</code>）。例如，<code>ClientsController</code> 優先於 <code>ClientController</code>，<code>SiteAdminsController</code> 優先於 <code>SiteAdminController</code> 或 <code>SitesAdminsController</code>，依此類推。</p><p>遵循此約定將允許您使用預設路由生成器（例如 <code>resources</code> 等），而無需限定每個 <code>:path</code> 或 <code>:controller</code>，並將在整個應用程式中保持命名路由 helpers 的使用一致。有關詳細資訊，請參閱 <a href="layouts_and_rendering.html">佈局和渲染指南</a>。</p><div class="note"><p>controller 命名約定與 models 命名約定不同，後者應以單數形式命名。</p></div><h3 id="actions"><a class="anchorlink" href="#actions">3 方法和 Actions</a></h3><p>controller 是一個 Ruby 類，它繼承自 <code>ApplicationController</code> 並具有與任何其他類一樣的方法。當您的應用程式收到請求時，路由將確定要執行哪個 controller 和 action，然後 Rails 建立該 controller 的實例並執行與 action 同名的方法。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ClientsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">new</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ClientsController &lt; ApplicationController
+  def new
+  end
+end
+">Copy</button>
+</div>
+<p>例如，如果使用者在您的應用程式中轉到 <code>/clients/new</code> 以新增新客戶端，Rails 將建立 <code>ClientsController</code> 的實例並呼叫其 <code>new</code> 方法。請注意，上面示例中的空方法可以正常工作，因為除非 action 另有說明，否則 Rails 將預設呈現 <code>new.html.erb</code> view。透過建立新的 <code>Client</code>，<code>new</code> 方法可以使 <code>@client</code> 實例變數在 view 中可訪問：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">new</span>
+  <span class="vi">@client</span> <span class="o">=</span> <span class="no">Client</span><span class="p">.</span><span class="nf">new</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def new
+  @client = Client.new
+end
+">Copy</button>
+</div>
+<p><a href="layouts_and_rendering.html">佈局和渲染指南</a> 更詳細地解釋了這一點。</p><p><code>ApplicationController</code> 繼承自 [ActionController][]，它定義了許多有用的方法。本指南將介紹其中的一些內容，但如果您想了解其中的內容，可以在 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController.html">API 文件</a> 中檢視所有內容或在源頭本身。</p><p>只有公共方法可以作為 actions 呼叫。最佳做法是降低不打算成為 actions 的方法（使用 <code>private</code> 或 <code>protected</code>）的可見性，例如輔助方法或過濾器。</p><p>警告：某些方法名稱由 Action Controller 保留。不小心將它們重新定義為 actions，甚至作為輔助方法，可能會導致 <code>SystemStackError</code>。如果您將 controllers 限制為僅 RESTful <a href="https://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default">資源路由</a> actions，則無需擔心這一點。</p><div class="note"><p>如果您必須使用保留方法作為 action 名稱，一種解決方法是使用自定義路由將保留方法名稱對映到非保留 action 方法。</p></div><h3 id=""><a class="anchorlink" href="#">4 引數</a></h3><p>您可能希望訪問使用者傳送的資料或 controller actions 中的其他引數。 Web 應用程式中有兩種可能的引數。第一個是作為 URL 的一部分發送的引數，稱為查詢字串引數。查詢字串是“？”之後的所有內容在網址中。第二種型別的引數通常稱為 POST 資料。此資訊通常來自使用者填寫的 HTML 表單。之所以稱為 POST 資料，是因為它只能作為 HTTP POST 請求的一部分發送。 Rails 不區分查詢字串引數和 POST 引數，兩者都可以在 controller 的 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/StrongParameters.html#method-i-params"><code>params</code></a> 雜湊中使用：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ClientsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># This action uses query string parameters because it gets run</span>
+  <span class="c1"># by an HTTP GET request, but this does not make any difference</span>
+  <span class="c1"># to how the parameters are accessed. The URL for</span>
+  <span class="c1"># this action would look like this to list activated</span>
+  <span class="c1"># clients: /clients?status=activated</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="ss">:status</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"activated"</span>
+      <span class="vi">@clients</span> <span class="o">=</span> <span class="no">Client</span><span class="p">.</span><span class="nf">activated</span>
+    <span class="k">else</span>
+      <span class="vi">@clients</span> <span class="o">=</span> <span class="no">Client</span><span class="p">.</span><span class="nf">inactivated</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="c1"># This action uses POST parameters. They are most likely coming</span>
+  <span class="c1"># from an HTML form that the user has submitted. The URL for</span>
+  <span class="c1"># this RESTful request will be "/clients", and the data will be</span>
+  <span class="c1"># sent as part of the request body.</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@client</span> <span class="o">=</span> <span class="no">Client</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:client</span><span class="p">])</span>
+    <span class="k">if</span> <span class="vi">@client</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">redirect_to</span> <span class="vi">@client</span>
+    <span class="k">else</span>
+      <span class="c1"># This line overrides the default rendering behavior, which</span>
+      <span class="c1"># would have been to render the "create" view.</span>
+      <span class="n">render</span> <span class="s2">"new"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ClientsController &lt; ApplicationController
+  # This action uses query string parameters because it gets run
+  # by an HTTP GET request, but this does not make any difference
+  # to how the parameters are accessed. The URL for
+  # this action would look like this to list activated
+  # clients: /clients?status=activated
+  def index
+    if params[:status] == "activated"
+      @clients = Client.activated
+    else
+      @clients = Client.inactivated
+    end
+  end
+
+  # This action uses POST parameters. They are most likely coming
+  # from an HTML form that the user has submitted. The URL for
+  # this RESTful request will be "/clients", and the data will be
+  # sent as part of the request body.
+  def create
+    @client = Client.new(params[:client])
+    if @client.save
+      redirect_to @client
+    else
+      # This line overrides the default rendering behavior, which
+      # would have been to render the "create" view.
+      render "new"
+    end
+  end
+end
+'>Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">4.1 雜湊和陣列引數</a></h4><p><code>params</code> 雜湊值不限於一維 keys 和 values。它可以包含巢狀陣列和雜湊。要傳送一個 values 陣列，請將一對空的方括號“[]”附加到鍵名：</p><div class="code_container">
+<pre><code class="highlight plaintext">GET /clients?ids[]=1&amp;ids[]=2&amp;ids[]=3
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="GET /clients?ids[]=1&amp;ids[]=2&amp;ids[]=3
+">Copy</button>
+</div>
+<div class="note"><p>本示例中的實際 URL 將被編碼為“/clients?ids%5b%5d=1&amp;ids%5b%5d=2&amp;ids%5b%5d=3”，因為“[”和“]”字元在網址。大多數時候你不必擔心這個，因為瀏覽器會為你編碼，Rails 會自動解碼，但是如果你發現自己必須手動將這些請求傳送到伺服器，你應該記住這一點.</p></div><p><code>params[:ids]</code> 的值現在將為 <code>["1", "2", "3"]</code>。請注意，引數 values 始終是字串； Rails 不會嘗試猜測或強制轉換型別。</p><div class="note"><p>替換 <code>params</code> 中的 Value，例如 <code>[nil]</code> 或 <code>[nil, nil, ...]</code>
+出於安全原因，預設使用 <code>[]</code>。參見<a href="security.html#unsafe-query-generation">安全指南</a>
+想要查詢更多的資訊。</p></div><p>要傳送雜湊，請在括號內包含 key 名稱：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="na">action=</span><span class="s">"/clients"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"client[name]"</span> <span class="na">value=</span><span class="s">"Acme"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"client[phone]"</span> <span class="na">value=</span><span class="s">"12345"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"client[address][postcode]"</span> <span class="na">value=</span><span class="s">"12345"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"client[address][city]"</span> <span class="na">value=</span><span class="s">"Carrot City"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form accept-charset="UTF-8" action="/clients" method="post"&gt;
+  &lt;input type="text" name="client[name]" value="Acme" /&gt;
+  &lt;input type="text" name="client[phone]" value="12345" /&gt;
+  &lt;input type="text" name="client[address][postcode]" value="12345" /&gt;
+  &lt;input type="text" name="client[address][city]" value="Carrot City" /&gt;
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>提交此表單時，<code>params[:client]</code> 的 value 將為 <code>{ "name" =&gt; "Acme", "phone" =&gt; "12345", "address" =&gt; { "postcode" =&gt; "12345", "city" =&gt; "Carrot City" } }</code>。注意 <code>params[:client][:address]</code> 中的巢狀雜湊。</p><p><code>params</code> 物件的作用類似於雜湊，但允許您使用 symbols 和字串作為 keys 交替使用。</p><h4 id="json"><a class="anchorlink" href="#json">4.2 JSON 引數</a></h4><p>如果您正在編寫 Web 服務應用程式，您可能會發現自己更願意接受 JSON 格式的引數。如果您的請求的“Content-Type”標頭設定為“application/json”，Rails 會自動將您的引數載入到 <code>params</code> 雜湊中，您可以像往常一樣訪問它。</p><p>例如，如果您要傳送此 JSON 內容：</p><div class="code_container">
+<pre><code class="highlight json"><span class="p">{</span><span class="w"> </span><span class="nl">"company"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"acme"</span><span class="p">,</span><span class="w"> </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Carrot Street"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text='{ "company": { "name": "acme", "address": "123 Carrot Street" } }
+'>Copy</button>
+</div>
+<p>您的 controller 將收到 <code>params[:company]</code> 作為 <code>{ "name" =&gt; "acme", "address" =&gt; "123 Carrot Street" }</code>。</p><p>此外，如果您在初始化程式中打開了 <code>config.wrap_parameters</code> 或在 controller 中呼叫了 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/ParamsWrapper/Options/ClassMethods.html#method-i-wrap_parameters"><code>wrap_parameters</code></a>，則可以安全地省略 JSON 引數中的根元素。在這種情況下，引數將被克隆並使用根據您的 controller 名稱選擇的 key 包裝。所以上面的JSON請求可以寫成：</p><div class="code_container">
+<pre><code class="highlight json"><span class="p">{</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"acme"</span><span class="p">,</span><span class="w"> </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123 Carrot Street"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text='{ "name": "acme", "address": "123 Carrot Street" }
+'>Copy</button>
+</div>
+<p>並且，假設您將資料傳送到 <code>CompaniesController</code>，那麼它將像這樣包裝在 <code>:company</code> key 中：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="p">{</span> <span class="ss">name: </span><span class="s2">"acme"</span><span class="p">,</span> <span class="ss">address: </span><span class="s2">"123 Carrot Street"</span><span class="p">,</span> <span class="ss">company: </span><span class="p">{</span> <span class="ss">name: </span><span class="s2">"acme"</span><span class="p">,</span> <span class="ss">address: </span><span class="s2">"123 Carrot Street"</span> <span class="p">}</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='{ name: "acme", address: "123 Carrot Street", company: { name: "acme", address: "123 Carrot Street" } }
+'>Copy</button>
+</div>
+<p>您可以透過查閱<a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/ParamsWrapper.html">API文件</a>自定義key的名稱或要包裝的特定引數</p><div class="note"><p>對解析 XML 引數的支援已被提取到名為 <code>actionpack-xml_parser</code> 的 gem 中。</p></div><h4 id=""><a class="anchorlink" href="#">4.3 路由引數</a></h4><p><code>params</code> 雜湊將始終包含 <code>:controller</code> 和 <code>:action</code> keys，但您應該使用方法 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/Metal.html#method-i-controller_name"><code>controller_name</code></a> 和 <a href="https://api.rubyonrails.org/v7.0.0/classes/AbstractController/Base.html#method-i-action_name"><code>action_name</code></a> 來訪問這些 values。路由定義的任何其他引數，例如 <code>:id</code>，也將可用。例如，考慮一個客戶端列表，該列表可以顯示活動或非活動客戶端。我們可以在“漂亮”的 URL 中新增一個捕獲 <code>:status</code> 引數的路由：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">get</span> <span class="s1">'/clients/:status'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'clients#index'</span><span class="p">,</span> <span class="ss">foo: </span><span class="s1">'bar'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="get '/clients/:status', to: 'clients#index', foo: 'bar'
+">Copy</button>
+</div>
+<p>在這種情況下，當用戶開啟 URL <code>/clients/active</code> 時，<code>params[:status]</code> 將設定為“活動”。使用此路由時，<code>params[:foo]</code> 也將設定為“bar”，就像在查詢字串中傳遞一樣。您的 controller 還將收到 <code>params[:action]</code> 作為“索引”和 <code>params[:controller]</code> 作為“客戶”。</p><h4 id="default-url-options"><a class="anchorlink" href="#default-url-options">4.4 <code>default_url_options</code></a></h4><p>您可以透過在 controller 中定義一個名為 <code>default_url_options</code> 的方法來設定 URL 生成的全域性預設引數。這樣的方法必須返回具有所需預設值的雜湊值，其 keys 必須是 symbols：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">default_url_options</span>
+    <span class="p">{</span> <span class="ss">locale: </span><span class="no">I18n</span><span class="p">.</span><span class="nf">locale</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ApplicationController &lt; ActionController::Base
+  def default_url_options
+    { locale: I18n.locale }
+  end
+end
+">Copy</button>
+</div>
+<p>這些選項將在生成 URL 時用作起點，因此它們可能會被傳遞給 <code>url_for</code> 呼叫的選項覆蓋。</p><p>如果您在 <code>ApplicationController</code> 中定義 <code>default_url_options</code>，如上例所示，這些預設值將用於所有 URL 生成。該方法也可以在特定的 controller 中定義，在這種情況下，它只會影響在那裡生成的 URL。</p><p>在給定的請求中，實際上並不是為每個生成的 URL 呼叫該方法。出於效能原因，返回的雜湊被快取，並且每個請求最多有一次呼叫。</p><h4 id=""><a class="anchorlink" href="#">4.5 強引數</a></h4><p>帶強引數，禁止Action Controller引數
+在 Active Model 質量分配中使用，直到它們被
+允許。這意味著你必須做出有意識的決定
+哪些屬性允許批次更新。這是一個更好的安全
+有助於防止意外允許使用者更新敏感資訊的做法
+model 屬性。</p><p>此外，引數可以根據需要進行標記，並會流經一個
+將導致 400 Bad Request 的預定義提升/救援流程
+如果沒有傳入所有必需的引數，則返回。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">PeopleController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="c1"># This will raise an ActiveModel::ForbiddenAttributesError exception</span>
+  <span class="c1"># because it's using mass assignment without an explicit permit</span>
+  <span class="c1"># step.</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="no">Person</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:person</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="c1"># This will pass with flying colors as long as there's a person key</span>
+  <span class="c1"># in the parameters, otherwise it'll raise an</span>
+  <span class="c1"># ActionController::ParameterMissing exception, which will get</span>
+  <span class="c1"># caught by ActionController::Base and turned into a 400 Bad</span>
+  <span class="c1"># Request error.</span>
+  <span class="k">def</span> <span class="nf">update</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">current_account</span><span class="p">.</span><span class="nf">people</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+    <span class="n">person</span><span class="p">.</span><span class="nf">update!</span><span class="p">(</span><span class="n">person_params</span><span class="p">)</span>
+    <span class="n">redirect_to</span> <span class="n">person</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+    <span class="c1"># Using a private method to encapsulate the permissible parameters</span>
+    <span class="c1"># is just a good pattern since you'll be able to reuse the same</span>
+    <span class="c1"># permit list between create and update. Also, you can specialize</span>
+    <span class="c1"># this method with per-user checking of permissible attributes.</span>
+    <span class="k">def</span> <span class="nf">person_params</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:person</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class PeopleController &lt; ActionController::Base
+  # This will raise an ActiveModel::ForbiddenAttributesError exception
+  # because it's using mass assignment without an explicit permit
+  # step.
+  def create
+    Person.create(params[:person])
+  end
+
+  # This will pass with flying colors as long as there's a person key
+  # in the parameters, otherwise it'll raise an
+  # ActionController::ParameterMissing exception, which will get
+  # caught by ActionController::Base and turned into a 400 Bad
+  # Request error.
+  def update
+    person = current_account.people.find(params[:id])
+    person.update!(person_params)
+    redirect_to person
+  end
+
+  private
+    # Using a private method to encapsulate the permissible parameters
+    # is just a good pattern since you'll be able to reuse the same
+    # permit list between create and update. Also, you can specialize
+    # this method with per-user checking of permissible attributes.
+    def person_params
+      params.require(:person).permit(:name, :age)
+    end
+end
+">Copy</button>
+</div>
+<h5 id="values"><a class="anchorlink" href="#values">4.5.1 允許的標量 Values</a></h5><p>像這樣呼叫 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/Parameters.html#method-i-permit"><code>permit</code></a>:</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">params</span><span class="p">.</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:id</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="params.permit(:id)
+">Copy</button>
+</div>
+<p>如果指定的 key (<code>:id</code>) 出現在 <code>params</code> 和
+它有一個允許的標量 value 關聯。否則，key 會去
+被過濾掉，所以陣列、雜湊或任何其他物件不能被
+注入。</p><p>允許的標量型別為 <code>String</code>、<code>Symbol</code>、<code>NilClass</code>、
+<code>Numeric</code>, <code>TrueClass</code>, <code>FalseClass</code>, <code>Date</code>, <code>Time</code>, <code>DateTime</code>,
+<code>StringIO</code>、<code>IO</code>、<code>ActionDispatch::Http::UploadedFile</code> 和
+<code>Rack::Test::UploadedFile</code>。</p><p>宣告 <code>params</code> 中的 value 必須是一個允許的陣列
+標量 values，將 key 對映到一個空陣列：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">params</span><span class="p">.</span><span class="nf">permit</span><span class="p">(</span><span class="ss">id: </span><span class="p">[])</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="params.permit(id: [])
+">Copy</button>
+</div>
+<p>有時宣告有效的 keys 是不可能或不方便的
+雜湊引數或其內部結構。只需對映到空雜湊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">params</span><span class="p">.</span><span class="nf">permit</span><span class="p">(</span><span class="ss">preferences: </span><span class="p">{})</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="params.permit(preferences: {})
+">Copy</button>
+</div>
+<p>但要小心，因為這為任意輸入打開了大門。在這
+在這種情況下，<code>permit</code> 確保返回結構中的 values 是允許的
+標量並過濾掉其他任何東西。</p><p>要允許引數的完整雜湊，可以使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/Parameters.html#method-i-permit-21"><code>permit!</code></a> 方法
+用過的：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:log_entry</span><span class="p">).</span><span class="nf">permit!</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="params.require(:log_entry).permit!
+">Copy</button>
+</div>
+<p>這將 <code>:log_entry</code> 引數雜湊及其任何子雜湊標記為
+允許並且不檢查允許的標量，任何東西都被接受。
+使用 <code>permit!</code> 時應格外小心，因為它將允許所有電流
+和未來的 model 屬性將被批次分配。</p><h5 id=""><a class="anchorlink" href="#">4.5.2 巢狀引數</a></h5><p>您還可以對巢狀引數使用 <code>permit</code>，例如：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">params</span><span class="p">.</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="p">{</span> <span class="ss">emails: </span><span class="p">[]</span> <span class="p">},</span>
+              <span class="ss">friends: </span><span class="p">[</span> <span class="ss">:name</span><span class="p">,</span>
+                         <span class="p">{</span> <span class="ss">family: </span><span class="p">[</span> <span class="ss">:name</span> <span class="p">],</span> <span class="ss">hobbies: </span><span class="p">[]</span> <span class="p">}])</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="params.permit(:name, { emails: [] },
+              friends: [ :name,
+                         { family: [ :name ], hobbies: [] }])
+">Copy</button>
+</div>
+<p>此宣告允許 <code>name</code>、<code>emails</code> 和 <code>friends</code>
+屬性。預計 <code>emails</code> 將是一個允許的陣列
+標量 values，而 <code>friends</code> 將是一個資源陣列
+特定屬性：他們應該有一個 <code>name</code> 屬性（任何
+允許標量 values 允許），一個 <code>hobbies</code> 屬性作為一個數組
+允許的標量 values 和受限制的 <code>family</code> 屬性
+有一個 <code>name</code>（這裡也允許任何允許的標量 values）。</p><h5 id=""><a class="anchorlink" href="#">4.5.3 更多例子</a></h5><p>您可能還想在 <code>new</code> 中使用允許的屬性
+action。這就提出了一個問題，你不能使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/Parameters.html#method-i-require"><code>require</code></a> 在
+root key 因為通常在呼叫 <code>new</code> 時它不存在：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 使用 `fetch` 你可以提供一個預設值並使用</span>
+<span class="c1"># 來自那裡的強引數 API。</span>
+<span class="n">params</span><span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:blog</span><span class="p">,</span> <span class="p">{}).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:author</span><span class="p">)</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 使用 `fetch` 你可以提供一個預設值並使用
+# 來自那裡的強引數 API。
+params.fetch(:blog, {}).permit(:title, :author)
+">Copy</button>
+</div>
+<p>model 類方法 <code>accepts_nested_attributes_for</code> 允許您
+更新和銷燬相關記錄。這是基於 <code>id</code> 和 <code>_destroy</code>
+引數：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 允許 :id 和 :_destroy</span>
+<span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:author</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">books_attributes: </span><span class="p">[</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:_destroy</span><span class="p">])</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 允許 :id 和 :_destroy
+params.require(:author).permit(:name, books_attributes: [:title, :id, :_destroy])
+">Copy</button>
+</div>
+<p>具有整數 keys 的雜湊被差別對待，您可以宣告
+屬性就好像他們是直系孩子一樣。你得到這些
+組合使用 <code>accepts_nested_attributes_for</code> 時的引數
+使用 <code>has_many</code> association：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 允許以下資料：</span>
+<span class="c1"># {"book" =&gt; {"title" =&gt; "Some Book",</span>
+<span class="c1"># "chapters_attributes" =&gt; { "1" =&gt; {"title" =&gt; "第一章"},</span>
+<span class="c1"># "2" =&gt; {"title" =&gt; "第二章"}}}}</span>
+
+<span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:book</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">chapters_attributes: </span><span class="p">[</span><span class="ss">:title</span><span class="p">])</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# 允許以下資料：
+# {"book" =&gt; {"title" =&gt; "Some Book",
+# "chapters_attributes" =&gt; { "1" =&gt; {"title" =&gt; "第一章"},
+# "2" =&gt; {"title" =&gt; "第二章"}}}}
+
+params.require(:book).permit(:title, chapters_attributes: [:title])
+'>Copy</button>
+</div>
+<p>想象一下您有代表產品的引數的場景
+名稱，以及與該產品關聯的任意資料的雜湊值，以及
+您想允許產品名稱屬性以及整個
+資料雜湊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">product_params</span>
+  <span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:product</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">data: </span><span class="p">{})</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="def product_params
+  params.require(:product).permit(:name, data: {})
+end
+">Copy</button>
+</div>
+<h5 id=""><a class="anchorlink" href="#">4.5.4 強引數範圍外</a></h5><p>強引數 API 是針對最常見的用例設計的
+心裡。這並不是處理所有問題的靈丹妙藥
+引數過濾問題。但是，您可以輕鬆地將 API 與您的
+自己的程式碼以適應您的情況。</p><h3 id="session"><a class="anchorlink" href="#session">5 Session</a></h3><p>您的應用程式為每個使用者都有一個 session，您可以在其中儲存將在請求之間持久化的少量資料。 session 僅在 controller 和 view 中可用，並且可以使用幾種不同的儲存機制之一：</p>
+<ul>
+<li>
+<a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Session/CookieStore.html"><code>ActionDispatch::Session::CookieStore</code></a> - 在客戶端儲存所有內容。</li>
+<li>
+<a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Session/CacheStore.html"><code>ActionDispatch::Session::CacheStore</code></a> - 將資料儲存在 Rails 快取中。</li>
+<li>
+<code>ActionDispatch::Session::ActiveRecordStore</code> - 使用 Active Record 將資料儲存在資料庫中（需要 <code>activerecord-session_store</code> gem）。</li>
+<li>
+<a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Session/MemCacheStore.html"><code>ActionDispatch::Session::MemCacheStore</code></a> - 將資料儲存在 memcached 叢集中（這是一個遺留實現；考慮使用 CacheStore 代替）。</li>
+</ul>
+<p>所有的 session 商店都使用 cookie 來儲存每個 session 的唯一 ID（您必須使用 cookie，Rails 不允許您在 URL 中傳遞 session ID，因為這不太安全）。</p><p>對於大多數商店，此 ID 用於在伺服器上查詢 session 資料，例如在資料庫表中。有一個例外，那就是預設和推薦的 session 儲存 - CookieStore - 它將所有 session 資料儲存在 cookie 本身中（如果您需要該 ID，您仍然可以使用它）。這具有非常輕量級的優點，並且需要在新應用程式中進行零設定才能使用 session。 cookie 資料經過加密簽名以防止篡改。它也是加密的，因此任何有權訪問它的人都無法讀取其內容。 （如果它被編輯過，Rails 將不會接受它）。</p><p>CookieStore 可以儲存大約 4 kB 的資料——比其他的要少得多——但這通常就足夠了。無論您的應用程式使用哪個 session 儲存，都不鼓勵在 session 中儲存大量資料。您應該特別避免在 session 中儲存複雜的物件（例如 model 實例），因為伺服器可能無法在請求之間重新組裝它們，這將導致錯誤。</p><p>如果您的使用者 sessions 不儲存關鍵資料或不需要長時間待在附近（例如，如果您只是使用 flash 進行訊息傳遞），則可以考慮使用 <code>ActionDispatch::Session::CacheStore</code>。這將使用您為應用程式配置的快取實現儲存 sessions。這樣做的好處是您可以使用現有的快取基礎架構來儲存 sessions，而無需任何額外的設定或管理。當然，缺點是 sessions 將是短暫的並且可能隨時消失。</p><p>在 <a href="security.html">安全指南</a> 中閱讀有關 session 儲存的更多資訊。</p><p>如果您需要不同的 session 儲存機制，您可以在初始化程式中更改它：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 使用資料庫為 sessions 而不是基於 cookie 的預設值，</span>
+<span class="c1"># 不應該用於儲存高度機密的資訊</span>
+<span class="c1"># (使用 "rails g active_record:session_migration" 建立 session 表)</span>
+<span class="c1"># Rails.application.config.session_store :active_record_store</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='# 使用資料庫為 sessions 而不是基於 cookie 的預設值，
+# 不應該用於儲存高度機密的資訊
+# (使用 "rails g active_record:session_migration" 建立 session 表)
+# Rails.application.config.session_store :active_record_store
+'>Copy</button>
+</div>
+<p>Rails 在簽署 session 資料時設定了一個 session key（cookie 的名稱）。這些也可以在初始化程式中更改：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 修改這個檔案的時候一定要重啟伺服器。</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">session_store</span> <span class="ss">:cookie_store</span><span class="p">,</span> <span class="ss">key: </span><span class="s1">'_your_app_session'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 修改這個檔案的時候一定要重啟伺服器。
+Rails.application.config.session_store :cookie_store, key: '_your_app_session'
+">Copy</button>
+</div>
+<p>也可以傳入一個 <code>:domain</code> key 併為 cookie 指定域名：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="c1"># 修改這個檔案的時候一定要重啟伺服器。</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">session_store</span> <span class="ss">:cookie_store</span><span class="p">,</span> <span class="ss">key: </span><span class="s1">'_your_app_session'</span><span class="p">,</span> <span class="ss">domain: </span><span class="s2">".example.com"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# 修改這個檔案的時候一定要重啟伺服器。
+Rails.application.config.session_store :cookie_store, key: '_your_app_session', domain: &quot;.example.com&quot;
+">Copy</button>
+</div>
+<p>Rails 為 CookieStore 設定了一個秘密 key，用於對 <code>config/credentials.yml.enc</code> 中的 session 資料進行簽名。這可以透過 <code>bin/rails credentials:edit</code> 更改。</p><div class="code_container">
+<pre><code class="highlight yaml"><span class="c1"># aws：</span>
+<span class="c1"># access_key_id: 123</span>
+<span class="c1">#secret_access_key：345</span>
+
+<span class="c1"># 用作 Rails 中所有 MessageVerifiers 的基本秘密，包括保護 cookies 的秘密。</span>
+<span class="na">secret_key_base</span><span class="pi">:</span> <span class="s">492f...</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="# aws：
+# access_key_id: 123
+#secret_access_key：345
+
+# 用作 Rails 中所有 MessageVerifiers 的基本秘密，包括保護 cookies 的秘密。
+secret_key_base: 492f...
+">Copy</button>
+</div>
+<div class="note"><p>在使用 <code>CookieStore</code> 時更改 secret_key_base 將使所有現有的 sessions 無效。</p></div><h4 id="session"><a class="anchorlink" href="#session">5.1 訪問 Session</a></h4><p>在你的 controller 中，你可以透過 <code>session</code> 實例方法訪問 session。</p><div class="note"><p>Session 是延遲載入的。如果您不在 action 的程式碼中訪問會話，它們將不會被載入。因此，您永遠不需要禁用會話，只要不訪問它們就可以完成這項工作。</p></div><p>Session values 使用 key/值對像雜湊一樣儲存：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="kp">private</span>
+
+  <span class="c1"># Finds the User with the ID stored in the session with the key</span>
+  <span class="c1"># :current_user_id This is a common way to handle user login in</span>
+  <span class="c1"># a Rails application; logging in sets the session value and</span>
+  <span class="c1"># logging out removes it.</span>
+  <span class="k">def</span> <span class="nf">current_user</span>
+    <span class="vi">@_current_user</span> <span class="o">||=</span> <span class="n">session</span><span class="p">[</span><span class="ss">:current_user_id</span><span class="p">]</span> <span class="o">&amp;&amp;</span>
+      <span class="no">User</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">id: </span><span class="n">session</span><span class="p">[</span><span class="ss">:current_user_id</span><span class="p">])</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ApplicationController &lt; ActionController::Base
+
+  private
+
+  # Finds the User with the ID stored in the session with the key
+  # :current_user_id This is a common way to handle user login in
+  # a Rails application; logging in sets the session value and
+  # logging out removes it.
+  def current_user
+    @_current_user ||= session[:current_user_id] &amp;&amp;
+      User.find_by(id: session[:current_user_id])
+  end
+end
+">Copy</button>
+</div>
+<p>要將某些內容儲存在 session 中，只需將其分配給 key 就像一個雜湊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">LoginsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># "Create" a login, aka "log the user in"</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="k">if</span> <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:username</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="ss">:password</span><span class="p">])</span>
+      <span class="c1"># Save the user ID in the session so it can be used in</span>
+      <span class="c1"># subsequent requests</span>
+      <span class="n">session</span><span class="p">[</span><span class="ss">:current_user_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span><span class="p">.</span><span class="nf">id</span>
+      <span class="n">redirect_to</span> <span class="n">root_url</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class LoginsController &lt; ApplicationController
+  # "Create" a login, aka "log the user in"
+  def create
+    if user = User.authenticate(params[:username], params[:password])
+      # Save the user ID in the session so it can be used in
+      # subsequent requests
+      session[:current_user_id] = user.id
+      redirect_to root_url
+    end
+  end
+end
+'>Copy</button>
+</div>
+<p>要從 session 中刪除某些內容，請刪除 key/value 對：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">LoginsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># "Delete" a login, aka "log the user out"</span>
+  <span class="k">def</span> <span class="nf">destroy</span>
+    <span class="c1"># Remove the user id from the session</span>
+    <span class="n">session</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="ss">:current_user_id</span><span class="p">)</span>
+    <span class="c1"># Clear the memoized current user</span>
+    <span class="vi">@_current_user</span> <span class="o">=</span> <span class="kp">nil</span>
+    <span class="n">redirect_to</span> <span class="n">root_url</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class LoginsController &lt; ApplicationController
+  # "Delete" a login, aka "log the user out"
+  def destroy
+    # Remove the user id from the session
+    session.delete(:current_user_id)
+    # Clear the memoized current user
+    @_current_user = nil
+    redirect_to root_url
+  end
+end
+'>Copy</button>
+</div>
+<p>要重置整個 session，請使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/Metal.html#method-i-reset_session"><code>reset_session</code></a>。</p><h4 id="lash"><a class="anchorlink" href="#lash">5.2 Ｆlash</a></h4><p>flash 是 session 的一個特殊部分，每次請求都會清除它。這意味著儲存在那裡的 values 只會在下一個請求中可用，這對於傳遞錯誤訊息等很有用。</p><p>透過 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Flash/RequestMethods.html#method-i-flash"><code>flash</code></a> 方法訪問快閃記憶體。與 session 一樣，快閃記憶體表示為雜湊。</p><p>讓我們以登出行為為例。 controller 可以傳送一條訊息，該訊息將在下一個請求時顯示給使用者：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">LoginsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">destroy</span>
+    <span class="n">session</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="ss">:current_user_id</span><span class="p">)</span>
+    <span class="n">flash</span><span class="p">[</span><span class="ss">:notice</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"You have successfully logged out."</span>
+    <span class="n">redirect_to</span> <span class="n">root_url</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class LoginsController &lt; ApplicationController
+  def destroy
+    session.delete(:current_user_id)
+    flash[:notice] = "You have successfully logged out."
+    redirect_to root_url
+  end
+end
+'>Copy</button>
+</div>
+<p>請注意，也可以將 flash 訊息分配為重定向的一部分。您可以分配 <code>:notice</code>、<code>:alert</code> 或通用 <code>:flash</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">redirect_to</span> <span class="n">root_url</span><span class="p">,</span> <span class="ss">notice: </span><span class="s2">"You have successfully logged out."</span>
+<span class="n">redirect_to</span> <span class="n">root_url</span><span class="p">,</span> <span class="ss">alert: </span><span class="s2">"You're stuck here!"</span>
+<span class="n">redirect_to</span> <span class="n">root_url</span><span class="p">,</span> <span class="ss">flash: </span><span class="p">{</span> <span class="ss">referral_code: </span><span class="mi">1234</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="redirect_to root_url, notice: &quot;You have successfully logged out.&quot;
+redirect_to root_url, alert: &quot;You're stuck here!&quot;
+redirect_to root_url, flash: { referral_code: 1234 }
+">Copy</button>
+</div>
+<p><code>destroy</code> action 重定向到應用程式的 <code>root_url</code>，訊息將在此處顯示。請注意，完全由下一個 action 來決定它會如何處理前一個 action 放入快閃記憶體中的內容。通常在應用程式的佈局中顯示來自 Flash 的任何錯誤警報或通知：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="nt">&lt;html&gt;</span>
+  <span class="c">&lt;!-- &lt;head/&gt; --&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="cp">&lt;%</span> <span class="n">flash</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">msg</span><span class="o">|</span> <span class="cp">-%&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:div</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="ss">class: </span><span class="nb">name</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">-%&gt;</span>
+
+    <span class="c">&lt;!-- more content --&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;html&gt;
+  &lt;!-- &lt;head/&gt; --&gt;
+  &lt;body&gt;
+    &lt;% flash.each do |name, msg| -%&gt;
+      &lt;%= content_tag :div, msg, class: name %&gt;
+    &lt;% end -%&gt;
+
+    &lt;!-- more content --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+">Copy</button>
+</div>
+<p>這樣，如果 action 設定了通知或警報訊息，佈局將自動顯示它。</p><p>您可以傳遞 session 可以儲存的任何內容；您不僅限於通知和警報：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">flash</span><span class="p">[</span><span class="ss">:just_signed_up</span><span class="p">]</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"welcome"</span><span class="nt">&gt;</span>Welcome to our site!<span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;% if flash[:just_signed_up] %&gt;
+  &lt;p class="welcome"&gt;Welcome to our site!&lt;/p&gt;
+&lt;% end %&gt;
+'>Copy</button>
+</div>
+<p>如果您希望將 Flash value 轉移到另一個請求，請使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Flash/FlashHash.html#method-i-keep"><code>flash.keep</code></a>:</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">MainController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># Let's say this action corresponds to root_url, but you want</span>
+  <span class="c1"># all requests here to be redirected to UsersController#index.</span>
+  <span class="c1"># If an action sets the flash and redirects here, the values</span>
+  <span class="c1"># would normally be lost when another redirect happens, but you</span>
+  <span class="c1"># can use 'keep' to make it persist for another request.</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="c1"># Will persist all flash values.</span>
+    <span class="n">flash</span><span class="p">.</span><span class="nf">keep</span>
+
+    <span class="c1"># You can also use a key to keep only some kind of value.</span>
+    <span class="c1"># flash.keep(:notice)</span>
+    <span class="n">redirect_to</span> <span class="n">users_url</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class MainController &lt; ApplicationController
+  # Let's say this action corresponds to root_url, but you want
+  # all requests here to be redirected to UsersController#index.
+  # If an action sets the flash and redirects here, the values
+  # would normally be lost when another redirect happens, but you
+  # can use 'keep' to make it persist for another request.
+  def index
+    # Will persist all flash values.
+    flash.keep
+
+    # You can also use a key to keep only some kind of value.
+    # flash.keep(:notice)
+    redirect_to users_url
+  end
+end
+">Copy</button>
+</div>
+<h5 id="flash-now"><a class="anchorlink" href="#flash-now">5.2.1 <code>flash.now</code></a></h5><p>預設情況下，將 values 新增到 flash 將使它們可用於下一個請求，但有時您可能希望在同一請求中訪問那些 values。例如，如果 <code>create</code> action 無法儲存資源，而您直接渲染 <code>new</code> 模板，則不會導致新請求，但您可能仍希望使用 flash 顯示訊息。為此，您可以像使用普通的 <code>flash</code> 一樣使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Flash/FlashHash.html#method-i-now"><code>flash.now</code></a>:</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ClientsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@client</span> <span class="o">=</span> <span class="no">Client</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">client_params</span><span class="p">)</span>
+    <span class="k">if</span> <span class="vi">@client</span><span class="p">.</span><span class="nf">save</span>
+      <span class="c1"># ...</span>
+    <span class="k">else</span>
+      <span class="n">flash</span><span class="p">.</span><span class="nf">now</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Could not save client"</span>
+      <span class="n">render</span> <span class="ss">action: </span><span class="s2">"new"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ClientsController &lt; ApplicationController
+  def create
+    @client = Client.new(client_params)
+    if @client.save
+      # ...
+    else
+      flash.now[:error] = "Could not save client"
+      render action: "new"
+    end
+  end
+end
+'>Copy</button>
+</div>
+<h3 id="cookies"><a class="anchorlink" href="#cookies">6 Cookies</a></h3><p>您的應用程式可以在客戶端上儲存少量資料 - 稱為 cookies - 這些資料將跨請求甚至 sessions 保持。 Rails 透過 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/Cookies.html#method-i-cookies"><code>cookies</code></a> 方法提供對 cookies 的輕鬆訪問，該方法 - 與 <code>session</code> 非常相似 - 像雜湊一樣工作：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">CommentsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">new</span>
+    <span class="c1"># Auto-fill the commenter's name if it has been stored in a cookie</span>
+    <span class="vi">@comment</span> <span class="o">=</span> <span class="no">Comment</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">author: </span><span class="n">cookies</span><span class="p">[</span><span class="ss">:commenter_name</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@comment</span> <span class="o">=</span> <span class="no">Comment</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">comment_params</span><span class="p">)</span>
+    <span class="k">if</span> <span class="vi">@comment</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">flash</span><span class="p">[</span><span class="ss">:notice</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Thanks for your comment!"</span>
+      <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="ss">:remember_name</span><span class="p">]</span>
+        <span class="c1"># Remember the commenter's name.</span>
+        <span class="n">cookies</span><span class="p">[</span><span class="ss">:commenter_name</span><span class="p">]</span> <span class="o">=</span> <span class="vi">@comment</span><span class="p">.</span><span class="nf">author</span>
+      <span class="k">else</span>
+        <span class="c1"># Delete cookie for the commenter's name cookie, if any.</span>
+        <span class="n">cookies</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="ss">:commenter_name</span><span class="p">)</span>
+      <span class="k">end</span>
+      <span class="n">redirect_to</span> <span class="vi">@comment</span><span class="p">.</span><span class="nf">article</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="ss">action: </span><span class="s2">"new"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CommentsController &lt; ApplicationController
+  def new
+    # Auto-fill the commenter's name if it has been stored in a cookie
+    @comment = Comment.new(author: cookies[:commenter_name])
+  end
+
+  def create
+    @comment = Comment.new(comment_params)
+    if @comment.save
+      flash[:notice] = &quot;Thanks for your comment!&quot;
+      if params[:remember_name]
+        # Remember the commenter's name.
+        cookies[:commenter_name] = @comment.author
+      else
+        # Delete cookie for the commenter's name cookie, if any.
+        cookies.delete(:commenter_name)
+      end
+      redirect_to @comment.article
+    else
+      render action: &quot;new&quot;
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>請注意，對於 session values，您可以將 key 設定為 <code>nil</code>，要刪除 cookie 值，您應該使用 <code>cookies.delete(:key)</code>。</p><p>Rails 還提供了一個簽名的 cookie jar 和一個加密的 cookie jar 用於儲存
+敏感資料。已簽名的 cookie jar 在
+cookie values 來保護它們的完整性。加密後的 cookie jar 加密
+values 除了對它們進行簽名外，終端使用者無法讀取它們。
+參考<a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Cookies.html">API文件</a>
+更多細節。</p><p>這些特殊的 cookie jar 使用序列化程式將分配的 values 序列化為
+字串並在讀取時將它們反序列化為 Ruby 物件。</p><p>您可以指定要使用的序列化程式：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">action_dispatch</span><span class="p">.</span><span class="nf">cookies_serializer</span> <span class="o">=</span> <span class="ss">:json</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.config.action_dispatch.cookies_serializer = :json
+">Copy</button>
+</div>
+<p>新應用程式的預設序列化程式是 <code>:json</code>。為了相容
+已有cookies的舊應用，當<code>serializer</code>時使用<code>:marshal</code>
+未指定選項。</p><p>您也可以將此選項設定為 <code>:hybrid</code>，在這種情況下 Rails 將透明地
+讀取時反序列化現有的（<code>Marshal</code> 序列化的）cookies 並將它們重新寫入
+<code>JSON</code> 格式。這對於將現有應用程式遷移到
+<code>:json</code> 序列化程式。</p><p>也可以傳遞回應 <code>load</code> 的自定義序列化程式和
+<code>dump</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">action_dispatch</span><span class="p">.</span><span class="nf">cookies_serializer</span> <span class="o">=</span> <span class="no">MyCustomSerializer</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="Rails.application.config.action_dispatch.cookies_serializer = MyCustomSerializer
+">Copy</button>
+</div>
+<p>使用 <code>:json</code> 或 <code>:hybrid</code> 序列化程式時，您應該注意並非所有
+Ruby 物件可以序列化為 JSON。例如，<code>Date</code> 和 <code>Time</code> 物件
+將被序列化為字串，並且 <code>Hash</code>es 將其 keys 字串化。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">CookiesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">set_cookie</span>
+    <span class="n">cookies</span><span class="p">.</span><span class="nf">encrypted</span><span class="p">[</span><span class="ss">:expiration_date</span><span class="p">]</span> <span class="o">=</span> <span class="no">Date</span><span class="p">.</span><span class="nf">tomorrow</span> <span class="c1"># =&gt; Thu, 20 Mar 2014</span>
+    <span class="n">redirect_to</span> <span class="ss">action: </span><span class="s1">'read_cookie'</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">read_cookie</span>
+    <span class="n">cookies</span><span class="p">.</span><span class="nf">encrypted</span><span class="p">[</span><span class="ss">:expiration_date</span><span class="p">]</span> <span class="c1"># =&gt; "2014-03-20"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class CookiesController &lt; ApplicationController
+  def set_cookie
+    cookies.encrypted[:expiration_date] = Date.tomorrow # =&gt; Thu, 20 Mar 2014
+    redirect_to action: 'read_cookie'
+  end
+
+  def read_cookie
+    cookies.encrypted[:expiration_date] # =&gt; &quot;2014-03-20&quot;
+  end
+end
+">Copy</button>
+</div>
+<p>建議您只在 cookies 中儲存簡單資料（字串和數字）。
+如果必須儲存複雜的物件，則需要處理轉換
+在後續請求中讀取 values 時手動。</p><p>如果您使用 cookie session 儲存，這將適用於 <code>session</code> 和
+<code>flash</code> 雜湊也是如此。</p><h3 id="xml-json"><a class="anchorlink" href="#xml-json">7 呈現 XML 和 JSON 資料</a></h3><p>ActionController 使渲染 <code>XML</code> 或 ActionController 資料變得非常容易。如果您使用 scaffolding 生成了 controller，它看起來像這樣：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@users</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">all</span>
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="c1"># index.html.erb</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">xml</span>  <span class="p">{</span> <span class="n">render</span> <span class="ss">xml: </span><span class="vi">@users</span> <span class="p">}</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="vi">@users</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class UsersController &lt; ApplicationController
+  def index
+    @users = User.all
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render xml: @users }
+      format.json { render json: @users }
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>您可能會注意到在上面的程式碼中我們使用的是 <code>render xml: @users</code>，而不是 <code>render xml: @users.to_xml</code>。如果物件不是字串，那麼Rails 會自動為我們呼叫<code>to_xml</code>。</p><h3 id=""><a class="anchorlink" href="#">8 過濾器</a></h3><p>過濾器是在 controller action“之前”、“之後”或“周圍”執行的方法。</p><p>過濾器是繼承的，因此如果您在 <code>ApplicationController</code> 上設定過濾器，它將在應用程式中的每個 controller 上執行。</p><p>“之前”過濾器透過 <a href="https://api.rubyonrails.org/v7.0.0/classes/AbstractController/Callbacks/ClassMethods.html#method-i-before_action"><code>before_action</code></a> 註冊。他們可能會停止請求週期。常見的“before”過濾器要求使用者登入才能執行 action。您可以透過以下方式定義過濾器方法：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">before_action</span> <span class="ss">:require_login</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">require_login</span>
+    <span class="k">unless</span> <span class="n">logged_in?</span>
+      <span class="n">flash</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"You must be logged in to access this section"</span>
+      <span class="n">redirect_to</span> <span class="n">new_login_url</span> <span class="c1"># halts request cycle</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ApplicationController &lt; ActionController::Base
+  before_action :require_login
+
+  private
+
+  def require_login
+    unless logged_in?
+      flash[:error] = "You must be logged in to access this section"
+      redirect_to new_login_url # halts request cycle
+    end
+  end
+end
+'>Copy</button>
+</div>
+<p>該方法只是在 flash 中儲存一條錯誤訊息，如果使用者未登入，則重定向到登入表單。如果“before”過濾器呈現或重定向，則 action 將不會執行。如果有其他過濾器計劃在該過濾器之後執行，它們也會被取消。</p><p>在這個例子中，過濾器被新增到 <code>ApplicationController</code>，因此應用程式中的所有 controllers 都繼承它。這將使應用程式中的所有內容都需要使用者登入才能使用它。出於顯而易見的原因（使用者首先無法登入！），並非所有 controllers 或 actions 都需要這樣做。您可以使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/AbstractController/Callbacks/ClassMethods.html#method-i-skip_before_action"><code>skip_before_action</code></a> 阻止此過濾器在特定 actions 之前執行：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">LoginsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="n">skip_before_action</span> <span class="ss">:require_login</span><span class="p">,</span> <span class="ss">only: </span><span class="p">[</span><span class="ss">:new</span><span class="p">,</span> <span class="ss">:create</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class LoginsController &lt; ApplicationController
+  skip_before_action :require_login, only: [:new, :create]
+end
+">Copy</button>
+</div>
+<p>現在，<code>LoginsController</code> 的 <code>new</code> 和 <code>create</code> actions 將像以前一樣工作，無需使用者登入。 <code>:only</code> 選項用於僅對這些 actions 跳過此過濾器，還有另一種方式的 ZTHZW_4 工作方式選項。這些選項也可以在新增過濾器時使用，因此您可以首先新增一個僅對選定的 actions 執行的過濾器。</p><div class="note"><p>使用不同的選項多次呼叫相同的過濾器將不起作用，
+因為最後一個過濾器定義將覆蓋以前的過濾器定義。</p></div><h4 id=""><a class="anchorlink" href="#">8.1 過濾器後和過濾器周圍</a></h4><p>除了“之前”過濾器之外，您還可以在執行 action 之後或之前和之後執行過濾器。</p><p>“之後”過濾器透過 <a href="https://api.rubyonrails.org/v7.0.0/classes/AbstractController/Callbacks/ClassMethods.html#method-i-after_action"><code>after_action</code></a> 註冊。它們類似於“before”過濾器，但由於 action 已經執行，它們可以訪問即將傳送到客戶端的回應資料。顯然，“after”過濾器無法阻止 action 執行。請注意，“after”過濾器僅在成功的 action 之後執行，而不是在請求週期中引發異常時執行。</p><p>“周圍”過濾器透過 <a href="https://api.rubyonrails.org/v7.0.0/classes/AbstractController/Callbacks/ClassMethods.html#method-i-around_action"><code>around_action</code></a> 註冊。它們負責透過讓步來執行關聯的 actions，類似於 Rack 中介軟體的工作方式。</p><p>例如，在更改具有批准工作流的網站中，管理員可以透過在 transaction 中應用它們輕鬆地預先設定它們：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ChangesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="n">around_action</span> <span class="ss">:wrap_in_transaction</span><span class="p">,</span> <span class="ss">only: :show</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">wrap_in_transaction</span>
+    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+      <span class="k">begin</span>
+        <span class="k">yield</span>
+      <span class="k">ensure</span>
+        <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Rollback</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ChangesController &lt; ApplicationController
+  around_action :wrap_in_transaction, only: :show
+
+  private
+
+  def wrap_in_transaction
+    ActiveRecord::Base.transaction do
+      begin
+        yield
+      ensure
+        raise ActiveRecord::Rollback
+      end
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>請注意，“周圍”過濾器也會包裝渲染。特別是，在上面的例子中，如果 view 本身從資料庫中讀取（例如透過範圍），它會在 transaction 中這樣做，從而將資料呈現給 preview。</p><p>您可以選擇不讓步並自行構建回應，在這種情況下，將不會執行 action。</p><h4 id=""><a class="anchorlink" href="#">8.2 其他使用過濾器的方法</a></h4><p>雖然使用過濾器的最常見方法是建立私有方法並使用 <code>before_action</code>、<code>after_action</code> 或 <code>around_action</code> 新增它們，但還有兩種其他方法可以做同樣的事情。</p><p>第一種是直接透過 <code>*_action</code> 方法使用塊。該塊接收 controller 作為引數。上面的 <code>require_login</code> 過濾器可以重寫為使用一個塊：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">before_action</span> <span class="k">do</span> <span class="o">|</span><span class="n">controller</span><span class="o">|</span>
+    <span class="k">unless</span> <span class="n">controller</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:logged_in?</span><span class="p">)</span>
+      <span class="n">flash</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"You must be logged in to access this section"</span>
+      <span class="n">redirect_to</span> <span class="n">new_login_url</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ApplicationController &lt; ActionController::Base
+  before_action do |controller|
+    unless controller.send(:logged_in?)
+      flash[:error] = "You must be logged in to access this section"
+      redirect_to new_login_url
+    end
+  end
+end
+'>Copy</button>
+</div>
+<p>請注意，在這種情況下，過濾器使用 <code>send</code>，因為 <code>logged_in?</code> 方法是私有的，並且過濾器不在 controller 的範圍內執行。這不是實現此特定過濾器的推薦方法，但在更簡單的情況下，它可能很有用。</p><p>特別是對於 <code>around_action</code>，該塊也在 <code>action</code> 中產生：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">around_action</span> <span class="p">{</span> <span class="o">|</span><span class="n">_controller</span><span class="p">,</span> <span class="n">action</span><span class="o">|</span> <span class="n">time</span><span class="p">(</span><span class="o">&amp;</span><span class="n">action</span><span class="p">)</span> <span class="p">}</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="around_action { |_controller, action| time(&amp;action) }
+">Copy</button>
+</div>
+<p>第二種方法是使用類（實際上，任何回應正確方法的物件都可以）來處理過濾。這在更復雜且無法使用其他兩種方法以可讀和可重用的方式實現的情況下很有用。例如，您可以再次重寫登入過濾器以使用一個類：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">before_action</span> <span class="no">LoginFilter</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">LoginFilter</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">before</span><span class="p">(</span><span class="n">controller</span><span class="p">)</span>
+    <span class="k">unless</span> <span class="n">controller</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:logged_in?</span><span class="p">)</span>
+      <span class="n">controller</span><span class="p">.</span><span class="nf">flash</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"You must be logged in to access this section"</span>
+      <span class="n">controller</span><span class="p">.</span><span class="nf">redirect_to</span> <span class="n">controller</span><span class="p">.</span><span class="nf">new_login_url</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ApplicationController &lt; ActionController::Base
+  before_action LoginFilter
+end
+
+class LoginFilter
+  def self.before(controller)
+    unless controller.send(:logged_in?)
+      controller.flash[:error] = "You must be logged in to access this section"
+      controller.redirect_to controller.new_login_url
+    end
+  end
+end
+'>Copy</button>
+</div>
+<p>同樣，這不是此過濾器的理想示例，因為它不在 controller 的範圍內執行，而是將 controller 作為引數傳遞。過濾器類必須實現一個與過濾器同名的方法，所以對於<code>before_action</code>過濾器，該類必須實現一個<code>before</code>方法，依此類推。 <code>around</code> 方法必須是 <code>yield</code> 才能執行 action。</p><h3 id=""><a class="anchorlink" href="#">9 請求偽造保護</a></h3><p>跨站點請求偽造是一種攻擊型別，在這種攻擊中，站點誘使使用者在另一個站點上發出請求，可能會在使用者不知情或未經使用者許可的情況下新增、修改或刪除該站點上的資料。</p><p>避免這種情況的第一步是確保所有“破壞性”的 actions（建立、更新和銷燬）只能透過非 GET 請求訪問。如果您遵循 RESTful 約定，那麼您已經在這樣做了。但是，惡意站點仍然可以很容易地向您的站點發送非 GET 請求，這就是請求偽造保護的用武之地。顧名思義，它可以防止偽造請求。</p><p>這樣做的方法是為每個請求新增一個不可猜測的 token，它只有您的伺服器知道。這樣，如果請求沒有正確的 token 進入，它將被拒絕訪問。</p><p>如果生成這樣的表單：</p><div class="code_container">
+<pre><code class="highlight erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@user</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:username</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:password</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="&lt;%= form_with model: @user do |form| %&gt;
+  &lt;%= form.text_field :username %&gt;
+  &lt;%= form.text_field :password %&gt;
+&lt;% end %&gt;
+">Copy</button>
+</div>
+<p>您將看到 token 如何被新增為隱藏欄位：</p><div class="code_container">
+<pre><code class="highlight html"><span class="nt">&lt;form</span> <span class="na">accept-charset=</span><span class="s">"UTF-8"</span> <span class="na">action=</span><span class="s">"/users/1"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span>
+       <span class="na">value=</span><span class="s">"67250ab105eb5ad10851c00a5621854a23af5489"</span>
+       <span class="na">name=</span><span class="s">"authenticity_token"</span><span class="nt">/&gt;</span>
+<span class="c">&lt;!-- fields --&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='&lt;form accept-charset="UTF-8" action="/users/1" method="post"&gt;
+&lt;input type="hidden"
+       value="67250ab105eb5ad10851c00a5621854a23af5489"
+       name="authenticity_token"/&gt;
+&lt;!-- fields --&gt;
+&lt;/form&gt;
+'>Copy</button>
+</div>
+<p>Rails 將此 token 新增到使用 <a href="form_helpers.html">form helpers</a> 生成的每個表單中，因此大多數時候您不必擔心它。如果您正在手動編寫表單或出於其他原因需要新增 token，則可以透過方法 <code>form_authenticity_token</code> 獲得它：</p><p><code>form_authenticity_token</code> 生成有效的認證 token。這在 Rails 不會自動新增它的地方很有用，比如在自定義 Ajax 呼叫中。</p><p><a href="security.html">安全指南</a> 有更多關於這方面的內容，以及在開發 Web 應用程式時您應該注意的許多其他與安全相關的問題。</p><h3 id=""><a class="anchorlink" href="#">10 請求和回應物件</a></h3><p>在每個 controller 中，有兩個訪問器方法指向與當前正在執行的請求週期關聯的請求和回應物件。 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/Base.html#method-i-request"><code>request</code></a> 方法包含 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Request.html"><code>ActionDispatch::Request</code></a> 的實例，<a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/Base.html#method-i-response"><code>response</code></a> 方法返回一個回應物件，表示將要傳送回客戶端的內容。</p><h4 id="request"><a class="anchorlink" href="#request">10.1 <code>request</code> 物件</a></h4><p>request 物件包含許多關於來自客戶端的請求的有用資訊。要獲取可用方法的完整列表，請參閱 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Request.html">Rails API 文件</a> 和 [機架文件](<a href="https://www.rubydoc">https://www.rubydoc</a> .info/github/rack/rack/Rack/Request）。您可以在此物件上訪問的屬性包括：</p>
+<table>
+<thead>
+<tr>
+<th>
+<code>request</code> 的屬性</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>host</code></td>
+<td>用於此請求的主機名。</td>
+</tr>
+<tr>
+<td><code>domain(n=2)</code></td>
+<td>主機名的第一個 <code>n</code> 段，從右側（TLD）開始。</td>
+</tr>
+<tr>
+<td><code>format</code></td>
+<td>客戶端請求的內容型別。</td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td>用於請求的 HTTP 方法。</td>
+</tr>
+<tr>
+<td>
+<code>get?</code>, <code>post?</code>, <code>patch?</code>, <code>put?</code>, <code>delete?</code>, <code>head?</code>
+</td>
+<td>如果 HTTP 方法是 GET/POST/PATCH/PUT/DELETE/HEAD，則返回 true。</td>
+</tr>
+<tr>
+<td><code>headers</code></td>
+<td>返回包含與請求關聯的標頭的雜湊值。</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td>用於請求的埠號（整數）。</td>
+</tr>
+<tr>
+<td><code>protocol</code></td>
+<td>返回一個包含使用的協議加上“://”的字串，例如“<a href="http://%E2%80%9D%E3%80%82">http://”。</a>
+</td>
+</tr>
+<tr>
+<td><code>query_string</code></td>
+<td>URL 的查詢字串部分，即“？”之後的所有內容。</td>
+</tr>
+<tr>
+<td><code>remote_ip</code></td>
+<td>客戶端的 IP 地址。</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td>用於請求的整個 URL。</td>
+</tr>
+</tbody>
+</table>
+<h5 id="path-parameters-query-parameters-request-parameters"><a class="anchorlink" href="#path-parameters-query-parameters-request-parameters">10.1.1 <code>path_parameters</code>、<code>query_parameters</code> 和 <code>request_parameters</code></a></h5><p>Rails 在 <code>params</code> 雜湊中收集與請求一起傳送的所有引數，無論它們是作為查詢字串的一部分發送的，還是作為帖子正文的一部分發送的。 request 物件有三個訪問器，根​​據它們的來源，您可以訪問這些引數。 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Request.html#method-i-query_parameters"><code>query_parameters</code></a> 雜湊包含作為查詢字串的一部分發送的引數，而 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Request.html#method-i-request_parameters"><code>request_parameters</code></a> 雜湊包含作為帖子正文的一部分發送的引數。 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Http/Parameters.html#method-i-path_parameters"><code>path_parameters</code></a> 雜湊包含路由識別為通向此特定 controller 和 action 的路徑的一部分的引數。</p><h4 id="response"><a class="anchorlink" href="#response">10.2 <code>response</code> 物件</a></h4><p>回應物件通常不直接使用，而是在執行操作和呈現傳送回用戶的資料期間構建，但有時 - 就像在後過濾器中 - 訪問回應可能很有用直接地。其中一些訪問器方法也有設定器，允許您更改它們的 values。要獲取可用方法的完整列表，請參閱 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/Response.html">Rails API 文件</a> 和 [機架文件](<a href="https://www.rubydoc">https://www.rubydoc</a> .info/github/rack/rack/Rack/Response）。</p>
+<table>
+<thead>
+<tr>
+<th>
+<code>response</code> 的屬性</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>body</code></td>
+<td>這是傳送回客戶端的資料字串。這通常是 HTML。</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>回應的 HTTP 狀態程式碼，例如 200 表示成功請求或 404 表示未找到檔案。</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>客戶端被重定向到的 URL（如果有）。</td>
+</tr>
+<tr>
+<td><code>content_type</code></td>
+<td>回應的內容型別。</td>
+</tr>
+<tr>
+<td><code>charset</code></td>
+<td>用於回應的字符集。預設為“utf-8”。</td>
+</tr>
+<tr>
+<td><code>headers</code></td>
+<td>用於回應的標頭。</td>
+</tr>
+</tbody>
+</table>
+<h5 id=""><a class="anchorlink" href="#">10.2.1 設定自定義標題</a></h5><p>如果你想為回應設定自定義標頭，那麼 <code>response.headers</code> 就是這樣做的地方。 headers 屬性是一個雜湊值，它將標題名稱對映到它們的 values，Rails 會自動設定其中的一些。如果要新增或更改標題，只需將其分配給 <code>response.headers</code> 即可：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">response</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s2">"Content-Type"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"application/pdf"</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='response.headers["Content-Type"] = "application/pdf"
+'>Copy</button>
+</div>
+<div class="note"><p>在上述情況下，直接使用 <code>content_type</code> 設定器會更有意義。</p></div><h3 id="http"><a class="anchorlink" href="#http">11 HTTP 身份驗證</a></h3><p>Rails 帶有三種內建的 HTTP 身份驗證機制：</p>
+<ul>
+<li>基本認證</li>
+<li>摘要認證</li>
+<li>Token 認證</li>
+</ul>
+<h4 id="http"><a class="anchorlink" href="#http">11.1 HTTP 基本認證</a></h4><p>HTTP 基本身份驗證是大多數瀏覽器和其他 HTTP 客戶端支援的身份驗證方案。例如，考慮一個管理部分，該部分只能透過在瀏覽器的 HTTP 基本對話視窗中輸入使用者名稱和密碼來訪問。使用內建身份驗證非常簡單，只需要您使用一種方法，<a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/HttpAuthentication/Basic/ControllerMethods/ClassMethods.html#method-i-http_basic_authenticate_with"><code>http_basic_authenticate_with</code></a>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">AdminsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="n">http_basic_authenticate_with</span> <span class="ss">name: </span><span class="s2">"humbaba"</span><span class="p">,</span> <span class="ss">password: </span><span class="s2">"5baa61e4"</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class AdminsController &lt; ApplicationController
+  http_basic_authenticate_with name: "humbaba", password: "5baa61e4"
+end
+'>Copy</button>
+</div>
+<p>有了這個，您可以建立從 <code>AdminsController</code> 繼承的名稱空間 controllers。因此，過濾器將對那些 controllers 中的所有 actions 執行，並使用 HTTP 基本身份驗證保護它們。</p><h4 id="http"><a class="anchorlink" href="#http">11.2 HTTP 摘要認證</a></h4><p>HTTP 摘要身份驗證優於基本身份驗證，因為它不需要客戶端透過網路傳送未加密的密碼（儘管 HTTP 基本身份驗證在 HTTPS 上是安全的）。在 Rails 中使用摘要認證非常簡單，只需要使用一種方法，<a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/HttpAuthentication/Digest/ControllerMethods.html#method-i-authenticate_or_request_with_http_digest"><code>authenticate_or_request_with_http_digest</code></a>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">AdminsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="no">USERS</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"lifo"</span> <span class="o">=&gt;</span> <span class="s2">"world"</span> <span class="p">}</span>
+
+  <span class="n">before_action</span> <span class="ss">:authenticate</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">authenticate</span>
+      <span class="n">authenticate_or_request_with_http_digest</span> <span class="k">do</span> <span class="o">|</span><span class="n">username</span><span class="o">|</span>
+        <span class="no">USERS</span><span class="p">[</span><span class="n">username</span><span class="p">]</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class AdminsController &lt; ApplicationController
+  USERS = { "lifo" =&gt; "world" }
+
+  before_action :authenticate
+
+  private
+    def authenticate
+      authenticate_or_request_with_http_digest do |username|
+        USERS[username]
+      end
+    end
+end
+'>Copy</button>
+</div>
+<p>如上例所示，<code>authenticate_or_request_with_http_digest</code> 塊只接受一個引數 - 使用者名稱。並且塊返回密碼。從 <code>authenticate_or_request_with_http_digest</code> 返回 <code>false</code> 或 <code>nil</code> 會導致認證失敗。</p><h4 id="http-token"><a class="anchorlink" href="#http-token">11.3 HTTP Token 認證</a></h4><p>HTTP 令牌認證是一種啟用在 HTTP <code>Authorization</code> 標頭中使用 Bearer tokens 的方案。有許多可用的令牌格式，對它們的描述超出了本文件的範圍。</p><p>舉個例子，假設您要使用預先發布的認證token來進行認證和訪問。使用 Rails 實現 token 身份驗證非常簡單，只需要使用一種方法，<a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/HttpAuthentication/Token/ControllerMethods.html#method-i-authenticate_or_request_with_http_token"><code>authenticate_or_request_with_http_token</code></a>。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">PostsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="no">TOKEN</span> <span class="o">=</span> <span class="s2">"secret"</span>
+
+  <span class="n">before_action</span> <span class="ss">:authenticate</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">authenticate</span>
+      <span class="n">authenticate_or_request_with_http_token</span> <span class="k">do</span> <span class="o">|</span><span class="n">token</span><span class="p">,</span> <span class="n">options</span><span class="o">|</span>
+        <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">SecurityUtils</span><span class="p">.</span><span class="nf">secure_compare</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="no">TOKEN</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class PostsController &lt; ApplicationController
+  TOKEN = "secret"
+
+  before_action :authenticate
+
+  private
+    def authenticate
+      authenticate_or_request_with_http_token do |token, options|
+        ActiveSupport::SecurityUtils.secure_compare(token, TOKEN)
+      end
+    end
+end
+'>Copy</button>
+</div>
+<p>如上例所示，<code>authenticate_or_request_with_http_token</code> 塊採用兩個引數 - token 和 <code>Hash</code> 包含從 HTTP <code>Authorization</code> 標頭解析的選項。如果身份驗證成功，該塊應返回 <code>true</code>。在其上返回 <code>false</code> 或 <code>nil</code> 將導致身份驗證失敗。</p><h3 id=""><a class="anchorlink" href="#">12 流媒體和檔案下載</a></h3><p>有時您可能希望向使用者傳送檔案而不是呈現 HTML 頁面。 Rails 中的所有 controllers 都有 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/DataStreaming.html#method-i-send_data"><code>send_data</code></a> 和 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/DataStreaming.html#method-i-send_file"><code>send_file</code></a> 方法，它們都將資料流傳輸到客戶端。 <code>send_file</code> 是一種方便的方法，可讓您提供磁碟上檔案的名稱，它會為您流式傳輸該檔案的內容。</p><p>要將資料流式傳輸到客戶端，請使用 <code>send_data</code>：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s2">"prawn"</span>
+<span class="k">class</span> <span class="nc">ClientsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># Generates a PDF document with information on the client and</span>
+  <span class="c1"># returns it. The user will get the PDF as a file download.</span>
+  <span class="k">def</span> <span class="nf">download_pdf</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="no">Client</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+    <span class="n">send_data</span> <span class="n">generate_pdf</span><span class="p">(</span><span class="n">client</span><span class="p">),</span>
+              <span class="ss">filename: </span><span class="s2">"</span><span class="si">#{</span><span class="n">client</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">.pdf"</span><span class="p">,</span>
+              <span class="ss">type: </span><span class="s2">"application/pdf"</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">generate_pdf</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+      <span class="no">Prawn</span><span class="o">::</span><span class="no">Document</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+        <span class="n">text</span> <span class="n">client</span><span class="p">.</span><span class="nf">name</span><span class="p">,</span> <span class="ss">align: :center</span>
+        <span class="n">text</span> <span class="s2">"Address: </span><span class="si">#{</span><span class="n">client</span><span class="p">.</span><span class="nf">address</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">text</span> <span class="s2">"Email: </span><span class="si">#{</span><span class="n">client</span><span class="p">.</span><span class="nf">email</span><span class="si">}</span><span class="s2">"</span>
+      <span class="k">end</span><span class="p">.</span><span class="nf">render</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='require "prawn"
+class ClientsController &lt; ApplicationController
+  # Generates a PDF document with information on the client and
+  # returns it. The user will get the PDF as a file download.
+  def download_pdf
+    client = Client.find(params[:id])
+    send_data generate_pdf(client),
+              filename: "#{client.name}.pdf",
+              type: "application/pdf"
+  end
+
+  private
+    def generate_pdf(client)
+      Prawn::Document.new do
+        text client.name, align: :center
+        text "Address: #{client.address}"
+        text "Email: #{client.email}"
+      end.render
+    end
+end
+'>Copy</button>
+</div>
+<p>上例中的 <code>download_pdf</code> action 將呼叫一個私有方法，該方法實際生成 PDF 文件並將其作為字串返回。然後，該字串將作為檔案下載流式傳輸到客戶端，並向用戶建議檔名。有時，當向用戶流式傳輸檔案時，您可能不希望他們下載檔案。以可以嵌入 HTML 頁面的影象為例。要告訴瀏覽器不打算下載某個檔案，您可以將 <code>:disposition</code> 選項設定為“inline”。此選項的相反和預設 value 是“附件”。</p><h4 id=""><a class="anchorlink" href="#">12.1 傳送檔案</a></h4><p>如果要傳送磁碟上已存在的檔案，請使用 <code>send_file</code> 方法。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ClientsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># Stream a file that has already been generated and stored on disk.</span>
+  <span class="k">def</span> <span class="nf">download_pdf</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="no">Client</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+    <span class="n">send_file</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="s2">/files/clients/</span><span class="si">#{</span><span class="n">client</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">.pdf"</span><span class="p">,</span>
+              <span class="ss">filename: </span><span class="s2">"</span><span class="si">#{</span><span class="n">client</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">.pdf"</span><span class="p">,</span>
+              <span class="ss">type: </span><span class="s2">"application/pdf"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ClientsController &lt; ApplicationController
+  # Stream a file that has already been generated and stored on disk.
+  def download_pdf
+    client = Client.find(params[:id])
+    send_file("#{Rails.root}/files/clients/#{client.id}.pdf",
+              filename: "#{client.name}.pdf",
+              type: "application/pdf")
+  end
+end
+'>Copy</button>
+</div>
+<p>這將一次讀取和流式傳輸 4 kB 的檔案，避免將整個檔案一次載入到記憶體中。您可以使用 <code>:stream</code> 選項關閉流式傳輸或使用 <code>:buffer_size</code> 選項調整塊大小。</p><p>如果未指定 <code>:type</code>，則根據 <code>:filename</code> 中指定的副檔名猜測。如果沒有為擴充套件註冊內容型別，則將使用 <code>application/octet-stream</code>。</p><p>警告：使用來自客戶端的資料（引數、cookies 等）在磁碟上定位檔案時要小心，因為這是一個安全風險，可能允許某人訪問他們不打算訪問的檔案。</p><p>提示：如果您可以將靜態檔案儲存在 Web 伺服器上的公共資料夾中，則不建議您透過 Rails 流式傳輸它們。讓使用者直接使用 Apache 或其他 Web 伺服器下載檔案效率更高，避免請求不必要地透過整個 Rails 堆疊。</p><h4 id="restful"><a class="anchorlink" href="#restful">12.2 RESTful 下載</a></h4><p>雖然 <code>send_data</code> 工作得很好，但如果您正在建立具有單獨的 actions 用於檔案下載的 RESTful 應用程式，則通常沒有必要。在 REST 術語中，上述示例中的 PDF 檔案可以被視為客戶端資源的另一種表示。 Rails 提供了一種簡單而時尚的“RESTful 下載”方式。以下是如何重寫示例，以便 PDF 下載是 <code>show</code> 操作的一部分，沒有任何流：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ClientsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># The user can request to receive this resource as HTML or PDF.</span>
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="vi">@client</span> <span class="o">=</span> <span class="no">Client</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">html</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">pdf</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">pdf: </span><span class="n">generate_pdf</span><span class="p">(</span><span class="vi">@client</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ClientsController &lt; ApplicationController
+  # The user can request to receive this resource as HTML or PDF.
+  def show
+    @client = Client.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.pdf { render pdf: generate_pdf(@client) }
+    end
+  end
+end
+">Copy</button>
+</div>
+<p>為了讓這個示例工作，您必須將 PDF MIME 型別新增到 Rails。這可以透過將以下行新增到檔案 <code>config/initializers/mime_types.rb</code> 來完成：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="no">Mime</span><span class="o">::</span><span class="no">Type</span><span class="p">.</span><span class="nf">register</span> <span class="s2">"application/pdf"</span><span class="p">,</span> <span class="ss">:pdf</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='Mime::Type.register "application/pdf", :pdf
+'>Copy</button>
+</div>
+<div class="note"><p>配置檔案不會在每次請求時重新載入，因此您必須重新啟動伺服器才能使更改生效。</p></div><p>現在，使用者只需將“.pdf”新增到 URL 即可請求獲取客戶端的 PDF 版本：</p><div class="code_container">
+<pre><code class="highlight plaintext">GET /clients/1.pdf
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="GET /clients/1.pdf
+">Copy</button>
+</div>
+<h4 id=""><a class="anchorlink" href="#">12.3 任意資料的直播</a></h4><p>Rails 允許您傳輸的不僅僅是檔案。實際上，您可以流式傳輸任何內容
+你想要一個回應物件。 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionController/Live.html"><code>ActionController::Live</code></a> module 允許
+您可以建立與瀏覽器的持久連線。使用此 module，您將
+能夠在特定時間點向瀏覽器傳送任意資料。</p><h5 id=""><a class="anchorlink" href="#">12.3.1 整合直播</a></h5><p>在 controller 類中包含 <code>ActionController::Live</code> 將提供
+controller 裡面的所有 actions 都具有流式傳輸資料的能力。你可以混進去
+module 像這樣：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">MyController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="kp">include</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Live</span>
+
+  <span class="k">def</span> <span class="nf">stream</span>
+    <span class="n">response</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Content-Type'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'text/event-stream'</span>
+    <span class="mi">100</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span>
+      <span class="n">response</span><span class="p">.</span><span class="nf">stream</span><span class="p">.</span><span class="nf">write</span> <span class="s2">"hello world</span><span class="se">\n</span><span class="s2">"</span>
+      <span class="nb">sleep</span> <span class="mi">1</span>
+    <span class="p">}</span>
+  <span class="k">ensure</span>
+    <span class="n">response</span><span class="p">.</span><span class="nf">stream</span><span class="p">.</span><span class="nf">close</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class MyController &lt; ActionController::Base
+  include ActionController::Live
+
+  def stream
+    response.headers['Content-Type'] = 'text/event-stream'
+    100.times {
+      response.stream.write &quot;hello world\n&quot;
+      sleep 1
+    }
+  ensure
+    response.stream.close
+  end
+end
+">Copy</button>
+</div>
+<p>上面的程式碼會與瀏覽器保持持久連線併發送 100
+<code>"hello world\n"</code> 的訊息，每隔一秒。</p><p>在上面的例子中有幾件事情需要注意。我們需要做
+確保關閉回應流。忘記關閉流將離開
+socket 永遠開放。我們還必須將內容型別設定為 <code>text/event-stream</code>
+在我們寫入回應流之前。這是因為無法寫入標頭
+回應提交後（當 <code>response.committed?</code> 返回一個真值時
+value)，當你使用 <code>write</code> 或 <code>commit</code> 回應流時會發生這種情況。</p><h5 id=""><a class="anchorlink" href="#">12.3.2 示例用法</a></h5><p>假設您正在製作卡拉 OK 機，並且使用者想要獲得
+特定歌曲的歌詞。每個 <code>Song</code> 都有特定數量的行和
+每一行都需要時間 <code>num_beats</code> 來完成唱歌。</p><p>如果我們想以卡拉 OK 方式返回歌詞（僅在
+歌手已經完成了上一行），那麼我們可以使用<code>ActionController::Live</code>
+如下：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">LyricsController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="kp">include</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Live</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="n">response</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Content-Type'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'text/event-stream'</span>
+    <span class="n">song</span> <span class="o">=</span> <span class="no">Song</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+
+    <span class="n">song</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+      <span class="n">response</span><span class="p">.</span><span class="nf">stream</span><span class="p">.</span><span class="nf">write</span> <span class="n">line</span><span class="p">.</span><span class="nf">lyrics</span>
+      <span class="nb">sleep</span> <span class="n">line</span><span class="p">.</span><span class="nf">num_beats</span>
+    <span class="k">end</span>
+  <span class="k">ensure</span>
+    <span class="n">response</span><span class="p">.</span><span class="nf">stream</span><span class="p">.</span><span class="nf">close</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class LyricsController &lt; ActionController::Base
+  include ActionController::Live
+
+  def show
+    response.headers['Content-Type'] = 'text/event-stream'
+    song = Song.find(params[:id])
+
+    song.each do |line|
+      response.stream.write line.lyrics
+      sleep line.num_beats
+    end
+  ensure
+    response.stream.close
+  end
+end
+">Copy</button>
+</div>
+<p>上面的程式碼只有在歌手完成了上一行之後才會傳送下一行
+線。</p><h5 id=""><a class="anchorlink" href="#">12.3.3 流媒體注意事項</a></h5><p>流式傳輸任意資料是一種非常強大的工具。如上圖所示
+例如，您可以選擇在回應流中傳送的時間和內容。然而，
+您還應該注意以下事項：</p>
+<ul>
+<li>每個回應流建立一個新執行緒並複製本地執行緒
+來自原始執行緒的變數。執行緒區域性變數過多會導致
+對效能產生負面影響。同樣，大量執行緒也可以
+阻礙效能。</li>
+<li>未能關閉回應流將保持對應的 socket 開啟
+永遠。確保在使用回應流時呼叫 <code>close</code>。</li>
+<li>WEBrick 伺服器緩衝所有回應，因此包括 <code>ActionController::Live</code>
+不管用。您必須使用不會自動緩衝的網路伺服器
+回應。</li>
+</ul>
+<h3 id=""><a class="anchorlink" href="#">13 日誌過濾</a></h3><p>Rails 在 <code>log</code> 資料夾中為每個環境儲存一個日誌檔案。這些在除錯應用程式中實際發生的事情時非常有用，但在實時應用程式中，您可能不希望將所有資訊都儲存在日誌檔案中。</p><h4 id=""><a class="anchorlink" href="#">13.1 引數過濾</a></h4><p>您可以透過將敏感請求引數附加到應用程式配置中的 <code>config.filter_parameters</code> 來從日誌檔案中過濾掉敏感的請求引數。這些引數將在日誌中標記為 [FILTERED]。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">filter_parameters</span> <span class="o">&lt;&lt;</span> <span class="ss">:password</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.filter_parameters &lt;&lt; :password
+">Copy</button>
+</div>
+<div class="note"><p>提供的引數將被部分匹配的正則表示式過濾掉。 Rails 在適當的初始化器（<code>initializers/filter_parameter_logging.rb</code>）中添加了預設的 <code>:password</code>，並關心典型的應用程式引數 <code>password</code> 和 <code>password_confirmation</code>。</p></div><h4 id=""><a class="anchorlink" href="#">13.2 重定向過濾</a></h4><p>有時需要從日誌檔案中過濾掉應用程式重定向到的一些敏感位置。
+您可以使用 <code>config.filter_redirect</code> 配置選項來做到這一點：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">filter_redirect</span> <span class="o">&lt;&lt;</span> <span class="s1">'s3.amazonaws.com'</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="config.filter_redirect &lt;&lt; 's3.amazonaws.com'
+">Copy</button>
+</div>
+<p>您可以將其設定為字串、正則表示式或兩者的陣列。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="n">config</span><span class="p">.</span><span class="nf">filter_redirect</span><span class="p">.</span><span class="nf">concat</span> <span class="p">[</span><span class="s1">'s3.amazonaws.com'</span><span class="p">,</span> <span class="sr">/private_path/</span><span class="err">]
+</span></code></pre>
+<button class="clipboard-button" data-clipboard-text="config.filter_redirect.concat ['s3.amazonaws.com', /private_path/]
+">Copy</button>
+</div>
+<p>匹配的 URL 將被標記為“[過濾]”。</p><h3 id=""><a class="anchorlink" href="#">14 救援</a></h3><p>很可能您的應用程式將包含錯誤或以其他方式丟擲需要處理的異常。例如，如果使用者點選了指向資料庫中不再存在的資源的連結，Active Record 將丟擲 <code>ActiveRecord::RecordNotFound</code> 異常。</p><p>Rails 預設的異常處理會為所有異常顯示“500 伺服器錯誤”訊息。如果請求是在本地發出的，則會顯示一個很好的回溯和一些附加資訊，因此您可以找出問題所在並進行處理。如果請求是遠端的，Rails 只會向用戶顯示一個簡單的“500 伺服器錯誤”訊息，或者如果存在路由錯誤或找不到記錄，則顯示“404 Not Found”。有時您可能想要自定義如何捕獲這些錯誤以及如何向用戶顯示這些錯誤。 Rails 應用程式中有幾個級別的異常處理可用：</p><h4 id="500-404"><a class="anchorlink" href="#500-404">14.1 預設的 500 和 404 模板</a></h4><p>預設情況下，在生產環境中，應用程式將呈現 404 或 500 錯誤訊息。在開發環境中，所有未處理的異常都會被簡單地引發。這些訊息包含在 public 資料夾中的靜態 HTML 檔案中，分別位於 <code>404.html</code> 和 <code>500.html</code> 中。您可以自定義這些檔案以新增一些額外的資訊和樣式，但請記住它們是靜態 HTML；也就是說，您不能為它們使用 ERB、SCSS、CoffeeScript 或佈局。</p><h4 id="rescue-from"><a class="anchorlink" href="#rescue-from">14.2 <code>rescue_from</code></a></h4><p>如果你想在捕獲錯誤時做一些更復雜的事情，你可以使用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActiveSupport/Rescuable/ClassMethods.html#method-i-rescue_from"><code>rescue_from</code></a>，它處理整個 controller 及其子類中某種型別（或多種型別）的異常。</p><p>當發生由 <code>rescue_from</code> 指令捕獲的異常時，異常物件將傳遞給處理程式。處理程式可以是傳遞給 <code>:with</code> 選項的方法或 <code>Proc</code> 物件。您也可以直接使用塊而不是顯式的 <code>Proc</code> 物件。</p><p>以下是如何使用 <code>rescue_from</code> 攔截所有 <code>ActiveRecord::RecordNotFound</code> 錯誤並對其進行處理的方法。</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">rescue_from</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">RecordNotFound</span><span class="p">,</span> <span class="ss">with: :record_not_found</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">record_not_found</span>
+      <span class="n">render</span> <span class="ss">plain: </span><span class="s2">"404 Not Found"</span><span class="p">,</span> <span class="ss">status: </span><span class="mi">404</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text='class ApplicationController &lt; ActionController::Base
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
+  private
+    def record_not_found
+      render plain: "404 Not Found", status: 404
+    end
+end
+'>Copy</button>
+</div>
+<p>當然，這個例子並不複雜，根本沒有改進預設的異常處理，但是一旦你能捕獲所有這些異常，你就可以自由地對它們做任何你想做的事情。例如，您可以建立自定義異常類，當用戶無權訪問應用程式的某個部分時將丟擲這些異常類：</p><div class="code_container">
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">rescue_from</span> <span class="no">User</span><span class="o">::</span><span class="no">NotAuthorized</span><span class="p">,</span> <span class="ss">with: :user_not_authorized</span>
+
+  <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">user_not_authorized</span>
+      <span class="n">flash</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"You don't have access to this section."</span>
+      <span class="n">redirect_back</span><span class="p">(</span><span class="ss">fallback_location: </span><span class="n">root_path</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">ClientsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># Check that the user has the right authorization to access clients.</span>
+  <span class="n">before_action</span> <span class="ss">:check_authorization</span>
+
+  <span class="c1"># Note how the actions don't have to worry about all the auth stuff.</span>
+  <span class="k">def</span> <span class="nf">edit</span>
+    <span class="vi">@client</span> <span class="o">=</span> <span class="no">Client</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+    <span class="c1"># If the user is not authorized, just throw the exception.</span>
+    <span class="k">def</span> <span class="nf">check_authorization</span>
+      <span class="k">raise</span> <span class="no">User</span><span class="o">::</span><span class="no">NotAuthorized</span> <span class="k">unless</span> <span class="n">current_user</span><span class="p">.</span><span class="nf">admin?</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<button class="clipboard-button" data-clipboard-text="class ApplicationController &lt; ActionController::Base
+  rescue_from User::NotAuthorized, with: :user_not_authorized
+
+  private
+    def user_not_authorized
+      flash[:error] = &quot;You don't have access to this section.&quot;
+      redirect_back(fallback_location: root_path)
+    end
+end
+
+class ClientsController &lt; ApplicationController
+  # Check that the user has the right authorization to access clients.
+  before_action :check_authorization
+
+  # Note how the actions don't have to worry about all the auth stuff.
+  def edit
+    @client = Client.find(params[:id])
+  end
+
+  private
+    # If the user is not authorized, just throw the exception.
+    def check_authorization
+      raise User::NotAuthorized unless current_user.admin?
+    end
+end
+">Copy</button>
+</div>
+<p>警告：將 <code>rescue_from</code> 與 <code>Exception</code> 或 <code>StandardError</code> 一起使用會導致嚴重的副作用，因為它會阻止 Rails 正確處理異常。因此，除非有充分理由，否則不建議這樣做。</p><div class="note"><p>在生產環境中執行時，所有
+<code>ActiveRecord::RecordNotFound</code> 錯誤呈現 404 錯誤頁面。除非你需要
+您不需要處理此自定義行為。</p></div><div class="note"><p>某些異常只能從 <code>ApplicationController</code> 類中拯救出來，因為它們在 controller 被初始化之前被引發，並且 action 被執行。</p></div><h3 id="https"><a class="anchorlink" href="#https">15 強制HTTPS協議</a></h3><p>如果您想確保只能與您的 controller 進行通訊
+透過 HTTPS，您應該透過啟用 <a href="https://api.rubyonrails.org/v7.0.0/classes/ActionDispatch/SSL.html"><code>ActionDispatch::SSL</code></a> 中介軟體來實現
+<code>config.force_ssl</code> 在您的環境配置中。</p>
+
+        <h3>回饋</h3>
+        <p>
+          我們鼓勵您幫助提高本指南的品質。
+        </p>
+        <p>
+          如果您發現任何拼寫錯誤或資訊錯誤，請提供回饋。
+          要開始回饋，您可以閱讀我們的 <a href="https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation">回饋</a> 部分。
+        </p>
+        <p>
+          您還可能會發現不完整的內容或不是最新的內容。
+          請務必為 main 新增任何遺漏的文件。假設是
+          <a href="https://edgeguides.rubyonrails.org">非穩定版指南(edge guides)</a> 請先驗證問題是否已經在主分支上解決。
+          請前往 <a href="ruby_on_rails_guides_guidelines.html">Ruby on Rails 指南寫作準則</a> 查看寫作風格和慣例。
+        </p>
+        <p>
+          如果由於某種原因您發現要修復的內容但無法自行修補，請您 <a href="https://github.com/rails/rails/issues">提出 issue</a>。
+        </p>
+        <p>關於 Ruby on Rails 的任何類型的討論歡迎提供任何文件至 <a href="https://discuss.rubyonrails.org/c/rubyonrails-docs">rubyonrails-docs 討論區</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p>本作品已獲得<a href="https://creativecommons.org/licenses/by-sa/4.0/">知識共享署名-相同方式共享 4.0 國際</a>許可</p>
+<p>“Rails”、“Ruby on Rails”和 Rails 標誌是 David Heinemeier Hansson 的商標。 保留所有權利。</p>
+    </div>
+  </div>
+</body>
+</html>
